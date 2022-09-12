@@ -1,1 +1,6 @@
-exports.GROUP3 = [{ g3id: 'richard', g3title: 'richard' }]
+exports.GROUP3 = [
+  {
+    g3id: 'Richard',
+    g3title: 'Richard'
+  }
+]

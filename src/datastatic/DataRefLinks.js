@@ -1,5 +1,419 @@
 exports.REFLINKS = [
   {
+    rid: 58,
+    rref: 'NZBIMP01N',
+    rdesc: 'NZB Improvers 01 Stayman NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/2324/NZB%20Improver%2001%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 57,
+    rref: 'NZBIMP01Q',
+    rdesc: 'NZB Improvers 01 Stayman  QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/2160/NZB%20Improver%2001%20-%20Quiz%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 62,
+    rref: 'NZBIMP02N',
+    rdesc: 'NZB Improvers 02 Blackwood NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/1794/NZB%20Improver%2002%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 61,
+    rref: 'NZBIMP02Q',
+    rdesc: 'NZB Improvers 02 Blackwood QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/1804/NZB%20Improver%2002%20-%20Quiz%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 77,
+    rref: 'NZBIMP03N',
+    rdesc: 'NZB Improvers 03 Play Student NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/1795/NZB%20Improver%2003%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 76,
+    rref: 'NZBIMP03Q',
+    rdesc: 'NZB Improvers 03 Play QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/1810/NZB%20Improver%2003%20-%20Quiz%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 100,
+    rref: 'NZBIMP04N',
+    rdesc: 'NZB Improvers 04 NoTrump Play NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/1796/NZB%20Improver%2004%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 101,
+    rref: 'NZBIMP04Q',
+    rdesc: 'NZB Improvers 04 NoTrump Play QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3506/NZB%20Improver%2004%20-%20Quiz%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 102,
+    rref: 'NZBIMP05N',
+    rdesc: 'NZB Improvers 05 Declarer Play NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/2321/NZB%20Improver%2005%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 103,
+    rref: 'NZBIMP05Q',
+    rdesc: 'NZB Improvers 05 Declarer Play QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/1846/NZB%20Improver%2005%20-%20Quiz%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 104,
+    rref: 'NZBIMP06N',
+    rdesc: 'NZB Improvers 06 Opening Leads NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/1798/NZB%20Improver%2006%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 105,
+    rref: 'NZBIMP06Q',
+    rdesc: 'NZB Improvers 06 Opening Leads QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/2851/NZB%20Improver%2006%20-%20Quiz%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 107,
+    rref: 'NZBIMP07N',
+    rdesc: 'NZB Improvers 07 Signals and Discards NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/1799/NZB%20Improver%2007%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 108,
+    rref: 'NZBIMP07Q',
+    rdesc: 'NZB Improvers 07 Signals and Discards QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/2208/NZB%20Improver%2007%20-%20Quiz%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 109,
+    rref: 'NZBIMP08N',
+    rdesc: 'NZB Improvers 08 Defensive play 2nd and 3rd hand NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3798/NZB%20Improver%2008%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 110,
+    rref: 'NZBIMP08Q',
+    rdesc: 'NZB Improvers 08 Defensive play 2nd and 3rd hand QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3798/NZB%20Improver%2008%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 111,
+    rref: 'NZBIMP09N',
+    rdesc: 'NZB Improvers 09 Minimum invite game force NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/1801/NZB%20Improver%2009%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 112,
+    rref: 'NZBIMP09Q',
+    rdesc: 'NZB Improvers 09 Minimum invite game force QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/1866/NZB%20Improver%2009%20-%20Quiz%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 113,
+    rref: 'NZBIMP10N',
+    rdesc: 'NZB Improvers 10 types of doubles NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/1802/NZB%20Improver%2010%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 114,
+    rref: 'NZBIMP10Q',
+    rdesc: 'NZB Improvers 10 types of doubles QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/1856/NZB%20Improver%2010%20-%20Quiz%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 60,
+    rref: 'NZBINT01N',
+    rdesc: 'NZB Intermediate 01 Transfers  NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3040/NZB%20Intermediate%2001%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 59,
+    rref: 'NZBINT01Q',
+    rdesc: 'NZB Intermediate 01 Transfers  QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3291/NZB%20Intermediate%2001%20-%20Quiz%20%26%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 65,
+    rref: 'NZBINT02N',
+    rdesc: 'NZB Intermediate 02 Checkback NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/2973/NZB%20Intermediate%2002%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 64,
+    rref: 'NZBINT02Q',
+    rdesc: 'NZB Intermediate 02 Checkback QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3292/NZB%20Intermediate%2002%20-%20Quiz%20%26%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 74,
+    rref: 'NZBINT03N',
+    rdesc: 'NZB Intermediate 03 1NTX NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/2543/NZB%20Intermediate%2003%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 75,
+    rref: 'NZBINT03Q',
+    rdesc: 'NZB Intermediate 03 1NTX QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3293/NZB%20Intermediate%2003%20-%20Quiz%20%26%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 80,
+    rref: 'NZBINT04N',
+    rdesc: 'NZB Intermediate 04 1NT Interference NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3120/NZB%20Intermediate%2004%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 81,
+    rref: 'NZBINT04Q',
+    rdesc: 'NZB Intermediate 04 1NT Interference QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3294/NZB%20Intermediate%2004%20-%20Quiz%20%26%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 82,
+    rref: 'NZBINT05N',
+    rdesc: 'NZB Intermediate 05 1NT Landy NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/2862/NZB%20Intermediate%2005%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 83,
+    rref: 'NZBINT05Q',
+    rdesc: 'NZB Intermediate 05 1NT Landy QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3295/NZB%20Intermediate%2005%20-%20Quiz%20%26%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 84,
+    rref: 'NZBINT06N',
+    rdesc: 'NZB Intermediate 06 Responses NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3043/NZB%20Intermediate%2006%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 85,
+    rref: 'NZBINT06Q',
+    rdesc: 'NZB Intermediate 06 Responses QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3289/NZB%20Intermediate%2006%20-%20Quiz%20%26%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 86,
+    rref: 'NZBINT07N',
+    rdesc: 'NZB Intermediate 07 Overcall NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3076/NZB%20Intermediate%2007%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 87,
+    rref: 'NZBINT07Q',
+    rdesc: 'NZB Intermediate 07 Overcall QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3290/NZB%20Intermediate%2007%20-%20Quiz%20%26%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 88,
+    rref: 'NZBINT08N',
+    rdesc: 'NZB Intermediate 08 Michaels UNT NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3084/NZB%20Intermediate%2008%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 89,
+    rref: 'NZBINT08Q',
+    rdesc: 'NZB Intermediate 08 Michaels & UNT QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3287/NZB%20Intermediate%2008%20-%20Quiz%20%26%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 90,
+    rref: 'NZBINT09N',
+    rdesc: 'NZB Intermediate 09 High Level Bidding NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3223/NZB%20Intermediate%2009%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 91,
+    rref: 'NZBINT09Q',
+    rdesc: 'NZB Intermediate 09 High Level Bidding QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3288/NZB%20Intermediate%2009%20-%20Quiz%20%26%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 92,
+    rref: 'NZBINT10N',
+    rdesc: 'NZB Intermediate 10 PreEmpt Defence NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3285/NZB%20Intermediate%2010%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 93,
+    rref: 'NZBINT10Q',
+    rdesc: 'NZB Intermediate 10 Pre-emptive Defence QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3286/NZB%20Intermediate%2010%20-%20Quiz%20%26%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 94,
+    rref: 'NZBINT11N',
+    rdesc: 'NZB Intermediate 11 Multi-2D NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3301/NZB%20Intermediate%2011%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 95,
+    rref: 'NZBINT11Q',
+    rdesc: 'NZB Intermediate 11 Multi-2D QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3303/NZB%20Intermediate%2011%20-%20Quiz%20%26%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 96,
+    rref: 'NZBINT12N',
+    rdesc: 'NZB Intermediate12 Weak 2-suiter NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3778/NZB%20Intermediate%2012%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 97,
+    rref: 'NZBINT12Q',
+    rdesc: 'NZB Intermediate 12 Weak 2-suiter Openings QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3780/NZB%20Intermediate%2012%20-%20Quiz%20%26%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 98,
+    rref: 'NZBINT13N',
+    rdesc: 'NZB Intermediate 13 RKC & Splinters NOTES',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3779/NZB%20Intermediate%2013%20-%20Student%20Notes.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
+    rid: 99,
+    rref: 'NZBINT13Q',
+    rdesc: 'NZB Intermediate13 RKC & Splinters QUIZ',
+    rlink:
+      'https://www.nzbridge.co.nz/user/inline/3781/NZB%20Intermediate%2013%20-%20Quiz%20%26%20Answers.pdf',
+    rwho: 'NZB',
+    rtype: 'webdoc'
+  },
+  {
     rid: 1,
     rref: '2WayCheckBack',
     rdesc: 'Two Way Checkback',
@@ -447,428 +861,5 @@ exports.REFLINKS = [
     rlink: 'https://www.youtube.com/watch?v=zsGeGlYC7v0',
     rwho: 'WBF',
     rtype: 'youtube'
-  },
-  {
-    rid: 57,
-    rref: 'NZBIMP01Q',
-    rdesc: 'NZB Improvers 01 Stayman  QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/2160/NZB%20Improver%2001%20-%20Quiz%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 58,
-    rref: 'NZBIMP01N',
-    rdesc: 'NZB Improvers 01 Stayman NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/2324/NZB%20Improver%2001%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 59,
-    rref: 'NZBINT01Q',
-    rdesc: 'NZB Intermediate 01 Transfers  QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3291/NZB%20Intermediate%2001%20-%20Quiz%20%26%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 60,
-    rref: 'NZBINT01N',
-    rdesc: 'NZB Intermediate 01 Transfers  NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3040/NZB%20Intermediate%2001%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 61,
-    rref: 'NZBIMP02Q',
-    rdesc: 'NZB Improvers 02 Blackwood QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/1804/NZB%20Improver%2002%20-%20Quiz%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 62,
-    rref: 'NZBIMP02N',
-    rdesc: 'NZB Improvers 02 Blackwood NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/1794/NZB%20Improver%2002%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 63,
-    rref: 'Geo210316',
-    rdesc: 'Geo Lesson 20210316',
-    rlink:
-      'https://docs.google.com/document/d/1k-eUKe-hGEOAQi3W9bdSr86OkmtuIwGW/edit?usp=sharing&ouid=117489839836989015672&rtpof=true&sd=true',
-    rwho: 'Geo',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 64,
-    rref: 'NZBINT02Q',
-    rdesc: 'NZB Intermediate 02 Checkback QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3292/NZB%20Intermediate%2002%20-%20Quiz%20%26%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 65,
-    rref: 'NZBINT02N',
-    rdesc: 'NZB Intermediate 02 Checkback NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/2973/NZB%20Intermediate%2002%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 74,
-    rref: 'NZBINT03N',
-    rdesc: 'NZB Intermediate 03 1NTX NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/2543/NZB%20Intermediate%2003%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 75,
-    rref: 'NZBINT03Q',
-    rdesc: 'NZB Intermediate 03 1NTX QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3293/NZB%20Intermediate%2003%20-%20Quiz%20%26%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 76,
-    rref: 'NZBIMP03Q',
-    rdesc: 'NZB Improvers 03 Play QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/1810/NZB%20Improver%2003%20-%20Quiz%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 77,
-    rref: 'NZBIMP03N',
-    rdesc: 'NZB Improvers 03 Play Student NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/1795/NZB%20Improver%2003%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 80,
-    rref: 'NZBINT04N',
-    rdesc: 'NZB Intermediate 04 1NT Interference NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3120/NZB%20Intermediate%2004%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 81,
-    rref: 'NZBINT04Q',
-    rdesc: 'NZB Intermediate 04 1NT Interference QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3294/NZB%20Intermediate%2004%20-%20Quiz%20%26%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 82,
-    rref: 'NZBINT05N',
-    rdesc: 'NZB Intermediate 05 1NT Landy NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/2862/NZB%20Intermediate%2005%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 83,
-    rref: 'NZBINT05Q',
-    rdesc: 'NZB Intermediate 05 1NT Landy QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3295/NZB%20Intermediate%2005%20-%20Quiz%20%26%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 84,
-    rref: 'NZBINT06N',
-    rdesc: 'NZB Intermediate 06 Responses NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3043/NZB%20Intermediate%2006%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 85,
-    rref: 'NZBINT06Q',
-    rdesc: 'NZB Intermediate 06 Responses QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3289/NZB%20Intermediate%2006%20-%20Quiz%20%26%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 86,
-    rref: 'NZBINT07N',
-    rdesc: 'NZB Intermediate 07 Overcall NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3076/NZB%20Intermediate%2007%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 87,
-    rref: 'NZBINT07Q',
-    rdesc: 'NZB Intermediate 07 Overcall QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3290/NZB%20Intermediate%2007%20-%20Quiz%20%26%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 88,
-    rref: 'NZBINT08N',
-    rdesc: 'NZB Intermediate 08 Michaels UNT NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3084/NZB%20Intermediate%2008%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 89,
-    rref: 'NZBINT08Q',
-    rdesc: 'NZB Intermediate 08 Michaels & UNT QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3287/NZB%20Intermediate%2008%20-%20Quiz%20%26%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 90,
-    rref: 'NZBINT09N',
-    rdesc: 'NZB Intermediate 09 High Level Bidding NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3223/NZB%20Intermediate%2009%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 91,
-    rref: 'NZBINT09Q',
-    rdesc: 'NZB Intermediate 09 High Level Bidding QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3288/NZB%20Intermediate%2009%20-%20Quiz%20%26%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 92,
-    rref: 'NZBINT10N',
-    rdesc: 'NZB Intermediate 10 PreEmpt Defence NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3285/NZB%20Intermediate%2010%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 93,
-    rref: 'NZBINT10Q',
-    rdesc: 'NZB Intermediate 10 Pre-emptive Defence QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3286/NZB%20Intermediate%2010%20-%20Quiz%20%26%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 94,
-    rref: 'NZBINT11N',
-    rdesc: 'NZB Intermediate 11 Multi-2D NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3301/NZB%20Intermediate%2011%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 95,
-    rref: 'NZBINT11Q',
-    rdesc: 'NZB Intermediate 11 Multi-2D QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3303/NZB%20Intermediate%2011%20-%20Quiz%20%26%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 96,
-    rref: 'NZBINT12N',
-    rdesc: 'NZB Intermediate12 Weak 2-suiter NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3778/NZB%20Intermediate%2012%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 97,
-    rref: 'NZBINT12Q',
-    rdesc: 'NZB Intermediate 12 Weak 2-suiter Openings QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3780/NZB%20Intermediate%2012%20-%20Quiz%20%26%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 98,
-    rref: 'NZBINT13N',
-    rdesc: 'NZB Intermediate 13 RKC & Splinters NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3779/NZB%20Intermediate%2013%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 99,
-    rref: 'NZBINT13Q',
-    rdesc: 'NZB Intermediate13 RKC & Splinters QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3781/NZB%20Intermediate%2013%20-%20Quiz%20%26%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 100,
-    rref: 'NZBIMP04N',
-    rdesc: 'NZB Improvers 04 NoTrump Play NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/1796/NZB%20Improver%2004%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 101,
-    rref: 'NZBIMP04Q',
-    rdesc: 'NZB Improvers 04 NoTrump Play QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3506/NZB%20Improver%2004%20-%20Quiz%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 102,
-    rref: 'NZBIMP05N',
-    rdesc: 'NZB Improvers 05 Declarer Play NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/2321/NZB%20Improver%2005%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 103,
-    rref: 'NZBIMP05Q',
-    rdesc: 'NZB Improvers 05 Declarer Play QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/1846/NZB%20Improver%2005%20-%20Quiz%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 104,
-    rref: 'NZBIMP06N',
-    rdesc: 'NZB Improvers 06 Opening Leads NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/1798/NZB%20Improver%2006%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 105,
-    rref: 'NZBIMP06Q',
-    rdesc: 'NZB Improvers 06 Opening Leads QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/2851/NZB%20Improver%2006%20-%20Quiz%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 107,
-    rref: 'NZBIMP07N',
-    rdesc: 'NZB Improvers 07 Signals and Discards NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/1799/NZB%20Improver%2007%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 108,
-    rref: 'NZBIMP07Q',
-    rdesc: 'NZB Improvers 07 Signals and Discards QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/2208/NZB%20Improver%2007%20-%20Quiz%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 109,
-    rref: 'NZBIMP08N',
-    rdesc: 'NZB Improvers 08 Defensive play 2nd and 3rd hand NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3798/NZB%20Improver%2008%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 110,
-    rref: 'NZBIMP08Q',
-    rdesc: 'NZB Improvers 08 Defensive play 2nd and 3rd hand QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/3798/NZB%20Improver%2008%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 111,
-    rref: 'NZBIMP09N',
-    rdesc: 'NZB Improvers 09 Minimum invite game force NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/1801/NZB%20Improver%2009%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 112,
-    rref: 'NZBIMP09Q',
-    rdesc: 'NZB Improvers 09 Minimum invite game force QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/1866/NZB%20Improver%2009%20-%20Quiz%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 113,
-    rref: 'NZBIMP10N',
-    rdesc: 'NZB Improvers 10 types of doubles NOTES',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/1802/NZB%20Improver%2010%20-%20Student%20Notes.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
-  },
-  {
-    rid: 114,
-    rref: 'NZBIMP10Q',
-    rdesc: 'NZB Improvers 10 types of doubles QUIZ',
-    rlink:
-      'https://www.nzbridge.co.nz/user/inline/1856/NZB%20Improver%2010%20-%20Quiz%20Answers.pdf',
-    rwho: 'NZB',
-    rtype: 'webdoc'
   }
 ]

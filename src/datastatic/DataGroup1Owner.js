@@ -1,5 +1,4 @@
 exports.GROUP1OWNER = [
-  { qowner: 'Geo', qgroup1: 'Geo210316', g1title: 'Geo210316' },
   {
     qowner: 'NZBridge',
     qgroup1: 'NZBIMP01',
@@ -80,27 +79,54 @@ exports.GROUP1OWNER = [
     qgroup1: 'NZBINT13',
     g1title: 'NZB Intermediate 13 RKC and Splinters'
   },
-  { qowner: 'public', qgroup1: 'BergenRaises', g1title: 'Bergen Raises' },
   {
-    qowner: 'public',
+    qowner: 'Richard',
+    qgroup1: 'BergenRaises',
+    g1title: 'Bergen Raises'
+  },
+  {
+    qowner: 'Richard',
     qgroup1: 'Cue1st2ndControls',
     g1title: 'Cue 1st and 2nd Controls'
   },
-  { qowner: 'public', qgroup1: 'Lebensohl', g1title: 'Lebensohl' },
-  { qowner: 'public', qgroup1: 'MichaelsCueBid', g1title: 'Michaels Cue Bid' },
-  { qowner: 'public', qgroup1: 'Play', g1title: 'Play' },
-  { qowner: 'public', qgroup1: 'Quantitative4NT', g1title: 'Quantitative 4NT' },
-  { qowner: 'public', qgroup1: 'Redoubles', g1title: 'Re-doubles' },
   {
-    qowner: 'public',
-    qgroup1: 'TwoWayCheckback',
-    g1title: 'Two Way Checkback'
+    qowner: 'Richard',
+    qgroup1: 'Lebensohl',
+    g1title: 'Lebensohl'
   },
-  { qowner: 'Richard', qgroup1: 'Doubles', g1title: 'Doubles' },
+  {
+    qowner: 'Richard',
+    qgroup1: 'MichaelsCueBid',
+    g1title: 'Michaels Cue Bid'
+  },
+  {
+    qowner: 'Richard',
+    qgroup1: 'Play',
+    g1title: 'Play'
+  },
   {
     qowner: 'Richard',
     qgroup1: 'Points Schmoints',
     g1title: 'Points Schmoints'
   },
-  { qowner: 'Richard', qgroup1: 'WBF', g1title: 'World Bridge Federation' }
+  {
+    qowner: 'Richard',
+    qgroup1: 'Quantitative4NT',
+    g1title: 'Quantitative 4NT'
+  },
+  {
+    qowner: 'Richard',
+    qgroup1: 'Redoubles',
+    g1title: 'Re-doubles'
+  },
+  {
+    qowner: 'Richard',
+    qgroup1: 'TwoWayCheckback',
+    g1title: 'Two Way Checkback'
+  },
+  {
+    qowner: 'Richard',
+    qgroup1: 'WBF',
+    g1title: 'World Bridge Federation'
+  }
 ]

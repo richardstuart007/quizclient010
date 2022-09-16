@@ -28,10 +28,10 @@ const useStyles = makeStyles({
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //===================================================================================
 const QuizHandsTableHeader = () => {
-  if (g_log1) console.log('spade ', spade)
+  if (debugLog) console.log('spade ', spade)
   //
   //  Styles
   //

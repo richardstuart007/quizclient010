@@ -34,7 +34,7 @@ const sqlClient = 'Quiz/Signin'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 
 //.............................................................................
 //.  Data Input Fields
@@ -43,8 +43,8 @@ const g_log1 = debugSettings()
 //  Initial Values
 //
 const initialValues = {
-  email: 'quizuser@gmail.com',
-  password: 'quizuser'
+  email: '',
+  password: ''
 }
 //.............................................................................
 //.  Input field validation
@@ -55,13 +55,15 @@ const validationSchema = Yup.object({
 })
 //===================================================================================
 function QuizSignin() {
-  if (g_log1) console.log('Start QuizSignin')
+  if (debugLog) console.log('Start QuizSignin')
   const CurrentPage = 'QuizSignin'
+
   //
   //  Define the ValtioStore
   //
   const snapShot = useSnapshot(ValtioStore)
   const URL_BASE = snapShot.v_URL
+  initialValues.email = snapShot.v_Email
   //
   // Form Message
   //
@@ -90,15 +92,15 @@ function QuizSignin() {
       .then(response => response.json())
 
       .then(user => {
-        if (user.id) {
-          setForm_message(`Signin successful with ID(${user.id})`)
+        if (user.u_id) {
+          setForm_message(`Signin successful with ID(${user.u_id})`)
           ValtioStore.v_PagePrevious = CurrentPage
           ValtioStore.v_Page = 'QuizRestart'
           ValtioStore.v_Email = email
-          ValtioStore.v_Name = user.name
+          ValtioStore.v_Name = user.u_name
           ValtioStore.v_SignedIn = true
         } else {
-          setForm_message('User not registered or password invalid')
+          setForm_message('Please REGISTER or email/password invalid')
         }
       })
       .catch(err => {
@@ -136,19 +138,6 @@ function QuizSignin() {
                 {/*.................................................................................................*/}
                 <Grid item xs={12}>
                   <MyButton type='submit' text='SignIn' value='Submit' />
-                  <Typography variant='subtitle2' gutterBottom>
-                    Navigation
-                  </Typography>
-
-                  <MyButton
-                    text='Register'
-                    color='secondary'
-                    variant='outlined'
-                    onClick={() => {
-                      ValtioStore.v_PagePrevious = CurrentPage
-                      ValtioStore.v_Page = 'QuizRegister'
-                    }}
-                  />
                 </Grid>
               </Grid>
             </Form>

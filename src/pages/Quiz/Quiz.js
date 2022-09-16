@@ -29,7 +29,7 @@ import { ValtioStore } from '../ValtioStore'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //
 //  Global store variables
 //
@@ -39,7 +39,7 @@ let g_questCount = 0
 let g_quizRow = {}
 //===================================================================================
 const Quiz = () => {
-  if (g_log1) console.log('Start Quiz')
+  if (debugLog) console.log('Start Quiz')
   //
   //  Define the ValtioStore
   //
@@ -62,16 +62,16 @@ const Quiz = () => {
     //
     //  Reset flag
     //
-    if (g_log1) console.log('quizReset')
+    if (debugLog) console.log('quizReset')
     ValtioStore.v_Reset = false
     //
     //  Get store data & copy to State
     //
-    if (g_log1) console.log('snapShot.v_QFilterSort ', snapShot.v_QFilterSort)
+    if (debugLog) console.log('snapShot.v_QFilterSort ', snapShot.v_QFilterSort)
     let quest = []
     snapShot.v_QFilterSort.forEach(row => {
       const rowData = { ...row }
-      if (g_log1) console.log('rowData ', rowData)
+      if (debugLog) console.log('rowData ', rowData)
       quest.push(rowData)
     })
     //
@@ -81,9 +81,9 @@ const Quiz = () => {
     g_questCount = quest.length
     g_Idx = 0
     g_quizRow = g_quizQuest[g_Idx]
-    if (g_log1) console.log('g_quizQuest ', g_quizQuest)
-    if (g_log1) console.log('g_questCount ', g_questCount)
-    if (g_log1) console.log('g_quizRow ', g_quizRow)
+    if (debugLog) console.log('g_quizQuest ', g_quizQuest)
+    if (debugLog) console.log('g_questCount ', g_questCount)
+    if (debugLog) console.log('g_quizRow ', g_quizRow)
     //
     // Reset Answers
     //
@@ -99,7 +99,7 @@ const Quiz = () => {
     //
     //  Update count
     //
-    if (g_log1) console.log('g_Idx ', g_Idx, 'id ', id)
+    if (debugLog) console.log('g_Idx ', g_Idx, 'id ', id)
     if (id === 1) {
       const nextAnsPass = ansPass + 1
       setAnsPass(nextAnsPass)
@@ -107,16 +107,19 @@ const Quiz = () => {
     //
     //   Write Answers
     //
-    if (g_log1) console.log('g_Idx ', g_Idx, 'id ', id)
+    if (debugLog) console.log('g_Idx ', g_Idx, 'id ', id)
     ValtioStore.v_Ans[g_Idx] = id
     const nextAnsCount = ansCount + 1
     setAnsCount(nextAnsCount)
-    if (g_log1) console.log('nextAnsCount ', nextAnsCount)
+    if (debugLog) console.log('nextAnsCount ', nextAnsCount)
     //
     //  End of data
     //
     if (g_Idx + 1 >= g_questCount) {
-      if (g_log1) console.log('v_Ans', snapShot.v_Ans)
+      if (debugLog) console.log('v_Ans', snapShot.v_Ans)
+      //
+      //  Review
+      //
       ValtioStore.v_PagePrevious = CurrentPage
       ValtioStore.v_Page = 'QuizReview'
       return
@@ -126,14 +129,14 @@ const Quiz = () => {
     //
     g_Idx++
     g_quizRow = g_quizQuest[g_Idx]
-    if (g_log1) console.log('g_quizRow', g_quizRow)
+    if (debugLog) console.log('g_quizRow', g_quizRow)
   }
   //...................................................................................
   //. Answer Selected
   //...................................................................................
   const handleSelect = id => {
-    if (g_log1) console.log(`ID selected ${id}`)
-    if (g_log1) console.log('g_Idx ', g_Idx, 'qid ', g_quizRow.qid)
+    if (debugLog) console.log(`ID selected ${id}`)
+    if (debugLog) console.log('g_Idx ', g_Idx, 'qid ', g_quizRow.qid)
     onSubmitForm(id)
   }
   //...................................................................................
@@ -148,7 +151,7 @@ const Quiz = () => {
   //  No data (Error)
   //
   if (g_questCount === 0) {
-    if (g_log1) console.log('No data')
+    if (debugLog) console.log('No data')
     return <p style={{ color: 'red' }}>No data</p>
   }
   //
@@ -156,14 +159,14 @@ const Quiz = () => {
   //
   let help = null
   if (g_quizRow.qrefs) {
-    if (g_log1) console.log('g_quizRow.qrefs[0] ', g_quizRow.qrefs[0])
+    if (debugLog) console.log('g_quizRow.qrefs[0] ', g_quizRow.qrefs[0])
     help = g_quizRow.qrefs[0]
   }
   ValtioStore.v_Help = help
-  if (g_log1) console.log('help ', help)
+  if (debugLog) console.log('help ', help)
 
-  if (g_log1) console.log('g_quizRow ', g_quizRow)
-  if (g_log1) console.log('g_quizRow.qid ', g_quizRow.qid)
+  if (debugLog) console.log('g_quizRow ', g_quizRow)
+  if (debugLog) console.log('g_quizRow.qid ', g_quizRow.qid)
   //...................................................................................
   //.  Render the form
   //...................................................................................

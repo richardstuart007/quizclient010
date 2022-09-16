@@ -21,10 +21,10 @@ const useStyles = makeStyles(theme => ({
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //=====================================================================================
 export default function MyButton(props) {
-  if (g_log1) console.log('Start MyButton')
+  if (debugLog) console.log('Start MyButton')
 
   const { text, size, color, variant, onClick, ...other } = props
   const classes = useStyles()

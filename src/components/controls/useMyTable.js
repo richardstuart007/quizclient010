@@ -40,10 +40,10 @@ const useStyles = makeStyles(theme => ({
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //=====================================================================================
 export default function useMyTable(records, headCells, filterFn) {
-  if (g_log1) console.log('Start useMyTable')
+  if (debugLog) console.log('Start useMyTable')
   //
   //  Styles
   //

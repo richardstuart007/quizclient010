@@ -39,10 +39,10 @@ const headCells = [
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //=====================================================================================
 export default function QuizRefs() {
-  if (g_log1) console.log('Start QuizRefs')
+  if (debugLog) console.log('Start QuizRefs')
   //.............................................................................
   //.  Valtio snapShot unpack
   //.............................................................................
@@ -56,7 +56,7 @@ export default function QuizRefs() {
   const snapShot = useSnapshot(ValtioStore)
 
   const Refs = vUnpack(snapShot.v_QRefs)
-  if (g_log1) console.log('Refs ', Refs)
+  if (debugLog) console.log('Refs ', Refs)
 
   const CurrentPage = snapShot.v_Page
   const PagePrevious = snapShot.v_PagePrevious
@@ -64,7 +64,7 @@ export default function QuizRefs() {
   //  Find reference link
   //
   const reflinks = vUnpack(snapShot.v_RefLinks)
-  if (g_log1) console.log('reflinks ', reflinks)
+  if (debugLog) console.log('reflinks ', reflinks)
   //
   //  build records from Refs & Links
   //
@@ -76,7 +76,7 @@ export default function QuizRefs() {
       records.push(rowData)
     }
   })
-  if (g_log1) console.log('records ', records)
+  if (debugLog) console.log('records ', records)
   //.............................................................................
   //
   //  State
@@ -91,7 +91,7 @@ export default function QuizRefs() {
   //  Hyperlink open
   //
   const openHyperlink = hyperlink => {
-    if (g_log1) console.log('hyperlink ', hyperlink)
+    if (debugLog) console.log('hyperlink ', hyperlink)
     window.open(hyperlink, '_blank')
   }
   //...................................................................................
@@ -100,9 +100,9 @@ export default function QuizRefs() {
   //
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useMyTable(records, headCells, filterFn)
-  if (g_log1)
+  if (debugLog)
     console.log('recordsAfterPagingAndSorting ', recordsAfterPagingAndSorting)
-  if (g_log1) console.log('records ', records)
+  if (debugLog) console.log('records ', records)
   //...................................................................................
   //.  Render the form
   //...................................................................................

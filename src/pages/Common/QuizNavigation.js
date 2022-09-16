@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => {
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //===================================================================================
 export default function QuizNavigation() {
   const classes = useStyles()
@@ -47,20 +47,28 @@ export default function QuizNavigation() {
   const snapShot = useSnapshot(ValtioStore)
   const CurrentPage = snapShot.v_Page
   //
+  //  Show Signin Button ?
+  //
+  let showButtonSignin = false
+  if (CurrentPage === 'QuizRegister') showButtonSignin = true
+  //
+  //  Show Register Button ?
+  //
+  let showButtonRegister = false
+  if (CurrentPage === 'QuizSignin') showButtonRegister = true
+  //
   //  Show Refresh Button ?
   //
   let showButtonRefresh = false
   if (
     CurrentPage === 'QuizRefs' ||
     CurrentPage === 'Quiz' ||
-    CurrentPage === 'QuizReview' ||
-    (CurrentPage === 'QuizSelect' && !snapShot.v_StaticData)
+    CurrentPage === 'QuizReview'
   )
     showButtonRefresh = true
   //
   //  Show Review Button ?
   //
-  if (g_log1) console.log('snapShot.v_Ans ', snapShot.v_Ans)
   let showButtonReview = false
   if (CurrentPage === 'Quiz' && snapShot.v_Ans.length > 0)
     showButtonReview = true
@@ -112,7 +120,7 @@ export default function QuizNavigation() {
   //  Hyperlink open
   //
   const openHyperlink = linkRef => () => {
-    if (g_log1) console.log('linkRef ', linkRef)
+    if (debugLog) console.log('linkRef ', linkRef)
     //
     //  Find reference link
     //
@@ -122,13 +130,13 @@ export default function QuizNavigation() {
     //  Reference found
     //
     if (linkelement) {
-      if (g_log1) console.log('linkelement ', linkelement)
+      if (debugLog) console.log('linkelement ', linkelement)
       //
       //  Link value
       //
       const hyperlink = linkelement.rlink
       if (hyperlink) {
-        if (g_log1) console.log('hyperlink ', hyperlink)
+        if (debugLog) console.log('hyperlink ', hyperlink)
         window.open(hyperlink, '_blank')
       }
     }
@@ -139,6 +147,30 @@ export default function QuizNavigation() {
   return (
     <div className={classes.root}>
       <Grid container alignItems='center'>
+        {/* .......................................................................................... */}
+        {showButtonSignin ? (
+          <MyActionButton
+            startIcon={<HelpIcon fontSize='small' />}
+            color='warning'
+            onClick={() => {
+              ValtioStore.v_PagePrevious = CurrentPage
+              ValtioStore.v_Page = 'QuizSignin'
+            }}
+            text='SignIn'
+          ></MyActionButton>
+        ) : null}
+        {/* .......................................................................................... */}
+        {showButtonRegister ? (
+          <MyActionButton
+            startIcon={<HelpIcon fontSize='small' />}
+            color='warning'
+            onClick={() => {
+              ValtioStore.v_PagePrevious = CurrentPage
+              ValtioStore.v_Page = 'QuizRegister'
+            }}
+            text='Register'
+          ></MyActionButton>
+        ) : null}
         {/* .......................................................................................... */}
         {showButtonHelp ? (
           <MyActionButton
@@ -181,7 +213,7 @@ export default function QuizNavigation() {
             color='warning'
             onClick={() => {
               ValtioStore.v_PagePrevious = CurrentPage
-              ValtioStore.v_Page = 'QuizRestart'
+              ValtioStore.v_Page = 'QuizSelect'
             }}
             text='Refresh'
           ></MyActionButton>

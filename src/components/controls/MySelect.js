@@ -15,10 +15,10 @@ import debugSettings from '../../debug/debugSettings'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //=====================================================================================
 export default function MySelect(props) {
-  if (g_log1) console.log('Start MySelect')
+  if (debugLog) console.log('Start MySelect')
 
   const {
     name,
@@ -29,8 +29,8 @@ export default function MySelect(props) {
     options,
     ...other
   } = props
-  if (g_log1) console.log('props ', props)
-  if (g_log1) console.log('options ', options)
+  if (debugLog) console.log('props ', props)
+  if (debugLog) console.log('options ', options)
   return (
     <FormControl variant='outlined' {...(error && { error: true })} {...other}>
       <InputLabel>{label}</InputLabel>

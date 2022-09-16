@@ -11,13 +11,13 @@ import debugSettings from '../../debug/debugSettings'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //=====================================================================================
 export default function MyDatePicker(props) {
-  if (g_log1) console.log('Start MyDatePicker')
+  if (debugLog) console.log('Start MyDatePicker')
 
   const { name, label, value, onChange, ...other } = props
-  if (g_log1) console.log(name, label, value)
+  if (debugLog) console.log(name, label, value)
   //
   //  Convert the parameters to name, value parameters needed for onChange function
   //
@@ -27,7 +27,7 @@ export default function MyDatePicker(props) {
       value
     }
   })
-  if (g_log1) console.log(convertToDefEventPara(name, value))
+  if (debugLog) console.log(convertToDefEventPara(name, value))
 
   return (
     <LocalizationProvider utils={DateFnsUtils}>

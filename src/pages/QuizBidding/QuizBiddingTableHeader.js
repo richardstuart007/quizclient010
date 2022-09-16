@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //===================================================================================
 const QuizBiddingTableHeader = () => {
   //
@@ -31,7 +31,7 @@ const QuizBiddingTableHeader = () => {
   //...................................................................................
   //.  Main Line
   //...................................................................................
-  if (g_log1) console.log('Start QuizBiddingTableHeader')
+  if (debugLog) console.log('Start QuizBiddingTableHeader')
 
   //...................................................................................
   //.  Render the form

@@ -17,16 +17,16 @@ import QuizReviewAnswer from './QuizReviewAnswer'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //===================================================================================
 const QuizReviewAnswers = props => {
-  if (g_log1) console.log('Start QuizReviewAnswers')
+  if (debugLog) console.log('Start QuizReviewAnswers')
   //
   // Deconstruct Props
   //
   const { quizRow, AnswerNum } = props
-  if (g_log1) console.log('quizRow ', quizRow)
-  if (g_log1) console.log('AnswerNum ', AnswerNum)
+  if (debugLog) console.log('quizRow ', quizRow)
+  if (debugLog) console.log('AnswerNum ', AnswerNum)
   //
   //  Deconstruct row
   //

@@ -13,7 +13,7 @@ import debugSettings from '../../debug/debugSettings'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //===================================================================================
 const QuizInfo = () => {
   //...................................................................................
@@ -42,7 +42,7 @@ const QuizInfo = () => {
   //  Show Info ?
   //
   const ShowInfo = snapShot.v_ShowInfo
-  if (g_log1) console.log('ShowInfo ', ShowInfo)
+  if (debugLog) console.log('ShowInfo ', ShowInfo)
   if (ShowInfo === false) return null
   //...................................................................................
   //.  Render the form

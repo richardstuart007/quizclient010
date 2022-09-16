@@ -17,11 +17,11 @@ const { URL_TABLES } = require('./constants.js')
 //
 // Debug Settings
 //
-const g_log1 = debugSettings(true)
+const debugLog = debugSettings()
 //===================================================================================
 async function getTable(props) {
-  if (g_log1) console.log('Start getTable')
-  if (g_log1) console.log('props ', props)
+  if (debugLog) console.log('Start getTable')
+  if (debugLog) console.log('props ', props)
 
   //--------------------------------------------------------------------
   //.  fetch data
@@ -57,12 +57,12 @@ async function getTable(props) {
           })
 
       const URL = sqlURL + URL_TABLES
-      if (g_log1) console.log('URL ', URL)
+      if (debugLog) console.log('URL ', URL)
       //
       //  SQL database
       //
       const resultData = await apiAxios(method, URL, body)
-      if (g_log1) console.log('Axios Data fetched ', resultData)
+      if (debugLog) console.log('Axios Data fetched ', resultData)
       //
       // No data
       //
@@ -72,7 +72,7 @@ async function getTable(props) {
       //
       // Return data
       //
-      if (g_log1) console.log('Return Data', resultData)
+      if (debugLog) console.log('Return Data', resultData)
       return resultData
       //
       // Errors
@@ -96,15 +96,15 @@ async function getTable(props) {
     sqlOrderByRaw = '',
     sqlString = ''
   } = props
-  if (g_log1) console.log('sqlCaller ', sqlCaller)
-  if (g_log1) console.log('sqlURL ', sqlURL)
-  if (g_log1) console.log('sqlTable ', sqlTable)
-  if (g_log1) console.log('sqlAction ', sqlAction)
-  if (g_log1) console.log('sqlWhere ', sqlWhere)
-  if (g_log1) console.log('sqlOrderByRaw ', sqlOrderByRaw)
+  if (debugLog) console.log('sqlCaller ', sqlCaller)
+  if (debugLog) console.log('sqlURL ', sqlURL)
+  if (debugLog) console.log('sqlTable ', sqlTable)
+  if (debugLog) console.log('sqlAction ', sqlAction)
+  if (debugLog) console.log('sqlWhere ', sqlWhere)
+  if (debugLog) console.log('sqlOrderByRaw ', sqlOrderByRaw)
   let sqlClient = `${functionName}/${sqlCaller}`
-  if (g_log1) console.log('sqlClient ', sqlClient)
-  if (g_log1) console.log('sqlString ', sqlString)
+  if (debugLog) console.log('sqlClient ', sqlClient)
+  if (debugLog) console.log('sqlString ', sqlString)
   //
   // Fetch the data
   //
@@ -120,7 +120,7 @@ async function getTable(props) {
   //
   // Return promise
   //
-  if (g_log1) console.log('Return Promise', resultData)
+  if (debugLog) console.log('Return Promise', resultData)
   return resultData
 }
 

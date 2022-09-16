@@ -22,7 +22,7 @@ import { ValtioStore } from '../ValtioStore'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //===================================================================================
 const QuizQuestion = params => {
   //...................................................................................
@@ -40,18 +40,18 @@ const QuizQuestion = params => {
   //
   //  Deconstruct row
   //
-  if (g_log1) console.log('quizRow ', quizRow)
+  if (debugLog) console.log('quizRow ', quizRow)
   const { qid, qkey, qdetail } = quizRow
   let hyperLink
   qdetail.substring(0, 8) === 'https://'
     ? (hyperLink = true)
     : (hyperLink = false)
-  if (g_log1) console.log('hyperLink ', hyperLink)
+  if (debugLog) console.log('hyperLink ', hyperLink)
   //
   //  Hyperlink open
   //
   const openTab = hyperlink => () => {
-    if (g_log1) console.log('hyperlink ', hyperlink)
+    if (debugLog) console.log('hyperlink ', hyperlink)
     window.open(hyperlink, '_blank')
   }
   //

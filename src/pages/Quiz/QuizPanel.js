@@ -17,14 +17,14 @@ import QuizPanelCard from './QuizPanelCard'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //===================================================================================
 const QuizPanel = ({ quizRow, handleSelect }) => {
-  if (g_log1) console.log('Start QuizPanel')
+  if (debugLog) console.log('Start QuizPanel')
   //
   //  Deconstruct row
   //
-  if (g_log1) console.log('quizRow ', quizRow)
+  if (debugLog) console.log('quizRow ', quizRow)
   const { qcorrect, qbad1, qbad2, qbad3 } = quizRow
   //
   //  Answers array
@@ -53,7 +53,7 @@ const QuizPanel = ({ quizRow, handleSelect }) => {
   //  Sort the Answers by the random sort id
   //
   Answers.sort((a, b) => (a.random > b.random ? 1 : -1))
-  if (g_log1) console.log(Answers)
+  if (debugLog) console.log(Answers)
   //...................................................................................
   //  Format Panel
   //...................................................................................

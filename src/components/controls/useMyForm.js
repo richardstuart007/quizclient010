@@ -10,12 +10,12 @@ import debugSettings from '../../debug/debugSettings'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //=====================================================================================
 //=  useMyForm
 //=====================================================================================
 export function useMyForm(initialFValues, validateOnChange = false, validate) {
-  if (g_log1) console.log('Start useMyForm')
+  if (debugLog) console.log('Start useMyForm')
   //
   //  State
   //
@@ -27,8 +27,8 @@ export function useMyForm(initialFValues, validateOnChange = false, validate) {
   //
   const handleInputChange = e => {
     const { name, value } = e.target
-    if (g_log1) console.log({ name }, { value })
-    if (g_log1) console.log({ [name]: value })
+    if (debugLog) console.log({ name }, { value })
+    if (debugLog) console.log({ [name]: value })
 
     setValues({
       ...values,
@@ -48,7 +48,7 @@ export function useMyForm(initialFValues, validateOnChange = false, validate) {
   //
   //  Return Values
   //
-  if (g_log1) console.log({ values })
+  if (debugLog) console.log({ values })
   return {
     values,
     setValues,
@@ -76,7 +76,7 @@ const useStyles = makeStyles(theme => ({
 //  MyForm
 //
 export function MyForm(props) {
-  if (g_log1) console.log('Start MyForm')
+  if (debugLog) console.log('Start MyForm')
   const classes = useStyles()
   const { children, ...other } = props
   return (

@@ -76,7 +76,7 @@ const g_PromiseTotal = records.length
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 const debugFunStartSetting = false
 const debugFunEndSetting = false
 const debugModule = 'QuizServerData'

@@ -15,10 +15,10 @@ import debugSettings from '../../debug/debugSettings'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //=====================================================================================
 export default function MyRadioGroup(props) {
-  if (g_log1) console.log('Start MyRadioGroup')
+  if (debugLog) console.log('Start MyRadioGroup')
 
   const { name, label, value, onChange, items, ...other } = props
 

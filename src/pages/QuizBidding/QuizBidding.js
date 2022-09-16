@@ -23,13 +23,13 @@ import QuizBiddingTableLine from './QuizBiddingTableLine'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //===================================================================================
 const QuizBidding = ({ qid }) => {
   //...................................................................................
   //.  Main Line
   //...................................................................................
-  if (g_log1) console.log('qid ', qid)
+  if (debugLog) console.log('qid ', qid)
   let testingQid = qid
   //
   //  Define the ValtioStore
@@ -43,18 +43,18 @@ const QuizBidding = ({ qid }) => {
     const rowData = { ...row }
     BiddingRowAll.push(rowData)
   })
-  if (g_log1) console.log('BiddingRowAll ', BiddingRowAll)
+  if (debugLog) console.log('BiddingRowAll ', BiddingRowAll)
   //
   //  Find the BiddingRow
   //
   let BiddingRow = BiddingRowAll.find(element => element.bid === testingQid)
-  if (g_log1) console.log('BiddingRow ', BiddingRow)
+  if (debugLog) console.log('BiddingRow ', BiddingRow)
   //
   //  Has BiddingRow ?
   //
   let hasBidding
   BiddingRow === undefined ? (hasBidding = false) : (hasBidding = true)
-  if (g_log1) console.log('hasBidding ', hasBidding)
+  if (debugLog) console.log('hasBidding ', hasBidding)
   //
   //  No BiddingRow, return
   //
@@ -63,8 +63,8 @@ const QuizBidding = ({ qid }) => {
   //  Build Bidding Arrays
   //
   let Rounds = [...BiddingRow.brounds]
-  if (g_log1) console.log('BiddingRow.brounds ', BiddingRow.brounds)
-  if (g_log1) console.log('Rounds ', Rounds)
+  if (debugLog) console.log('BiddingRow.brounds ', BiddingRow.brounds)
+  if (debugLog) console.log('Rounds ', Rounds)
   //
   //  Process each Round
   //
@@ -76,7 +76,7 @@ const QuizBidding = ({ qid }) => {
     //
     let bidObjArray = []
     round.forEach(bid => {
-      if (g_log1) console.log('bid ', bid)
+      if (debugLog) console.log('bid ', bid)
       //
       //  Fill bidObj (bid/suit)
       //
@@ -85,7 +85,7 @@ const QuizBidding = ({ qid }) => {
         suit: ''
       }
       const level = bid.substr(0, 1)
-      if (g_log1) console.log('level ', level)
+      if (debugLog) console.log('level ', level)
       switch (level) {
         // Pass
         case 'P':
@@ -138,7 +138,7 @@ const QuizBidding = ({ qid }) => {
     //
     //  Prefix bidObj with round number
     //
-    if (g_log1) console.log('bidObjArray ', bidObjArray)
+    if (debugLog) console.log('bidObjArray ', bidObjArray)
     const objTemp = {
       roundCount: '',
       innerArray: []
@@ -151,7 +151,7 @@ const QuizBidding = ({ qid }) => {
     //
     roundsbidObjArray.push(objTemp)
   })
-  if (g_log1) console.log('roundsbidObjArray ', roundsbidObjArray)
+  if (debugLog) console.log('roundsbidObjArray ', roundsbidObjArray)
   //...................................................................................
   //.  Render the form
   //...................................................................................

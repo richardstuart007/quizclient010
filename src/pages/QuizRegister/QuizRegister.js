@@ -29,7 +29,7 @@ import { ValtioStore } from '../ValtioStore'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //
 // Constants
 //
@@ -43,6 +43,7 @@ const sqlClient = 'Quiz/Register'
 //
 const initialValues = {
   name: '',
+  fedid: '',
   email: '',
   password: ''
 }
@@ -56,7 +57,7 @@ const validationSchema = Yup.object({
 })
 //===================================================================================
 function QuizRegister() {
-  if (g_log1) console.log('Start QuizRegister')
+  if (debugLog) console.log('Start QuizRegister')
   const CurrentPage = 'QuizRegister'
   //
   //  Define the ValtioStore
@@ -74,7 +75,7 @@ function QuizRegister() {
     //
     //  Deconstruct values
     //
-    const { name, email, password } = values
+    const { name, email, password, fedid } = values
     //
     //  Post to server
     //
@@ -86,15 +87,17 @@ function QuizRegister() {
         sqlClient: sqlClient,
         email: email,
         password: password,
-        name: name
+        name: name,
+        fedid: fedid
       })
     })
       .then(response => response.json())
 
       .then(user => {
-        if (user.id) {
-          // setId(user.id)
-          setForm_message(`Data updated in Database with ID(${user.id})`)
+        if (user.u_id) {
+          setForm_message(`Data updated in Database with ID(${user.u_id})`)
+          ValtioStore.v_Email = email
+          ValtioStore.v_Name = name
           ValtioStore.v_PagePrevious = CurrentPage
           ValtioStore.v_Page = 'QuizSignin'
         } else {
@@ -125,6 +128,12 @@ function QuizRegister() {
                   <MyFormikTextField name='name' label='name' />
                 </Grid>
                 <Grid item xs={12}>
+                  <MyFormikTextField
+                    name='fedid'
+                    label='Bridge Federation Id'
+                  />
+                </Grid>
+                <Grid item xs={12}>
                   <MyFormikTextField name='email' label='email' />
                 </Grid>
                 <Grid item xs={12}>
@@ -139,20 +148,6 @@ function QuizRegister() {
                 {/*.................................................................................................*/}
                 <Grid item xs={12}>
                   <MyButton type='submit' text='Register' value='Submit' />
-
-                  <Typography variant='subtitle2' gutterBottom>
-                    Navigation
-                  </Typography>
-
-                  <MyButton
-                    text='Signin'
-                    variant='outlined'
-                    color='secondary'
-                    onClick={() => {
-                      ValtioStore.v_PagePrevious = CurrentPage
-                      ValtioStore.v_Page = 'QuizSignin'
-                    }}
-                  />
                 </Grid>
               </Grid>
             </Form>

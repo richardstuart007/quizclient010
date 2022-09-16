@@ -29,7 +29,7 @@ import { ValtioStore } from './ValtioStore'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //
 //  Global Variables
 //
@@ -41,12 +41,12 @@ let g_DataLoad
 let g_SignedIn
 //===================================================================================
 function QuizControl() {
-  if (g_log1) console.log('Start QuizControl')
+  if (debugLog) console.log('Start QuizControl')
   //.............................................................................
   //.  Unpack Parameters
   //.............................................................................
   const UnpackParams = () => {
-    if (g_log1) console.log('Get Parameters')
+    if (debugLog) console.log('Get Parameters')
     //
     //  Set Params Load already done
     //
@@ -56,12 +56,12 @@ function QuizControl() {
     //  Get Query string of Parameters
     //
     const queryString = window.location.search
-    if (g_log1) console.log('queryString ', queryString)
+    if (debugLog) console.log('queryString ', queryString)
     if (!queryString) return
     //
     //  Update the Store
     //
-    if (g_log1) console.log('Has Parameters')
+    if (debugLog) console.log('Has Parameters')
     g_Params = true
     ValtioStore.v_Params = g_Params
 
@@ -123,7 +123,7 @@ function QuizControl() {
     //.  Selection
     //..............................
     const AllowSelection = urlParams.get('AllowSelection')
-    if (g_log1) console.log('AllowSelection ', AllowSelection)
+    if (debugLog) console.log('AllowSelection ', AllowSelection)
     if (AllowSelection) {
       AllowSelection === 'true'
         ? (ValtioStore.v_AllowSelection = true)
@@ -132,11 +132,11 @@ function QuizControl() {
 
     const Owner = urlParams.get('Owner')
     if (Owner) ValtioStore.v_Owner = Owner
-    if (g_log1) console.log('Owner ', Owner)
+    if (debugLog) console.log('Owner ', Owner)
 
     const Group1 = urlParams.get('Group1')
     if (Group1) ValtioStore.v_Group1 = Group1
-    if (g_log1) console.log('Group1 ', Group1)
+    if (debugLog) console.log('Group1 ', Group1)
 
     const Group2 = urlParams.get('Group2')
     if (Group2) ValtioStore.v_Group2 = Group2
@@ -147,7 +147,7 @@ function QuizControl() {
     //.  Remove Parameters
     //..............................
     if (g_HideParams) {
-      if (g_log1) console.log('Hide Parameters')
+      if (debugLog) console.log('Hide Parameters')
       // eslint-disable-next-line
       history.replaceState({}, null, 'Params')
     }
@@ -156,12 +156,12 @@ function QuizControl() {
   //.  Process Restart
   //.............................................................................
   const Restart = () => {
-    if (g_log1) console.log('Restart')
+    if (debugLog) console.log('Restart')
     //
     //  Load Server data to store
     //
     if (g_StaticData === false) {
-      if (g_log1) console.log(`Override Page: ${g_Page} to QuizServerData`)
+      if (debugLog) console.log(`Override Page: ${g_Page} to QuizServerData`)
       g_Page = 'QuizServerData'
       ValtioStore.v_Page = g_Page
 
@@ -172,15 +172,15 @@ function QuizControl() {
     //  Load Static data to Store (Once only)
     //
     else {
-      if (g_log1) console.log('g_DataLoad ', g_DataLoad)
+      if (debugLog) console.log('g_DataLoad ', g_DataLoad)
       if (g_DataLoad) {
         g_DataLoad = false
         ValtioStore.v_DataLoad = g_DataLoad
 
-        if (g_log1) console.log('call QuizStaticData ')
+        if (debugLog) console.log('call QuizStaticData ')
         QuizStaticData()
       }
-      if (g_log1) console.log(`Override Page: ${g_Page} to QuizSelect`)
+      if (debugLog) console.log(`Override Page: ${g_Page} to QuizSelect`)
       ValtioStore.v_Page = 'QuizSelect'
       g_Page = 'QuizSelect'
     }
@@ -189,19 +189,19 @@ function QuizControl() {
   //.  Force SignIn if neded
   //.............................................................................
   const CheckSignIn = () => {
-    if (g_log1) console.log('CheckSignIn')
+    if (debugLog) console.log('CheckSignIn')
     //
     //  Override the page if Server Data and not signed in
     //
-    if (g_log1) console.log('g_Page ', g_Page)
-    if (g_log1) console.log('g_SignedIn ', g_SignedIn)
+    if (debugLog) console.log('g_Page ', g_Page)
+    if (debugLog) console.log('g_SignedIn ', g_SignedIn)
     if (
       (g_Page === 'QuizSelect' || g_Page === 'QuizServerData') &
       (g_StaticData === false) &
       (g_SignedIn === false)
     ) {
       const newPage = 'QuizSignin'
-      if (g_log1) console.log(`Override Page: ${g_Page} to ${newPage}`)
+      if (debugLog) console.log(`Override Page: ${g_Page} to ${newPage}`)
       g_Page = newPage
       ValtioStore.v_Page = g_Page
     }
@@ -222,12 +222,12 @@ function QuizControl() {
   g_Page = snapShot.v_Page
   g_SignedIn = snapShot.v_SignedIn
   g_DataLoad = snapShot.v_DataLoad
-  if (g_log1) console.log('g_HideParams ', g_HideParams)
-  if (g_log1) console.log('g_Params ', g_Params)
-  if (g_log1) console.log('g_StaticData ', g_StaticData)
-  if (g_log1) console.log('g_DataLoad ', g_DataLoad)
-  if (g_log1) console.log('g_SignedIn ', g_SignedIn)
-  if (g_log1) console.log('g_Page ', g_Page)
+  if (debugLog) console.log('g_HideParams ', g_HideParams)
+  if (debugLog) console.log('g_Params ', g_Params)
+  if (debugLog) console.log('g_StaticData ', g_StaticData)
+  if (debugLog) console.log('g_DataLoad ', g_DataLoad)
+  if (debugLog) console.log('g_SignedIn ', g_SignedIn)
+  if (debugLog) console.log('g_Page ', g_Page)
   //
   //  Get the URL Parameters (once only)
   //

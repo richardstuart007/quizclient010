@@ -14,7 +14,7 @@ import debugSettings from '../../debug/debugSettings'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //===================================================================================
 const QuizLinearProgress = props => {
   const { count, total, text } = props
@@ -29,9 +29,9 @@ const QuizLinearProgress = props => {
     if (total > 0) setProgress(Math.round((100 * count) / total))
   }, [count, total])
 
-  if (g_log1) console.log('count ', count)
-  if (g_log1) console.log('total ', total)
-  if (g_log1) console.log('progress ', progress)
+  if (debugLog) console.log('count ', count)
+  if (debugLog) console.log('total ', total)
+  if (debugLog) console.log('progress ', progress)
   //...................................................................................
   //.  Render the form
   //...................................................................................

@@ -21,10 +21,10 @@ import { ValtioStore } from '../ValtioStore'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //===================================================================================
 const QuizSplash = () => {
-  if (g_log1) console.log('Start QuizSplash')
+  if (debugLog) console.log('Start QuizSplash')
   //
   //  Define the ValtioStore
   //

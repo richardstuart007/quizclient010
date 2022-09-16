@@ -20,19 +20,19 @@ import club from '../../assets/images/club.svg'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 const QuizBiddingTableCell = props => {
   //...................................................................................
   //.  Main Line
   //...................................................................................
-  if (g_log1) console.log('props ', props)
+  if (debugLog) console.log('props ', props)
   //
   //  Destructure props
   //
   const { bid, suit, cell } = props
-  if (g_log1) console.log('bid ', bid)
-  if (g_log1) console.log('suit ', suit)
-  if (g_log1) console.log('cell ', cell)
+  if (debugLog) console.log('bid ', bid)
+  if (debugLog) console.log('suit ', suit)
+  if (debugLog) console.log('cell ', cell)
   //
   //  Source svg
   //

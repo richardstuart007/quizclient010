@@ -13,18 +13,18 @@ import QuizBiddingTableCell from './QuizBiddingTableCell'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 const QuizBiddingTableLine = props => {
   //...................................................................................
   //.  Main Line
   //...................................................................................
-  if (g_log1) console.log('props ', props)
+  if (debugLog) console.log('props ', props)
   //
   //  Destructure props
   //
   const { round, roundCount } = props
-  if (g_log1) console.log('round ', round)
-  if (g_log1) console.log('roundCount ', roundCount)
+  if (debugLog) console.log('round ', round)
+  if (debugLog) console.log('roundCount ', roundCount)
   //
   //  round into Object
   //
@@ -39,7 +39,7 @@ const QuizBiddingTableLine = props => {
   if (round[2]) roundBid.south = round[2].bid
   if (round[3]) roundBid.west = round[3].bid
 
-  if (g_log1) console.log('roundBid ', roundBid)
+  if (debugLog) console.log('roundBid ', roundBid)
   //
   //  round into Object
   //
@@ -53,7 +53,7 @@ const QuizBiddingTableLine = props => {
   if (round[1]) roundSuit.east = round[1].suit
   if (round[2]) roundSuit.south = round[2].suit
   if (round[3]) roundSuit.west = round[3].suit
-  if (g_log1) console.log('roundSuit ', roundSuit)
+  if (debugLog) console.log('roundSuit ', roundSuit)
 
   //...................................................................................
   //.  Render the form

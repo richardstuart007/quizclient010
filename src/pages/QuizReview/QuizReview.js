@@ -27,16 +27,17 @@ import QuizInfo from '../Common/QuizInfo'
 //  Utilities
 //
 import { ValtioStore } from '../ValtioStore'
+import writeUsersResults from '../../services/writeUsersResults'
 //.............................................................................
 //.  Initialisation
 //.............................................................................
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //===================================================================================
 const QuizReview = () => {
-  if (g_log1) console.log('Start QuizReview')
+  if (debugLog) console.log('Start QuizReview')
   //
   //  Define the ValtioStore
   //
@@ -63,12 +64,12 @@ const QuizReview = () => {
   //.  First time data received
   //...................................................................................
   const firstLoad = () => {
-    if (g_log1) console.log('firstLoad ')
+    if (debugLog) console.log('firstLoad ')
     //
     //  Initialise global variables
     //
-    if (g_log1) console.log('Initialise global variables')
-    if (g_log1) console.log('snapShot.v_Ans ', snapShot.v_Ans)
+    if (debugLog) console.log('Initialise global variables')
+    if (debugLog) console.log('snapShot.v_Ans ', snapShot.v_Ans)
     //
     //  Get store data - Questions
     //
@@ -77,7 +78,7 @@ const QuizReview = () => {
       const rowData = { ...row }
       ArrQuestions.push(rowData)
     })
-    if (g_log1) console.log('ArrQuestions ', ArrQuestions)
+    if (debugLog) console.log('ArrQuestions ', ArrQuestions)
     setArrQuest(ArrQuestions)
     //
     //  Get store data - Answers
@@ -102,10 +103,10 @@ const QuizReview = () => {
       }
       if (id === 1) AnsPass++
     })
-    if (g_log1) console.log('AnsReview ', AnsReview)
-    if (g_log1) console.log('AnsCount ', AnsCount)
-    if (g_log1) console.log('AnsPass ', AnsPass)
-    if (g_log1) console.log('Ans ', Ans)
+    if (debugLog) console.log('AnsReview ', AnsReview)
+    if (debugLog) console.log('AnsCount ', AnsCount)
+    if (debugLog) console.log('AnsPass ', AnsPass)
+    if (debugLog) console.log('Ans ', Ans)
     //
     //  Set State
     //
@@ -129,16 +130,44 @@ const QuizReview = () => {
     setAnsIdx(AnsIdx)
     const QuizIdx = AnsNum[AnsIdx]
     setQuizRow(ArrQuestions[QuizIdx])
+    //
+    //  Write Results
+    //
+    const sqlURL = snapShot.v_URL
+    const r_email = snapShot.v_Email
+    const r_datetime = new Date()
+    const r_owner = snapShot.v_Owner
+    const r_group1 = snapShot.v_Group1
+    const r_questions = AnsCount
+    const r_correct = AnsPass
+    //
+    //  Build row
+    //
+    const sqlRow = {
+      r_email: r_email,
+      r_datetime: r_datetime,
+      r_owner: r_owner,
+      r_group1: r_group1,
+      r_questions: r_questions,
+      r_correct: r_correct
+    }
+    //
+    //  Build Parameters & Write Results
+    //
+    const props = {
+      sqlURL: sqlURL,
+      sqlRow: sqlRow
+    }
+    writeUsersResults(props)
   }
   //...................................................................................
   //.  Next Question
   //...................................................................................
   const nextQuestion = () => {
-    if (g_log1) console.log('nextQuestion ')
-    if (g_log1) console.log('arrQuest ', arrQuest)
-    if (g_log1) console.log('countAns ', countAns)
-    if (g_log1) console.log('ansIdx ', ansIdx)
-    if (g_log1) console.log('countReview ', countReview)
+    if (debugLog) console.log('nextQuestion ')
+    if (debugLog) console.log('arrQuest ', arrQuest)
+    if (debugLog) console.log('ansIdx ', ansIdx)
+    if (debugLog) console.log('countReview ', countReview)
     //
     //  More rows
     //
@@ -153,7 +182,7 @@ const QuizReview = () => {
   //.  Previous Question
   //...................................................................................
   const handlePrevious = () => {
-    if (g_log1) console.log('Previous Question ')
+    if (debugLog) console.log('Previous Question ')
     //
     //  More rows
     //
@@ -178,7 +207,7 @@ const QuizReview = () => {
   //  No data to review
   //
   if (!quizRow) {
-    if (g_log1) console.log('Quiz Row empty')
+    if (debugLog) console.log('Quiz Row empty')
     return (
       <>
         <Typography variant='subtitle1' sx={{ marginTop: '8px' }}>
@@ -200,11 +229,11 @@ const QuizReview = () => {
   //
   let help = null
   if (quizRow.qrefs[0]) {
-    if (g_log1) console.log('quizRow.qrefs[0] ', quizRow.qrefs[0])
+    if (debugLog) console.log('quizRow.qrefs[0] ', quizRow.qrefs[0])
     help = quizRow.qrefs[0]
   }
   ValtioStore.v_Help = help
-  if (g_log1) console.log('help ', help)
+  if (debugLog) console.log('help ', help)
   //
   //  Hide/Show Previous/Next Buttons
   //
@@ -215,10 +244,10 @@ const QuizReview = () => {
     ? (hideNextButton = true)
     : (hideNextButton = false)
 
-  if (g_log1) console.log('quizRow ', quizRow)
-  if (g_log1) console.log('ansIdx ', ansIdx)
-  if (g_log1) console.log('arrAnsNum ', arrAnsNum)
-  if (g_log1) console.log('arrAns ', arrAns)
+  if (debugLog) console.log('quizRow ', quizRow)
+  if (debugLog) console.log('ansIdx ', ansIdx)
+  if (debugLog) console.log('arrAnsNum ', arrAnsNum)
+  if (debugLog) console.log('arrAns ', arrAns)
   //...................................................................................
   //.  Render the form
   //...................................................................................

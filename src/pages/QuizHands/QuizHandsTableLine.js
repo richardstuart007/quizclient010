@@ -13,22 +13,22 @@ import QuizHandsTableCell from './QuizHandsTableCell'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 const QuizHandsTableLine = props => {
   //...................................................................................
   //.  Main Line
   //...................................................................................
-  if (g_log1) console.log('props ', props)
+  if (debugLog) console.log('props ', props)
   //
   //  Destructure props
   //
   const { handObj, rowCount } = props
-  if (g_log1) console.log('handObj ', handObj)
-  if (g_log1) console.log('rowCount ', rowCount)
+  if (debugLog) console.log('handObj ', handObj)
+  if (debugLog) console.log('rowCount ', rowCount)
 
   const { position, hand } = handObj
-  if (g_log1) console.log('position ', position)
-  if (g_log1) console.log('hand ', hand)
+  if (debugLog) console.log('position ', position)
+  if (debugLog) console.log('hand ', hand)
   //
   //  Strip 'n' and replace with null
   //

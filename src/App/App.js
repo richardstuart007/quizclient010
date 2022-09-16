@@ -50,7 +50,7 @@ function App() {
     ValtioStore.v_Server = SERVER_REMOTE
     ValtioStore.v_URL = URL_REMOTE
     console.log(
-      `DataEntry-PORT(${port}) REMOTE: SERVER(${SERVER_REMOTE}) URL(${URL_REMOTE})`
+      `QuizClient-PORT(${port}) REMOTE: SERVER(${SERVER_REMOTE}) URL(${URL_REMOTE})`
     )
   }
   //
@@ -60,7 +60,7 @@ function App() {
     ValtioStore.v_Server = SERVER_LOCAL_REMOTE
     ValtioStore.v_URL = URL_LOCAL_REMOTE
     console.log(
-      `DataEntry-PORT(${port}) LOCAL: SERVER(${SERVER_LOCAL_REMOTE}) URL(${URL_LOCAL_REMOTE})`
+      `QuizClient-PORT(${port}) LOCAL: SERVER(${SERVER_LOCAL_REMOTE}) URL(${URL_LOCAL_REMOTE})`
     )
   }
   //
@@ -70,7 +70,7 @@ function App() {
     ValtioStore.v_Server = SERVER_LOCAL
     ValtioStore.v_URL = URL_LOCAL
     console.log(
-      `DataEntry-PORT(${port}) LOCAL: SERVER(${SERVER_LOCAL}) URL(${URL_LOCAL})`
+      `QuizClient-PORT(${port}) LOCAL: SERVER(${SERVER_LOCAL}) URL(${URL_LOCAL})`
     )
   }
   //

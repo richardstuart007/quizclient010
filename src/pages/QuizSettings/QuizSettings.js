@@ -23,10 +23,10 @@ import { ValtioStore } from '../ValtioStore'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //===================================================================================
 const QuizSettings = () => {
-  if (g_log1) console.log('Start QuizSettings')
+  if (debugLog) console.log('Start QuizSettings')
   //
   //  Define the ValtioStore
   //
@@ -63,7 +63,7 @@ const QuizSettings = () => {
   //.  Input field validation
   //.............................................................................
   const validate = (fieldValues = values) => {
-    if (g_log1) console.log('fieldValues ', fieldValues)
+    if (debugLog) console.log('fieldValues ', fieldValues)
     let temp = { ...errors }
     if ('z_StaticData' in fieldValues) temp.z_StaticData = ''
     if ('z_HideParams' in fieldValues) temp.z_HideParams = ''
@@ -87,7 +87,7 @@ const QuizSettings = () => {
   //  Validate
   //
   const SubmitForm = e => {
-    if (g_log1) console.log('validate ', validate())
+    if (debugLog) console.log('validate ', validate())
     if (validate()) {
       updateSelection()
     }
@@ -99,7 +99,7 @@ const QuizSettings = () => {
     //
     //  Save data
     //
-    if (g_log1) console.log(values)
+    if (debugLog) console.log(values)
     savedValues.z_StaticData = values.z_StaticData
     savedValues.z_HideParams = values.z_HideParams
     savedValues.z_ShowInfo = values.z_ShowInfo
@@ -111,9 +111,10 @@ const QuizSettings = () => {
     //
     //  Update Store
     //
-    if (g_log1)
+    if (debugLog)
       console.log('Update Store: z_StaticData ', savedValues.z_StaticData)
-    if (g_log1) console.log('Update Store: z_ShowInfo ', savedValues.z_ShowInfo)
+    if (debugLog)
+      console.log('Update Store: z_ShowInfo ', savedValues.z_ShowInfo)
     ValtioStore.v_PagePrevious = CurrentPage
     ValtioStore.v_HideParams = savedValues.z_HideParams
     ValtioStore.v_ShowInfo = savedValues.z_ShowInfo
@@ -151,7 +152,7 @@ const QuizSettings = () => {
     true,
     validate
   )
-  if (g_log1) console.log('initialFValues ', initialFValues)
+  if (debugLog) console.log('initialFValues ', initialFValues)
   //...................................................................................
   //.  Render the form
   //...................................................................................

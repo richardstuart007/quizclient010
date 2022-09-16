@@ -13,17 +13,17 @@ import debugSettings from '../../debug/debugSettings'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //===================================================================================
 export default function QuizAnswer(props) {
   //
   // Deconstruct Props
   //
   const { answer, AnswerNum, FieldNum } = props
-  console.log(answer, AnswerNum, FieldNum)
-  if (g_log1) console.log('answer ', answer)
-  if (g_log1) console.log('AnswerNum ', AnswerNum)
-  if (g_log1) console.log('FieldNum ', FieldNum)
+  if (debugLog) console.log(answer, AnswerNum, FieldNum)
+  if (debugLog) console.log('answer ', answer)
+  if (debugLog) console.log('AnswerNum ', AnswerNum)
+  if (debugLog) console.log('FieldNum ', FieldNum)
   //
   //  Set Colour
   //

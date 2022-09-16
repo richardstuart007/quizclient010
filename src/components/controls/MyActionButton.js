@@ -42,10 +42,10 @@ const useStyles = makeStyles(theme => ({
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //=====================================================================================
 export default function MyActionButton(props) {
-  if (g_log1) console.log('Start MyActionButton')
+  if (debugLog) console.log('Start MyActionButton')
 
   const { color, children, onClick, ...other } = props
   const classes = useStyles()

@@ -14,18 +14,18 @@ import debugSettings from '../../debug/debugSettings'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 const QuizHandsTableCell = props => {
   //...................................................................................
   //.  Main Line
   //...................................................................................
-  if (g_log1) console.log('props ', props)
+  if (debugLog) console.log('props ', props)
   //
   //  Destructure props
   //
   const { cell, cellValue } = props
-  if (g_log1) console.log('cell ', cell)
-  if (g_log1) console.log('cellValue ', cellValue)
+  if (debugLog) console.log('cell ', cell)
+  if (debugLog) console.log('cellValue ', cellValue)
   //...................................................................................
   //.  Render the form
   //...................................................................................

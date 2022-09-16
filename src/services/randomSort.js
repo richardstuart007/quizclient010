@@ -8,7 +8,7 @@ import debugSettings from '../debug/debugSettings'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //===================================================================================
 export default function randomSort(dataIn) {
   //
@@ -26,7 +26,7 @@ export default function randomSort(dataIn) {
   //  Sort the workArray
   //
   workArray.sort((a, b) => (a.random > b.random ? 1 : -1))
-  if (g_log1) console.log(workArray)
+  if (debugLog) console.log(workArray)
   //
   //  Strip out the random element
   //
@@ -36,6 +36,6 @@ export default function randomSort(dataIn) {
   //
   //  Return sorted array
   //
-  if (g_log1) console.log('dataSorted  ', dataSorted)
+  if (debugLog) console.log('dataSorted  ', dataSorted)
   return dataSorted
 }

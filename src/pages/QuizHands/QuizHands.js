@@ -23,13 +23,13 @@ import QuizHandsTableLine from './QuizHandsTableLine'
 //
 // Debug Settings
 //
-const g_log1 = debugSettings()
+const debugLog = debugSettings()
 //===================================================================================
 const QuizHands = ({ qid }) => {
   //...................................................................................
   //.  Main Line
   //...................................................................................
-  if (g_log1) console.log('qid ', qid)
+  if (debugLog) console.log('qid ', qid)
   let testingQid = qid
   //
   //  Define the ValtioStore
@@ -43,18 +43,18 @@ const QuizHands = ({ qid }) => {
     const rowData = { ...row }
     HandsRowAll.push(rowData)
   })
-  if (g_log1) console.log('HandsRowAll ', HandsRowAll)
+  if (debugLog) console.log('HandsRowAll ', HandsRowAll)
   //
   //  Find the HandsRow for this ID
   //
   let HandsRow = HandsRowAll.find(element => element.hid === testingQid)
-  if (g_log1) console.log('HandsRow ', HandsRow)
+  if (debugLog) console.log('HandsRow ', HandsRow)
   //
   //  Has HandsRow ?
   //
   let hasHands
   HandsRow === undefined ? (hasHands = false) : (hasHands = true)
-  if (g_log1) console.log('hasHands ', hasHands)
+  if (debugLog) console.log('hasHands ', hasHands)
   //
   //  No HandsRow, return
   //
@@ -64,7 +64,7 @@ const QuizHands = ({ qid }) => {
   //
   let HandObjArray = []
   let RowCount = 0
-  if (g_log1) console.log('HandsRow', HandsRow)
+  if (debugLog) console.log('HandsRow', HandsRow)
   //
   //  North
   //
@@ -117,7 +117,7 @@ const QuizHands = ({ qid }) => {
     handObj.hand = [...HandsRow.hwest]
     HandObjArray.push(handObj)
   }
-  if (g_log1) console.log('HandObjArray ', HandObjArray)
+  if (debugLog) console.log('HandObjArray ', HandObjArray)
   //...................................................................................
   //.  Render the form
   //...................................................................................

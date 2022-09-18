@@ -2,9 +2,7 @@
 //  Libraries
 //
 import { useState } from 'react'
-import { Formik, Form } from 'formik'
-import * as Yup from 'yup'
-import { Container, Grid, Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 //
 //  Debug Settings
 //
@@ -13,7 +11,8 @@ import debugSettings from '../../debug/debugSettings'
 //  Controls
 //
 import MyButton from '../../components/controls/MyButton'
-import MyFormikTextField from '../../components/controls/MyFormikTextField'
+import MyInput from '../../components/controls/MyInput'
+import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
 //  Common Sub Components
 //
@@ -30,6 +29,9 @@ import { ValtioStore } from '../ValtioStore'
 // Debug Settings
 //
 const debugLog = debugSettings()
+// const debugLogTest = false
+const debugFunStartSetting = false
+const debugModule = 'QuizRegister'
 //
 // Constants
 //
@@ -41,37 +43,77 @@ const sqlClient = 'Quiz/Register'
 //
 //  Initial Values
 //
-const initialValues = {
+const initialFValues = {
   name: '',
   fedid: '',
   email: '',
   password: ''
 }
-//.............................................................................
-//.  Input field validation
-//.............................................................................
-const validationSchema = Yup.object({
-  name: Yup.string().required('Required'),
-  email: Yup.string().email().required('Required'),
-  password: Yup.string().required('Required')
-})
 //===================================================================================
 function QuizRegister() {
-  if (debugLog) console.log('Start QuizRegister')
-  const CurrentPage = 'QuizRegister'
-  //
-  //  Define the ValtioStore
-  //
-  const snapShot = useSnapshot(ValtioStore)
-  const URL_BASE = snapShot.v_URL
-  //
-  // Form Message
-  //
-  const [form_message, setForm_message] = useState('')
+  //.............................................................................
+  //.  Input field validation
+  //.............................................................................
+  const validate = (fieldValues = values) => {
+    if (debugFunStartSetting) console.log('validate')
+    if (debugLog) console.log('fieldValues ', fieldValues)
+    let temp = { ...errors }
+    //
+    //  name
+    //
+    if ('name' in fieldValues) {
+      temp.name = fieldValues.name.length !== 0 ? '' : 'This field is required.'
+    }
+    //
+    //  email
+    //
+    if ('email' in fieldValues) {
+      temp.email = validateEmail(fieldValues.email)
+        ? ''
+        : 'Email is not a valid format'
+    }
+    //
+    //  password
+    //
+    if ('password' in fieldValues) {
+      temp.password =
+        fieldValues.password.length !== 0 ? '' : 'This field is required.'
+    }
+    //
+    //  Set the errors
+    //
+    setErrors({
+      ...temp
+    })
+
+    if (fieldValues === values) return Object.values(temp).every(x => x === '')
+  }
   //...................................................................................
-  //. Form Submit
+
+  function validateEmail(email) {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      )
+  }
   //...................................................................................
-  const onSubmitForm = (values, submitProps) => {
+  //.  Form Submit
+  //...................................................................................
+  //
+  //  Validate
+  //
+  const FormSubmit = e => {
+    if (debugFunStartSetting) console.log('FormSubmit')
+    if (validate()) {
+      FormUpdate()
+    }
+  }
+  //...................................................................................
+  //.  Update
+  //...................................................................................
+  const FormUpdate = () => {
+    if (debugFunStartSetting) console.log('FormUpdate')
     //
     //  Deconstruct values
     //
@@ -109,51 +151,89 @@ function QuizRegister() {
       })
   }
   //...................................................................................
+  //.  Main Line
+  //...................................................................................
+  if (debugFunStartSetting) console.log(debugModule)
+  const CurrentPage = 'QuizRegister'
+  //
+  //  Define the ValtioStore
+  //
+  const snapShot = useSnapshot(ValtioStore)
+  const URL_BASE = snapShot.v_URL
+  //
+  // Form Message
+  //
+  const [form_message, setForm_message] = useState('')
+  //
+  //  Interface to Form
+  //
+  const { values, setValues, errors, setErrors, handleInputChange } = useMyForm(
+    initialFValues,
+    true,
+    validate
+  )
+  //...................................................................................
   //.  Render the form
   //...................................................................................
   return (
     <>
-      <Grid container>
-        <Container>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmitForm}
-            enableReinitialize
-          >
-            <Form>
-              <Grid container spacing={2}>
-                {/*.................................................................................................*/}
-                <Grid item xs={12}>
-                  <MyFormikTextField name='name' label='name' />
-                </Grid>
-                <Grid item xs={12}>
-                  <MyFormikTextField
-                    name='fedid'
-                    label='Bridge Federation Id'
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <MyFormikTextField name='email' label='email' />
-                </Grid>
-                <Grid item xs={12}>
-                  <MyFormikTextField name='password' label='password' />
-                </Grid>
-                {/*.................................................................................................*/}
-                <Grid item xs={12}>
-                  <Typography style={{ color: 'red' }}>
-                    {form_message}
-                  </Typography>
-                </Grid>
-                {/*.................................................................................................*/}
-                <Grid item xs={12}>
-                  <MyButton type='submit' text='Register' value='Submit' />
-                </Grid>
-              </Grid>
-            </Form>
-          </Formik>
-        </Container>
-      </Grid>
+      <MyForm>
+        <Grid container spacing={2}>
+          {/*.................................................................................................*/}
+          <Grid item xs={12}>
+            <MyInput
+              name='name'
+              label='name'
+              value={values.name}
+              onChange={handleInputChange}
+              error={errors.name}
+            />
+          </Grid>
+          {/*.................................................................................................*/}
+          <Grid item xs={12}>
+            <MyInput
+              name='fedid'
+              label='Bridge Federation Id'
+              value={values.fedid}
+              onChange={handleInputChange}
+              error={errors.fedid}
+            />
+          </Grid>
+          {/*.................................................................................................*/}
+          <Grid item xs={12}>
+            <MyInput
+              name='email'
+              label='email'
+              value={values.email}
+              onChange={handleInputChange}
+              error={errors.email}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <MyInput
+              name='password'
+              label='password'
+              value={values.password}
+              onChange={handleInputChange}
+              error={errors.password}
+            />
+          </Grid>
+          {/*.................................................................................................*/}
+          <Grid item xs={12}>
+            <Typography style={{ color: 'red' }}>{form_message}</Typography>
+          </Grid>
+          {/*.................................................................................................*/}
+          <Grid item xs={12}>
+            <MyButton
+              text='Register'
+              onClick={() => {
+                FormSubmit()
+              }}
+            />
+          </Grid>
+          {/*.................................................................................................*/}
+        </Grid>
+      </MyForm>
       <QuizInfo />
     </>
   )

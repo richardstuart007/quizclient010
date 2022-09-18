@@ -37,7 +37,6 @@ const QuizSettings = () => {
   //  Initial Values v_ReviewSkipPass
   //
   const initialFValues = {
-    z_StaticData: snapShot.v_StaticData,
     z_HideParams: snapShot.v_HideParams,
     z_ShowInfo: snapShot.v_ShowInfo,
     z_ShowLinearProgress: snapShot.v_ShowLinearProgress,
@@ -50,7 +49,6 @@ const QuizSettings = () => {
   //  Saved Values on Submit
   //
   const savedValues = {
-    z_StaticData: false,
     z_HideParams: false,
     z_ShowInfo: false,
     z_ShowLinearProgress: false,
@@ -65,7 +63,6 @@ const QuizSettings = () => {
   const validate = (fieldValues = values) => {
     if (debugLog) console.log('fieldValues ', fieldValues)
     let temp = { ...errors }
-    if ('z_StaticData' in fieldValues) temp.z_StaticData = ''
     if ('z_HideParams' in fieldValues) temp.z_HideParams = ''
     if ('z_ShowInfo' in fieldValues) temp.z_ShowInfo = ''
     if ('z_ShowLinearProgress' in fieldValues) temp.z_ShowLinearProgress = ''
@@ -100,7 +97,6 @@ const QuizSettings = () => {
     //  Save data
     //
     if (debugLog) console.log(values)
-    savedValues.z_StaticData = values.z_StaticData
     savedValues.z_HideParams = values.z_HideParams
     savedValues.z_ShowInfo = values.z_ShowInfo
     savedValues.z_ShowLinearProgress = values.z_ShowLinearProgress
@@ -112,8 +108,6 @@ const QuizSettings = () => {
     //  Update Store
     //
     if (debugLog)
-      console.log('Update Store: z_StaticData ', savedValues.z_StaticData)
-    if (debugLog)
       console.log('Update Store: z_ShowInfo ', savedValues.z_ShowInfo)
     ValtioStore.v_PagePrevious = CurrentPage
     ValtioStore.v_HideParams = savedValues.z_HideParams
@@ -123,23 +117,10 @@ const QuizSettings = () => {
     ValtioStore.v_RandomSort = savedValues.z_QuestionSort
     ValtioStore.v_ShowQid = savedValues.z_ShowQid
     ValtioStore.v_ReviewSkipPass = savedValues.z_ReviewSkipPass
-    ValtioStore.v_StaticData = savedValues.z_StaticData
     //
-    //  NO Switch to/from Static data - return to previous
+    //  return to previous
     //
-    if (initialFValues.z_StaticData === savedValues.z_StaticData) {
-      ValtioStore.v_Page = PagePrevious
-    }
-    //
-    //  Switch to/from Static data
-    //
-    else {
-      if (savedValues.z_StaticData === false) {
-        ValtioStore.v_Page = 'QuizSignin'
-      } else {
-        ValtioStore.v_Page = 'QuizRestart'
-      }
-    }
+    ValtioStore.v_Page = PagePrevious
   }
   //...................................................................................
   //.  Main Line
@@ -161,16 +142,6 @@ const QuizSettings = () => {
       <Container>
         <MyForm>
           {/*.................................................................................................*/}
-
-          <Grid item xs={4}>
-            <MyCheckbox
-              name='z_StaticData'
-              label='Static Data'
-              value={values.z_StaticData}
-              onChange={handleInputChange}
-              error={errors.z_StaticData}
-            />
-          </Grid>
 
           <Grid item xs={4}>
             <MyCheckbox

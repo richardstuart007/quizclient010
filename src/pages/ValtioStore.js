@@ -6,7 +6,6 @@ const ValtioStore = proxy({
   //
   v_URL: '',
   v_Server: '',
-  v_StaticData: false,
   //
   // Settings
   //
@@ -36,8 +35,8 @@ const ValtioStore = proxy({
   //
   //  Signon Information
   //
-  v_Email: '',
-  v_Name: '',
+  v_Email: 't@t.com',
+  v_Name: 't',
   v_SignedIn: false,
   //
   //  Data - All Options

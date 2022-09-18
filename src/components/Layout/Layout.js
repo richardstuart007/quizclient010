@@ -46,6 +46,12 @@ const useStyles = makeStyles(theme => {
     title: {
       marginLeft: theme.spacing(2)
     },
+    server: {
+      marginLeft: theme.spacing(2)
+    },
+    welcome: {
+      marginLeft: theme.spacing(2)
+    },
     appBar: {
       background: 'green',
       width: '100%'
@@ -81,6 +87,7 @@ export default function Layout({ children }) {
   //
   let title
   const CurrentPage = snapShot.v_Page
+  let showWelcome = true
 
   switch (CurrentPage) {
     case 'QuizSettings':
@@ -88,15 +95,17 @@ export default function Layout({ children }) {
       break
     case 'QuizRegister':
       title = 'Register'
+      showWelcome = false
       break
     case 'QuizSignin':
-      title = 'Sign In'
+      title = 'SignIn'
+      showWelcome = false
       break
     case 'QuizServerData':
       title = 'Get Server Data'
       break
     case 'QuizSelect':
-      title = 'Question Selection'
+      title = 'Selection'
       break
     case 'QuizRefs':
       title = 'References'
@@ -105,7 +114,7 @@ export default function Layout({ children }) {
       title = 'Quiz'
       break
     case 'QuizReview':
-      title = 'Quiz Review'
+      title = 'Review'
       break
     default:
       title = CurrentPage
@@ -114,11 +123,11 @@ export default function Layout({ children }) {
   //
   //  Add server
   //
-  const StaticData = snapShot.v_StaticData
-  const server = snapShot.v_Server
-  StaticData === true
-    ? (title = title + ` (Server:STATIC)`)
-    : (title = title + ` (Server:${server})`)
+  const server = `(Server:${snapShot.v_Server})`
+  //
+  //  User
+  //
+  const welcome = `Welcome ${snapShot.v_Name}`
   //...................................................................................
   //.  Render the component
   //...................................................................................
@@ -144,12 +153,38 @@ export default function Layout({ children }) {
               <Typography className={classes.title}>{title}</Typography>
             </Grid>
             {/* .......................................................................................... */}
+            <Grid item>
+              <Typography
+                className={classes.server}
+                sx={{ display: { xs: 'none', sm: 'inline' } }}
+              >
+                {server}
+              </Typography>
+            </Grid>
+            {/* .......................................................................................... */}
+            {showWelcome ? (
+              <Grid item>
+                <Typography
+                  className={classes.welcome}
+                  sx={{
+                    display: { xs: 'none', sm: 'inline' },
+                    color: 'yellow'
+                  }}
+                >
+                  {welcome}
+                </Typography>
+              </Grid>
+            ) : null}
+            {/* .......................................................................................... */}
             <Grid item xs></Grid>
             {/* .......................................................................................... */}
             <Grid>
               <CardMedia
                 component='img'
-                sx={{ width: 30, height: 30 }}
+                sx={{
+                  width: 30,
+                  height: 30
+                }}
                 image={Ukraine}
                 alt=''
               />

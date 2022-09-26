@@ -7,11 +7,11 @@ import debugSettings from '../debug/debugSettings'
 //
 const debugLog = debugSettings()
 //===================================================================================
-const BuildOptionsGroup3 = data => {
+const BuildOptionsGroup1 = data => {
   //
   //  Options
   //
-  let Group3Options = [
+  let Group1Options = [
     {
       id: 'All',
       title: 'All'
@@ -22,16 +22,16 @@ const BuildOptionsGroup3 = data => {
   //
   data.forEach(item => {
     const itemObj = {
-      id: item.g3id,
-      title: item.g3title
+      id: item.g1id,
+      title: item.g1title
     }
-    Group3Options.push(itemObj)
+    Group1Options.push(itemObj)
   })
   //
   //  Store
   //
-  const Data_Options_Group3JSON = JSON.stringify(Group3Options)
-  sessionStorage.setItem('Data_Options_Group3', Data_Options_Group3JSON)
-  if (debugLog) console.log('Group3Options ', Group3Options)
+  const Data_Options_Group1JSON = JSON.stringify(Group1Options)
+  sessionStorage.setItem('Data_Options_Group1', Data_Options_Group1JSON)
+  if (debugLog) console.log('Group1Options ', Group1Options)
 }
-export default BuildOptionsGroup3
+export default BuildOptionsGroup1

@@ -3,15 +3,10 @@
 //
 import { Typography, Table, TableBody, Card } from '@mui/material'
 import { cyan, teal } from 'material-ui-colors'
-import { useSnapshot } from 'valtio'
 //
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
-//
-//  Utilities
-//
-import { ValtioStore } from '../ValtioStore'
 //
 //  Sub Components
 //
@@ -32,22 +27,15 @@ const QuizBidding = ({ qid }) => {
   if (debugLog) console.log('qid ', qid)
   let testingQid = qid
   //
-  //  Define the ValtioStore
+  //  Get Bidding
   //
-  const snapShot = useSnapshot(ValtioStore)
-  //
-  //  Get store BiddingRow
-  //
-  let BiddingRowAll = []
-  snapShot.v_Bidding.forEach(row => {
-    const rowData = { ...row }
-    BiddingRowAll.push(rowData)
-  })
-  if (debugLog) console.log('BiddingRowAll ', BiddingRowAll)
+  const Data_BiddingJSON = sessionStorage.getItem('Data_Bidding')
+  const Data_Bidding = JSON.parse(Data_BiddingJSON)
+  if (debugLog) console.log('Data_Bidding ', Data_Bidding)
   //
   //  Find the BiddingRow
   //
-  let BiddingRow = BiddingRowAll.find(element => element.bid === testingQid)
+  let BiddingRow = Data_Bidding.find(element => element.bid === testingQid)
   if (debugLog) console.log('BiddingRow ', BiddingRow)
   //
   //  Has BiddingRow ?

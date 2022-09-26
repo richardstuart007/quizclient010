@@ -49,7 +49,7 @@ const initialFValues = {
   password: ''
 }
 //===================================================================================
-function QuizSignin() {
+function QuizSignin({ handlePage }) {
   //.............................................................................
   //.  Input field validation
   //.............................................................................
@@ -61,16 +61,13 @@ function QuizSignin() {
     //  email
     //
     if ('email' in fieldValues) {
-      temp.email = validateEmail(fieldValues.email)
-        ? ''
-        : 'Email is not a valid format'
+      temp.email = validateEmail(fieldValues.email) ? '' : 'Email is not a valid format'
     }
     //
     //  password
     //
     if ('password' in fieldValues) {
-      temp.password =
-        fieldValues.password.length !== 0 ? '' : 'This field is required.'
+      temp.password = fieldValues.password.length !== 0 ? '' : 'This field is required.'
     }
     //
     //  Set the errors
@@ -114,7 +111,7 @@ function QuizSignin() {
     //
     //  Post to server
     //
-    const URL = URL_BASE + URL_SIGNIN
+    const URL = Settings_URL + URL_SIGNIN
     fetch(URL, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -129,8 +126,7 @@ function QuizSignin() {
       .then(user => {
         if (user.u_id) {
           setForm_message(`Signin successful with ID(${user.u_id})`)
-          ValtioStore.v_PagePrevious = CurrentPage
-          ValtioStore.v_Page = 'QuizRestart'
+          handlePage('QuizRestart')
           ValtioStore.v_Email = email
           ValtioStore.v_Name = user.u_name
           ValtioStore.v_SignedIn = true
@@ -146,13 +142,17 @@ function QuizSignin() {
   //.  Main Line
   //...................................................................................
   if (debugFunStartSetting) console.log(debugModule)
-  const CurrentPage = 'QuizSignin'
   //
   //  Define the ValtioStore
   //
   const snapShot = useSnapshot(ValtioStore)
-  const URL_BASE = snapShot.v_URL
   initialFValues.email = snapShot.v_Email
+  //
+  //  Get the URL
+  //
+  const Settings_URLJSON = sessionStorage.getItem('Settings_URL')
+  const Settings_URL = JSON.parse(Settings_URLJSON)
+  if (debugLog) console.log('Settings_URL ', Settings_URL)
   //
   // Form Message
   //
@@ -160,11 +160,7 @@ function QuizSignin() {
   //
   //  Interface to Form
   //
-  const { values, setValues, errors, setErrors, handleInputChange } = useMyForm(
-    initialFValues,
-    true,
-    validate
-  )
+  const { values, errors, setErrors, handleInputChange } = useMyForm(initialFValues, true, validate)
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -174,22 +170,10 @@ function QuizSignin() {
         {/*.................................................................................................*/}
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <MyInput
-              name='email'
-              label='email'
-              value={values.email}
-              onChange={handleInputChange}
-              error={errors.email}
-            />
+            <MyInput name='email' label='email' value={values.email} onChange={handleInputChange} error={errors.email} />
           </Grid>
           <Grid item xs={12}>
-            <MyInput
-              name='password'
-              label='password'
-              value={values.password}
-              onChange={handleInputChange}
-              error={errors.password}
-            />
+            <MyInput name='password' label='password' value={values.password} onChange={handleInputChange} error={errors.password} />
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>

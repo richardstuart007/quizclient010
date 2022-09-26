@@ -26,8 +26,8 @@ const QuizInfo = () => {
   //
   //  Retrieve the state
   //
-  const page = snapShot.v_Page
-  const pageprevious = snapShot.v_PagePrevious
+  const page = JSON.parse(sessionStorage.getItem('Settings_v_Page'))
+  const pageprevious = JSON.parse(sessionStorage.getItem('Settings_v_PagePrevious'))
   const name = snapShot.v_Name
   const email = snapShot.v_Email
   const owner = snapShot.v_Owner
@@ -38,7 +38,7 @@ const QuizInfo = () => {
   //
   //  Show Info ?
   //
-  const ShowInfo = snapShot.v_ShowInfo
+  const ShowInfo = JSON.parse(sessionStorage.getItem('Settings_v_ShowInfo'))
   if (debugLog) console.log('ShowInfo ', ShowInfo)
   if (ShowInfo === false) return null
   //...................................................................................

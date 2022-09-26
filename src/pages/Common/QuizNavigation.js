@@ -39,13 +39,14 @@ const useStyles = makeStyles(theme => {
 //
 const debugLog = debugSettings()
 //===================================================================================
-export default function QuizNavigation() {
+export default function QuizNavigation({ handlePage, page }) {
+  if (debugLog) console.log('Start QuizNavigation')
   const classes = useStyles()
   //
   //  Define the ValtioStore
   //
   const snapShot = useSnapshot(ValtioStore)
-  const CurrentPage = snapShot.v_Page
+  const CurrentPage = page
   //
   //  Show Signin Button ?
   //
@@ -57,47 +58,31 @@ export default function QuizNavigation() {
   let showButtonRegister = false
   if (CurrentPage === 'QuizSignin') showButtonRegister = true
   //
-  //  Show Refresh Button ?
+  //  Show  Restart Button ?
   //
-  let showButtonRefresh = false
-  if (
-    CurrentPage === 'QuizRefs' ||
-    CurrentPage === 'Quiz' ||
-    CurrentPage === 'QuizReview'
-  )
-    showButtonRefresh = true
+  let showButtonRestart = false
+  if (CurrentPage === 'QuizRefs' || CurrentPage === 'Quiz' || CurrentPage === 'QuizHistory' || CurrentPage === 'QuizReview')
+    showButtonRestart = true
   //
   //  Show Review Button ?
   //
   let showButtonReview = false
-  if (CurrentPage === 'Quiz' && snapShot.v_Ans.length > 0)
+  if (CurrentPage === 'Quiz') {
     showButtonReview = true
-  //
-  //  Show Help Button ?
-  //
-  const helpHyperlink = snapShot.v_Help
-  let showButtonHelp = snapShot.v_ShowButtonHelp
-  if (showButtonHelp) {
-    showButtonHelp = false
-    if (
-      (CurrentPage === 'Quiz' || CurrentPage === 'QuizReview') &&
-      helpHyperlink &&
-      helpHyperlink !== 'None' &&
-      helpHyperlink.length > 0
-    )
-      showButtonHelp = true
+    // const Data_AnswersJSON = sessionStorage.getItem('Data_Answers')
+    // const Data_Answers = JSON.parse(Data_AnswersJSON)
+    // if (debugLog) console.log('CurrentPage ', CurrentPage)
+    // if (debugLog) console.log('Data_Answers ', Data_Answers)
+    // if (Data_Answers && Data_Answers.length > 0) showButtonReview = true
   }
   //
   //  Show Book Button ?
   //
   let showMenuBook = false
-  const Refs = snapShot.v_QRefs
-  if (
-    (CurrentPage === 'Quiz' || CurrentPage === 'QuizReview') &&
-    Refs[0] &&
-    Refs.length > 0
-  )
-    showMenuBook = true
+  const Data_ReflinksJSON = sessionStorage.getItem('Data_Reflinks')
+  const Data_Reflinks = JSON.parse(Data_ReflinksJSON)
+
+  if ((CurrentPage === 'Quiz' || CurrentPage === 'QuizReview') && Data_Reflinks[0] && Data_Reflinks.length > 0) showMenuBook = true
   //
   //  Show Settings Button ?
   //
@@ -115,32 +100,12 @@ export default function QuizNavigation() {
     )
       showButtonSettings = true
   }
-  //...................................................................................
   //
-  //  Hyperlink open
+  //  Show History Button ?
   //
-  const openHyperlink = linkRef => () => {
-    if (debugLog) console.log('linkRef ', linkRef)
-    //
-    //  Find reference link
-    //
-    const links = snapShot.v_RefLinks
-    const linkelement = links.find(link => link.rref === linkRef)
-    //
-    //  Reference found
-    //
-    if (linkelement) {
-      if (debugLog) console.log('linkelement ', linkelement)
-      //
-      //  Link value
-      //
-      const hyperlink = linkelement.rlink
-      if (hyperlink) {
-        if (debugLog) console.log('hyperlink ', hyperlink)
-        window.open(hyperlink, '_blank')
-      }
-    }
-  }
+  let showButtonHistory = false
+  if (CurrentPage === 'QuizSelect') showButtonHistory = true
+
   //...................................................................................
   //.  Render the component
   //...................................................................................
@@ -153,8 +118,7 @@ export default function QuizNavigation() {
             startIcon={<HelpIcon fontSize='small' />}
             color='warning'
             onClick={() => {
-              ValtioStore.v_PagePrevious = CurrentPage
-              ValtioStore.v_Page = 'QuizSignin'
+              handlePage('QuizSignin')
             }}
             text='SignIn'
           ></MyActionButton>
@@ -165,19 +129,21 @@ export default function QuizNavigation() {
             startIcon={<HelpIcon fontSize='small' />}
             color='warning'
             onClick={() => {
-              ValtioStore.v_PagePrevious = CurrentPage
-              ValtioStore.v_Page = 'QuizRegister'
+              handlePage('QuizRegister')
             }}
             text='Register'
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}
-        {showButtonHelp ? (
+
+        {showButtonHistory ? (
           <MyActionButton
-            startIcon={<HelpIcon fontSize='small' />}
+            startIcon={<ScoreboardIcon fontSize='small' />}
             color='warning'
-            onClick={openHyperlink(helpHyperlink)}
-            text='Help'
+            onClick={() => {
+              handlePage('QuizHistory')
+            }}
+            text='History'
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}
@@ -187,8 +153,7 @@ export default function QuizNavigation() {
             startIcon={<ScoreboardIcon fontSize='small' />}
             color='warning'
             onClick={() => {
-              ValtioStore.v_PagePrevious = CurrentPage
-              ValtioStore.v_Page = 'QuizReview'
+              handlePage('QuizReview')
             }}
             text='Review'
           ></MyActionButton>
@@ -200,22 +165,20 @@ export default function QuizNavigation() {
             startIcon={<MenuBookIcon fontSize='small' />}
             color='warning'
             onClick={() => {
-              ValtioStore.v_PagePrevious = CurrentPage
-              ValtioStore.v_Page = 'QuizRefs'
+              handlePage('QuizRefs')
             }}
             text='Learn'
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}
-        {showButtonRefresh ? (
+        {showButtonRestart ? (
           <MyActionButton
             startIcon={<RefreshIcon fontSize='small' />}
             color='warning'
             onClick={() => {
-              ValtioStore.v_PagePrevious = CurrentPage
-              ValtioStore.v_Page = 'QuizSelect'
+              handlePage('QuizSelect')
             }}
-            text='Refresh'
+            text='Restart'
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}
@@ -224,8 +187,7 @@ export default function QuizNavigation() {
             startIcon={<SettingsApplicationsIcon fontSize='small' />}
             color='warning'
             onClick={() => {
-              ValtioStore.v_PagePrevious = CurrentPage
-              ValtioStore.v_Page = 'QuizSettings'
+              handlePage('QuizSettings')
             }}
             text='Settings'
           ></MyActionButton>

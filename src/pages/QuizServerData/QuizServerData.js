@@ -3,14 +3,7 @@
 //
 import { useEffect, useState } from 'react'
 
-import {
-  Container,
-  Typography,
-  TableBody,
-  TableRow,
-  TableCell,
-  Grid
-} from '@mui/material'
+import { Container, Typography, TableBody, TableRow, TableCell, Grid } from '@mui/material'
 //
 //  Debug Settings
 //
@@ -18,7 +11,7 @@ import debugSettings from '../../debug/debugSettings'
 //
 //  Controls
 //
-import MyQueryPromise from '../../components/controls/MyQueryPromise'
+
 import MyButton from '../../components/controls/MyButton'
 import useMyTable from '../../components/controls/useMyTable'
 //
@@ -26,13 +19,9 @@ import useMyTable from '../../components/controls/useMyTable'
 //
 import QuizInfo from '../Common/QuizInfo'
 //
-//  Valtio
-//
-import { useSnapshot } from 'valtio'
-import { ValtioStore } from '../ValtioStore'
-//
 //  Services
 //
+import MyQueryPromise from '../../services/MyQueryPromise'
 import BuildOptionsOwner from '../../services/BuildOptionsOwner'
 import BuildOptionsGroup1Owner from '../../services/BuildOptionsGroup1Owner'
 import BuildOptionsGroup2 from '../../services/BuildOptionsGroup2'
@@ -59,79 +48,29 @@ const headCells = [
 //
 let records = [
   { id: 1, table: 'Owner', status: 'Pending', count: 0 },
-  { id: 2, table: 'Questions', status: 'Pending', count: 0 },
-  { id: 3, table: 'Bidding', status: 'Pending', count: 0 },
-  { id: 4, table: 'Hands', status: 'Pending', count: 0 },
-  { id: 5, table: 'RefLinks', status: 'Pending', count: 0 },
-  { id: 6, table: 'Group1Owner', status: 'Pending', count: 0 },
-  { id: 7, table: 'Group2', status: 'Pending', count: 0 },
-  { id: 8, table: 'Group3', status: 'Pending', count: 0 }
+  { id: 2, table: 'Group1Owner', status: 'Pending', count: 0 },
+  { id: 3, table: 'Group2', status: 'Pending', count: 0 },
+  { id: 4, table: 'Group3', status: 'Pending', count: 0 }
 ]
 //
 //  Global variables
 //
-let g_Page
 let g_PromiseCount = 0
 const g_PromiseTotal = records.length
 //
 // Debug Settings
 //
 const debugLog = debugSettings()
-const debugFunStartSetting = false
-const debugFunEndSetting = false
+const debugFunStart = false
 const debugModule = 'QuizServerData'
-let debugStack = []
 
 //===================================================================================
-const QuizServerData = () => {
-  //.............................................................................
-  //.  Debug Logging
-  //.............................................................................
-  const debugLogging = (objtext, obj) => {
-    if (debugLog) {
-      //
-      //  Object passed
-      //
-      let JSONobj = ''
-      if (obj) {
-        JSONobj = JSON.parse(JSON.stringify(obj))
-      }
-      //
-      //  Output values
-      //
-      console.log('VALUES: Stack ', debugStack, objtext, JSONobj)
-    }
-  }
-  //.............................................................................
-  //.  function start
-  //.............................................................................
-  const debugFunStart = funname => {
-    debugStack.push(funname)
-    if (debugFunStartSetting)
-      console.log('Stack: debugFunStart ==> ', funname, debugStack)
-  }
-  //.............................................................................
-  //.  function End
-  //.............................................................................
-  const debugFunEnd = () => {
-    if (debugStack.length > 1) {
-      const funname = debugStack.pop()
-      if (debugFunEndSetting)
-        console.log('Stack: debugFunEnd <==== ', funname, debugStack)
-    }
-  }
+const QuizServerData = ({ handlePage }) => {
   //.............................................................................
   //
   //  Set Debug State
   //
-  debugLogging('Start QuizServerData')
-  //
-  //  Define the ValtioStore
-  //
-  const snapShot = useSnapshot(ValtioStore)
-  const CurrentPage = snapShot.v_Page
-  const URL_BASE = snapShot.v_URL
-  debugLogging('URL_BASE', URL_BASE)
+  if (debugLog) console.log('Start QuizServerData')
 
   const filterFn = {
     fn: items => {
@@ -146,7 +85,7 @@ const QuizServerData = () => {
   //.  Load Server - Owner
   //...................................................................................
   const LoadServerOwner = idx => {
-    debugFunStart('LoadServerOwner')
+    if (debugFunStart) console.log('LoadServerOwner')
     //
     //  Initial values
     //
@@ -159,7 +98,6 @@ const QuizServerData = () => {
     //
     const getTableparams = {
       sqlCaller: functionName,
-      sqlURL: URL_BASE,
       sqlTable: 'owner',
       sqlAction: 'SELECT',
       sqlWhere: '',
@@ -171,8 +109,8 @@ const QuizServerData = () => {
     //
     myPromiseOwner.then(function (data) {
       g_PromiseCount++
-      debugFunStart('myPromiseOwner')
-      debugLogging('myPromiseOwner data ', data)
+      if (debugFunStart) console.log('myPromiseOwner')
+      if (debugLog) console.log('myPromiseOwner data ', data)
       //
       //  Update Status
       //
@@ -181,11 +119,11 @@ const QuizServerData = () => {
         records[idx].status = status
       }
       if (myPromiseOwner.isRejected()) {
-        debugLogging('records[idx].status ', records[idx].status)
+        if (debugLog) console.log('records[idx].status ', records[idx].status)
         status = REJECTED
         records[idx].status = status
       }
-      debugLogging('OWNER status ', status)
+      if (debugLog) console.log('OWNER status ', status)
       //
       //  No data
       //
@@ -203,11 +141,11 @@ const QuizServerData = () => {
         count = data.length
         records[idx].count = count
 
-        debugLogging('OWNER count', count)
+        if (debugLog) console.log('OWNER count', count)
         //
         //  Load Options and Store
         //
-        debugLogging('OWNER call BuildOptionsOwner ')
+        if (debugLog) console.log('OWNER call BuildOptionsOwner ')
         BuildOptionsOwner(data)
       }
       //
@@ -217,361 +155,18 @@ const QuizServerData = () => {
       //
       //  Return
       //
-      debugFunEnd()
       return
     })
-
     //
     //  Return Promise
     //
-    debugFunEnd()
     return myPromiseOwner
   }
-  //...................................................................................
-  //.  Load Server - Questions
-  //...................................................................................
-  const LoadServerQuestions = idx => {
-    debugFunStart('LoadServerQuestions')
-    //
-    //  Initial values
-    //
-    let count = 0
-    let status = 'Pending'
-    records[idx].count = count
-    records[idx].status = status
-    //
-    //  Process promise
-    //
-    const getTableparams = {
-      sqlCaller: functionName,
-      sqlURL: URL_BASE,
-      sqlTable: 'questions',
-      sqlAction: 'SELECT',
-      sqlWhere: '',
-      sqlOrderByRaw: 'qid'
-    }
-    const myPromiseQuestions = MyQueryPromise(getTable(getTableparams))
-    //
-    //  Resolve Status
-    //
-    myPromiseQuestions.then(function (data) {
-      g_PromiseCount++
-      debugFunStart('myPromiseQuestions')
-      debugLogging('myPromiseQuestions data ', data)
-      //
-      //  Update Status
-      //
-      if (myPromiseQuestions.isFulfilled()) {
-        status = FULFILLED
-        records[idx].status = status
-      }
-      if (myPromiseQuestions.isRejected()) {
-        status = REJECTED
-        records[idx].status = status
-      }
-      //
-      //  No data
-      //
-      if (!data) {
-        status = NODATA
-        records[idx].status = status
-      }
-      //
-      //  Next Step - update store
-      //
-      else {
-        //
-        // Update the count
-        //
-        count = data.length
-        records[idx].count = count
-
-        debugLogging('countQuestions count', count)
-        //
-        // update ValtioStore - Data
-        //
-        debugLogging('update v_Questions', data)
-        ValtioStore.v_Questions = data
-      }
-      //
-      //  Update Status
-      //
-      if (g_PromiseCount === g_PromiseTotal) updateFetchStatus()
-      //
-      //  Return
-      //
-      debugFunEnd()
-      return
-    })
-
-    //
-    //  Return Promise
-    //
-    debugFunEnd()
-    return myPromiseQuestions
-  }
-  //...................................................................................
-  //.  Load Server - Bidding
-  //...................................................................................
-  const LoadServerBidding = idx => {
-    debugFunStart('LoadServerBidding')
-
-    //
-    //  Initial values
-    //
-    let count = 0
-    let status = 'Pending'
-    records[idx].count = count
-    records[idx].status = status
-    //
-    //  Process promise
-    //
-    const getTableparams = {
-      sqlCaller: functionName,
-      sqlURL: URL_BASE,
-      sqlTable: 'bidding',
-      sqlAction: 'SELECT',
-      sqlWhere: '',
-      sqlOrderByRaw: 'bid'
-    }
-    const myPromiseBidding = MyQueryPromise(getTable(getTableparams))
-    //
-    //  Resolve Status
-    //
-    myPromiseBidding.then(function (data) {
-      g_PromiseCount++
-      debugFunStart('myPromiseBidding')
-      debugLogging('myPromiseBidding data ', data)
-      //
-      //  Update Status
-      //
-      if (myPromiseBidding.isFulfilled()) {
-        status = FULFILLED
-        records[idx].status = status
-      }
-      if (myPromiseBidding.isRejected()) {
-        status = REJECTED
-        records[idx].status = status
-      }
-      //
-      //  No data
-      //
-      if (!data) {
-        status = NODATA
-        records[idx].status = status
-      }
-      //
-      //  Next Step - update store
-      //
-      else {
-        //
-        // Update the count
-        //
-        count = data.length
-        records[idx].count = count
-
-        debugLogging('countBidding count', count)
-        //
-        // update ValtioStore - Data
-        //
-        debugLogging('update v_Bidding', data)
-        ValtioStore.v_Bidding = data
-      }
-      //
-      //  Update Status
-      //
-      if (g_PromiseCount === g_PromiseTotal) updateFetchStatus()
-      //
-      //  Return
-      //
-      debugFunEnd()
-      return
-    })
-
-    //
-    //  Return Promise
-    //
-    debugFunEnd()
-    return myPromiseBidding
-  }
-  //...................................................................................
-  //.  Load Server - Hands
-  //...................................................................................
-  const LoadServerHands = idx => {
-    debugFunStart('LoadServerHands')
-
-    //
-    //  Initial values
-    //
-    let count = 0
-    let status = 'Pending'
-    records[idx].count = count
-    records[idx].status = status
-
-    //
-    //  Process promise
-    //
-    const getTableparams = {
-      sqlCaller: functionName,
-      sqlURL: URL_BASE,
-      sqlTable: 'hands',
-      sqlAction: 'SELECT',
-      sqlWhere: '',
-      sqlOrderByRaw: 'hid'
-    }
-    const myPromiseHands = MyQueryPromise(getTable(getTableparams))
-    //
-    //  Resolve Status
-    //
-    myPromiseHands.then(function (data) {
-      g_PromiseCount++
-      debugFunStart('myPromiseHands')
-      debugLogging('myPromiseHands data ', data)
-      //
-      //  Update Status
-      //
-      if (myPromiseHands.isFulfilled()) {
-        status = FULFILLED
-        records[idx].status = status
-      }
-      if (myPromiseHands.isRejected()) {
-        status = REJECTED
-        records[idx].status = status
-      }
-      //
-      //  No data
-      //
-      if (!data) {
-        status = NODATA
-        records[idx].status = status
-      }
-      //
-      //  Next Step - update store
-      //
-      else {
-        //
-        // Update the count
-        //
-        count = data.length
-        records[idx].count = count
-
-        debugLogging('countHands count', count)
-        //
-        // update ValtioStore - Data
-        //
-        debugLogging('update v_Hands', data)
-        ValtioStore.v_Hands = data
-      }
-      //
-      //  Update Status
-      //
-      if (g_PromiseCount === g_PromiseTotal) updateFetchStatus()
-      //
-      //  Return
-      //
-      debugFunEnd()
-      return
-    })
-
-    //
-    //  Return Promise
-    //
-    debugFunEnd()
-    return myPromiseHands
-  }
-  //...................................................................................
-  //.  Load Server - Reflinks
-  //...................................................................................
-  const LoadServerReflinks = idx => {
-    debugFunStart('LoadServerReflinks')
-
-    //
-    //  Initial values
-    //
-
-    let count = 0
-    let status = 'Pending'
-    records[idx].count = count
-    records[idx].status = status
-
-    //
-    //  Process promise
-    //
-    const getTableparams = {
-      sqlCaller: functionName,
-      sqlURL: URL_BASE,
-      sqlTable: 'reflinks',
-      sqlAction: 'SELECT',
-      sqlWhere: '',
-      sqlOrderByRaw: 'rid'
-    }
-    const myPromiseReflinks = MyQueryPromise(getTable(getTableparams))
-    //
-    //  Resolve Status
-    //
-    myPromiseReflinks.then(function (data) {
-      g_PromiseCount++
-      debugFunStart('myPromiseReflinks')
-      debugLogging('myPromiseReflinks data ', data)
-
-      //
-      //  Update Status
-      //
-      if (myPromiseReflinks.isFulfilled()) {
-        status = FULFILLED
-        records[idx].status = status
-      }
-      if (myPromiseReflinks.isRejected()) {
-        status = REJECTED
-        records[idx].status = status
-      }
-      //
-      //  No data
-      //
-      if (!data) {
-        status = NODATA
-        records[idx].status = status
-      }
-      //
-      //  Next Step - update store
-      //
-      else {
-        //
-        // Update the count
-        //
-        count = data.length
-        records[idx].count = count
-
-        debugLogging('countReflinks count', count)
-        //
-        // update ValtioStore - Data
-        //
-        debugLogging('update v_RefLinks', data)
-        ValtioStore.v_RefLinks = data
-      }
-      //
-      //  Update Status
-      //
-      if (g_PromiseCount === g_PromiseTotal) updateFetchStatus()
-      //
-      //  Return
-      //
-      debugFunEnd()
-      return
-    })
-
-    //
-    //  Return Promise
-    //
-    debugFunEnd()
-    return myPromiseReflinks
-  }
-
   //...................................................................................
   //.  Load Server - Group1Owner
   //...................................................................................
   const LoadServerGroup1Owner = idx => {
-    debugFunStart('LoadServerGroup1Owner')
+    if (debugFunStart) console.log('LoadServerGroup1Owner')
 
     //
     //  Initial values
@@ -585,7 +180,6 @@ const QuizServerData = () => {
     //
     const getTableparams = {
       sqlCaller: functionName,
-      sqlURL: URL_BASE,
       sqlTable: 'group1',
       sqlAction: 'SELECTSQL',
       sqlString:
@@ -597,8 +191,8 @@ const QuizServerData = () => {
     //
     myPromiseGroup1Owner.then(function (data) {
       g_PromiseCount++
-      debugFunStart('myPromiseGroup1Owner')
-      debugLogging('myPromiseGroup1Owner data ', data)
+      if (debugFunStart) console.log('myPromiseGroup1Owner')
+      if (debugLog) console.log('myPromiseGroup1Owner data ', data)
       //
       //  Update Status
       //
@@ -626,7 +220,7 @@ const QuizServerData = () => {
         //
         count = data.length
         records[idx].count = count
-        debugLogging('countGroup1Owner count', count)
+        if (debugLog) console.log('countGroup1Owner count', count)
         //
         //  Load Options and Store
         //
@@ -639,21 +233,21 @@ const QuizServerData = () => {
       //
       //  Return
       //
-      debugFunEnd()
+
       return
     })
 
     //
     //  Return Promise
     //
-    debugFunEnd()
+
     return myPromiseGroup1Owner
   }
   //...................................................................................
   //.  Load Server - Group2
   //...................................................................................
   const LoadServerGroup2 = idx => {
-    debugFunStart('LoadServerGroup2')
+    if (debugFunStart) console.log('LoadServerGroup2')
     //
     //  Initial values
     //
@@ -666,7 +260,6 @@ const QuizServerData = () => {
     //
     const getTableparams = {
       sqlCaller: functionName,
-      sqlURL: URL_BASE,
       sqlTable: 'group2',
       sqlAction: 'SELECT',
       sqlWhere: '',
@@ -678,8 +271,8 @@ const QuizServerData = () => {
     //
     myPromiseGroup2.then(function (data) {
       g_PromiseCount++
-      debugFunStart('myPromiseGroup2')
-      debugLogging('myPromiseGroup2 data ', data)
+      if (debugFunStart) console.log('myPromiseGroup2')
+      if (debugLog) console.log('myPromiseGroup2 data ', data)
       //
       //  Update Status
       //
@@ -708,7 +301,7 @@ const QuizServerData = () => {
         count = data.length
         records[idx].count = count
 
-        debugLogging('countGroup2 count', count)
+        if (debugLog) console.log('countGroup2 count', count)
         //
         //  Update Store
         //
@@ -721,21 +314,21 @@ const QuizServerData = () => {
       //
       //  Return
       //
-      debugFunEnd()
+
       return
     })
 
     //
     //  Return Promise
     //
-    debugFunEnd()
+
     return myPromiseGroup2
   }
   //...................................................................................
   //.  Load Server - Group3
   //...................................................................................
   const LoadServerGroup3 = idx => {
-    debugFunStart('LoadServerGroup3')
+    if (debugFunStart) console.log('LoadServerGroup3')
     //
     //  Initial values
     //
@@ -748,7 +341,6 @@ const QuizServerData = () => {
     //
     const getTableparams = {
       sqlCaller: functionName,
-      sqlURL: URL_BASE,
       sqlTable: 'group3',
       sqlAction: 'SELECT',
       sqlWhere: '',
@@ -760,15 +352,15 @@ const QuizServerData = () => {
     //
     myPromiseGroup3.then(function (data) {
       g_PromiseCount++
-      debugFunStart('myPromiseGroup3')
-      debugLogging('myPromiseGroup3 data ', data)
+      if (debugFunStart) console.log('myPromiseGroup3')
+      if (debugLog) console.log('myPromiseGroup3 data ', data)
       //
       //  Update Status
       //
       if (myPromiseGroup3.isFulfilled()) {
         status = FULFILLED
         records[idx].status = status
-        debugLogging('records[idx].status ', records[idx].status)
+        if (debugLog) console.log('records[idx].status ', records[idx].status)
       }
       if (myPromiseGroup3.isRejected()) {
         status = REJECTED
@@ -790,7 +382,7 @@ const QuizServerData = () => {
         //
         count = data.length
         records[idx].count = count
-        debugLogging('countGroup3 count', count)
+        if (debugLog) console.log('countGroup3 count', count)
 
         //
         //  Update Store
@@ -804,50 +396,42 @@ const QuizServerData = () => {
       //
       //  Return
       //
-      debugFunEnd()
+
       return
     })
 
     //
     //  Return Promise
     //
-    debugFunEnd()
+
     return myPromiseGroup3
   }
   //...................................................................................
   //.  Load the dropdown options
   //...................................................................................
   const LoadOptions = () => {
-    debugFunStart('LoadOptions')
-    debugLogging('LoadOptions start ')
+    if (debugFunStart) console.log('LoadOptions')
+    //
+    //  Load data
+    //
     g_PromiseCount = 0
-
     LoadServerOwner(0)
-    LoadServerQuestions(1)
-    LoadServerBidding(2)
-    LoadServerHands(3)
-    LoadServerReflinks(4)
-    LoadServerGroup1Owner(5)
-    LoadServerGroup2(6)
-    LoadServerGroup3(7)
-
-    debugFunEnd()
+    LoadServerGroup1Owner(1)
+    LoadServerGroup2(2)
+    LoadServerGroup3(3)
   }
   //...................................................................................
   //.  Form Submit
   //...................................................................................
   const SubmitForm = e => {
-    debugFunStart('SubmitForm')
-    ValtioStore.v_PagePrevious = CurrentPage
-    ValtioStore.v_Page = g_Page
-
-    debugFunEnd()
+    if (debugFunStart) console.log('SubmitForm')
+    handlePage('QuizSelect')
   }
   //...................................................................................
   //.  Update Fetch Status
   //...................................................................................
   const updateFetchStatus = () => {
-    debugFunStart('updateFetchStatus')
+    if (debugFunStart) console.log('updateFetchStatus')
     //
     //  Status value
     //
@@ -858,16 +442,13 @@ const QuizServerData = () => {
     //
     if (newFulfilled) {
       setFulfilled(newFulfilled)
-      debugLogging('newFulfilled Final', newFulfilled)
+      if (debugLog) console.log('newFulfilled Final', newFulfilled)
     }
-
-    debugFunEnd()
   }
   //...................................................................................
   //.  Main Line
   //...................................................................................
-  debugStack = []
-  debugFunStart(debugModule)
+  if (debugFunStart) console.log(debugModule)
 
   useEffect(() => {
     LoadOptions()
@@ -877,14 +458,10 @@ const QuizServerData = () => {
   //
   //  Populate the Table
   //
-  const { TblContainer, TblHead, TblPagination } = useMyTable(
-    records,
-    headCells,
-    filterFn
-  )
-  debugLogging('Render the Form ')
-  debugLogging('records ', records)
-  debugLogging('g_PromiseCount ', g_PromiseCount)
+  const { TblContainer, TblHead, TblPagination } = useMyTable(records, headCells, filterFn)
+  if (debugLog) console.log('Render the Form ')
+  if (debugLog) console.log('records ', records)
+  if (debugLog) console.log('g_PromiseCount ', g_PromiseCount)
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -913,7 +490,6 @@ const QuizServerData = () => {
               <MyButton
                 text='Quiz Selection'
                 onClick={() => {
-                  g_Page = 'QuizSelect'
                   SubmitForm()
                 }}
               />

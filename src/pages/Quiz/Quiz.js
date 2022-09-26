@@ -37,14 +37,14 @@ let g_Idx = 0
 let g_quizQuest = []
 let g_questCount = 0
 let g_quizRow = {}
+let g_quizAns = []
 //===================================================================================
-const Quiz = () => {
+const Quiz = ({ handlePage }) => {
   if (debugLog) console.log('Start Quiz')
   //
   //  Define the ValtioStore
   //
   const snapShot = useSnapshot(ValtioStore)
-  const CurrentPage = snapShot.v_Page
   //
   //  Show Linear Bars ?
   //
@@ -67,9 +67,12 @@ const Quiz = () => {
     //
     //  Get store data & copy to State
     //
-    if (debugLog) console.log('snapShot.v_QFilterSort ', snapShot.v_QFilterSort)
+    const Data_Questions_SortedJSON = sessionStorage.getItem('Data_Questions_Sorted')
+    const Data_Questions_Sorted = JSON.parse(Data_Questions_SortedJSON)
+    if (debugLog) console.log(Data_Questions_Sorted)
+
     let quest = []
-    snapShot.v_QFilterSort.forEach(row => {
+    Data_Questions_Sorted.forEach(row => {
       const rowData = { ...row }
       if (debugLog) console.log('rowData ', rowData)
       quest.push(rowData)
@@ -87,8 +90,9 @@ const Quiz = () => {
     //
     // Reset Answers
     //
-    ValtioStore.v_Help = ''
-    ValtioStore.v_Ans = []
+    g_quizAns = []
+    const Data_AnswersJSON = JSON.stringify(g_quizAns)
+    sessionStorage.setItem('Data_Answers', Data_AnswersJSON)
     setAnsPass(0)
     setAnsCount(0)
   }
@@ -108,7 +112,10 @@ const Quiz = () => {
     //   Write Answers
     //
     if (debugLog) console.log('g_Idx ', g_Idx, 'id ', id)
-    ValtioStore.v_Ans[g_Idx] = id
+    g_quizAns[g_Idx] = id
+    const Data_AnswersJSON = JSON.stringify(g_quizAns)
+    sessionStorage.setItem('Data_Answers', Data_AnswersJSON)
+
     const nextAnsCount = ansCount + 1
     setAnsCount(nextAnsCount)
     if (debugLog) console.log('nextAnsCount ', nextAnsCount)
@@ -116,13 +123,11 @@ const Quiz = () => {
     //  End of data
     //
     if (g_Idx + 1 >= g_questCount) {
-      if (debugLog) console.log('v_Ans', snapShot.v_Ans)
+      if (debugLog) console.log('g_quizAns', g_quizAns)
       //
       //  Review
       //
-      ValtioStore.v_PagePrevious = CurrentPage
-      ValtioStore.v_Page = 'QuizReview'
-      return
+      handlePage('QuizReview')
     }
     //
     //  Next row
@@ -154,17 +159,6 @@ const Quiz = () => {
     if (debugLog) console.log('No data')
     return <p style={{ color: 'red' }}>No data</p>
   }
-  //
-  //  Set Help Article (for layout button)
-  //
-  let help = null
-  if (g_quizRow.qrefs) {
-    if (debugLog) console.log('g_quizRow.qrefs[0] ', g_quizRow.qrefs[0])
-    help = g_quizRow.qrefs[0]
-  }
-  ValtioStore.v_Help = help
-  if (debugLog) console.log('help ', help)
-
   if (debugLog) console.log('g_quizRow ', g_quizRow)
   if (debugLog) console.log('g_quizRow.qid ', g_quizRow.qid)
   //...................................................................................
@@ -176,27 +170,11 @@ const Quiz = () => {
       <QuizBidding qid={g_quizRow.qid} />
       <QuizHands qid={g_quizRow.qid} />
 
-      <QuizPanel
-        key={g_quizRow.qid}
-        quizRow={g_quizRow}
-        handleSelect={handleSelect}
-      />
+      <QuizPanel key={g_quizRow.qid} quizRow={g_quizRow} handleSelect={handleSelect} />
       {/* .......................................................................................... */}
-      {showLinearProgress ? (
-        <QuizLinearProgress
-          count={ansCount}
-          total={g_questCount}
-          text={'Progress'}
-        />
-      ) : null}
+      {showLinearProgress ? <QuizLinearProgress count={ansCount} total={g_questCount} text={'Progress'} /> : null}
       {/* .......................................................................................... */}
-      {showLinearScore ? (
-        <QuizLinearProgress
-          count={ansPass}
-          total={ansCount}
-          text={'Score'}
-        ></QuizLinearProgress>
-      ) : null}
+      {showLinearScore ? <QuizLinearProgress count={ansPass} total={ansCount} text={'Score'}></QuizLinearProgress> : null}
 
       <QuizInfo />
     </>

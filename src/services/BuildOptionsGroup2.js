@@ -3,62 +3,11 @@
 //
 import debugSettings from '../debug/debugSettings'
 //
-//  Utilities debugFunStart
-//
-import { ValtioStore } from '../pages/ValtioStore'
-//
 // Debug Settings
 //
 const debugLog = debugSettings()
-const debugFunStartSetting = false
-const debugFunEndSetting = false
-const debugModule = 'BuildOptionsGroup2'
-let debugStack = []
 //===================================================================================
 const BuildOptionsGroup2 = data => {
-  //.............................................................................
-  //.  Debug Logging
-  //.............................................................................
-  const debugLogging = (objtext, obj) => {
-    if (debugLog) {
-      //
-      //  Object passed
-      //
-      let JSONobj = ''
-      if (obj) {
-        JSONobj = JSON.parse(JSON.stringify(obj))
-      }
-      //
-      //  Output values
-      //
-      console.log('VALUES: Stack ', debugStack, objtext, JSONobj)
-    }
-  }
-  //.............................................................................
-  //.  function start
-  //.............................................................................
-  const debugFunStart = funname => {
-    debugStack.push(funname)
-    if (debugFunStartSetting)
-      console.log('Stack: debugFunStart ==> ', funname, debugStack)
-  }
-  //.............................................................................
-  //.  function End
-  //.............................................................................
-  const debugFunEnd = () => {
-    if (debugStack.length > 1) {
-      const funname = debugStack.pop()
-      if (debugFunEndSetting)
-        console.log('Stack: debugFunEnd <==== ', funname, debugStack)
-    }
-  }
-  //.............................................................................
-  //.  Main Line
-  //.............................................................................
-  debugStack = []
-  debugFunStart(debugModule)
-
-  debugLogging('Data ', data)
   //
   //  Options
   //
@@ -81,9 +30,8 @@ const BuildOptionsGroup2 = data => {
   //
   //  Store
   //
-  ValtioStore.v_Group2Options = Group2Options
-  debugLogging('Group2Options ', Group2Options)
-
-  debugFunEnd()
+  const Data_Options_Group2JSON = JSON.stringify(Group2Options)
+  sessionStorage.setItem('Data_Options_Group2', Data_Options_Group2JSON)
+  if (debugLog) console.log('Group2Options ', Group2Options)
 }
 export default BuildOptionsGroup2

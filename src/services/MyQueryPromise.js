@@ -1,21 +1,34 @@
+//
+//  Debug Settings
+//
+import debugSettings from '../debug/debugSettings'
+//
+// Debug Settings
+//
+const debugLog = debugSettings()
+//=====================================================================================
 function MyQueryPromise(promise) {
+  if (debugLog) console.log('Start MyQueryPromise')
+
   if (promise.isFulfilled) return promise
 
   // Set initial state
-  let isPending = true
-  let isRejected = false
-  let isFulfilled = false
+  var isPending = true
+  var isRejected = false
+  var isFulfilled = false
 
   // Observe the promise, saving the fulfillment in a closure scope.
-  const result = promise.then(
+  var result = promise.then(
     function (v) {
       isFulfilled = true
       isPending = false
+      if (debugLog) console.log(typeof v, v)
       return v
     },
     function (e) {
       isRejected = true
       isPending = false
+      if (debugLog) console.log(typeof e, e)
       throw e
     }
   )
@@ -29,6 +42,7 @@ function MyQueryPromise(promise) {
   result.isRejected = function () {
     return isRejected
   }
+  if (debugLog) console.log(typeof result, result)
   return result
 }
 

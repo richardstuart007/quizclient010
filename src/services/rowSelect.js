@@ -9,31 +9,48 @@ import debugSettings from '../debug/debugSettings'
 //
 // Constants
 //
-const sqlClient = 'rowUpsert'
+const sqlClient = 'rowSelect'
 const { URL_TABLES } = require('./constants.js')
+//..............................................................................
+//.  Initialisation
+//.............................................................................
 //
 // Debug Settings
 //
 const debugLog = debugSettings()
 //===================================================================================
-async function rowUpsert(props) {
+async function rowSelect(props) {
+  if (debugLog) console.log('Start getTable')
+  if (debugLog) console.log('props ', props)
   //--------------------------------------------------------------------
-  //  Database Update
-  //
-  const updateDatabase = async () => {
+  //.  fetch data
+  //--------------------------------------------------------------------
+  const fetchItems = async () => {
     try {
       //
       //  Setup actions
       //
       const method = 'post'
+      //
+      //  sqlString
+      //
+      let sqlString = `* from ${sqlTable}`
+      if (sqlWhere) sqlString = sqlString.concat(' ' + sqlWhere)
+      if (sqlOrderBy) sqlString = sqlString.concat(' ' + sqlOrderBy)
+      if (sqlRows) sqlString = sqlString.concat(' ' + sqlRows)
+      //
+      //  Body
+      //
       const body = {
         sqlClient: sqlClient,
-        sqlTable: sqlTable,
-        sqlAction: 'UPSERT',
-        sqlKeyName: sqlKeyName,
-        sqlRow: sqlRow
+        sqlString: sqlString,
+        sqlAction: 'SELECTSQL',
+        sqlTable: sqlTable
       }
-      const URL = Settings_URL + URL_TABLES
+      //
+      //  URL
+      //
+      const URL = sqlURL + URL_TABLES
       if (debugLog) console.log('URL ', URL)
       //
       //  SQL database
@@ -46,8 +63,10 @@ async function rowUpsert(props) {
       if (!resultData[0]) {
         throw Error('No data received')
       }
-      const rowReturned = resultData[0]
-      if (debugLog) console.log('rowReturned ', rowReturned)
+      //
+      // Return data
+      //
+      if (debugLog) console.log('Return Data', resultData)
       return resultData
       //
       // Errors
@@ -60,22 +79,16 @@ async function rowUpsert(props) {
   //--------------------------------------------------------------------
   //-  Main Line
   //--------------------------------------------------------------------
-  if (debugLog) console.log('Start rowUpsert')
+  if (debugLog) console.log('Start rowSelect')
   //
-  //  Deconstruct
+  //  Deconstruct props
   //
-  const { sqlTable, sqlKeyName, sqlRow } = props
   if (debugLog) console.log('props: ', props)
+  const { sqlURL, sqlTable, sqlOrderBy, sqlWhere, sqlRows } = props
   //
-  //  Get the URL
+  // Fetch the data
   //
-  const Settings_URLJSON = sessionStorage.getItem('Settings_URL')
-  const Settings_URL = JSON.parse(Settings_URLJSON)
-  if (debugLog) console.log('Settings_URL ', Settings_URL)
-  //
-  // Database Update
-  //
-  const promise = updateDatabase()
+  const promise = fetchItems()
   //
   // Return promise
   //
@@ -83,4 +96,4 @@ async function rowUpsert(props) {
   return promise
 }
 
-export default rowUpsert
+export default rowSelect

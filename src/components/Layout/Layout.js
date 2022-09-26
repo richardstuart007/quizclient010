@@ -1,14 +1,7 @@
 //
 //  Libraries
 //
-import {
-  Typography,
-  AppBar,
-  Toolbar,
-  Avatar,
-  Grid,
-  CardMedia
-} from '@mui/material'
+import { Typography, AppBar, Toolbar, Avatar, Grid, CardMedia } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
@@ -65,9 +58,9 @@ const useStyles = makeStyles(theme => {
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 //===================================================================================
-export default function Layout({ children }) {
+export default function Layout({ handlePage, page, children }) {
   if (debugLog) console.log('Start Layout')
   //
   //  Define the ValtioStore
@@ -86,10 +79,10 @@ export default function Layout({ children }) {
   //  Title
   //
   let title
-  const CurrentPage = snapShot.v_Page
+  if (debugLog) console.log('page ', page)
   let showWelcome = true
 
-  switch (CurrentPage) {
+  switch (page) {
     case 'QuizSettings':
       title = 'Settings'
       break
@@ -117,13 +110,16 @@ export default function Layout({ children }) {
       title = 'Review'
       break
     default:
-      title = CurrentPage
+      title = page
       break
   }
   //
   //  Add server
   //
-  const server = `(Server:${snapShot.v_Server})`
+  const Settings_ServerJSON = sessionStorage.getItem('Settings_Server')
+  const Settings_Server = JSON.parse(Settings_ServerJSON)
+  if (debugLog) console.log('Settings_Server ', Settings_Server)
+  const server = `(Server:${Settings_Server})`
   //
   //  User
   //
@@ -136,12 +132,7 @@ export default function Layout({ children }) {
       {/* .......................................................................................... */}
       {/* app bar                                         */}
       {/* .......................................................................................... */}
-      <AppBar
-        position='fixed'
-        className={classes.appBar}
-        elevation={0}
-        color='primary'
-      >
+      <AppBar position='fixed' className={classes.appBar} elevation={0} color='primary'>
         <Toolbar>
           <Grid container alignItems='center'>
             {/* .......................................................................................... */}
@@ -154,10 +145,7 @@ export default function Layout({ children }) {
             </Grid>
             {/* .......................................................................................... */}
             <Grid item>
-              <Typography
-                className={classes.server}
-                sx={{ display: { xs: 'none', sm: 'inline' } }}
-              >
+              <Typography className={classes.server} sx={{ display: { xs: 'none', sm: 'inline' } }}>
                 {server}
               </Typography>
             </Grid>
@@ -190,7 +178,7 @@ export default function Layout({ children }) {
               />
             </Grid>
             {/* .......................................................................................... */}
-            {ScreenMedium && <QuizNavigation />}
+            {ScreenMedium && <QuizNavigation handlePage={handlePage} page={page} />}
             {/* .......................................................................................... */}
           </Grid>
         </Toolbar>
@@ -200,7 +188,7 @@ export default function Layout({ children }) {
       {/* .......................................................................................... */}
       <div className={classes.page}>
         <div className={classes.toolbar}></div>
-        {!ScreenMedium && <QuizNavigation />}
+        {!ScreenMedium && <QuizNavigation handlePage={handlePage} page={page} />}
         {children}
       </div>
     </div>

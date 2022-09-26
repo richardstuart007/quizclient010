@@ -3,62 +3,12 @@
 //
 import debugSettings from '../debug/debugSettings'
 //
-//  Utilities debugFunStart
-//
-import { ValtioStore } from '../pages/ValtioStore'
-//
 // Debug Settings
 //
 const debugLog = debugSettings()
-const debugFunStartSetting = false
-const debugFunEndSetting = false
-const debugModule = 'BuildOptionsOwner'
-let debugStack = []
 //===================================================================================
 const BuildOptionsOwner = data => {
-  //.............................................................................
-  //.  Debug Logging
-  //.............................................................................
-  const debugLogging = (objtext, obj) => {
-    if (debugLog) {
-      //
-      //  Object passed
-      //
-      let JSONobj = ''
-      if (obj) {
-        JSONobj = JSON.parse(JSON.stringify(obj))
-      }
-      //
-      //  Output values
-      //
-      console.log('VALUES: Stack ', debugStack, objtext, JSONobj)
-    }
-  }
-  //.............................................................................
-  //.  function start
-  //.............................................................................
-  const debugFunStart = funname => {
-    debugStack.push(funname)
-    if (debugFunStartSetting)
-      console.log('Stack: debugFunStart ==> ', funname, debugStack)
-  }
-  //.............................................................................
-  //.  function End
-  //.............................................................................
-  const debugFunEnd = () => {
-    if (debugStack.length > 1) {
-      const funname = debugStack.pop()
-      if (debugFunEndSetting)
-        console.log('Stack: debugFunEnd <==== ', funname, debugStack)
-    }
-  }
-  //.............................................................................
-  //.  Main Line
-  //.............................................................................
-  debugStack = []
-  debugFunStart(debugModule)
-
-  debugLogging('Data Options Owner ', data)
+  if (debugLog) console.log('Data Options Owner ', data)
   //
   //  Options
   //
@@ -71,7 +21,7 @@ const BuildOptionsOwner = data => {
   //  Default ALL ?
   //
   const ShowAllOwner = false
-  debugLogging('ShowAllOwner ', ShowAllOwner)
+  if (debugLog) console.log('ShowAllOwner ', ShowAllOwner)
   if (ShowAllOwner) {
     itemObj = {
       id: 'All',
@@ -92,9 +42,8 @@ const BuildOptionsOwner = data => {
   //
   //  Store
   //
-  ValtioStore.v_OwnerOptions = OwnerOptions
-  debugLogging('OwnerOptions ', OwnerOptions)
-
-  debugFunEnd()
+  const Data_Options_OwnerJSON = JSON.stringify(OwnerOptions)
+  sessionStorage.setItem('Data_Options_Owner', Data_Options_OwnerJSON)
+  if (debugLog) console.log('OwnerOptions ', OwnerOptions)
 }
 export default BuildOptionsOwner

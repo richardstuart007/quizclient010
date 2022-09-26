@@ -2,11 +2,6 @@ import { proxy } from 'valtio'
 
 const ValtioStore = proxy({
   //
-  //  Server
-  //
-  v_URL: '',
-  v_Server: '',
-  //
   // Settings
   //
   v_HideParams: false,
@@ -14,10 +9,8 @@ const ValtioStore = proxy({
   v_ReviewSkipPass: true,
   v_AllowSelection: true,
   v_ShowQid: true,
-  v_ShowInfo: false,
-  v_ShowLinearProgress: true,
-  v_ShowLinearScore: true,
-  v_ShowButtonHelp: false,
+  v_ShowLinearProgress: false,
+  v_ShowLinearScore: false,
   v_ShowButtonSettings: false,
   v_ShowSelectionOwner: true,
   v_ShowAllOwner: false,
@@ -29,8 +22,6 @@ const ValtioStore = proxy({
   //  Navigation State Variables
   //
   v_Params: null,
-  v_Page: 'QuizSplash',
-  v_PagePrevious: '',
   v_DataLoad: true,
   //
   //  Signon Information
@@ -39,41 +30,17 @@ const ValtioStore = proxy({
   v_Name: 't',
   v_SignedIn: false,
   //
-  //  Data - All Options
-  //
-  v_OwnerOptions: [],
-  v_Group1OptionsOwner: [],
-  v_Group2Options: [],
-  v_Group3Options: [],
-  //
-  //  Data - All
-  //
-  v_Questions: [],
-  v_Hands: [],
-  v_Bidding: [],
-  v_RefLinks: [],
-  //
   //  Data Selection Parameters
   //
   v_Owner: 'NZBridge',
-  v_Group1: '',
+  v_Group1: 'NZBIMP01',
   v_Group2: 'All',
   v_Group3: 'All',
   v_MaxQuestions: 20,
   //
-  //  Data - Selected
-  //
-  v_QFilter: [],
-  v_QFilterSort: [],
-  v_QCount: 0,
-  v_QRefs: [],
-  v_QRefsCount: 0,
-  //
   //  Quiz State Variables
   //
-  v_Reset: true,
-  v_Help: '',
-  v_Ans: []
+  v_Reset: true
 })
 
 export { ValtioStore }

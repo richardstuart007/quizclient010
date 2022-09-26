@@ -27,7 +27,7 @@ import QuizInfo from '../Common/QuizInfo'
 //  Utilities
 //
 import { ValtioStore } from '../ValtioStore'
-import writeUsersResults from '../../services/writeUsersResults'
+import writeHistory from '../../services/writeHistory'
 //.............................................................................
 //.  Initialisation
 //.............................................................................
@@ -36,7 +36,7 @@ import writeUsersResults from '../../services/writeUsersResults'
 //
 const debugLog = debugSettings()
 //===================================================================================
-const QuizReview = () => {
+const QuizReview = props => {
   if (debugLog) console.log('Start QuizReview')
   //
   //  Define the ValtioStore
@@ -48,9 +48,6 @@ const QuizReview = () => {
   const [countPass, setCountPass] = useState(0)
   const [countAns, setCountAns] = useState(0)
   const [countReview, setCountReview] = useState(0)
-  //
-  //
-  //
   const [mark, setMark] = useState(0)
   const [quizRow, setQuizRow] = useState(null)
   //
@@ -69,19 +66,30 @@ const QuizReview = () => {
     //  Initialise global variables
     //
     if (debugLog) console.log('Initialise global variables')
-    if (debugLog) console.log('snapShot.v_Ans ', snapShot.v_Ans)
     //
-    //  Get store data - Questions
+    //  Get Store Values
+    //
+    const Data_Questions_SortedJSON = sessionStorage.getItem('Data_Questions_Sorted')
+    const Data_Questions_Sorted = JSON.parse(Data_Questions_SortedJSON)
+    const Data_AnswersJSON = sessionStorage.getItem('Data_Answers')
+    const Data_Answers = JSON.parse(Data_AnswersJSON)
+    const Answered = Data_Answers.length
+    //
+    //  Questions
     //
     let ArrQuestions = []
-    snapShot.v_QFilterSort.forEach(row => {
+    let r_qid = []
+    let count = 0
+    Data_Questions_Sorted.forEach(row => {
       const rowData = { ...row }
       ArrQuestions.push(rowData)
+      count++
+      if (count <= Answered) r_qid.push(row.qid)
     })
     if (debugLog) console.log('ArrQuestions ', ArrQuestions)
     setArrQuest(ArrQuestions)
     //
-    //  Get store data - Answers
+    //  Answers
     //
     let Ans = []
     let AnsNum = []
@@ -89,7 +97,8 @@ const QuizReview = () => {
     let AnsCount = 0
     let AnsQuestIdx = -1
     let AnsReview = 0
-    snapShot.v_Ans.forEach(id => {
+
+    Data_Answers.forEach(id => {
       AnsCount++
       AnsQuestIdx++
       //
@@ -133,32 +142,31 @@ const QuizReview = () => {
     //
     //  Write Results
     //
-    const sqlURL = snapShot.v_URL
-    const r_email = snapShot.v_Email
-    const r_datetime = new Date()
-    const r_owner = snapShot.v_Owner
-    const r_group1 = snapShot.v_Group1
-    const r_questions = AnsCount
-    const r_correct = AnsPass
-    //
-    //  Build row
-    //
-    const sqlRow = {
-      r_email: r_email,
-      r_datetime: r_datetime,
-      r_owner: r_owner,
-      r_group1: r_group1,
-      r_questions: r_questions,
-      r_correct: r_correct
+    if (Answered > 0) {
+      const r_email = snapShot.v_Email
+      const r_datetime = new Date()
+      const r_owner = snapShot.v_Owner
+      const r_group1 = snapShot.v_Group1
+      const r_questions = AnsCount
+      const r_correct = AnsPass
+
+      const r_ans = Data_Answers
+      //
+      //  Build row
+      //
+      const sqlRow = {
+        r_email: r_email,
+        r_datetime: r_datetime,
+        r_owner: r_owner,
+        r_group1: r_group1,
+        r_questions: r_questions,
+        r_correct: r_correct,
+        r_qid: r_qid,
+        r_ans: r_ans
+      }
+      if (debugLog) console.log('sqlRow ', sqlRow)
+      writeHistory(sqlRow)
     }
-    //
-    //  Build Parameters & Write Results
-    //
-    const props = {
-      sqlURL: sqlURL,
-      sqlRow: sqlRow
-    }
-    writeUsersResults(props)
   }
   //...................................................................................
   //.  Next Question
@@ -211,38 +219,21 @@ const QuizReview = () => {
     return (
       <>
         <Typography variant='subtitle1' sx={{ marginTop: '8px' }}>
-          Result ({mark}%) {countPass} out of {countAns}. No incorrect answers
-          to review.
+          Result ({mark}%) {countPass} out of {countAns}. No incorrect answers to review.
         </Typography>
-        <Typography
-          variant='subtitle1'
-          sx={{ marginTop: '8px' }}
-          style={{ color: 'red' }}
-        >
+        <Typography variant='subtitle1' sx={{ marginTop: '8px' }} style={{ color: 'red' }}>
           WELL DONE !!
         </Typography>
       </>
     )
   }
   //
-  //  Set Help Article
-  //
-  let help = null
-  if (quizRow.qrefs[0]) {
-    if (debugLog) console.log('quizRow.qrefs[0] ', quizRow.qrefs[0])
-    help = quizRow.qrefs[0]
-  }
-  ValtioStore.v_Help = help
-  if (debugLog) console.log('help ', help)
-  //
   //  Hide/Show Previous/Next Buttons
   //
   let hidePreviousButton
   ansIdx + 1 === 1 ? (hidePreviousButton = true) : (hidePreviousButton = false)
   let hideNextButton
-  ansIdx + 1 === countReview
-    ? (hideNextButton = true)
-    : (hideNextButton = false)
+  ansIdx + 1 === countReview ? (hideNextButton = true) : (hideNextButton = false)
 
   if (debugLog) console.log('quizRow ', quizRow)
   if (debugLog) console.log('ansIdx ', ansIdx)
@@ -263,23 +254,9 @@ const QuizReview = () => {
       <QuizReviewAnswers quizRow={quizRow} AnswerNum={arrAns[ansIdx]} />
 
       <Box sx={{ mt: 2 }}>
-        {hideNextButton ? null : (
-          <MyButton
-            type='submit'
-            text='Next'
-            color='primary'
-            variant='contained'
-            onClick={() => nextQuestion()}
-          />
-        )}
+        {hideNextButton ? null : <MyButton type='submit' text='Next' color='primary' variant='contained' onClick={() => nextQuestion()} />}
         {hidePreviousButton ? null : (
-          <MyButton
-            type='submit'
-            text='Previous'
-            color='primary'
-            variant='contained'
-            onClick={() => handlePrevious()}
-          />
+          <MyButton type='submit' text='Previous' color='primary' variant='contained' onClick={() => handlePrevious()} />
         )}
       </Box>
 

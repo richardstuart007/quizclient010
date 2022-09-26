@@ -20,7 +20,6 @@ import QuizInfo from '../Common/QuizInfo'
 //
 //  Utilities
 //
-import { useSnapshot } from 'valtio'
 import { ValtioStore } from '../ValtioStore'
 //..............................................................................
 //.  Initialisation
@@ -50,7 +49,7 @@ const initialFValues = {
   password: ''
 }
 //===================================================================================
-function QuizRegister() {
+function QuizRegister({ handlePage }) {
   //.............................................................................
   //.  Input field validation
   //.............................................................................
@@ -68,16 +67,13 @@ function QuizRegister() {
     //  email
     //
     if ('email' in fieldValues) {
-      temp.email = validateEmail(fieldValues.email)
-        ? ''
-        : 'Email is not a valid format'
+      temp.email = validateEmail(fieldValues.email) ? '' : 'Email is not a valid format'
     }
     //
     //  password
     //
     if ('password' in fieldValues) {
-      temp.password =
-        fieldValues.password.length !== 0 ? '' : 'This field is required.'
+      temp.password = fieldValues.password.length !== 0 ? '' : 'This field is required.'
     }
     //
     //  Set the errors
@@ -121,7 +117,7 @@ function QuizRegister() {
     //
     //  Post to server
     //
-    const URL = URL_BASE + URL_REGISTER
+    const URL = Settings_URL + URL_REGISTER
     fetch(URL, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -140,8 +136,7 @@ function QuizRegister() {
           setForm_message(`Data updated in Database with ID(${user.u_id})`)
           ValtioStore.v_Email = email
           ValtioStore.v_Name = name
-          ValtioStore.v_PagePrevious = CurrentPage
-          ValtioStore.v_Page = 'QuizSignin'
+          handlePage('QuizSignin')
         } else {
           setForm_message('User not registered')
         }
@@ -154,12 +149,12 @@ function QuizRegister() {
   //.  Main Line
   //...................................................................................
   if (debugFunStartSetting) console.log(debugModule)
-  const CurrentPage = 'QuizRegister'
   //
-  //  Define the ValtioStore
+  //  Get the URL
   //
-  const snapShot = useSnapshot(ValtioStore)
-  const URL_BASE = snapShot.v_URL
+  const Settings_URLJSON = sessionStorage.getItem('Settings_URL')
+  const Settings_URL = JSON.parse(Settings_URLJSON)
+  if (debugLog) console.log('Settings_URL ', Settings_URL)
   //
   // Form Message
   //
@@ -167,11 +162,7 @@ function QuizRegister() {
   //
   //  Interface to Form
   //
-  const { values, setValues, errors, setErrors, handleInputChange } = useMyForm(
-    initialFValues,
-    true,
-    validate
-  )
+  const { values, errors, setErrors, handleInputChange } = useMyForm(initialFValues, true, validate)
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -181,42 +172,18 @@ function QuizRegister() {
         <Grid container spacing={2}>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <MyInput
-              name='name'
-              label='name'
-              value={values.name}
-              onChange={handleInputChange}
-              error={errors.name}
-            />
+            <MyInput name='name' label='name' value={values.name} onChange={handleInputChange} error={errors.name} />
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <MyInput
-              name='fedid'
-              label='Bridge Federation Id'
-              value={values.fedid}
-              onChange={handleInputChange}
-              error={errors.fedid}
-            />
+            <MyInput name='fedid' label='Bridge Federation Id' value={values.fedid} onChange={handleInputChange} error={errors.fedid} />
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <MyInput
-              name='email'
-              label='email'
-              value={values.email}
-              onChange={handleInputChange}
-              error={errors.email}
-            />
+            <MyInput name='email' label='email' value={values.email} onChange={handleInputChange} error={errors.email} />
           </Grid>
           <Grid item xs={12}>
-            <MyInput
-              name='password'
-              label='password'
-              value={values.password}
-              onChange={handleInputChange}
-              error={errors.password}
-            />
+            <MyInput name='password' label='password' value={values.password} onChange={handleInputChange} error={errors.password} />
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>

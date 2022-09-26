@@ -1,12 +1,13 @@
 //
 // Libraries
 //
-import {
-  createTheme,
-  ThemeProvider,
-  StyledEngineProvider
-} from '@mui/material/styles'
+import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material'
+import { useState } from 'react'
+//
+//  Debug Settings
+//
+import debugSettings from '../debug/debugSettings'
 //
 //  Pages
 //
@@ -15,10 +16,6 @@ import QuizControl from '../pages/QuizControl'
 //  Common Components
 //
 import Layout from '../components/Layout/Layout'
-//
-//  Utilities
-//
-import { ValtioStore } from '../pages/ValtioStore'
 //
 //  Layout Theme
 //
@@ -32,54 +29,118 @@ const { SERVER_LOCAL_REMOTE } = require('../services/constants.js')
 const { URL_LOCAL_REMOTE } = require('../services/constants.js')
 const { SERVER_LOCAL } = require('../services/constants.js')
 const { URL_LOCAL } = require('../services/constants.js')
+//
+// Debug Settings
+//
+const debugLog = debugSettings(true)
 //----------------------------------------------------------------------------
 //- Main Line
 //----------------------------------------------------------------------------
 function App() {
+  if (debugLog) console.log(`Start APP`)
+  const [page, setPage] = useState('QuizSplash')
+  //.............................................................................
+  //.  Handle Page Change
+  //.............................................................................
+  const handlePage = newPage => {
+    if (debugLog) console.log('page ', page)
+    //
+    //  Update Previous Page = current
+    //
+    sessionStorage.setItem('Settings_v_PagePrevious', JSON.stringify(page))
+    if (debugLog) console.log(`Settings_v_PagePrevious ${JSON.parse(sessionStorage.getItem('Settings_v_PagePrevious'))}`)
+    //
+    //  Update NEW Page
+    //
+    sessionStorage.setItem('Settings_v_Page', JSON.stringify(newPage))
+    if (debugLog) console.log(`Settings_v_Page ${JSON.parse(sessionStorage.getItem('Settings_v_Page'))}`)
+    //
+    //
+    setPage(newPage)
+    if (debugLog) console.log('page ', page)
+  }
+  //.............................................................................
   //
-  //  Update Valtio store with URL and Server Name
+  //  Update URL and Server Name
   //
+  let w_Server
+  let w_URL
   let port = '9003'
   const windowport = window.location.port
   if (windowport) port = windowport
-  console.log(`port(${port})`)
+  if (debugLog) console.log(`port(${port})`)
   //
-  //  Update Valtio store with URL and Server Name - REMOTE
+  //  Update store with URL and Server Name - REMOTE
   //
   if (port === '9003') {
-    ValtioStore.v_Server = SERVER_REMOTE
-    ValtioStore.v_URL = URL_REMOTE
-    console.log(
-      `QuizClient-PORT(${port}) REMOTE: SERVER(${SERVER_REMOTE}) URL(${URL_REMOTE})`
-    )
+    w_Server = SERVER_REMOTE
+    w_URL = URL_REMOTE
   }
   //
-  //  Update Valtio store with URL and Server Name - LOCAL-->REMOTE
+  //  Update store with URL and Server Name - LOCAL-->REMOTE
   //
   if (port === '9013') {
-    ValtioStore.v_Server = SERVER_LOCAL_REMOTE
-    ValtioStore.v_URL = URL_LOCAL_REMOTE
-    console.log(
-      `QuizClient-PORT(${port}) LOCAL: SERVER(${SERVER_LOCAL_REMOTE}) URL(${URL_LOCAL_REMOTE})`
-    )
+    w_Server = SERVER_LOCAL_REMOTE
+    w_URL = URL_LOCAL_REMOTE
   }
   //
-  //  Update Valtio store with URL and Server Name - LOCAL
+  //  Update store with URL and Server Name - LOCAL
   //
   if (port === '8003') {
-    ValtioStore.v_Server = SERVER_LOCAL
-    ValtioStore.v_URL = URL_LOCAL
-    console.log(
-      `QuizClient-PORT(${port}) LOCAL: SERVER(${SERVER_LOCAL}) URL(${URL_LOCAL})`
-    )
+    w_Server = SERVER_LOCAL
+    w_URL = URL_LOCAL
   }
+  //
+  //  Store Server
+  //
+  const Settings_ServerJSON = JSON.stringify(w_Server)
+  sessionStorage.setItem('Settings_Server', Settings_ServerJSON)
+  //
+  //  Store URL
+  //
+  const Settings_URLJSON = JSON.stringify(w_URL)
+  sessionStorage.setItem('Settings_URL', Settings_URLJSON)
+  if (debugLog) console.log(`QuizClient-PORT(${port}) LOCAL: SERVER(${w_Server}) URL(${w_URL})`)
+  //
+  //  Session Storage
+  //
+  sessionStorage.setItem('Settings_v_HideParams', false)
+  sessionStorage.setItem('Settings_v_RandomSort', true)
+  sessionStorage.setItem('Settings_v_ReviewSkipPass', true)
+  sessionStorage.setItem('Settings_v_AllowSelection', true)
+  sessionStorage.setItem('Settings_v_ShowQid', true)
+  sessionStorage.setItem('Settings_v_ShowInfo', false)
+  sessionStorage.setItem('Settings_v_ShowLinearProgress', false)
+  sessionStorage.setItem('Settings_v_ShowLinearScore', false)
+  sessionStorage.setItem('Settings_v_ShowButtonSettings', false)
+  sessionStorage.setItem('Settings_v_ShowSelectionOwner', true)
+  sessionStorage.setItem('Settings_v_ShowAllOwner', false)
+  sessionStorage.setItem('Settings_v_ShowSelectionGroup1', true)
+  sessionStorage.setItem('Settings_v_ShowAllGroup1', false)
+  sessionStorage.setItem('Settings_v_ShowSelectionGroup2', false)
+  sessionStorage.setItem('Settings_v_ShowSelectionGroup3', false)
+  sessionStorage.setItem('Settings_v_Params', null)
+  sessionStorage.setItem('Settings_v_Page', JSON.stringify('QuizSplash'))
+  sessionStorage.setItem('Settings_v_PagePrevious', JSON.stringify(''))
+  sessionStorage.setItem('Settings_v_DataLoad', true)
+  sessionStorage.setItem('Settings_v_Email', JSON.stringify('t@.com'))
+  sessionStorage.setItem('Settings_v_Name', JSON.stringify('t'))
+  sessionStorage.setItem('Settings_v_SignedIn', false)
+  sessionStorage.setItem('Settings_v_Owner', JSON.stringify('NZBridge'))
+  sessionStorage.setItem('Settings_v_Group1', JSON.stringify('NZBIMP01'))
+  sessionStorage.setItem('Settings_v_Group2', JSON.stringify('All'))
+  sessionStorage.setItem('Settings_v_Group3', JSON.stringify('All'))
+  sessionStorage.setItem('Settings_v_MaxQuestions', 20)
+  sessionStorage.setItem('Settings_v_Reset', true)
+  //
+  //  Main App
   //
   return (
     <div>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <Layout>
-            <QuizControl />
+          <Layout handlePage={handlePage} page={page}>
+            <QuizControl handlePage={handlePage} page={page} />
           </Layout>
           <CssBaseline />
         </ThemeProvider>

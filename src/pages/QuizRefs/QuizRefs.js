@@ -1,7 +1,6 @@
 //
 //  Libraries
 //
-import { useSnapshot } from 'valtio'
 import { TableBody, TableRow, TableCell, Grid } from '@mui/material'
 import PreviewIcon from '@mui/icons-material/Preview'
 //
@@ -18,10 +17,6 @@ import QuizInfo from '../Common/QuizInfo'
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
-//
-//  Utilities
-//
-import { ValtioStore } from '../ValtioStore'
 //
 //  Table Heading
 //
@@ -41,41 +36,20 @@ const headCells = [
 //
 const debugLog = debugSettings()
 //=====================================================================================
-export default function QuizRefs() {
+export default function QuizRefs({ handlePage }) {
   if (debugLog) console.log('Start QuizRefs')
-  //.............................................................................
-  //.  Valtio snapShot unpack
-  //.............................................................................
-  const vUnpack = valtioField => {
-    const valtioValue = JSON.parse(JSON.stringify(valtioField))
-    return valtioValue
-  }
-  //
-  //  Define the ValtioStore
-  //
-  const snapShot = useSnapshot(ValtioStore)
 
-  const Refs = vUnpack(snapShot.v_QRefs)
-  if (debugLog) console.log('Refs ', Refs)
-
-  const CurrentPage = snapShot.v_Page
-  const PagePrevious = snapShot.v_PagePrevious
+  const PagePrevious = JSON.parse(sessionStorage.getItem('Settings_v_PagePrevious'))
   //
   //  Find reference link
   //
-  const reflinks = vUnpack(snapShot.v_RefLinks)
-  if (debugLog) console.log('reflinks ', reflinks)
+  const Data_ReflinksJSON = sessionStorage.getItem('Data_Reflinks')
+  const Data_Reflinks = JSON.parse(Data_ReflinksJSON)
+  if (debugLog) console.log('Data_Reflinks ', Data_Reflinks)
   //
   //  build records from Refs & Links
   //
-  let records = []
-  Refs.forEach(ref => {
-    const linkelement = reflinks.find(reflink => reflink.rref === ref)
-    if (linkelement) {
-      const rowData = { ...linkelement }
-      records.push(rowData)
-    }
-  })
+  let records = Data_Reflinks
   if (debugLog) console.log('records ', records)
   //.............................................................................
   //
@@ -98,10 +72,8 @@ export default function QuizRefs() {
   //
   //  Populate the Table
   //
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
-    useMyTable(records, headCells, filterFn)
-  if (debugLog)
-    console.log('recordsAfterPagingAndSorting ', recordsAfterPagingAndSorting)
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useMyTable(records, headCells, filterFn)
+  if (debugLog) console.log('recordsAfterPagingAndSorting ', recordsAfterPagingAndSorting)
   if (debugLog) console.log('records ', records)
   //...................................................................................
   //.  Render the form
@@ -136,8 +108,7 @@ export default function QuizRefs() {
           <MyButton
             text='Go Back'
             onClick={() => {
-              ValtioStore.v_PagePrevious = CurrentPage
-              ValtioStore.v_Page = PagePrevious
+              handlePage(PagePrevious)
             }}
           />
         </Grid>

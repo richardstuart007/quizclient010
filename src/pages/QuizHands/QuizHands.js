@@ -3,15 +3,10 @@
 //
 import { Typography, Table, TableBody, Card } from '@mui/material'
 import { cyan, teal } from 'material-ui-colors'
-import { useSnapshot } from 'valtio'
 //
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
-//
-//  Utilities
-//
-import { ValtioStore } from '../ValtioStore'
 //
 //  Sub Components
 //
@@ -32,22 +27,15 @@ const QuizHands = ({ qid }) => {
   if (debugLog) console.log('qid ', qid)
   let testingQid = qid
   //
-  //  Define the ValtioStore
+  //  Get hands
   //
-  const snapShot = useSnapshot(ValtioStore)
-  //
-  //  Get store HandsRow (ALL)
-  //
-  let HandsRowAll = []
-  snapShot.v_Hands.forEach(row => {
-    const rowData = { ...row }
-    HandsRowAll.push(rowData)
-  })
-  if (debugLog) console.log('HandsRowAll ', HandsRowAll)
+  const Data_HandsJSON = sessionStorage.getItem('Data_Hands')
+  const Data_Hands = JSON.parse(Data_HandsJSON)
+  if (debugLog) console.log('Data_Hands ', Data_Hands)
   //
   //  Find the HandsRow for this ID
   //
-  let HandsRow = HandsRowAll.find(element => element.hid === testingQid)
+  let HandsRow = Data_Hands.find(element => element.hid === testingQid)
   if (debugLog) console.log('HandsRow ', HandsRow)
   //
   //  Has HandsRow ?

@@ -17,6 +17,7 @@ import QuizServerData from './QuizServerData/QuizServerData'
 import QuizSelect from './QuizSelect/QuizSelect'
 import Quiz from './Quiz/Quiz'
 import QuizReview from './QuizReview/QuizReview'
+import QuizHistory from './QuizHistory/QuizHistory'
 import QuizRefs from './QuizRefs/QuizRefs'
 //
 //  Utilities
@@ -25,7 +26,7 @@ import { ValtioStore } from './ValtioStore'
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 //
 //  Global Variables
 //
@@ -35,7 +36,7 @@ let g_Page
 let g_DataLoad
 let g_SignedIn
 //===================================================================================
-function QuizControl() {
+function QuizControl({ handlePage, page }) {
   if (debugLog) console.log('Start QuizControl')
   //.............................................................................
   //.  Unpack Parameters
@@ -67,44 +68,36 @@ function QuizControl() {
     const Devmode = urlParams.get('Devmode')
     if (Devmode) {
       if (Devmode === 'true') {
-        ValtioStore.v_ShowButtonHelp = true
         ValtioStore.v_ShowButtonSettings = true
         ValtioStore.v_ShowSelectionOwner = true
         ValtioStore.v_ShowSelectionGroup1 = true
         ValtioStore.v_ShowSelectionGroup2 = true
         ValtioStore.v_ShowSelectionGroup3 = true
-        ValtioStore.v_ShowInfo = true
+        sessionStorage.setItem('Settings_v_ShowInfo', true)
       }
     }
     //..............................
     //.  Show Overrides
     //..............................
-    const ShowButtonHelp = urlParams.get('ShowButtonHelp')
-    if (ShowButtonHelp && ShowButtonHelp === 'true')
-      ValtioStore.v_ShowButtonHelp = true
-
     const ShowButtonSettings = urlParams.get('ShowButtonSettings')
-    if (ShowButtonSettings && ShowButtonSettings === 'true')
-      ValtioStore.v_ShowButtonSettings = true
+    if (ShowButtonSettings && ShowButtonSettings === 'true') ValtioStore.v_ShowButtonSettings = true
 
     const ShowSelectionOwner = urlParams.get('ShowSelectionOwner')
-    if (ShowSelectionOwner && ShowSelectionOwner === 'true')
-      ValtioStore.v_ShowSelectionOwner = true
+    if (ShowSelectionOwner && ShowSelectionOwner === 'true') ValtioStore.v_ShowSelectionOwner = true
 
     const ShowSelectionGroup1 = urlParams.get('ShowSelectionGroup1')
-    if (ShowSelectionGroup1 && ShowSelectionGroup1 === 'true')
-      ValtioStore.v_ShowSelectionGroup1 = true
+    if (ShowSelectionGroup1 && ShowSelectionGroup1 === 'true') ValtioStore.v_ShowSelectionGroup1 = true
 
     const ShowSelectionGroup2 = urlParams.get('ShowSelectionGroup2')
-    if (ShowSelectionGroup2 && ShowSelectionGroup2 === 'true')
-      ValtioStore.v_ShowSelectionGroup2 = true
+    if (ShowSelectionGroup2 && ShowSelectionGroup2 === 'true') ValtioStore.v_ShowSelectionGroup2 = true
 
     const ShowSelectionGroup3 = urlParams.get('ShowSelectionGroup3')
-    if (ShowSelectionGroup3 && ShowSelectionGroup3 === 'true')
-      ValtioStore.v_ShowSelectionGroup3 = true
+    if (ShowSelectionGroup3 && ShowSelectionGroup3 === 'true') ValtioStore.v_ShowSelectionGroup3 = true
 
     const ShowInfo = urlParams.get('ShowInfo')
-    if (ShowInfo && ShowInfo === 'true') ValtioStore.v_ShowInfo = true
+    if (ShowInfo) {
+      ShowInfo === 'true' ? sessionStorage.setItem('Settings_v_ShowInfo', true) : sessionStorage.setItem('Settings_v_ShowInfo', false)
+    }
 
     //..............................
     //.  Selection
@@ -112,9 +105,7 @@ function QuizControl() {
     const AllowSelection = urlParams.get('AllowSelection')
     if (debugLog) console.log('AllowSelection ', AllowSelection)
     if (AllowSelection) {
-      AllowSelection === 'true'
-        ? (ValtioStore.v_AllowSelection = true)
-        : (ValtioStore.v_AllowSelection = false)
+      AllowSelection === 'true' ? (ValtioStore.v_AllowSelection = true) : (ValtioStore.v_AllowSelection = false)
     }
 
     const Owner = urlParams.get('Owner')
@@ -147,10 +138,8 @@ function QuizControl() {
     //
     //  Load Server data to store
     //
-
     if (debugLog) console.log(`Override Page: ${g_Page} to QuizServerData`)
-    g_Page = 'QuizServerData'
-    ValtioStore.v_Page = g_Page
+    handlePage('QuizServerData')
     g_DataLoad = true
     ValtioStore.v_DataLoad = g_DataLoad
   }
@@ -162,21 +151,18 @@ function QuizControl() {
     //
     //  Override the page if Server Data and not signed in
     //
-    if (debugLog) console.log('g_Page ', g_Page)
     if (debugLog) console.log('g_SignedIn ', g_SignedIn)
-    if (
-      (g_Page === 'QuizSelect' || g_Page === 'QuizServerData') &
-      (g_SignedIn === false)
-    ) {
+    if ((g_Page === 'QuizSelect' || g_Page === 'QuizServerData') & (g_SignedIn === false)) {
       const newPage = 'QuizSignin'
       if (debugLog) console.log(`Override Page: ${g_Page} to ${newPage}`)
-      g_Page = newPage
-      ValtioStore.v_Page = g_Page
+      handlePage(newPage)
     }
   }
   //.............................................................................
-  //  Main Line
+  //.  Main Line
   //.............................................................................
+  g_Page = page
+  if (debugLog) console.log('g_Page ', g_Page)
   //
   //  Define the ValtioStore
   //
@@ -185,15 +171,10 @@ function QuizControl() {
   //  Load Store values
   //
   g_Params = snapShot.v_Params
-  g_HideParams = snapShot.v_HideParams
-  g_Page = snapShot.v_Page
+  g_HideParams = JSON.parse(sessionStorage.getItem('v_HideParams'))
   g_SignedIn = snapShot.v_SignedIn
   g_DataLoad = snapShot.v_DataLoad
-  if (debugLog) console.log('g_HideParams ', g_HideParams)
-  if (debugLog) console.log('g_Params ', g_Params)
-  if (debugLog) console.log('g_DataLoad ', g_DataLoad)
-  if (debugLog) console.log('g_SignedIn ', g_SignedIn)
-  if (debugLog) console.log('g_Page ', g_Page)
+
   //
   //  Get the URL Parameters (once only)
   //
@@ -211,28 +192,36 @@ function QuizControl() {
   //
   //  Present the selected component
   //
-  switch (g_Page) {
-    case 'QuizSplash':
-      return <QuizSplash />
-    case 'QuizSettings':
-      return <QuizSettings />
-    case 'QuizRegister':
-      return <QuizRegister />
-    case 'QuizSignin':
-      return <QuizSignin />
-    case 'QuizServerData':
-      return <QuizServerData />
-    case 'QuizSelect':
-      return <QuizSelect />
-    case 'QuizRefs':
-      return <QuizRefs />
-    case 'Quiz':
-      return <Quiz />
-    case 'QuizReview':
-      return <QuizReview />
-    default:
-      return <QuizSplash />
-  }
+  return (
+    <>
+      {(() => {
+        switch (page) {
+          case 'QuizSplash':
+            return <QuizSplash handlePage={handlePage} />
+          case 'QuizSettings':
+            return <QuizSettings handlePage={handlePage} />
+          case 'QuizRegister':
+            return <QuizRegister handlePage={handlePage} />
+          case 'QuizSignin':
+            return <QuizSignin handlePage={handlePage} />
+          case 'QuizServerData':
+            return <QuizServerData handlePage={handlePage} />
+          case 'QuizSelect':
+            return <QuizSelect handlePage={handlePage} />
+          case 'QuizRefs':
+            return <QuizRefs handlePage={handlePage} />
+          case 'Quiz':
+            return <Quiz handlePage={handlePage} />
+          case 'QuizReview':
+            return <QuizReview handlePage={handlePage} />
+          case 'QuizHistory':
+            return <QuizHistory handlePage={handlePage} />
+          default:
+            return null
+        }
+      })()}
+    </>
+  )
 }
 
 export default QuizControl

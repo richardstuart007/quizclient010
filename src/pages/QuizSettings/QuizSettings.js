@@ -25,20 +25,19 @@ import { ValtioStore } from '../ValtioStore'
 //
 const debugLog = debugSettings()
 //===================================================================================
-const QuizSettings = () => {
+const QuizSettings = ({ handlePage, page }) => {
   if (debugLog) console.log('Start QuizSettings')
   //
   //  Define the ValtioStore
   //
   const snapShot = useSnapshot(ValtioStore)
-  const CurrentPage = snapShot.v_Page
-  const PagePrevious = snapShot.v_PagePrevious
+  const PagePrevious = JSON.parse(sessionStorage.getItem('Settings_v_PagePrevious'))
   //
   //  Initial Values v_ReviewSkipPass
   //
   const initialFValues = {
     z_HideParams: snapShot.v_HideParams,
-    z_ShowInfo: snapShot.v_ShowInfo,
+    z_ShowInfo: JSON.parse(sessionStorage.getItem('Settings_v_ShowInfo')),
     z_ShowLinearProgress: snapShot.v_ShowLinearProgress,
     z_ShowLinearScore: snapShot.v_ShowLinearScore,
     z_QuestionSort: snapShot.v_RandomSort,
@@ -107,11 +106,9 @@ const QuizSettings = () => {
     //
     //  Update Store
     //
-    if (debugLog)
-      console.log('Update Store: z_ShowInfo ', savedValues.z_ShowInfo)
-    ValtioStore.v_PagePrevious = CurrentPage
+    if (debugLog) console.log('Update Store: z_ShowInfo ', savedValues.z_ShowInfo)
     ValtioStore.v_HideParams = savedValues.z_HideParams
-    ValtioStore.v_ShowInfo = savedValues.z_ShowInfo
+    sessionStorage.setItem('Settings_v_ShowInfo', savedValues.z_ShowInfo)
     ValtioStore.v_ShowLinearProgress = savedValues.z_ShowLinearProgress
     ValtioStore.v_ShowLinearScore = savedValues.z_ShowLinearScore
     ValtioStore.v_RandomSort = savedValues.z_QuestionSort
@@ -120,7 +117,7 @@ const QuizSettings = () => {
     //
     //  return to previous
     //
-    ValtioStore.v_Page = PagePrevious
+    handlePage(PagePrevious)
   }
   //...................................................................................
   //.  Main Line
@@ -128,11 +125,7 @@ const QuizSettings = () => {
   //
   //  Interface to Form
   //
-  const { values, errors, setErrors, handleInputChange } = useMyForm(
-    initialFValues,
-    true,
-    validate
-  )
+  const { values, errors, setErrors, handleInputChange } = useMyForm(initialFValues, true, validate)
   if (debugLog) console.log('initialFValues ', initialFValues)
   //...................................................................................
   //.  Render the form
@@ -194,13 +187,7 @@ const QuizSettings = () => {
           </Grid>
 
           <Grid item xs={4}>
-            <MyCheckbox
-              name='z_ShowQid'
-              label='Show Qid'
-              value={values.z_ShowQid}
-              onChange={handleInputChange}
-              error={errors.z_ShowQid}
-            />
+            <MyCheckbox name='z_ShowQid' label='Show Qid' value={values.z_ShowQid} onChange={handleInputChange} error={errors.z_ShowQid} />
           </Grid>
 
           <Grid item xs={4}>
@@ -215,12 +202,7 @@ const QuizSettings = () => {
 
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <MyButton
-              type='submit'
-              text='Update'
-              value='Submit'
-              onClick={() => SubmitForm()}
-            />
+            <MyButton type='submit' text='Update' value='Submit' onClick={() => SubmitForm()} />
           </Grid>
         </MyForm>
       </Container>

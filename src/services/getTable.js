@@ -26,15 +26,7 @@ async function getTable(props) {
   //--------------------------------------------------------------------
   //.  fetch data
   //--------------------------------------------------------------------
-  const fetchItems = async (
-    sqlClient,
-    sqlURL,
-    sqlTable,
-    sqlAction,
-    sqlWhere,
-    sqlOrderByRaw,
-    sqlString
-  ) => {
+  const fetchItems = async () => {
     try {
       //
       //  Setup actions
@@ -56,12 +48,13 @@ async function getTable(props) {
             sqlString: sqlString
           })
 
-      const URL = sqlURL + URL_TABLES
+      const URL = Settings_URL + URL_TABLES
       if (debugLog) console.log('URL ', URL)
       //
       //  SQL database
       //
-      const resultData = await apiAxios(method, URL, body)
+      let resultData = []
+      resultData = await apiAxios(method, URL, body)
       if (debugLog) console.log('Axios Data fetched ', resultData)
       //
       // No data
@@ -78,50 +71,36 @@ async function getTable(props) {
       // Errors
       //
     } catch (err) {
+      const resultData = []
       console.log(err.message)
+      return resultData
     }
   }
   //--------------------------------------------------------------------
   //-  Main Line
   //--------------------------------------------------------------------
+  if (debugLog) console.log('Start getTable')
   //
   //  Deconstruct props
   //
-  const {
-    sqlCaller,
-    sqlURL,
-    sqlTable,
-    sqlAction = 'SELECT',
-    sqlWhere = '',
-    sqlOrderByRaw = '',
-    sqlString = ''
-  } = props
-  if (debugLog) console.log('sqlCaller ', sqlCaller)
-  if (debugLog) console.log('sqlURL ', sqlURL)
-  if (debugLog) console.log('sqlTable ', sqlTable)
-  if (debugLog) console.log('sqlAction ', sqlAction)
-  if (debugLog) console.log('sqlWhere ', sqlWhere)
-  if (debugLog) console.log('sqlOrderByRaw ', sqlOrderByRaw)
+  const { sqlCaller, sqlTable, sqlAction = 'SELECT', sqlWhere = '', sqlOrderByRaw = '', sqlString = '' } = props
+  if (debugLog) console.log('props ', props)
   let sqlClient = `${functionName}/${sqlCaller}`
-  if (debugLog) console.log('sqlClient ', sqlClient)
-  if (debugLog) console.log('sqlString ', sqlString)
+  //
+  //  Get the URL
+  //
+  const Settings_URLJSON = sessionStorage.getItem('Settings_URL')
+  const Settings_URL = JSON.parse(Settings_URLJSON)
+  if (debugLog) console.log('Settings_URL ', Settings_URL)
   //
   // Fetch the data
   //
-  const resultData = fetchItems(
-    sqlClient,
-    sqlURL,
-    sqlTable,
-    sqlAction,
-    sqlWhere,
-    sqlOrderByRaw,
-    sqlString
-  )
+  const promise = fetchItems()
   //
   // Return promise
   //
-  if (debugLog) console.log('Return Promise', resultData)
-  return resultData
+  if (debugLog) console.log('Return Promise', promise)
+  return promise
 }
 
 export default getTable

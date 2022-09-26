@@ -57,8 +57,13 @@ const QuizQuestion = params => {
   //
   //  Question string (with ID ?)
   //
-  const QCount = snapShot.v_QCount
-  let QuestionString = `Question ${quizQuestion}/${QCount}`
+  const Data_Questions_CountJSON = sessionStorage.getItem(
+    'Data_Questions_Count'
+  )
+  const Data_Questions_Count = JSON.parse(Data_Questions_CountJSON)
+  if (debugLog) console.log(Data_Questions_Count)
+
+  let QuestionString = `Question ${quizQuestion}/${Data_Questions_Count}`
   if (ShowQid)
     QuestionString = QuestionString.concat(`        (KEY: ${qkey} ID: ${qid})`)
   //

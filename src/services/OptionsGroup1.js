@@ -8,10 +8,6 @@ import debugSettings from '../debug/debugSettings'
 import MyQueryPromise from './MyQueryPromise'
 import rowSelect from './rowSelect'
 //
-//  Utilities
-//
-import { ValtioStore } from '../pages/ValtioStore'
-//
 // Debug Settings
 //
 const debugLog = debugSettings()
@@ -39,7 +35,7 @@ const OptionsGroup1 = props => {
     //
     //  Store
     //
-    ValtioStore.v_OptionsGroup1 = Options
+    sessionStorage.setItem('Settings_v_OptionsGroup1', JSON.stringify(Options))
     if (debugLog) console.log('Options ', Options)
   }
   //.............................................................................

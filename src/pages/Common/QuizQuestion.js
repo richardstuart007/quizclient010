@@ -3,7 +3,6 @@
 //
 import { Typography } from '@mui/material'
 import { teal } from 'material-ui-colors'
-import { useSnapshot } from 'valtio'
 //
 //  Debug Settings
 //
@@ -12,10 +11,6 @@ import debugSettings from '../../debug/debugSettings'
 //  Components
 //
 import MyButton from '../../components/controls/MyButton'
-//
-//  Utilities
-//
-import { ValtioStore } from '../ValtioStore'
 //.............................................................................
 //.  Initialisation
 //.............................................................................
@@ -32,20 +27,14 @@ const QuizQuestion = params => {
   //  Deconstruct params
   //
   const { quizRow, quizQuestion } = params
-  //
-  //  Define the ValtioStore
-  //
-  const snapShot = useSnapshot(ValtioStore)
-  const ShowQid = snapShot.v_ShowQid
+  const ShowQid = sessionStorage.getItem('Settings_v_ShowQid')
   //
   //  Deconstruct row
   //
   if (debugLog) console.log('quizRow ', quizRow)
   const { qid, qkey, qdetail } = quizRow
   let hyperLink
-  qdetail.substring(0, 8) === 'https://'
-    ? (hyperLink = true)
-    : (hyperLink = false)
+  qdetail.substring(0, 8) === 'https://' ? (hyperLink = true) : (hyperLink = false)
   if (debugLog) console.log('hyperLink ', hyperLink)
   //
   //  Hyperlink open
@@ -57,15 +46,12 @@ const QuizQuestion = params => {
   //
   //  Question string (with ID ?)
   //
-  const Data_Questions_CountJSON = sessionStorage.getItem(
-    'Data_Questions_Count'
-  )
+  const Data_Questions_CountJSON = sessionStorage.getItem('Data_Questions_Count')
   const Data_Questions_Count = JSON.parse(Data_Questions_CountJSON)
   if (debugLog) console.log(Data_Questions_Count)
 
   let QuestionString = `Question ${quizQuestion}/${Data_Questions_Count}`
-  if (ShowQid)
-    QuestionString = QuestionString.concat(`        (KEY: ${qkey} ID: ${qid})`)
+  if (ShowQid) QuestionString = QuestionString.concat(`        (KEY: ${qkey} ID: ${qid})`)
   //
   //  Uppercase the question
   //
@@ -78,11 +64,7 @@ const QuizQuestion = params => {
       {/* .......................................................................................... */}
       {/* Question number and ID */}
       {/* .......................................................................................... */}
-      <Typography
-        variant='subtitle2'
-        style={{ color: teal['A700'] }}
-        sx={{ marginTop: '8px' }}
-      >
+      <Typography variant='subtitle2' style={{ color: teal['A700'] }} sx={{ marginTop: '8px' }}>
         {QuestionString}
       </Typography>
       {/* .......................................................................................... */}
@@ -101,12 +83,7 @@ const QuizQuestion = params => {
       {/* Normal Text */}
       {/* .......................................................................................... */}
       {!hyperLink && (
-        <Typography
-          variant='body2'
-          style={{ color: 'blue' }}
-          sx={{ marginTop: '8px' }}
-          gutterBottom
-        >
+        <Typography variant='body2' style={{ color: 'blue' }} sx={{ marginTop: '8px' }} gutterBottom>
           {qdetailUpper}
         </Typography>
       )}

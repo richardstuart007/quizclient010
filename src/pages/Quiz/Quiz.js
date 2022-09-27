@@ -2,7 +2,6 @@
 //  Libraries
 //
 import { useState } from 'react'
-import { useSnapshot } from 'valtio'
 //
 //  Debug Settings
 //
@@ -18,11 +17,6 @@ import QuizBidding from '../QuizBidding/QuizBidding'
 //
 import QuizQuestion from '../Common/QuizQuestion'
 import QuizLinearProgress from '../Common/QuizLinearProgress'
-import QuizInfo from '../Common/QuizInfo'
-//
-//  Utilities
-//
-import { ValtioStore } from '../ValtioStore'
 //.............................................................................
 //.  Initialisation
 //.............................................................................
@@ -42,14 +36,10 @@ let g_quizAns = []
 const Quiz = ({ handlePage }) => {
   if (debugLog) console.log('Start Quiz')
   //
-  //  Define the ValtioStore
-  //
-  const snapShot = useSnapshot(ValtioStore)
-  //
   //  Show Linear Bars ?
   //
-  const showLinearProgress = snapShot.v_ShowLinearProgress
-  const showLinearScore = snapShot.v_ShowLinearScore
+  const showLinearProgress = JSON.parse(sessionStorage.getItem('Settings_v_ShowLinearProgress'))
+  const showLinearScore = JSON.parse(sessionStorage.getItem('Settings_v_ShowLinearScore'))
   //
   //  Define the State variables
   //
@@ -63,7 +53,7 @@ const Quiz = ({ handlePage }) => {
     //  Reset flag
     //
     if (debugLog) console.log('quizReset')
-    ValtioStore.v_Reset = false
+    sessionStorage.setItem('Settings_v_Reset', false)
     //
     //  Get store data & copy to State
     //
@@ -150,7 +140,7 @@ const Quiz = ({ handlePage }) => {
   //
   //  Reset Quiz State
   //
-  const reset = snapShot.v_Reset
+  const reset = JSON.parse(sessionStorage.getItem('Settings_v_Reset'))
   if (reset) handleQuizReset()
   //
   //  No data (Error)
@@ -175,8 +165,6 @@ const Quiz = ({ handlePage }) => {
       {showLinearProgress ? <QuizLinearProgress count={ansCount} total={g_questCount} text={'Progress'} /> : null}
       {/* .......................................................................................... */}
       {showLinearScore ? <QuizLinearProgress count={ansPass} total={ansCount} text={'Score'}></QuizLinearProgress> : null}
-
-      <QuizInfo />
     </>
   )
 }

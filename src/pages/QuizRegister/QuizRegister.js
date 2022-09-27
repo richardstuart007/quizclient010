@@ -13,14 +13,6 @@ import debugSettings from '../../debug/debugSettings'
 import MyButton from '../../components/controls/MyButton'
 import MyInput from '../../components/controls/MyInput'
 import { useMyForm, MyForm } from '../../components/controls/useMyForm'
-//
-//  Common Sub Components
-//
-import QuizInfo from '../Common/QuizInfo'
-//
-//  Utilities
-//
-import { ValtioStore } from '../ValtioStore'
 //..............................................................................
 //.  Initialisation
 //.............................................................................
@@ -134,8 +126,8 @@ function QuizRegister({ handlePage }) {
       .then(user => {
         if (user.u_id) {
           setForm_message(`Data updated in Database with ID(${user.u_id})`)
-          ValtioStore.v_Email = email
-          ValtioStore.v_Name = name
+          sessionStorage.setItem('Settings_v_Email', JSON.stringify(email))
+          sessionStorage.setItem('Settings_v_Name', JSON.stringify(name))
           handlePage('QuizSignin')
         } else {
           setForm_message('User not registered')
@@ -201,7 +193,6 @@ function QuizRegister({ handlePage }) {
           {/*.................................................................................................*/}
         </Grid>
       </MyForm>
-      <QuizInfo />
     </>
   )
 }

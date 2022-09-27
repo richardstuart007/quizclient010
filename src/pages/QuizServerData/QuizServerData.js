@@ -15,10 +15,6 @@ import debugSettings from '../../debug/debugSettings'
 import MyButton from '../../components/controls/MyButton'
 import useMyTable from '../../components/controls/useMyTable'
 //
-//  Common Sub Components
-//
-import QuizInfo from '../Common/QuizInfo'
-//
 //  Services
 //
 import MyQueryPromise from '../../services/MyQueryPromise'
@@ -500,7 +496,6 @@ const QuizServerData = ({ handlePage }) => {
           {/*.................................................................................................*/}
         </Grid>
       </Container>
-      <QuizInfo />
     </>
   )
 }

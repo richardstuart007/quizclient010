@@ -5,15 +5,10 @@ import { Typography, AppBar, Toolbar, Avatar, Grid, CardMedia } from '@mui/mater
 import makeStyles from '@mui/styles/makeStyles'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { useSnapshot } from 'valtio'
 //
 //  Common Sub Components
 //
 import QuizNavigation from '../../pages/Common/QuizNavigation'
-//
-//  Utilities
-//
-import { ValtioStore } from '../../pages/ValtioStore'
 //
 //  Debug Settings
 //
@@ -58,14 +53,10 @@ const useStyles = makeStyles(theme => {
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 //===================================================================================
 export default function Layout({ handlePage, page, children }) {
   if (debugLog) console.log('Start Layout')
-  //
-  //  Define the ValtioStore
-  //
-  const snapShot = useSnapshot(ValtioStore)
   //
   //  Style overrides
   //
@@ -123,7 +114,8 @@ export default function Layout({ handlePage, page, children }) {
   //
   //  User
   //
-  const welcome = `Welcome ${snapShot.v_Name}`
+  const v_Name = JSON.parse(sessionStorage.getItem('Settings_v_Name'))
+  const welcome = `Welcome ${v_Name}`
   //...................................................................................
   //.  Render the component
   //...................................................................................

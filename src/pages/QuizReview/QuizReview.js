@@ -2,7 +2,6 @@
 //  Libraries
 //
 import { useState, useEffect } from 'react'
-import { useSnapshot } from 'valtio'
 import { Typography, Box } from '@mui/material'
 //
 //  Debug Settings
@@ -22,11 +21,9 @@ import QuizBidding from '../QuizBidding/QuizBidding'
 //  Common Components
 //
 import QuizQuestion from '../Common/QuizQuestion'
-import QuizInfo from '../Common/QuizInfo'
 //
 //  Utilities
 //
-import { ValtioStore } from '../ValtioStore'
 import writeHistory from '../../services/writeHistory'
 //.............................................................................
 //.  Initialisation
@@ -38,10 +35,6 @@ const debugLog = debugSettings()
 //===================================================================================
 const QuizReview = props => {
   if (debugLog) console.log('Start QuizReview')
-  //
-  //  Define the ValtioStore
-  //
-  const snapShot = useSnapshot(ValtioStore)
   //
   //  Counts
   //
@@ -104,7 +97,7 @@ const QuizReview = props => {
       //
       //  Only show failed answers ?
       //
-      const ReviewSkipPass = snapShot.v_ReviewSkipPass
+      const ReviewSkipPass = JSON.parse(sessionStorage.getItem('Settings_v_ReviewSkipPass'))
       if (id !== 1 || !ReviewSkipPass) {
         Ans.push(id)
         AnsNum.push(AnsQuestIdx)
@@ -143,10 +136,10 @@ const QuizReview = props => {
     //  Write Results
     //
     if (Answered > 0) {
-      const r_email = snapShot.v_Email
+      const r_email = JSON.parse(sessionStorage.getItem('Settings_v_Email'))
       const r_datetime = new Date()
-      const r_owner = snapShot.v_Owner
-      const r_group1 = snapShot.v_Group1
+      const r_owner = JSON.parse(sessionStorage.getItem('Settings_v_Owner'))
+      const r_group1 = JSON.parse(sessionStorage.getItem('Settings_v_Group1'))
       const r_questions = AnsCount
       const r_correct = AnsPass
 
@@ -259,8 +252,6 @@ const QuizReview = props => {
           <MyButton type='submit' text='Previous' color='primary' variant='contained' onClick={() => handlePrevious()} />
         )}
       </Box>
-
-      <QuizInfo />
     </>
   )
 }

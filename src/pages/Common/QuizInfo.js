@@ -2,11 +2,6 @@
 //  Libraries
 //
 import { Grid, Box, Container } from '@mui/material'
-import { useSnapshot } from 'valtio'
-//
-//  Utilities
-//
-import { ValtioStore } from '../ValtioStore'
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
@@ -15,25 +10,21 @@ import debugSettings from '../../debug/debugSettings'
 //
 const debugLog = debugSettings()
 //===================================================================================
-const QuizInfo = () => {
+const QuizInfo = ({ page }) => {
   //...................................................................................
   //.  Main Line
   //...................................................................................
   //
-  //  Define the ValtioStore
-  //
-  const snapShot = useSnapshot(ValtioStore)
-  //
   //  Retrieve the state
   //
-  const page = JSON.parse(sessionStorage.getItem('Settings_v_Page'))
   const pageprevious = JSON.parse(sessionStorage.getItem('Settings_v_PagePrevious'))
-  const name = snapShot.v_Name
-  const email = snapShot.v_Email
-  const owner = snapShot.v_Owner
-  const group1 = snapShot.v_Group1
-  const group2 = snapShot.v_Group2
-  const group3 = snapShot.v_Group3
+  if (debugLog) console.log('Settings_v_PagePrevious ', pageprevious)
+  const name = JSON.parse(sessionStorage.getItem('Settings_v_Name'))
+  const email = JSON.parse(sessionStorage.getItem('Settings_v_Email'))
+  const owner = JSON.parse(sessionStorage.getItem('Settings_v_Owner'))
+  const group1 = JSON.parse(sessionStorage.getItem('Settings_v_Group1'))
+  const group2 = JSON.parse(sessionStorage.getItem('Settings_v_Group2'))
+  const group3 = JSON.parse(sessionStorage.getItem('Settings_v_Group3'))
   const DataSource = 'Server'
   //
   //  Show Info ?

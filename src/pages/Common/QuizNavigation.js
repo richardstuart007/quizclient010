@@ -20,11 +20,6 @@ import debugSettings from '../../debug/debugSettings'
 //
 import MyActionButton from '../../components/controls/MyActionButton'
 //
-//  Valtio Store
-//
-import { useSnapshot } from 'valtio'
-import { ValtioStore } from '../../pages/ValtioStore'
-//
 //  Style overrides
 //
 const useStyles = makeStyles(theme => {
@@ -43,10 +38,10 @@ export default function QuizNavigation({ handlePage, page }) {
   if (debugLog) console.log('Start QuizNavigation')
   const classes = useStyles()
   //
-  //  Define the ValtioStore
+  //  Define
   //
-  const snapShot = useSnapshot(ValtioStore)
   const CurrentPage = page
+  if (debugLog) console.log('page ', page)
   //
   //  Show Signin Button ?
   //
@@ -86,7 +81,8 @@ export default function QuizNavigation({ handlePage, page }) {
   //
   //  Show Settings Button ?
   //
-  let showButtonSettings = snapShot.v_ShowButtonSettings
+  let showButtonSettings = JSON.parse(sessionStorage.getItem('Settings_v_ShowButtonSettings'))
+  if (debugLog) console.log('showButtonSettings ', showButtonSettings)
   if (showButtonSettings) {
     showButtonSettings = false
     if (

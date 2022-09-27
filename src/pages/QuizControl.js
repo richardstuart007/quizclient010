@@ -1,8 +1,4 @@
 //
-//  Libraries
-//
-import { useSnapshot } from 'valtio'
-//
 //  Debug Settings
 //
 import debugSettings from '../debug/debugSettings'
@@ -19,22 +15,16 @@ import Quiz from './Quiz/Quiz'
 import QuizReview from './QuizReview/QuizReview'
 import QuizHistory from './QuizHistory/QuizHistory'
 import QuizRefs from './QuizRefs/QuizRefs'
-//
-//  Utilities
-//
-import { ValtioStore } from './ValtioStore'
+import QuizInfo from './Common/QuizInfo'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 //
 //  Global Variables
 //
 let g_Params
 let g_HideParams
-let g_Page
-let g_DataLoad
-let g_SignedIn
 //===================================================================================
 function QuizControl({ handlePage, page }) {
   if (debugLog) console.log('Start QuizControl')
@@ -47,7 +37,7 @@ function QuizControl({ handlePage, page }) {
     //  Set Params Load already done
     //
     g_Params = false
-    ValtioStore.v_Params = g_Params
+    sessionStorage.setItem('Settings_v_Params', false)
     //
     //  Get Query string of Parameters
     //
@@ -59,7 +49,7 @@ function QuizControl({ handlePage, page }) {
     //
     if (debugLog) console.log('Has Parameters')
     g_Params = true
-    ValtioStore.v_Params = g_Params
+    sessionStorage.setItem('Settings_v_Params', true)
 
     const urlParams = new URLSearchParams(queryString)
     //..............................
@@ -68,31 +58,32 @@ function QuizControl({ handlePage, page }) {
     const Devmode = urlParams.get('Devmode')
     if (Devmode) {
       if (Devmode === 'true') {
-        ValtioStore.v_ShowButtonSettings = true
-        ValtioStore.v_ShowSelectionOwner = true
-        ValtioStore.v_ShowSelectionGroup1 = true
-        ValtioStore.v_ShowSelectionGroup2 = true
-        ValtioStore.v_ShowSelectionGroup3 = true
+        sessionStorage.setItem('Settings_v_ShowSelectionOwner', true)
+        sessionStorage.setItem('Settings_v_ShowAllOwner', true)
+        sessionStorage.setItem('Settings_v_ShowSelectionGroup1', true)
+        sessionStorage.setItem('Settings_v_ShowSelectionGroup2', true)
+        sessionStorage.setItem('Settings_v_ShowSelectionGroup3', true)
         sessionStorage.setItem('Settings_v_ShowInfo', true)
+        sessionStorage.setItem('Settings_v_ShowButtonSettings', true)
       }
     }
     //..............................
     //.  Show Overrides
     //..............................
     const ShowButtonSettings = urlParams.get('ShowButtonSettings')
-    if (ShowButtonSettings && ShowButtonSettings === 'true') ValtioStore.v_ShowButtonSettings = true
+    if (ShowButtonSettings && ShowButtonSettings === 'true') sessionStorage.setItem('Settings_v_ShowButtonSettings', true)
 
     const ShowSelectionOwner = urlParams.get('ShowSelectionOwner')
-    if (ShowSelectionOwner && ShowSelectionOwner === 'true') ValtioStore.v_ShowSelectionOwner = true
+    if (ShowSelectionOwner && ShowSelectionOwner === 'true') sessionStorage.setItem('Settings_v_ShowSelectionOwner', true)
 
     const ShowSelectionGroup1 = urlParams.get('ShowSelectionGroup1')
-    if (ShowSelectionGroup1 && ShowSelectionGroup1 === 'true') ValtioStore.v_ShowSelectionGroup1 = true
+    if (ShowSelectionGroup1 && ShowSelectionGroup1 === 'true') sessionStorage.setItem('Settings_v_ShowSelectionGroup1', true)
 
     const ShowSelectionGroup2 = urlParams.get('ShowSelectionGroup2')
-    if (ShowSelectionGroup2 && ShowSelectionGroup2 === 'true') ValtioStore.v_ShowSelectionGroup2 = true
+    if (ShowSelectionGroup2 && ShowSelectionGroup2 === 'true') sessionStorage.setItem('Settings_v_ShowSelectionGroup2', true)
 
     const ShowSelectionGroup3 = urlParams.get('ShowSelectionGroup3')
-    if (ShowSelectionGroup3 && ShowSelectionGroup3 === 'true') ValtioStore.v_ShowSelectionGroup3 = true
+    if (ShowSelectionGroup3 && ShowSelectionGroup3 === 'true') sessionStorage.setItem('Settings_v_ShowSelectionGroup3', true)
 
     const ShowInfo = urlParams.get('ShowInfo')
     if (ShowInfo) {
@@ -105,22 +96,24 @@ function QuizControl({ handlePage, page }) {
     const AllowSelection = urlParams.get('AllowSelection')
     if (debugLog) console.log('AllowSelection ', AllowSelection)
     if (AllowSelection) {
-      AllowSelection === 'true' ? (ValtioStore.v_AllowSelection = true) : (ValtioStore.v_AllowSelection = false)
+      AllowSelection === 'true'
+        ? sessionStorage.setItem('Settings_v_AllowSelection', true)
+        : sessionStorage.setItem('Settings_v_AllowSelection', false)
     }
 
     const Owner = urlParams.get('Owner')
-    if (Owner) ValtioStore.v_Owner = Owner
+    if (Owner) sessionStorage.setItem('Settings_v_Owner', JSON.stringify(Owner))
     if (debugLog) console.log('Owner ', Owner)
 
     const Group1 = urlParams.get('Group1')
-    if (Group1) ValtioStore.v_Group1 = Group1
+    if (Group1) sessionStorage.setItem('Settings_v_Group1', JSON.stringify(Group1))
     if (debugLog) console.log('Group1 ', Group1)
 
     const Group2 = urlParams.get('Group2')
-    if (Group2) ValtioStore.v_Group2 = Group2
+    if (Group2) sessionStorage.setItem('Settings_v_Group1', JSON.stringify(Group2))
 
     const Group3 = urlParams.get('Group3')
-    if (Group3) ValtioStore.v_Group3 = Group3
+    if (Group3) sessionStorage.setItem('Settings_v_Group1', JSON.stringify(Group3))
     //..............................
     //.  Remove Parameters
     //..............................
@@ -130,65 +123,22 @@ function QuizControl({ handlePage, page }) {
       history.replaceState({}, null, 'Params')
     }
   }
-  //.............................................................................
-  //.  Process Restart
-  //.............................................................................
-  const Restart = () => {
-    if (debugLog) console.log('Restart')
-    //
-    //  Load Server data to store
-    //
-    if (debugLog) console.log(`Override Page: ${g_Page} to QuizServerData`)
-    handlePage('QuizServerData')
-    g_DataLoad = true
-    ValtioStore.v_DataLoad = g_DataLoad
-  }
-  //.............................................................................
-  //.  Force SignIn if needed
-  //.............................................................................
-  const CheckSignIn = () => {
-    if (debugLog) console.log('CheckSignIn')
-    //
-    //  Override the page if Server Data and not signed in
-    //
-    if (debugLog) console.log('g_SignedIn ', g_SignedIn)
-    if ((g_Page === 'QuizSelect' || g_Page === 'QuizServerData') & (g_SignedIn === false)) {
-      const newPage = 'QuizSignin'
-      if (debugLog) console.log(`Override Page: ${g_Page} to ${newPage}`)
-      handlePage(newPage)
-    }
-  }
+
   //.............................................................................
   //.  Main Line
   //.............................................................................
-  g_Page = page
-  if (debugLog) console.log('g_Page ', g_Page)
-  //
-  //  Define the ValtioStore
-  //
-  const snapShot = useSnapshot(ValtioStore)
+  if (debugLog) console.log('page ', page)
   //
   //  Load Store values
   //
-  g_Params = snapShot.v_Params
-  g_HideParams = JSON.parse(sessionStorage.getItem('v_HideParams'))
-  g_SignedIn = snapShot.v_SignedIn
-  g_DataLoad = snapShot.v_DataLoad
-
+  g_Params = JSON.parse(sessionStorage.getItem('Settings_v_Params'))
+  g_HideParams = JSON.parse(sessionStorage.getItem('Settings_v_HideParams'))
   //
   //  Get the URL Parameters (once only)
   //
   if (g_Params === null) {
     UnpackParams()
   }
-  //
-  //  Override the page if QuizRestart (QuizSelect/QuizServerData)
-  //
-  if (g_Page === 'QuizRestart') Restart()
-  //
-  //  Override the page if Server Data and not signed in
-  //
-  CheckSignIn()
   //
   //  Present the selected component
   //
@@ -220,6 +170,7 @@ function QuizControl({ handlePage, page }) {
             return null
         }
       })()}
+      <QuizInfo page={page} />
     </>
   )
 }

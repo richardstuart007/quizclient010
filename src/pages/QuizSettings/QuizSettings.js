@@ -1,7 +1,6 @@
 //
 //  Libraries
 //
-import { useSnapshot } from 'valtio'
 import { Container, Grid } from '@mui/material'
 //
 //  Debug Settings
@@ -13,10 +12,6 @@ import debugSettings from '../../debug/debugSettings'
 import MyCheckbox from '../../components/controls/MyCheckbox'
 import MyButton from '../../components/controls/MyButton'
 import { useMyForm, MyForm } from '../../components/controls/useMyForm'
-//
-//  Utilities
-//
-import { ValtioStore } from '../ValtioStore'
 //..............................................................................
 //.  Initialisation
 //.............................................................................
@@ -28,21 +23,20 @@ const debugLog = debugSettings()
 const QuizSettings = ({ handlePage, page }) => {
   if (debugLog) console.log('Start QuizSettings')
   //
-  //  Define the ValtioStore
+  //  Define the Store
   //
-  const snapShot = useSnapshot(ValtioStore)
   const PagePrevious = JSON.parse(sessionStorage.getItem('Settings_v_PagePrevious'))
   //
-  //  Initial Values v_ReviewSkipPass
+  //  Initial Values
   //
   const initialFValues = {
-    z_HideParams: snapShot.v_HideParams,
+    z_HideParams: JSON.parse(sessionStorage.getItem('Settings_v_HideParams')),
     z_ShowInfo: JSON.parse(sessionStorage.getItem('Settings_v_ShowInfo')),
-    z_ShowLinearProgress: snapShot.v_ShowLinearProgress,
-    z_ShowLinearScore: snapShot.v_ShowLinearScore,
-    z_QuestionSort: snapShot.v_RandomSort,
-    z_ShowQid: snapShot.v_ShowQid,
-    z_ReviewSkipPass: snapShot.v_ReviewSkipPass
+    z_ShowLinearProgress: JSON.parse(sessionStorage.getItem('Settings_v_ShowLinearProgress')),
+    z_ShowLinearScore: JSON.parse(sessionStorage.getItem('Settings_v_ShowLinearScore')),
+    z_QuestionSort: JSON.parse(sessionStorage.getItem('Settings_v_RandomSort')),
+    z_ShowQid: JSON.parse(sessionStorage.getItem('Settings_v_ShowQid')),
+    z_ReviewSkipPass: JSON.parse(sessionStorage.getItem('Settings_v_ReviewSkipPass'))
   }
   //
   //  Saved Values on Submit
@@ -107,13 +101,13 @@ const QuizSettings = ({ handlePage, page }) => {
     //  Update Store
     //
     if (debugLog) console.log('Update Store: z_ShowInfo ', savedValues.z_ShowInfo)
-    ValtioStore.v_HideParams = savedValues.z_HideParams
+    sessionStorage.setItem('Settings_v_HideParams', savedValues.z_HideParams)
     sessionStorage.setItem('Settings_v_ShowInfo', savedValues.z_ShowInfo)
-    ValtioStore.v_ShowLinearProgress = savedValues.z_ShowLinearProgress
-    ValtioStore.v_ShowLinearScore = savedValues.z_ShowLinearScore
-    ValtioStore.v_RandomSort = savedValues.z_QuestionSort
-    ValtioStore.v_ShowQid = savedValues.z_ShowQid
-    ValtioStore.v_ReviewSkipPass = savedValues.z_ReviewSkipPass
+    sessionStorage.setItem('Settings_v_ShowLinearProgress', savedValues.z_ShowLinearProgress)
+    sessionStorage.setItem('Settings_v_ShowLinearScore', savedValues.z_ShowLinearScore)
+    sessionStorage.setItem('Settings_v_RandomSort', savedValues.z_QuestionSort)
+    sessionStorage.setItem('Settings_v_ShowQid', savedValues.z_ShowQid)
+    sessionStorage.setItem('Settings_v_ReviewSkipPass', savedValues.z_ReviewSkipPass)
     //
     //  return to previous
     //

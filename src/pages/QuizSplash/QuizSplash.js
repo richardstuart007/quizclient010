@@ -16,7 +16,7 @@ import MyButton from '../../components/controls/MyButton'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 //===================================================================================
 const QuizSplash = ({ handlePage }) => {
   if (debugLog) console.log('Start QuizSplash')
@@ -51,7 +51,7 @@ const QuizSplash = ({ handlePage }) => {
             text='Continue'
             value='Submit'
             onClick={() => {
-              handlePage('QuizRestart')
+              handlePage('QuizSignin')
             }}
           />
         </Grid>

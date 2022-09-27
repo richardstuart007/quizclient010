@@ -10,10 +10,6 @@ import MyActionButton from '../../components/controls/MyActionButton'
 import MyButton from '../../components/controls/MyButton'
 import useMyTable from '../../components/controls/useMyTable'
 //
-//  Common Components
-//
-import QuizInfo from '../Common/QuizInfo'
-//
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
@@ -113,8 +109,6 @@ export default function QuizRefs({ handlePage }) {
           />
         </Grid>
       </Grid>
-
-      <QuizInfo />
     </>
   )
 }

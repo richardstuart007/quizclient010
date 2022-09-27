@@ -1,17 +1,12 @@
 //
 //  Libraries
 //
-import { useSnapshot } from 'valtio'
 import { useState } from 'react'
 import { Grid, Typography } from '@mui/material'
 //
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
-//
-//  Common Sub Components
-//
-import QuizInfo from '../Common/QuizInfo'
 //
 //  Controls
 //
@@ -22,9 +17,7 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
 //  Utilities
 //
-import { ValtioStore } from '../ValtioStore'
 import randomSort from '../../services/randomSort'
-// import QuizSelectInit from './QuizSelectInit'
 import QuizSelectData from './QuizSelectData'
 //
 //  Constants
@@ -284,12 +277,12 @@ const QuizSelect = ({ handlePage }) => {
     //  Update store
     //
     handlePage(g_PageNew)
-    ValtioStore.v_Reset = true
-    ValtioStore.v_Owner = params.qowner
-    ValtioStore.v_Group1 = params.qgroup1
-    ValtioStore.v_Group2 = params.qgroup2
-    ValtioStore.v_Group3 = params.qgroup3
-    ValtioStore.v_MaxQuestions = params.MaxQuestions
+    sessionStorage.setItem('Settings_v_Reset', true)
+    sessionStorage.setItem('Settings_v_Owner', JSON.stringify(params.qowner))
+    sessionStorage.setItem('Settings_v_Group1', JSON.stringify(params.qgroup1))
+    sessionStorage.setItem('Settings_v_Group2', JSON.stringify(params.qgroup2))
+    sessionStorage.setItem('Settings_v_Group3', JSON.stringify(params.qgroup3))
+    sessionStorage.setItem('Settings_v_MaxQuestions', JSON.stringify(params.MaxQuestions))
   }
   //...................................................................................
   //.  Sort questions
@@ -375,39 +368,35 @@ const QuizSelect = ({ handlePage }) => {
   //...................................................................................
   if (debugFunStart) console.log(debugModule)
   //
-  //  Define the ValtioStore
-  //
-  const snapShot = useSnapshot(ValtioStore)
-  //
   // Form Message
   //
   const [form_message, setForm_message] = useState('')
   //
   //  Set Selection from any previous values / or valtio defaults
   //
-  initialFValues.qowner = snapShot.v_Owner
-  initialFValues.qgroup1 = snapShot.v_Group1
-  initialFValues.qgroup2 = snapShot.v_Group2
-  initialFValues.qgroup3 = snapShot.v_Group3
-  initialFValues.MaxQuestions = snapShot.v_MaxQuestions
+  initialFValues.qowner = JSON.parse(sessionStorage.getItem('Settings_v_Owner'))
+  initialFValues.qgroup1 = JSON.parse(sessionStorage.getItem('Settings_v_Group1'))
+  initialFValues.qgroup2 = JSON.parse(sessionStorage.getItem('Settings_v_Group2'))
+  initialFValues.qgroup3 = JSON.parse(sessionStorage.getItem('Settings_v_Group3'))
+  initialFValues.MaxQuestions = JSON.parse(sessionStorage.getItem('Settings_v_MaxQuestions'))
   if (debugLog) console.log('initialFValues ', initialFValues)
   //
   //  Load setup values
   //
-  g_disabled = !snapShot.v_AllowSelection
-  g_showOwner = snapShot.v_ShowSelectionOwner
-  g_showGroup1 = snapShot.v_ShowSelectionGroup1
-  g_showGroup2 = snapShot.v_ShowSelectionGroup2
-  g_showGroup3 = snapShot.v_ShowSelectionGroup3
-  g_RandomSort = snapShot.v_RandomSort
+  g_disabled = !JSON.parse(sessionStorage.getItem('Settings_v_AllowSelection'))
+  g_showOwner = JSON.parse(sessionStorage.getItem('Settings_v_ShowSelectionOwner'))
+  g_showGroup1 = JSON.parse(sessionStorage.getItem('Settings_v_ShowSelectionGroup1'))
+  g_showGroup2 = JSON.parse(sessionStorage.getItem('Settings_v_ShowSelectionGroup2'))
+  g_showGroup3 = JSON.parse(sessionStorage.getItem('Settings_v_ShowSelectionGroup3'))
+  g_RandomSort = JSON.parse(sessionStorage.getItem('Settings_v_RandomSort'))
   if (debugLog) console.log(g_disabled, g_showOwner, g_showGroup1)
   //
   //  Load the data array from the store
   //
-  g_DataLoad = snapShot.v_DataLoad
+  g_DataLoad = JSON.parse(sessionStorage.getItem('Settings_v_DataLoad'))
   if (g_DataLoad) {
     g_DataLoad = false
-    ValtioStore.v_DataLoad = false
+    sessionStorage.setItem('Settings_v_DataLoad', false)
     LoadOptions()
   }
   //
@@ -521,7 +510,6 @@ const QuizSelect = ({ handlePage }) => {
           {/*.................................................................................................*/}
         </Grid>
       </MyForm>
-      <QuizInfo />
     </>
   )
 }

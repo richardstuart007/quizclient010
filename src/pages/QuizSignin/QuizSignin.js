@@ -13,15 +13,6 @@ import debugSettings from '../../debug/debugSettings'
 import MyButton from '../../components/controls/MyButton'
 import MyInput from '../../components/controls/MyInput'
 import { useMyForm, MyForm } from '../../components/controls/useMyForm'
-//
-//  Common Sub Components
-//
-import QuizInfo from '../Common/QuizInfo'
-//
-//  Utilities
-//
-import { useSnapshot } from 'valtio'
-import { ValtioStore } from '../ValtioStore'
 //..............................................................................
 //.  Initialisation
 //.............................................................................
@@ -35,9 +26,8 @@ const sqlClient = 'Quiz/Signin'
 //
 const debugLog = debugSettings()
 // const debugLogTest = false
-const debugFunStartSetting = false
-const debugModule = 'QuizRegister'
-
+const debugFunStart = true
+const debugModule = 'QuizSignin'
 //.............................................................................
 //.  Data Input Fields
 //.............................................................................
@@ -54,7 +44,7 @@ function QuizSignin({ handlePage }) {
   //.  Input field validation
   //.............................................................................
   const validate = (fieldValues = values) => {
-    if (debugFunStartSetting) console.log('validate')
+    if (debugFunStart) console.log('validate')
     if (debugLog) console.log('fieldValues ', fieldValues)
     let temp = { ...errors }
     //
@@ -81,6 +71,7 @@ function QuizSignin({ handlePage }) {
   //...................................................................................
 
   function validateEmail(email) {
+    if (debugFunStart) console.log('validateEmail')
     return String(email)
       .toLowerCase()
       .match(
@@ -90,11 +81,8 @@ function QuizSignin({ handlePage }) {
   //...................................................................................
   //.  Form Submit
   //...................................................................................
-  //
-  //  Validate
-  //
   const FormSubmit = e => {
-    if (debugFunStartSetting) console.log('FormSubmit')
+    if (debugFunStart) console.log('FormSubmit')
     if (validate()) {
       FormUpdate()
     }
@@ -103,7 +91,7 @@ function QuizSignin({ handlePage }) {
   //.  Update
   //...................................................................................
   const FormUpdate = () => {
-    if (debugFunStartSetting) console.log('FormUpdate')
+    if (debugFunStart) console.log('FormUpdate')
     //
     //  Deconstruct values
     //
@@ -126,10 +114,11 @@ function QuizSignin({ handlePage }) {
       .then(user => {
         if (user.u_id) {
           setForm_message(`Signin successful with ID(${user.u_id})`)
-          handlePage('QuizRestart')
-          ValtioStore.v_Email = email
-          ValtioStore.v_Name = user.u_name
-          ValtioStore.v_SignedIn = true
+          sessionStorage.setItem('Settings_v_Email', JSON.stringify(email))
+          sessionStorage.setItem('Settings_v_Name', JSON.stringify(user.u_name))
+          sessionStorage.setItem('Settings_v_SignedIn', true)
+          if (debugLog) console.log('Settings_v_SignedIn TRUE')
+          handlePage('QuizServerData')
         } else {
           setForm_message('Please REGISTER or email/password invalid')
         }
@@ -141,12 +130,9 @@ function QuizSignin({ handlePage }) {
   //...................................................................................
   //.  Main Line
   //...................................................................................
-  if (debugFunStartSetting) console.log(debugModule)
-  //
-  //  Define the ValtioStore
-  //
-  const snapShot = useSnapshot(ValtioStore)
-  initialFValues.email = snapShot.v_Email
+  if (debugFunStart) console.log(debugModule)
+
+  initialFValues.email = JSON.parse(sessionStorage.getItem('Settings_v_Email'))
   //
   //  Get the URL
   //
@@ -192,7 +178,6 @@ function QuizSignin({ handlePage }) {
           {/*.................................................................................................*/}
         </Grid>
       </MyForm>
-      <QuizInfo />
     </>
   )
 }

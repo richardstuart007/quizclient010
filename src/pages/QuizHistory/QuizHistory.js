@@ -8,6 +8,7 @@ import makeStyles from '@mui/styles/makeStyles'
 import SearchIcon from '@mui/icons-material/Search'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import FilterListIcon from '@mui/icons-material/FilterList'
+import { format, parseISO } from 'date-fns'
 //
 //  Controls
 //
@@ -49,23 +50,23 @@ const useStyles = makeStyles(theme => ({
 //  Table Heading
 //
 const headCells = [
-  { id: 'r_email', label: 'Email' },
-  { id: 'u_name', label: 'Name' },
-  { id: 'r_datetime', label: 'Timestamp' },
+  { id: 'r_id', label: 'ID' },
+  { id: 'ddmmyy', label: 'Date' },
   { id: 'r_owner', label: 'Owner' },
   { id: 'g1title', label: 'Group 1' },
   { id: 'r_questions', label: 'Questions' },
   { id: 'r_correct', label: 'Correct' }
 ]
 const searchTypeOptions = [
-  { id: 'r_email', title: 'Email' },
-  { id: 'u_name', title: 'Name' },
-  { id: 'r_datetime', title: 'Timestamp' },
+  { id: 'r_id', title: 'ID' },
+  { id: 'ddmmyy', title: 'Date' },
   { id: 'r_owner', title: 'Owner' },
   { id: 'g1title', title: 'Group 1' },
   { id: 'r_questions', title: 'Questions' },
   { id: 'r_correct', title: 'Correct' }
 ]
+//
+let subTitle
 //
 //  Constants
 //
@@ -85,9 +86,15 @@ export default function QuizHistory(props) {
   const getRowAllData = () => {
     if (debugFunStart) console.log('getRowAllData')
     //
+    //  Get User
+    //
+    const name = JSON.parse(sessionStorage.getItem('Settings_Name'))
+    const email = JSON.parse(sessionStorage.getItem('Settings_Email'))
+    subTitle = `Email: ${email}  User: ${name}`
+    //
     //  Selection
     //
-    let sqlString = `r_email, u_name, r_datetime, r_owner, g1title, r_questions, r_correct from usershistory join users on r_email = u_email join group1 on r_group1 = g1id order by r_email, r_datetime desc`
+    let sqlString = `r_id, r_datetime, r_owner, g1title, r_questions, r_correct from usershistory join group1 on r_group1 = g1id where r_email='${email}' order by r_id desc`
     if (debugLog) console.log('sqlString', sqlString)
     //
     //  Process promise
@@ -104,17 +111,25 @@ export default function QuizHistory(props) {
     //
     myPromiseusershistory.then(function (Data_History) {
       //
+      //  Data History with split time stamp
+      //
+      if (debugLogTest) console.log('Data_History ', Data_History)
+      const Data_History_Update = Data_History.map(record => ({
+        ...record,
+        ddmmyy: format(parseISO(record.r_datetime), 'dd-MM-yy')
+      }))
+      if (debugLogTest) console.log('Data_History_Update ', Data_History_Update)
+      //
       //  Session Storage
       //
-      if (debugLog) console.log('Data_History ', Data_History)
-      const Data_HistoryJSON = JSON.stringify(Data_History)
-      sessionStorage.setItem('Data_History', Data_HistoryJSON)
+      if (debugLog) console.log('Data_History_Update ', Data_History_Update)
+      sessionStorage.setItem('Data_History', JSON.stringify(Data_History_Update))
       const TimeStamp = Date.now()
       if (debugLogTest) console.log(`${TimeStamp} Data_History ==>`)
       //
       //  Update Table
       //
-      setRecords(Data_History)
+      setRecords(Data_History_Update)
       //
       //  Filter
       //
@@ -160,30 +175,35 @@ export default function QuizHistory(props) {
           return items
         }
         //
+        //  Numeric
+        //
+        const searchValueInt = parseInt(searchValue)
+        //
         //  Filter
         //
         let itemsFilter = items
         switch (searchType) {
-          case 'r_email':
-            itemsFilter = items.filter(x => x.r_email === parseInt(searchValue))
+          case 'r_id':
+            itemsFilter = items.filter(x => x.r_id === searchValueInt)
             break
-          case 'u_name':
-            itemsFilter = items.filter(x => x.u_name.toLowerCase().includes(searchValue.toLowerCase()))
-            break
-          case 'r_datetime':
-            itemsFilter = items.filter(x => x.r_datetime.toLowerCase().includes(searchValue.toLowerCase()))
+          case 'ddmmyy':
+            itemsFilter = items.filter(x => x.ddmmyy === searchValue)
             break
           case 'r_owner':
-            itemsFilter = items.filter(x => x.r_owner.toLowerCase().includes(searchValue.toLowerCase()))
+            itemsFilter = items.filter(x =>
+              x.r_owner.toLowerCase().includes(searchValue.toLowerCase())
+            )
             break
           case 'g1title':
-            itemsFilter = items.filter(x => x.g1title.toLowerCase().includes(searchValue.toLowerCase()))
+            itemsFilter = items.filter(x =>
+              x.g1title.toLowerCase().includes(searchValue.toLowerCase())
+            )
             break
           case 'r_questions':
-            itemsFilter = items.filter(x => x.r_questions.toLowerCase().includes(searchValue.toLowerCase()))
+            itemsFilter = items.filter(x => x.r_questions.includes(searchValue.toLowerCase()))
             break
           case 'r_correct':
-            itemsFilter = items.filter(x => x.r_correct.toLowerCase().includes(searchValue.toLowerCase()))
+            itemsFilter = items.filter(x => x.r_correct.includes(searchValue.toLowerCase()))
             break
           default:
         }
@@ -201,9 +221,6 @@ export default function QuizHistory(props) {
   //  Initial Data Load
   //
   useEffect(() => {
-    //
-    //  Load form list
-    //
     getRowAllData()
     // eslint-disable-next-line
   }, [])
@@ -211,13 +228,21 @@ export default function QuizHistory(props) {
   //
   //  Populate the Table
   //
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useMyTable(records, headCells, filterFn)
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useMyTable(
+    records,
+    headCells,
+    filterFn
+  )
   //...................................................................................
   //.  Render the form
   //...................................................................................
   return (
     <>
-      <PageHeader title='Results' subTitle='Quiz Summary' icon={<PeopleOutlineTwoToneIcon fontSize='large' />} />
+      <PageHeader
+        title='Results'
+        subTitle={subTitle}
+        icon={<PeopleOutlineTwoToneIcon fontSize='large' />}
+      />
       <Paper className={classes.pageContent}>
         <Toolbar>
           <MyInput
@@ -244,17 +269,26 @@ export default function QuizHistory(props) {
               options={searchTypeOptions}
             />
           </Box>
-          <MyButton text='Filter' variant='outlined' startIcon={<FilterListIcon />} onClick={handleSearch} />
-          <MyButton text='Refresh' variant='outlined' startIcon={<RefreshIcon />} onClick={getRowAllData} />
+          <MyButton
+            text='Filter'
+            variant='outlined'
+            startIcon={<FilterListIcon />}
+            onClick={handleSearch}
+          />
+          <MyButton
+            text='Refresh'
+            variant='outlined'
+            startIcon={<RefreshIcon />}
+            onClick={getRowAllData}
+          />
         </Toolbar>
         <TblContainer>
           <TblHead />
           <TableBody>
             {recordsAfterPagingAndSorting().map(row => (
-              <TableRow key={row.r_email}>
-                <TableCell>{row.r_email}</TableCell>
-                <TableCell>{row.u_name}</TableCell>
-                <TableCell>{row.r_datetime}</TableCell>
+              <TableRow key={row.r_id}>
+                <TableCell>{row.r_id}</TableCell>
+                <TableCell>{row.ddmmyy}</TableCell>
                 <TableCell>{row.r_owner}</TableCell>
                 <TableCell>{row.g1title}</TableCell>
                 <TableCell>{row.r_questions}</TableCell>

@@ -38,8 +38,8 @@ const Quiz = ({ handlePage }) => {
   //
   //  Show Linear Bars ?
   //
-  const showLinearProgress = JSON.parse(sessionStorage.getItem('Settings_v_ShowLinearProgress'))
-  const showLinearScore = JSON.parse(sessionStorage.getItem('Settings_v_ShowLinearScore'))
+  const showLinearProgress = JSON.parse(sessionStorage.getItem('Settings_ShowLinearProgress'))
+  const showLinearScore = JSON.parse(sessionStorage.getItem('Settings_ShowLinearScore'))
   //
   //  Define the State variables
   //
@@ -53,7 +53,7 @@ const Quiz = ({ handlePage }) => {
     //  Reset flag
     //
     if (debugLog) console.log('quizReset')
-    sessionStorage.setItem('Settings_v_Reset', false)
+    sessionStorage.setItem('Settings_Reset', false)
     //
     //  Get store data & copy to State
     //
@@ -140,7 +140,7 @@ const Quiz = ({ handlePage }) => {
   //
   //  Reset Quiz State
   //
-  const reset = JSON.parse(sessionStorage.getItem('Settings_v_Reset'))
+  const reset = JSON.parse(sessionStorage.getItem('Settings_Reset'))
   if (reset) handleQuizReset()
   //
   //  No data (Error)

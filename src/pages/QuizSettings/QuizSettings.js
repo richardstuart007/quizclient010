@@ -25,18 +25,18 @@ const QuizSettings = ({ handlePage, page }) => {
   //
   //  Define the Store
   //
-  const PagePrevious = JSON.parse(sessionStorage.getItem('Settings_v_PagePrevious'))
+  const PagePrevious = JSON.parse(sessionStorage.getItem('Settings_PagePrevious'))
   //
   //  Initial Values
   //
   const initialFValues = {
-    z_HideParams: JSON.parse(sessionStorage.getItem('Settings_v_HideParams')),
-    z_ShowInfo: JSON.parse(sessionStorage.getItem('Settings_v_ShowInfo')),
-    z_ShowLinearProgress: JSON.parse(sessionStorage.getItem('Settings_v_ShowLinearProgress')),
-    z_ShowLinearScore: JSON.parse(sessionStorage.getItem('Settings_v_ShowLinearScore')),
-    z_QuestionSort: JSON.parse(sessionStorage.getItem('Settings_v_RandomSort')),
-    z_ShowQid: JSON.parse(sessionStorage.getItem('Settings_v_ShowQid')),
-    z_ReviewSkipPass: JSON.parse(sessionStorage.getItem('Settings_v_ReviewSkipPass'))
+    z_HideParams: JSON.parse(sessionStorage.getItem('Settings_HideParams')),
+    z_ShowInfo: JSON.parse(sessionStorage.getItem('Settings_ShowInfo')),
+    z_ShowLinearProgress: JSON.parse(sessionStorage.getItem('Settings_ShowLinearProgress')),
+    z_ShowLinearScore: JSON.parse(sessionStorage.getItem('Settings_ShowLinearScore')),
+    z_QuestionSort: JSON.parse(sessionStorage.getItem('Settings_RandomSort')),
+    z_ShowQid: JSON.parse(sessionStorage.getItem('Settings_ShowQid')),
+    z_ReviewSkipPass: JSON.parse(sessionStorage.getItem('Settings_ReviewSkipPass'))
   }
   //
   //  Saved Values on Submit
@@ -101,13 +101,13 @@ const QuizSettings = ({ handlePage, page }) => {
     //  Update Store
     //
     if (debugLog) console.log('Update Store: z_ShowInfo ', savedValues.z_ShowInfo)
-    sessionStorage.setItem('Settings_v_HideParams', savedValues.z_HideParams)
-    sessionStorage.setItem('Settings_v_ShowInfo', savedValues.z_ShowInfo)
-    sessionStorage.setItem('Settings_v_ShowLinearProgress', savedValues.z_ShowLinearProgress)
-    sessionStorage.setItem('Settings_v_ShowLinearScore', savedValues.z_ShowLinearScore)
-    sessionStorage.setItem('Settings_v_RandomSort', savedValues.z_QuestionSort)
-    sessionStorage.setItem('Settings_v_ShowQid', savedValues.z_ShowQid)
-    sessionStorage.setItem('Settings_v_ReviewSkipPass', savedValues.z_ReviewSkipPass)
+    sessionStorage.setItem('Settings_HideParams', savedValues.z_HideParams)
+    sessionStorage.setItem('Settings_ShowInfo', savedValues.z_ShowInfo)
+    sessionStorage.setItem('Settings_ShowLinearProgress', savedValues.z_ShowLinearProgress)
+    sessionStorage.setItem('Settings_ShowLinearScore', savedValues.z_ShowLinearScore)
+    sessionStorage.setItem('Settings_RandomSort', savedValues.z_QuestionSort)
+    sessionStorage.setItem('Settings_ShowQid', savedValues.z_ShowQid)
+    sessionStorage.setItem('Settings_ReviewSkipPass', savedValues.z_ReviewSkipPass)
     //
     //  return to previous
     //

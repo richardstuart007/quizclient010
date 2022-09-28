@@ -126,8 +126,8 @@ function QuizRegister({ handlePage }) {
       .then(user => {
         if (user.u_id) {
           setForm_message(`Data updated in Database with ID(${user.u_id})`)
-          sessionStorage.setItem('Settings_v_Email', JSON.stringify(email))
-          sessionStorage.setItem('Settings_v_Name', JSON.stringify(name))
+          sessionStorage.setItem('Settings_Email', JSON.stringify(email))
+          sessionStorage.setItem('Settings_Name', JSON.stringify(name))
           handlePage('QuizSignin')
         } else {
           setForm_message('User not registered')

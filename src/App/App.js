@@ -56,13 +56,13 @@ function App() {
     //
     //  Update Previous Page
     //
-    sessionStorage.setItem('Settings_v_PagePrevious', JSON.stringify(CurrentPage))
-    if (debugLog) console.log(`UPDATED Previous Page ${JSON.parse(sessionStorage.getItem('Settings_v_PagePrevious'))}`)
+    sessionStorage.setItem('Settings_PagePrevious', JSON.stringify(CurrentPage))
+    if (debugLog) console.log(`UPDATED Previous Page ${JSON.parse(sessionStorage.getItem('Settings_PagePrevious'))}`)
     //
     //  Update NEW Page
     //
-    sessionStorage.setItem('Settings_v_Page', JSON.stringify(newPage))
-    if (debugLog) console.log(`UPDATED PAGE ${JSON.parse(sessionStorage.getItem('Settings_v_Page'))}`)
+    sessionStorage.setItem('Settings_Page', JSON.stringify(newPage))
+    if (debugLog) console.log(`UPDATED PAGE ${JSON.parse(sessionStorage.getItem('Settings_Page'))}`)
   }
   //.............................................................................
   //
@@ -113,34 +113,34 @@ function App() {
     //
     //  Session Storage
     //
-    sessionStorage.setItem('Settings_v_HideParams', false)
-    sessionStorage.setItem('Settings_v_RandomSort', true)
-    sessionStorage.setItem('Settings_v_ReviewSkipPass', true)
-    sessionStorage.setItem('Settings_v_AllowSelection', true)
-    sessionStorage.setItem('Settings_v_ShowQid', true)
-    sessionStorage.setItem('Settings_v_ShowInfo', false)
-    sessionStorage.setItem('Settings_v_ShowLinearProgress', false)
-    sessionStorage.setItem('Settings_v_ShowLinearScore', false)
-    sessionStorage.setItem('Settings_v_ShowButtonSettings', false)
-    sessionStorage.setItem('Settings_v_ShowSelectionOwner', true)
-    sessionStorage.setItem('Settings_v_ShowAllOwner', false)
-    sessionStorage.setItem('Settings_v_ShowSelectionGroup1', true)
-    sessionStorage.setItem('Settings_v_ShowAllGroup1', false)
-    sessionStorage.setItem('Settings_v_ShowSelectionGroup2', false)
-    sessionStorage.setItem('Settings_v_ShowSelectionGroup3', false)
-    sessionStorage.setItem('Settings_v_Params', null)
-    sessionStorage.setItem('Settings_v_Page', JSON.stringify('QuizSplash'))
-    sessionStorage.setItem('Settings_v_PagePrevious', JSON.stringify(''))
-    sessionStorage.setItem('Settings_v_DataLoad', true)
-    sessionStorage.setItem('Settings_v_Email', JSON.stringify('t@t.com'))
-    sessionStorage.setItem('Settings_v_Name', JSON.stringify('t'))
-    sessionStorage.setItem('Settings_v_SignedIn', false)
-    sessionStorage.setItem('Settings_v_Owner', JSON.stringify('NZBridge'))
-    sessionStorage.setItem('Settings_v_Group1', JSON.stringify('NZBIMP01'))
-    sessionStorage.setItem('Settings_v_Group2', JSON.stringify('All'))
-    sessionStorage.setItem('Settings_v_Group3', JSON.stringify('All'))
-    sessionStorage.setItem('Settings_v_MaxQuestions', 20)
-    sessionStorage.setItem('Settings_v_Reset', true)
+    sessionStorage.setItem('Settings_HideParams', false)
+    sessionStorage.setItem('Settings_RandomSort', true)
+    sessionStorage.setItem('Settings_ReviewSkipPass', true)
+    sessionStorage.setItem('Settings_AllowSelection', true)
+    sessionStorage.setItem('Settings_ShowQid', true)
+    sessionStorage.setItem('Settings_ShowInfo', false)
+    sessionStorage.setItem('Settings_ShowLinearProgress', false)
+    sessionStorage.setItem('Settings_ShowLinearScore', false)
+    sessionStorage.setItem('Settings_ShowButtonSettings', false)
+    sessionStorage.setItem('Settings_ShowSelectionOwner', true)
+    sessionStorage.setItem('Settings_ShowAllOwner', false)
+    sessionStorage.setItem('Settings_ShowSelectionGroup1', true)
+    sessionStorage.setItem('Settings_ShowAllGroup1', false)
+    sessionStorage.setItem('Settings_ShowSelectionGroup2', false)
+    sessionStorage.setItem('Settings_ShowSelectionGroup3', false)
+    sessionStorage.setItem('Settings_Params', null)
+    sessionStorage.setItem('Settings_Page', JSON.stringify('QuizSplash'))
+    sessionStorage.setItem('Settings_PagePrevious', JSON.stringify(''))
+    sessionStorage.setItem('Settings_DataLoad', true)
+    sessionStorage.setItem('Settings_Email', JSON.stringify('t@t.com'))
+    sessionStorage.setItem('Settings_Name', JSON.stringify('t'))
+    sessionStorage.setItem('Settings_SignedIn', false)
+    sessionStorage.setItem('Settings_Owner', JSON.stringify('NZBridge'))
+    sessionStorage.setItem('Settings_Group1', JSON.stringify('NZBIMP01'))
+    sessionStorage.setItem('Settings_Group2', JSON.stringify('All'))
+    sessionStorage.setItem('Settings_Group3', JSON.stringify('All'))
+    sessionStorage.setItem('Settings_MaxQuestions', 20)
+    sessionStorage.setItem('Settings_Reset', true)
   }
   //.............................................................................
   //

@@ -114,10 +114,10 @@ function QuizSignin({ handlePage }) {
       .then(user => {
         if (user.u_id) {
           setForm_message(`Signin successful with ID(${user.u_id})`)
-          sessionStorage.setItem('Settings_v_Email', JSON.stringify(email))
-          sessionStorage.setItem('Settings_v_Name', JSON.stringify(user.u_name))
-          sessionStorage.setItem('Settings_v_SignedIn', true)
-          if (debugLog) console.log('Settings_v_SignedIn TRUE')
+          sessionStorage.setItem('Settings_Email', JSON.stringify(email))
+          sessionStorage.setItem('Settings_Name', JSON.stringify(user.u_name))
+          sessionStorage.setItem('Settings_SignedIn', true)
+          if (debugLog) console.log('Settings_SignedIn TRUE')
           handlePage('QuizServerData')
         } else {
           setForm_message('Please REGISTER or email/password invalid')
@@ -132,7 +132,7 @@ function QuizSignin({ handlePage }) {
   //...................................................................................
   if (debugFunStart) console.log(debugModule)
 
-  initialFValues.email = JSON.parse(sessionStorage.getItem('Settings_v_Email'))
+  initialFValues.email = JSON.parse(sessionStorage.getItem('Settings_Email'))
   //
   //  Get the URL
   //

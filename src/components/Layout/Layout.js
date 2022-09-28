@@ -114,7 +114,7 @@ export default function Layout({ handlePage, page, children }) {
   //
   //  User
   //
-  const v_Name = JSON.parse(sessionStorage.getItem('Settings_v_Name'))
+  const v_Name = JSON.parse(sessionStorage.getItem('Settings_Name'))
   const welcome = `Welcome ${v_Name}`
   //...................................................................................
   //.  Render the component

@@ -81,7 +81,7 @@ export default function QuizNavigation({ handlePage, page }) {
   //
   //  Show Settings Button ?
   //
-  let showButtonSettings = JSON.parse(sessionStorage.getItem('Settings_v_ShowButtonSettings'))
+  let showButtonSettings = JSON.parse(sessionStorage.getItem('Settings_ShowButtonSettings'))
   if (debugLog) console.log('showButtonSettings ', showButtonSettings)
   if (showButtonSettings) {
     showButtonSettings = false

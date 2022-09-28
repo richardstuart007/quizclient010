@@ -97,7 +97,7 @@ const QuizReview = props => {
       //
       //  Only show failed answers ?
       //
-      const ReviewSkipPass = JSON.parse(sessionStorage.getItem('Settings_v_ReviewSkipPass'))
+      const ReviewSkipPass = JSON.parse(sessionStorage.getItem('Settings_ReviewSkipPass'))
       if (id !== 1 || !ReviewSkipPass) {
         Ans.push(id)
         AnsNum.push(AnsQuestIdx)
@@ -136,10 +136,10 @@ const QuizReview = props => {
     //  Write Results
     //
     if (Answered > 0) {
-      const r_email = JSON.parse(sessionStorage.getItem('Settings_v_Email'))
+      const r_email = JSON.parse(sessionStorage.getItem('Settings_Email'))
       const r_datetime = new Date()
-      const r_owner = JSON.parse(sessionStorage.getItem('Settings_v_Owner'))
-      const r_group1 = JSON.parse(sessionStorage.getItem('Settings_v_Group1'))
+      const r_owner = JSON.parse(sessionStorage.getItem('Settings_Owner'))
+      const r_group1 = JSON.parse(sessionStorage.getItem('Settings_Group1'))
       const r_questions = AnsCount
       const r_correct = AnsPass
 

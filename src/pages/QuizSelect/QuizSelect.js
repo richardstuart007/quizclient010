@@ -277,12 +277,12 @@ const QuizSelect = ({ handlePage }) => {
     //  Update store
     //
     handlePage(g_PageNew)
-    sessionStorage.setItem('Settings_v_Reset', true)
-    sessionStorage.setItem('Settings_v_Owner', JSON.stringify(params.qowner))
-    sessionStorage.setItem('Settings_v_Group1', JSON.stringify(params.qgroup1))
-    sessionStorage.setItem('Settings_v_Group2', JSON.stringify(params.qgroup2))
-    sessionStorage.setItem('Settings_v_Group3', JSON.stringify(params.qgroup3))
-    sessionStorage.setItem('Settings_v_MaxQuestions', JSON.stringify(params.MaxQuestions))
+    sessionStorage.setItem('Settings_Reset', true)
+    sessionStorage.setItem('Settings_Owner', JSON.stringify(params.qowner))
+    sessionStorage.setItem('Settings_Group1', JSON.stringify(params.qgroup1))
+    sessionStorage.setItem('Settings_Group2', JSON.stringify(params.qgroup2))
+    sessionStorage.setItem('Settings_Group3', JSON.stringify(params.qgroup3))
+    sessionStorage.setItem('Settings_MaxQuestions', JSON.stringify(params.MaxQuestions))
   }
   //...................................................................................
   //.  Sort questions
@@ -374,29 +374,29 @@ const QuizSelect = ({ handlePage }) => {
   //
   //  Set Selection from any previous values / or valtio defaults
   //
-  initialFValues.qowner = JSON.parse(sessionStorage.getItem('Settings_v_Owner'))
-  initialFValues.qgroup1 = JSON.parse(sessionStorage.getItem('Settings_v_Group1'))
-  initialFValues.qgroup2 = JSON.parse(sessionStorage.getItem('Settings_v_Group2'))
-  initialFValues.qgroup3 = JSON.parse(sessionStorage.getItem('Settings_v_Group3'))
-  initialFValues.MaxQuestions = JSON.parse(sessionStorage.getItem('Settings_v_MaxQuestions'))
+  initialFValues.qowner = JSON.parse(sessionStorage.getItem('Settings_Owner'))
+  initialFValues.qgroup1 = JSON.parse(sessionStorage.getItem('Settings_Group1'))
+  initialFValues.qgroup2 = JSON.parse(sessionStorage.getItem('Settings_Group2'))
+  initialFValues.qgroup3 = JSON.parse(sessionStorage.getItem('Settings_Group3'))
+  initialFValues.MaxQuestions = JSON.parse(sessionStorage.getItem('Settings_MaxQuestions'))
   if (debugLog) console.log('initialFValues ', initialFValues)
   //
   //  Load setup values
   //
-  g_disabled = !JSON.parse(sessionStorage.getItem('Settings_v_AllowSelection'))
-  g_showOwner = JSON.parse(sessionStorage.getItem('Settings_v_ShowSelectionOwner'))
-  g_showGroup1 = JSON.parse(sessionStorage.getItem('Settings_v_ShowSelectionGroup1'))
-  g_showGroup2 = JSON.parse(sessionStorage.getItem('Settings_v_ShowSelectionGroup2'))
-  g_showGroup3 = JSON.parse(sessionStorage.getItem('Settings_v_ShowSelectionGroup3'))
-  g_RandomSort = JSON.parse(sessionStorage.getItem('Settings_v_RandomSort'))
+  g_disabled = !JSON.parse(sessionStorage.getItem('Settings_AllowSelection'))
+  g_showOwner = JSON.parse(sessionStorage.getItem('Settings_ShowSelectionOwner'))
+  g_showGroup1 = JSON.parse(sessionStorage.getItem('Settings_ShowSelectionGroup1'))
+  g_showGroup2 = JSON.parse(sessionStorage.getItem('Settings_ShowSelectionGroup2'))
+  g_showGroup3 = JSON.parse(sessionStorage.getItem('Settings_ShowSelectionGroup3'))
+  g_RandomSort = JSON.parse(sessionStorage.getItem('Settings_RandomSort'))
   if (debugLog) console.log(g_disabled, g_showOwner, g_showGroup1)
   //
   //  Load the data array from the store
   //
-  g_DataLoad = JSON.parse(sessionStorage.getItem('Settings_v_DataLoad'))
+  g_DataLoad = JSON.parse(sessionStorage.getItem('Settings_DataLoad'))
   if (g_DataLoad) {
     g_DataLoad = false
-    sessionStorage.setItem('Settings_v_DataLoad', false)
+    sessionStorage.setItem('Settings_DataLoad', false)
     LoadOptions()
   }
   //

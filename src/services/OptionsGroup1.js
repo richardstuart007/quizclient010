@@ -35,7 +35,7 @@ const OptionsGroup1 = props => {
     //
     //  Store
     //
-    sessionStorage.setItem('Settings_v_OptionsGroup1', JSON.stringify(Options))
+    sessionStorage.setItem('Settings_OptionsGroup1', JSON.stringify(Options))
     if (debugLog) console.log('Options ', Options)
   }
   //.............................................................................

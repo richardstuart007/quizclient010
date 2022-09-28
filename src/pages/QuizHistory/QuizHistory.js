@@ -55,15 +55,14 @@ const headCells = [
   { id: 'r_owner', label: 'Owner' },
   { id: 'g1title', label: 'Group 1' },
   { id: 'r_questions', label: 'Questions' },
-  { id: 'r_correct', label: 'Correct' }
+  { id: 'r_correct', label: 'Correct' },
+  { id: 'r_percent', label: '%' }
 ]
 const searchTypeOptions = [
   { id: 'r_id', title: 'ID' },
   { id: 'ddmmyy', title: 'Date' },
   { id: 'r_owner', title: 'Owner' },
-  { id: 'g1title', title: 'Group 1' },
-  { id: 'r_questions', title: 'Questions' },
-  { id: 'r_correct', title: 'Correct' }
+  { id: 'g1title', title: 'Group 1' }
 ]
 //
 let subTitle
@@ -94,7 +93,8 @@ export default function QuizHistory(props) {
     //
     //  Selection
     //
-    let sqlString = `r_id, r_datetime, r_owner, g1title, r_questions, r_correct from usershistory join group1 on r_group1 = g1id where r_email='${email}' order by r_id desc`
+    let sqlString = `r_id, r_datetime, r_owner, g1title, r_questions, r_correct, 100 * r_correct/r_questions as r_percent from usershistory join group1 on r_group1 = g1id 
+    where r_email='${email}' and r_questions > 0 order by r_id desc`
     if (debugLog) console.log('sqlString', sqlString)
     //
     //  Process promise
@@ -199,12 +199,6 @@ export default function QuizHistory(props) {
               x.g1title.toLowerCase().includes(searchValue.toLowerCase())
             )
             break
-          case 'r_questions':
-            itemsFilter = items.filter(x => x.r_questions.includes(searchValue.toLowerCase()))
-            break
-          case 'r_correct':
-            itemsFilter = items.filter(x => x.r_correct.includes(searchValue.toLowerCase()))
-            break
           default:
         }
         if (debugLog) console.log('itemsFilter ', itemsFilter)
@@ -293,6 +287,7 @@ export default function QuizHistory(props) {
                 <TableCell>{row.g1title}</TableCell>
                 <TableCell>{row.r_questions}</TableCell>
                 <TableCell>{row.r_correct}</TableCell>
+                <TableCell>{row.r_percent}</TableCell>
               </TableRow>
             ))}
           </TableBody>

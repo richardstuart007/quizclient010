@@ -57,7 +57,10 @@ function App() {
     //  Update Previous Page
     //
     sessionStorage.setItem('Settings_PagePrevious', JSON.stringify(CurrentPage))
-    if (debugLog) console.log(`UPDATED Previous Page ${JSON.parse(sessionStorage.getItem('Settings_PagePrevious'))}`)
+    if (debugLog)
+      console.log(
+        `UPDATED Previous Page ${JSON.parse(sessionStorage.getItem('Settings_PagePrevious'))}`
+      )
     //
     //  Update NEW Page
     //
@@ -132,8 +135,8 @@ function App() {
     sessionStorage.setItem('Settings_Page', JSON.stringify('QuizSplash'))
     sessionStorage.setItem('Settings_PagePrevious', JSON.stringify(''))
     sessionStorage.setItem('Settings_DataLoad', true)
-    sessionStorage.setItem('Settings_Email', JSON.stringify('t@t.com'))
-    sessionStorage.setItem('Settings_Name', JSON.stringify('t'))
+    sessionStorage.setItem('Settings_Email', JSON.stringify(''))
+    sessionStorage.setItem('Settings_Name', JSON.stringify(''))
     sessionStorage.setItem('Settings_SignedIn', false)
     sessionStorage.setItem('Settings_Owner', JSON.stringify('NZBridge'))
     sessionStorage.setItem('Settings_Group1', JSON.stringify('NZBIMP01'))

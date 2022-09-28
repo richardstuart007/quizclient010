@@ -26,20 +26,17 @@ const QuizSplash = ({ handlePage }) => {
   return (
     <Grid container>
       <Container>
-        <Typography variant='h6' sx={{ marginTop: '8px' }}>
+        <Typography variant='h6' sx={{ marginTop: '8px', color: 'blue' }}>
+          DATABASE VERSION 010
+        </Typography>
+        <Typography variant='subtitle2' sx={{ marginTop: '8px' }}>
           This product is in Trial/Development.
         </Typography>
         <Typography variant='subtitle2' sx={{ marginTop: '8px' }}>
           It has been developed by Richard Stuart and is FREE to use/distribute.
         </Typography>
-        <Typography variant='subtitle2' sx={{ marginTop: '8px' }}>
-          If your URL does not work try the ones below
-        </Typography>
-        <Typography variant='subtitle2' sx={{ marginTop: '8px' }}>
-          <a href='https://richardstuart007.github.io/quizclientstatic010/'>Static version</a>
-        </Typography>
-        <Typography variant='subtitle2' sx={{ marginTop: '8px' }}>
-          <a href='https://richardstuart007.github.io/quizclient010/'>Database Server Version</a>
+        <Typography variant='h6' sx={{ marginTop: '8px', color: 'red' }}>
+          I will be at Congress this week, so come and say Hello
         </Typography>
         <Typography variant='subtitle2' sx={{ marginTop: '8px' }}>
           Alternatively email me at richardstuart007@hotmail.com

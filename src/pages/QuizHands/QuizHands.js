@@ -30,6 +30,13 @@ const QuizHands = ({ qid }) => {
   //  Get hands
   //
   const Data_HandsJSON = sessionStorage.getItem('Data_Hands')
+  //
+  //  No data, return
+  //
+  if (Data_HandsJSON === '') return null
+  //
+  //  Parse data
+  //
   const Data_Hands = JSON.parse(Data_HandsJSON)
   if (debugLog) console.log('Data_Hands ', Data_Hands)
   //
@@ -111,11 +118,7 @@ const QuizHands = ({ qid }) => {
   //...................................................................................
   return (
     <>
-      <Typography
-        variant='subtitle2'
-        style={{ color: teal['A700'] }}
-        sx={{ marginTop: '8px' }}
-      >
+      <Typography variant='subtitle2' style={{ color: teal['A700'] }} sx={{ marginTop: '8px' }}>
         Hands
       </Typography>
 

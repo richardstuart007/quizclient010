@@ -56,7 +56,12 @@ export default function QuizNavigation({ handlePage, page }) {
   //  Show  Restart Button ?
   //
   let showButtonRestart = false
-  if (CurrentPage === 'QuizRefs' || CurrentPage === 'Quiz' || CurrentPage === 'QuizHistory' || CurrentPage === 'QuizReview')
+  if (
+    CurrentPage === 'QuizRefs' ||
+    CurrentPage === 'Quiz' ||
+    CurrentPage === 'QuizHistory' ||
+    CurrentPage === 'QuizReview'
+  )
     showButtonRestart = true
   //
   //  Show Review Button ?
@@ -74,10 +79,17 @@ export default function QuizNavigation({ handlePage, page }) {
   //  Show Book Button ?
   //
   let showMenuBook = false
+  let Data_Reflinks = []
   const Data_ReflinksJSON = sessionStorage.getItem('Data_Reflinks')
-  const Data_Reflinks = JSON.parse(Data_ReflinksJSON)
+  if (Data_ReflinksJSON && Data_ReflinksJSON.length > 0)
+    Data_Reflinks = JSON.parse(Data_ReflinksJSON)
 
-  if ((CurrentPage === 'Quiz' || CurrentPage === 'QuizReview') && Data_Reflinks[0] && Data_Reflinks.length > 0) showMenuBook = true
+  if (
+    (CurrentPage === 'Quiz' || CurrentPage === 'QuizReview') &&
+    Data_Reflinks[0] &&
+    Data_Reflinks.length > 0
+  )
+    showMenuBook = true
   //
   //  Show Settings Button ?
   //

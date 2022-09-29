@@ -26,7 +26,7 @@ const sqlClient = 'Quiz/Signin'
 //
 const debugLog = debugSettings()
 // const debugLogTest = false
-const debugFunStart = true
+const debugFunStart = false
 const debugModule = 'QuizSignin'
 //.............................................................................
 //.  Data Input Fields
@@ -156,10 +156,22 @@ function QuizSignin({ handlePage }) {
         {/*.................................................................................................*/}
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <MyInput name='email' label='email' value={values.email} onChange={handleInputChange} error={errors.email} />
+            <MyInput
+              name='email'
+              label='email'
+              value={values.email}
+              onChange={handleInputChange}
+              error={errors.email}
+            />
           </Grid>
           <Grid item xs={12}>
-            <MyInput name='password' label='password' value={values.password} onChange={handleInputChange} error={errors.password} />
+            <MyInput
+              name='password'
+              label='password'
+              value={values.password}
+              onChange={handleInputChange}
+              error={errors.password}
+            />
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>

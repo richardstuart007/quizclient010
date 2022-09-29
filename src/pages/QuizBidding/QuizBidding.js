@@ -30,6 +30,13 @@ const QuizBidding = ({ qid }) => {
   //  Get Bidding
   //
   const Data_BiddingJSON = sessionStorage.getItem('Data_Bidding')
+  //
+  //  No Bidding, return
+  //
+  if (Data_BiddingJSON === '') return null
+  //
+  //  Parse data
+  //
   const Data_Bidding = JSON.parse(Data_BiddingJSON)
   if (debugLog) console.log('Data_Bidding ', Data_Bidding)
   //
@@ -145,11 +152,7 @@ const QuizBidding = ({ qid }) => {
   //...................................................................................
   return (
     <>
-      <Typography
-        variant='subtitle2'
-        style={{ color: teal['A700'] }}
-        sx={{ marginTop: '8px' }}
-      >
+      <Typography variant='subtitle2' style={{ color: teal['A700'] }} sx={{ marginTop: '8px' }}>
         Bidding
       </Typography>
       <Card sx={{ maxWidth: 400 }} style={{ backgroundColor: cyan['A100'] }}>

@@ -23,6 +23,7 @@ import QuizSelectData from './QuizSelectData'
 //  Constants
 //
 const { ROWS_MAX } = require('../../services/constants.js')
+const { WAIT } = require('../../services/constants.js')
 //
 let g_DataLoad = null
 //
@@ -44,7 +45,6 @@ let g_RandomSort
 //  Global workfields
 //
 let g_QCount = 0
-let g_ReflinksCount = 0
 //..............................................................................
 //.  Initialisation
 //.............................................................................
@@ -52,7 +52,6 @@ let g_ReflinksCount = 0
 // Debug Settings
 //
 const debugLog = debugSettings()
-const debugLogTest = false
 const debugFunStart = false
 const debugModule = 'QuizSelect'
 //.............................................................................
@@ -198,43 +197,56 @@ const QuizSelect = ({ handlePage }) => {
     params.qgroup3 = values.qgroup3
     params.MaxQuestions = values.MaxQuestions
     //
+    //  Reset the Data
+    //
+    sessionStorage.setItem('Data_Questions_Received', false)
+    sessionStorage.setItem('Data_Bidding_Received', false)
+    sessionStorage.setItem('Data_Hands_Received', false)
+    sessionStorage.setItem('Data_Reflinks_Received', false)
+
+    sessionStorage.setItem('Data_Questions', [])
+    sessionStorage.setItem('Data_Bidding', [])
+    sessionStorage.setItem('Data_Hands', [])
+    sessionStorage.setItem('Data_Reflinks', [])
+
+    sessionStorage.setItem('Data_Questions_Sorted', [])
+    sessionStorage.setItem('Data_Questions_Count', 0)
+    //
     //  QuizSelectData
     //
-    const TimeStamp = Date.now()
-    if (debugLogTest) console.log(`${TimeStamp} QuizSelectData ==>`)
     QuizSelectData(params)
-    const TimeStamp1 = Date.now()
-    if (debugLogTest) console.log(`${TimeStamp1} QuizSelectData <==`)
     //
     //  Wait for data
     //
-    if (debugLog) console.log(`Wait QuizSelectData`)
-
-    const myInterval = setTimeout(myTimer, 500)
+    let totalWAIT = 0
+    const myInterval = setInterval(myTimer, WAIT)
     function myTimer() {
+      if (debugLog) console.log(`Wait ${WAIT}`)
+      totalWAIT = totalWAIT + WAIT
       //
-      //  Session Storage
+      //  Data received, end wait
       //
-      const Data_QuestionsJSON = sessionStorage.getItem('Data_Questions')
-      const Data_Questions = JSON.parse(Data_QuestionsJSON)
-      if (debugLog) console.log(Data_Questions)
-
-      const Data_BiddingJSON = sessionStorage.getItem('Data_Bidding')
-      const Data_Bidding = JSON.parse(Data_BiddingJSON)
-      if (debugLog) console.log(Data_Bidding)
-
-      const Data_HandsJSON = sessionStorage.getItem('Data_Hands')
-      const Data_Hands = JSON.parse(Data_HandsJSON)
-      if (debugLog) console.log(Data_Hands)
-
-      const Data_ReflinksJSON = sessionStorage.getItem('Data_Reflinks')
-      const Data_Reflinks = JSON.parse(Data_ReflinksJSON)
-      g_ReflinksCount = Data_Reflinks.length
-      if (debugLog) console.log(Data_Reflinks)
-
-      clearTimeout(myInterval)
-
-      updateSelection()
+      const Data_Questions_Received = JSON.parse(sessionStorage.getItem('Data_Questions_Received'))
+      const Data_Bidding_Received = JSON.parse(sessionStorage.getItem('Data_Bidding_Received'))
+      const Data_Hands_Received = JSON.parse(sessionStorage.getItem('Data_Hands_Received'))
+      const Data_Reflinks_Received = JSON.parse(sessionStorage.getItem('Data_Reflinks_Received'))
+      if (debugLog)
+        console.log(
+          `Questions(${Data_Questions_Received}) Bidding(${Data_Bidding_Received}) Hands(${Data_Hands_Received}) Reflinks(${Data_Reflinks_Received})`
+        )
+      if (
+        Data_Questions_Received &&
+        Data_Bidding_Received &&
+        Data_Hands_Received &&
+        Data_Reflinks_Received
+      ) {
+        //
+        //  Update Selection
+        //
+        if (debugLog) console.log('All DATA received totalWAIT = ', totalWAIT)
+        updateSelection()
+        clearInterval(myInterval)
+      }
     }
   }
   //...................................................................................
@@ -245,9 +257,7 @@ const QuizSelect = ({ handlePage }) => {
     //
     //  Session Storage
     //
-    const Data_QuestionsJSON = sessionStorage.getItem('Data_Questions')
-    const Data_Questions = JSON.parse(Data_QuestionsJSON)
-    if (debugLog) console.log(Data_Questions)
+    const Data_Questions = JSON.parse(sessionStorage.getItem('Data_Questions'))
     g_Questions = Data_Questions
     if (debugLog) console.log('g_Questions ', g_Questions)
     //
@@ -266,9 +276,10 @@ const QuizSelect = ({ handlePage }) => {
     //
     //  No Refs
     //
-    if (debugLog) console.log('g_ReflinksCount ', g_ReflinksCount)
+    const Data_ReflinksJSON = sessionStorage.getItem('Data_Reflinks')
+    if (debugLog) console.log('Data_ReflinksJSON ', Data_ReflinksJSON)
     if (g_PageNew === 'QuizRefs') {
-      if (g_ReflinksCount === 0) {
+      if (Data_ReflinksJSON === '') {
         setForm_message('QuizSelect: No Learning Material found')
         return
       }
@@ -276,13 +287,16 @@ const QuizSelect = ({ handlePage }) => {
     //
     //  Update store
     //
-    handlePage(g_PageNew)
     sessionStorage.setItem('Settings_Reset', true)
     sessionStorage.setItem('Settings_Owner', JSON.stringify(params.qowner))
     sessionStorage.setItem('Settings_Group1', JSON.stringify(params.qgroup1))
     sessionStorage.setItem('Settings_Group2', JSON.stringify(params.qgroup2))
     sessionStorage.setItem('Settings_Group3', JSON.stringify(params.qgroup3))
     sessionStorage.setItem('Settings_MaxQuestions', JSON.stringify(params.MaxQuestions))
+    //
+    //  Start Quiz
+    //
+    handlePage(g_PageNew)
   }
   //...................................................................................
   //.  Sort questions
@@ -314,12 +328,10 @@ const QuizSelect = ({ handlePage }) => {
       //  Session Storage
       //
       if (debugLog) console.log('Data_Questions_Sorted ', Data_Questions_Sorted)
-      const Data_Questions_SortedJSON = JSON.stringify(Data_Questions_Sorted)
-      sessionStorage.setItem('Data_Questions_Sorted', Data_Questions_SortedJSON)
+      sessionStorage.setItem('Data_Questions_Sorted', JSON.stringify(Data_Questions_Sorted))
 
       const Data_Questions_Count = Data_Questions_Sorted.length
-      const Data_Questions_CountJSON = JSON.stringify(Data_Questions_Count)
-      sessionStorage.setItem('Data_Questions_Count', Data_Questions_CountJSON)
+      sessionStorage.setItem('Data_Questions_Count', JSON.stringify(Data_Questions_Count))
 
       g_QCount = Data_Questions_Sorted.length
     }
@@ -403,7 +415,11 @@ const QuizSelect = ({ handlePage }) => {
   //  Interface to Form
   //
   if (debugLog) console.log('initialFValues ', initialFValues)
-  const { values, setValues, errors, setErrors, handleInputChange } = useMyForm(initialFValues, true, validate)
+  const { values, setValues, errors, setErrors, handleInputChange } = useMyForm(
+    initialFValues,
+    true,
+    validate
+  )
   //
   if (debugLog) console.log('g_OwnerOptions ', g_OwnerOptions)
   if (debugLog) console.log('g_Group1OptionsSubset ', g_Group1OptionsSubset)

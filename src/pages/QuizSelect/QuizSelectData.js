@@ -30,10 +30,8 @@ const QuizSelectData = props => {
     //  Selection
     //
     let sqlString = `* from questions where qowner = '${qowner}' and qgroup1 = '${qgroup1}'`
-    if (qgroup2 & (qgroup2 !== 'All'))
-      sqlString = sqlString + ` qgroup2 = '${qgroup2}`
-    if (qgroup3 & (qgroup3 !== 'All'))
-      sqlString = sqlString + ` qgroup3 = '${qgroup3}`
+    if (qgroup2 & (qgroup2 !== 'All')) sqlString = sqlString + ` qgroup2 = '${qgroup2}`
+    if (qgroup3 & (qgroup3 !== 'All')) sqlString = sqlString + ` qgroup3 = '${qgroup3}`
     if (debugLog) console.log('sqlString', sqlString)
     //
     //  Process promise
@@ -53,8 +51,8 @@ const QuizSelectData = props => {
       //  Session Storage
       //
       if (debugLog) console.log('Data_Questions ', Data_Questions)
-      const Data_QuestionsJSON = JSON.stringify(Data_Questions)
-      sessionStorage.setItem('Data_Questions', Data_QuestionsJSON)
+      sessionStorage.setItem('Data_Questions', JSON.stringify(Data_Questions))
+      sessionStorage.setItem('Data_Questions_Received', true)
       const TimeStamp = Date.now()
       if (debugLogTest) console.log(`${TimeStamp} Data_Questions ==>`)
       //
@@ -76,10 +74,8 @@ const QuizSelectData = props => {
     //  Sub query of questions
     //
     let sqlSubQuery = `select qid from questions where qowner = '${qowner}' and qgroup1 = '${qgroup1}'`
-    if (qgroup2 & (qgroup2 !== 'All'))
-      sqlSubQuery = sqlSubQuery + ` qgroup2 = '${qgroup2}`
-    if (qgroup3 & (qgroup3 !== 'All'))
-      sqlSubQuery = sqlSubQuery + ` qgroup3 = '${qgroup3}`
+    if (qgroup2 & (qgroup2 !== 'All')) sqlSubQuery = sqlSubQuery + ` qgroup2 = '${qgroup2}`
+    if (qgroup3 & (qgroup3 !== 'All')) sqlSubQuery = sqlSubQuery + ` qgroup3 = '${qgroup3}`
     if (debugLog) console.log('sqlSubQuery', sqlSubQuery)
     //
     //  Selection
@@ -104,8 +100,10 @@ const QuizSelectData = props => {
       //  Session Storage
       //
       if (debugLog) console.log('Data_Bidding ', Data_Bidding)
-      const Data_BiddingJSON = JSON.stringify(Data_Bidding)
-      sessionStorage.setItem('Data_Bidding', Data_BiddingJSON)
+      sessionStorage.setItem('Data_Bidding', JSON.stringify(Data_Bidding))
+
+      sessionStorage.setItem('Data_Bidding_Received', true)
+
       const TimeStamp = Date.now()
       if (debugLogTest) console.log(`${TimeStamp} Data_Bidding ==>`)
       //
@@ -127,10 +125,8 @@ const QuizSelectData = props => {
     //  Sub query of questions
     //
     let sqlSubQuery1 = `select qid from questions where qowner = '${qowner}' and qgroup1 = '${qgroup1}'`
-    if (qgroup2 & (qgroup2 !== 'All'))
-      sqlSubQuery1 = sqlSubQuery1 + ` qgroup2 = '${qgroup2}`
-    if (qgroup3 & (qgroup3 !== 'All'))
-      sqlSubQuery1 = sqlSubQuery1 + ` qgroup3 = '${qgroup3}`
+    if (qgroup2 & (qgroup2 !== 'All')) sqlSubQuery1 = sqlSubQuery1 + ` qgroup2 = '${qgroup2}`
+    if (qgroup3 & (qgroup3 !== 'All')) sqlSubQuery1 = sqlSubQuery1 + ` qgroup3 = '${qgroup3}`
     if (debugLog) console.log('sqlSubQuery1', sqlSubQuery1)
     //
     //  Selection
@@ -155,8 +151,9 @@ const QuizSelectData = props => {
       //  Session Storage
       //
       if (debugLog) console.log('Data_Hands ', Data_Hands)
-      const Data_HandsJSON = JSON.stringify(Data_Hands)
-      sessionStorage.setItem('Data_Hands', Data_HandsJSON)
+      sessionStorage.setItem('Data_Hands', JSON.stringify(Data_Hands))
+      sessionStorage.setItem('Data_Hands_Received', true)
+
       const TimeStamp = Date.now()
       if (debugLogTest) console.log(`${TimeStamp} Data_Hands ==>`)
       //
@@ -178,17 +175,13 @@ const QuizSelectData = props => {
     //  Sub query of questions
     //
     let sqlSubQuery1 = `select qrefs[1] from questions where qowner = '${qowner}' and qgroup1 = '${qgroup1}'`
-    if (qgroup2 & (qgroup2 !== 'All'))
-      sqlSubQuery1 = sqlSubQuery1 + ` qgroup2 = '${qgroup2}`
-    if (qgroup3 & (qgroup3 !== 'All'))
-      sqlSubQuery1 = sqlSubQuery1 + ` qgroup3 = '${qgroup3}`
+    if (qgroup2 & (qgroup2 !== 'All')) sqlSubQuery1 = sqlSubQuery1 + ` qgroup2 = '${qgroup2}`
+    if (qgroup3 & (qgroup3 !== 'All')) sqlSubQuery1 = sqlSubQuery1 + ` qgroup3 = '${qgroup3}`
     if (debugLog) console.log('sqlSubQuery1', sqlSubQuery1)
 
     let sqlSubQuery2 = `select qrefs[2] from questions where qowner = '${qowner}' and qgroup1 = '${qgroup1}'`
-    if (qgroup2 & (qgroup2 !== 'All'))
-      sqlSubQuery2 = sqlSubQuery2 + ` qgroup2 = '${qgroup2}`
-    if (qgroup3 & (qgroup3 !== 'All'))
-      sqlSubQuery2 = sqlSubQuery2 + ` qgroup3 = '${qgroup3}`
+    if (qgroup2 & (qgroup2 !== 'All')) sqlSubQuery2 = sqlSubQuery2 + ` qgroup2 = '${qgroup2}`
+    if (qgroup3 & (qgroup3 !== 'All')) sqlSubQuery2 = sqlSubQuery2 + ` qgroup3 = '${qgroup3}`
     if (debugLog) console.log('sqlSubQuery2', sqlSubQuery2)
     //
     //  Selection
@@ -213,8 +206,8 @@ const QuizSelectData = props => {
       //  Session Storage
       //
       if (debugLog) console.log('Data_Reflinks ', Data_Reflinks)
-      const Data_ReflinksJSON = JSON.stringify(Data_Reflinks)
-      sessionStorage.setItem('Data_Reflinks', Data_ReflinksJSON)
+      sessionStorage.setItem('Data_Reflinks', JSON.stringify(Data_Reflinks))
+      sessionStorage.setItem('Data_Reflinks_Received', true)
       const TimeStamp = Date.now()
       if (debugLogTest) console.log(`${TimeStamp} Data_Reflinks ==>`)
       //
@@ -243,38 +236,6 @@ const QuizSelectData = props => {
   LoadServerBidding()
   LoadServerHands()
   LoadServerReflinks()
-  //
-  //  Wait for data
-  //
-  const TimeStamp = Date.now()
-  if (debugLogTest) console.log(`${TimeStamp} Get Store 1 ==>`)
-
-  const myInterval = setTimeout(myTimer, 500)
-  function myTimer() {
-    const TimeStamp = Date.now()
-    if (debugLogTest) console.log(`${TimeStamp} Get Store 2 ==>`)
-    //
-    //  Session Storage
-    //
-    const Data_QuestionsJSON = sessionStorage.getItem('Data_Questions')
-    const Data_Questions = JSON.parse(Data_QuestionsJSON)
-    if (debugLog) console.log(`Data_Questions ${Data_Questions.length}`)
-
-    const Data_BiddingJSON = sessionStorage.getItem('Data_Bidding')
-    const Data_Bidding = JSON.parse(Data_BiddingJSON)
-    if (debugLog) console.log(`Data_Bidding ${Data_Bidding.length}`)
-
-    const Data_HandsJSON = sessionStorage.getItem('Data_Hands')
-    const Data_Hands = JSON.parse(Data_HandsJSON)
-    if (debugLog) console.log(`Data_Hands ${Data_Hands.length}`)
-
-    const Data_ReflinksJSON = sessionStorage.getItem('Data_Reflinks')
-    const Data_Reflinks = JSON.parse(Data_ReflinksJSON)
-    if (debugLog) console.log(`Data_Reflinks ${Data_Reflinks.length}`)
-    if (debugLog) console.log(Data_Reflinks.length)
-
-    clearTimeout(myInterval)
-  }
 }
 
 export default QuizSelectData

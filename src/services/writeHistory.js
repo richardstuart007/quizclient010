@@ -12,9 +12,58 @@ import debugSettings from '../debug/debugSettings'
 //
 const debugLog = debugSettings()
 //===================================================================================
-function writeHistory(sqlRow) {
+function writeHistory() {
   //
-  //  Data Received
+  //  Answers
+  //
+  const r_ans = JSON.parse(sessionStorage.getItem('Data_Answers'))
+  const r_questions = r_ans.length
+  //
+  //  If no questions answered, do not write history
+  //
+  if (r_questions === 0) return
+  //
+  //  Key
+  //
+  const r_email = JSON.parse(sessionStorage.getItem('Settings_Email'))
+  const r_datetime = new Date()
+  //
+  //  Selection Data
+  //
+  const r_owner = JSON.parse(sessionStorage.getItem('Settings_Owner'))
+  const r_group1 = JSON.parse(sessionStorage.getItem('Settings_Group1'))
+  //
+  //  Correct Answers
+  //
+  let r_correct = 0
+  r_ans.forEach(id => {
+    if (id === 1) r_correct++
+  })
+  //
+  //  Question IDs of Answered questions
+  //
+  let r_qid = []
+  let count = 0
+  const Data_Questions_Sorted = JSON.parse(sessionStorage.getItem('Data_Questions_Sorted'))
+  Data_Questions_Sorted.forEach(row => {
+    count++
+    if (count <= r_questions) r_qid.push(row.qid)
+  })
+  //
+  //  Build row
+  //
+  const sqlRow = {
+    r_email: r_email,
+    r_datetime: r_datetime,
+    r_owner: r_owner,
+    r_group1: r_group1,
+    r_questions: r_questions,
+    r_correct: r_correct,
+    r_qid: r_qid,
+    r_ans: r_ans
+  }
+  //
+  //  Data
   //
   if (debugLog) console.log('sqlRow ', sqlRow)
   //

@@ -21,10 +21,6 @@ import QuizBidding from '../QuizBidding/QuizBidding'
 //  Common Components
 //
 import QuizQuestion from '../Common/QuizQuestion'
-//
-//  Utilities
-//
-import writeHistory from '../../services/writeHistory'
 //.............................................................................
 //.  Initialisation
 //.............................................................................
@@ -64,18 +60,13 @@ const QuizReview = props => {
     //
     const Data_Questions_Sorted = JSON.parse(sessionStorage.getItem('Data_Questions_Sorted'))
     const Data_Answers = JSON.parse(sessionStorage.getItem('Data_Answers'))
-    const Answered = Data_Answers.length
     //
     //  Questions
     //
     let ArrQuestions = []
-    let r_qid = []
-    let count = 0
     Data_Questions_Sorted.forEach(row => {
       const rowData = { ...row }
       ArrQuestions.push(rowData)
-      count++
-      if (count <= Answered) r_qid.push(row.qid)
     })
     if (debugLog) console.log('ArrQuestions ', ArrQuestions)
     setArrQuest(ArrQuestions)
@@ -130,34 +121,6 @@ const QuizReview = props => {
     setAnsIdx(AnsIdx)
     const QuizIdx = AnsNum[AnsIdx]
     setQuizRow(ArrQuestions[QuizIdx])
-    //
-    //  Write Results
-    //
-    if (Answered > 0) {
-      const r_email = JSON.parse(sessionStorage.getItem('Settings_Email'))
-      const r_datetime = new Date()
-      const r_owner = JSON.parse(sessionStorage.getItem('Settings_Owner'))
-      const r_group1 = JSON.parse(sessionStorage.getItem('Settings_Group1'))
-      const r_questions = AnsCount
-      const r_correct = AnsPass
-
-      const r_ans = Data_Answers
-      //
-      //  Build row
-      //
-      const sqlRow = {
-        r_email: r_email,
-        r_datetime: r_datetime,
-        r_owner: r_owner,
-        r_group1: r_group1,
-        r_questions: r_questions,
-        r_correct: r_correct,
-        r_qid: r_qid,
-        r_ans: r_ans
-      }
-      if (debugLog) console.log('sqlRow ', sqlRow)
-      writeHistory(sqlRow)
-    }
   }
   //...................................................................................
   //.  Next Question

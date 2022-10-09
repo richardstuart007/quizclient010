@@ -85,6 +85,9 @@ export default function Layout({ handlePage, page, children }) {
       title = 'SignIn'
       showWelcome = false
       break
+    case 'QuizSplash':
+      showWelcome = false
+      break
     case 'QuizServerData':
       title = 'Get Server Data'
       break
@@ -116,7 +119,8 @@ export default function Layout({ handlePage, page, children }) {
   //
   let welcome = ''
   const v_NameJSON = sessionStorage.getItem('Settings_Name')
-  if (v_NameJSON !== '') welcome = `Welcome ${JSON.parse(v_NameJSON)}`
+  const Settings_SignedIn = sessionStorage.getItem('Settings_SignedIn')
+  if (Settings_SignedIn) welcome = `Welcome ${JSON.parse(v_NameJSON)}`
   //...................................................................................
   //.  Render the component
   //...................................................................................

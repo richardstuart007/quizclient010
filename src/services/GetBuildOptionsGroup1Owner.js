@@ -15,7 +15,7 @@ const functionName = 'GetBuildOptionsGroup1Owner'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 const debugFunStart = false
 //===================================================================================
 const GetBuildOptionsGroup1Owner = () => {

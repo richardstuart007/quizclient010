@@ -71,25 +71,31 @@ function QuizControl({ handlePage, page }) {
     //.  Show Overrides
     //..............................
     const ShowButtonSettings = urlParams.get('ShowButtonSettings')
-    if (ShowButtonSettings && ShowButtonSettings === 'true') sessionStorage.setItem('Settings_ShowButtonSettings', true)
+    if (ShowButtonSettings && ShowButtonSettings === 'true')
+      sessionStorage.setItem('Settings_ShowButtonSettings', true)
 
     const ShowSelectionOwner = urlParams.get('ShowSelectionOwner')
-    if (ShowSelectionOwner && ShowSelectionOwner === 'true') sessionStorage.setItem('Settings_ShowSelectionOwner', true)
+    if (ShowSelectionOwner && ShowSelectionOwner === 'true')
+      sessionStorage.setItem('Settings_ShowSelectionOwner', true)
 
     const ShowSelectionGroup1 = urlParams.get('ShowSelectionGroup1')
-    if (ShowSelectionGroup1 && ShowSelectionGroup1 === 'true') sessionStorage.setItem('Settings_ShowSelectionGroup1', true)
+    if (ShowSelectionGroup1 && ShowSelectionGroup1 === 'true')
+      sessionStorage.setItem('Settings_ShowSelectionGroup1', true)
 
     const ShowSelectionGroup2 = urlParams.get('ShowSelectionGroup2')
-    if (ShowSelectionGroup2 && ShowSelectionGroup2 === 'true') sessionStorage.setItem('Settings_ShowSelectionGroup2', true)
+    if (ShowSelectionGroup2 && ShowSelectionGroup2 === 'true')
+      sessionStorage.setItem('Settings_ShowSelectionGroup2', true)
 
     const ShowSelectionGroup3 = urlParams.get('ShowSelectionGroup3')
-    if (ShowSelectionGroup3 && ShowSelectionGroup3 === 'true') sessionStorage.setItem('Settings_ShowSelectionGroup3', true)
+    if (ShowSelectionGroup3 && ShowSelectionGroup3 === 'true')
+      sessionStorage.setItem('Settings_ShowSelectionGroup3', true)
 
     const ShowInfo = urlParams.get('ShowInfo')
     if (ShowInfo) {
-      ShowInfo === 'true' ? sessionStorage.setItem('Settings_ShowInfo', true) : sessionStorage.setItem('Settings_ShowInfo', false)
+      ShowInfo === 'true'
+        ? sessionStorage.setItem('Settings_ShowInfo', true)
+        : sessionStorage.setItem('Settings_ShowInfo', false)
     }
-
     //..............................
     //.  Selection
     //..............................
@@ -123,7 +129,6 @@ function QuizControl({ handlePage, page }) {
       history.replaceState({}, null, 'Params')
     }
   }
-
   //.............................................................................
   //.  Main Line
   //.............................................................................

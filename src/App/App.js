@@ -13,6 +13,10 @@ import debugSettings from '../debug/debugSettings'
 //
 import QuizControl from '../pages/QuizControl'
 //
+//  Utilities
+//
+import writeHistory from '../services/writeHistory'
+//
 //  Common Components
 //
 import Layout from '../components/Layout/Layout'
@@ -47,6 +51,12 @@ function App() {
   //.  Handle Page Change
   //.............................................................................
   const handlePage = newPage => {
+    //
+    //  Current Page is Quiz and Quiz End, write history
+    //
+    if (page === 'Quiz' && newPage !== page && newPage !== 'QuizRefs') {
+      writeHistory()
+    }
     //
     //  Update State
     //

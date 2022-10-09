@@ -201,8 +201,6 @@ export default function QuizNavigation({ handlePage, page }) {
             startIcon={<LogoutIcon fontSize='small' />}
             color='warning'
             onClick={() => {
-              sessionStorage.setItem('Settings_Email', '')
-              sessionStorage.setItem('Settings_Name', '')
               sessionStorage.setItem('Settings_SignedIn', false)
               handlePage('QuizSplash')
             }}

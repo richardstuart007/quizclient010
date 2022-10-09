@@ -32,7 +32,7 @@ const sqlClient = 'Quiz/Signin'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 // const debugLogTest = false
 const debugFunStart = false
 const debugModule = 'QuizSignin'

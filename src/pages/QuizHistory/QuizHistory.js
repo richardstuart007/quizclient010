@@ -233,7 +233,7 @@ export default function QuizHistory(props) {
   return (
     <>
       <PageHeader
-        title='Results'
+        title='History of Results'
         subTitle={subTitle}
         icon={<PeopleOutlineTwoToneIcon fontSize='large' />}
       />

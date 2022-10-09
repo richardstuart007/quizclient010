@@ -8,9 +8,11 @@ import makeStyles from '@mui/styles/makeStyles'
 //
 import RefreshIcon from '@mui/icons-material/Refresh'
 import ScoreboardIcon from '@mui/icons-material/Scoreboard'
-import HelpIcon from '@mui/icons-material/Help'
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
+import LogoutIcon from '@mui/icons-material/Logout'
+import LoginIcon from '@mui/icons-material/Login'
+import HowToRegIcon from '@mui/icons-material/HowToReg'
 //
 //  Debug Settings
 //
@@ -53,6 +55,16 @@ export default function QuizNavigation({ handlePage, page }) {
   let showButtonRegister = false
   if (CurrentPage === 'QuizSignin') showButtonRegister = true
   //
+  //  Show SignOut Button ?
+  //
+  let showButtonSignOut = false
+  if (
+    CurrentPage !== 'QuizSignin' &&
+    CurrentPage !== 'QuizRegister' &&
+    CurrentPage !== 'QuizSplash'
+  )
+    showButtonSignOut = true
+  //
   //  Show  Restart Button ?
   //
   let showButtonRestart = false
@@ -69,11 +81,6 @@ export default function QuizNavigation({ handlePage, page }) {
   let showButtonReview = false
   if (CurrentPage === 'Quiz') {
     showButtonReview = true
-    // const Data_AnswersJSON = sessionStorage.getItem('Data_Answers')
-    // const Data_Answers = JSON.parse(Data_AnswersJSON)
-    // if (debugLog) console.log('CurrentPage ', CurrentPage)
-    // if (debugLog) console.log('Data_Answers ', Data_Answers)
-    // if (Data_Answers && Data_Answers.length > 0) showButtonReview = true
   }
   //
   //  Show Book Button ?
@@ -113,7 +120,6 @@ export default function QuizNavigation({ handlePage, page }) {
   //
   let showButtonHistory = false
   if (CurrentPage === 'QuizSelect') showButtonHistory = true
-
   //...................................................................................
   //.  Render the component
   //...................................................................................
@@ -123,7 +129,7 @@ export default function QuizNavigation({ handlePage, page }) {
         {/* .......................................................................................... */}
         {showButtonSignin ? (
           <MyActionButton
-            startIcon={<HelpIcon fontSize='small' />}
+            startIcon={<LoginIcon fontSize='small' />}
             color='warning'
             onClick={() => {
               handlePage('QuizSignin')
@@ -134,7 +140,7 @@ export default function QuizNavigation({ handlePage, page }) {
         {/* .......................................................................................... */}
         {showButtonRegister ? (
           <MyActionButton
-            startIcon={<HelpIcon fontSize='small' />}
+            startIcon={<HowToRegIcon fontSize='small' />}
             color='warning'
             onClick={() => {
               handlePage('QuizRegister')
@@ -187,6 +193,20 @@ export default function QuizNavigation({ handlePage, page }) {
               handlePage('QuizSelect')
             }}
             text='Restart'
+          ></MyActionButton>
+        ) : null}
+        {/* .......................................................................................... */}
+        {showButtonSignOut ? (
+          <MyActionButton
+            startIcon={<LogoutIcon fontSize='small' />}
+            color='warning'
+            onClick={() => {
+              sessionStorage.setItem('Settings_Email', '')
+              sessionStorage.setItem('Settings_Name', '')
+              sessionStorage.setItem('Settings_SignedIn', false)
+              handlePage('QuizSplash')
+            }}
+            text='Signout'
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}

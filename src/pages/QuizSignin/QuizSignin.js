@@ -4,6 +4,13 @@
 import { useState } from 'react'
 import { Grid, Typography } from '@mui/material'
 //
+//  Utilities
+//
+import GetBuildOptionsOwner from '../../services/GetBuildOptionsOwner'
+import GetBuildOptionsGroup1Owner from '../../services/GetBuildOptionsGroup1Owner'
+import GetBuildOptionsGroup2 from '../../services/GetBuildOptionsGroup2'
+import GetBuildOptionsGroup3 from '../../services/GetBuildOptionsGroup3'
+//
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
@@ -20,11 +27,12 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 // Constants
 //
 const { URL_SIGNIN } = require('../../services/constants.js')
+const { WAIT } = require('../../services/constants.js')
 const sqlClient = 'Quiz/Signin'
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 // const debugLogTest = false
 const debugFunStart = false
 const debugModule = 'QuizSignin'
@@ -113,12 +121,7 @@ function QuizSignin({ handlePage }) {
 
       .then(user => {
         if (user.u_id) {
-          setForm_message(`Signin successful with ID(${user.u_id})`)
-          sessionStorage.setItem('Settings_Email', JSON.stringify(email))
-          sessionStorage.setItem('Settings_Name', JSON.stringify(user.u_name))
-          sessionStorage.setItem('Settings_SignedIn', true)
-          if (debugLog) console.log('Settings_SignedIn TRUE')
-          handlePage('QuizServerData')
+          ProcessSignIn(user, email)
         } else {
           setForm_message('Please REGISTER or email/password invalid')
         }
@@ -128,11 +131,79 @@ function QuizSignin({ handlePage }) {
       })
   }
   //...................................................................................
+  //.  Process User Signin
+  //...................................................................................
+  const ProcessSignIn = (user, email) => {
+    if (debugFunStart) console.log('ProcessSignIn')
+    //
+    //  Store the sign-in info
+    //
+    sessionStorage.setItem('Settings_Email', JSON.stringify(email))
+    sessionStorage.setItem('Settings_Name', JSON.stringify(user.u_name))
+    sessionStorage.setItem('Settings_SignedIn', true)
+    //
+    //  Initialise storage status
+    //
+    sessionStorage.setItem('Data_Options_Owner_Loaded', false)
+    sessionStorage.setItem('Data_Options_Group1Owner_Loaded', false)
+    sessionStorage.setItem('Data_Options_Group2_Loaded', false)
+    sessionStorage.setItem('Data_Options_Group3_Loaded', false)
+    //
+    //  Get the Selection Options
+    //
+    GetBuildOptionsOwner()
+    GetBuildOptionsGroup1Owner()
+    GetBuildOptionsGroup2()
+    GetBuildOptionsGroup3()
+    //
+    //  Wait for data
+    //
+    let totalWAIT = 0
+    const myInterval = setInterval(myTimer, WAIT)
+    function myTimer() {
+      if (debugLog) console.log(`Wait ${WAIT}`)
+      totalWAIT = totalWAIT + WAIT
+      //
+      //  Get Data Status
+      //
+      const Data_Options_Owner_Loaded = JSON.parse(
+        sessionStorage.getItem('Data_Options_Owner_Loaded')
+      )
+      const Data_Options_Group1Owner_Loaded = JSON.parse(
+        sessionStorage.getItem('Data_Options_Group1Owner_Loaded')
+      )
+      const Data_Options_Group2_Loaded = JSON.parse(
+        sessionStorage.getItem('Data_Options_Group2_Loaded')
+      )
+      const Data_Options_Group3_Loaded = JSON.parse(
+        sessionStorage.getItem('Data_Options_Group3_Loaded')
+      )
+      if (debugLog)
+        console.log(
+          `Owner(${Data_Options_Owner_Loaded}) Group1(${Data_Options_Group1Owner_Loaded}) Group2(${Data_Options_Group2_Loaded}) Group3(${Data_Options_Group3_Loaded})`
+        )
+      //
+      //  Data received, end wait
+      //
+      if (
+        Data_Options_Owner_Loaded &&
+        Data_Options_Group1Owner_Loaded &&
+        Data_Options_Group2_Loaded &&
+        Data_Options_Group3_Loaded
+      ) {
+        if (debugLog) console.log('All DATA received totalWAIT = ', totalWAIT)
+        clearInterval(myInterval)
+        //
+        //  Change Page
+        //
+        handlePage('QuizSelect')
+      }
+    }
+  }
+  //...................................................................................
   //.  Main Line
   //...................................................................................
   if (debugFunStart) console.log(debugModule)
-
-  initialFValues.email = JSON.parse(sessionStorage.getItem('Settings_Email'))
   //
   //  Get the URL
   //

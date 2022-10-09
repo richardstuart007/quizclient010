@@ -36,10 +36,10 @@ const QuizSplash = ({ handlePage }) => {
           It has been developed by Richard Stuart and is FREE to use/distribute.
         </Typography>
         <Typography variant='h6' sx={{ marginTop: '8px', color: 'red' }}>
-          I will be at Congress this week, so come and say Hello
+          Please REGISTER/LOGIN
         </Typography>
         <Typography variant='subtitle2' sx={{ marginTop: '8px' }}>
-          Alternatively email me at richardstuart007@hotmail.com
+          Any suggestions or problems email me at richardstuart007@hotmail.com
         </Typography>
         {/*.................................................................................................*/}
         <Grid item xs={12}>

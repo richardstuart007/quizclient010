@@ -62,10 +62,8 @@ const QuizReview = props => {
     //
     //  Get Store Values
     //
-    const Data_Questions_SortedJSON = sessionStorage.getItem('Data_Questions_Sorted')
-    const Data_Questions_Sorted = JSON.parse(Data_Questions_SortedJSON)
-    const Data_AnswersJSON = sessionStorage.getItem('Data_Answers')
-    const Data_Answers = JSON.parse(Data_AnswersJSON)
+    const Data_Questions_Sorted = JSON.parse(sessionStorage.getItem('Data_Questions_Sorted'))
+    const Data_Answers = JSON.parse(sessionStorage.getItem('Data_Answers'))
     const Answered = Data_Answers.length
     //
     //  Questions
@@ -209,16 +207,23 @@ const QuizReview = props => {
   //
   if (!quizRow) {
     if (debugLog) console.log('Quiz Row empty')
-    return (
-      <>
-        <Typography variant='subtitle1' sx={{ marginTop: '8px' }}>
-          Result ({mark}%) {countPass} out of {countAns}. No incorrect answers to review.
-        </Typography>
-        <Typography variant='subtitle1' sx={{ marginTop: '8px' }} style={{ color: 'red' }}>
-          WELL DONE !!
-        </Typography>
-      </>
-    )
+    if (countAns === 0) {
+      return (
+        <>
+          <Typography variant='subtitle1' sx={{ marginTop: '8px' }}>
+            No questions answered, nothing to review
+          </Typography>
+        </>
+      )
+    } else {
+      return (
+        <>
+          <Typography variant='subtitle1' sx={{ marginTop: '8px' }}>
+            Result ({mark}%) {countPass} out of {countAns}. WELL DONE !!
+          </Typography>
+        </>
+      )
+    }
   }
   //
   //  Hide/Show Previous/Next Buttons
@@ -247,9 +252,23 @@ const QuizReview = props => {
       <QuizReviewAnswers quizRow={quizRow} AnswerNum={arrAns[ansIdx]} />
 
       <Box sx={{ mt: 2 }}>
-        {hideNextButton ? null : <MyButton type='submit' text='Next' color='primary' variant='contained' onClick={() => nextQuestion()} />}
+        {hideNextButton ? null : (
+          <MyButton
+            type='submit'
+            text='Next'
+            color='primary'
+            variant='contained'
+            onClick={() => nextQuestion()}
+          />
+        )}
         {hidePreviousButton ? null : (
-          <MyButton type='submit' text='Previous' color='primary' variant='contained' onClick={() => handlePrevious()} />
+          <MyButton
+            type='submit'
+            text='Previous'
+            color='primary'
+            variant='contained'
+            onClick={() => handlePrevious()}
+          />
         )}
       </Box>
     </>

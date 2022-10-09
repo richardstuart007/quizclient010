@@ -384,7 +384,7 @@ const QuizSelect = ({ handlePage }) => {
   //
   const [form_message, setForm_message] = useState('')
   //
-  //  Set Selection from any previous values / or valtio defaults
+  //  Set Selection from any previous values
   //
   initialFValues.qowner = JSON.parse(sessionStorage.getItem('Settings_Owner'))
   initialFValues.qgroup1 = JSON.parse(sessionStorage.getItem('Settings_Group1'))

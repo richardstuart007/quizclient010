@@ -112,10 +112,11 @@ export default function Layout({ handlePage, page, children }) {
   if (debugLog) console.log('Settings_Server ', Settings_Server)
   const server = `(Server:${Settings_Server})`
   //
-  //  User
+  //  Welcome User
   //
-  const v_Name = JSON.parse(sessionStorage.getItem('Settings_Name'))
-  const welcome = `Welcome ${v_Name}`
+  let welcome = ''
+  const v_NameJSON = sessionStorage.getItem('Settings_Name')
+  if (v_NameJSON !== '') welcome = `Welcome ${JSON.parse(v_NameJSON)}`
   //...................................................................................
   //.  Render the component
   //...................................................................................

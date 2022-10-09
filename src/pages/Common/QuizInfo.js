@@ -19,12 +19,31 @@ const QuizInfo = ({ page }) => {
   //
   const pageprevious = JSON.parse(sessionStorage.getItem('Settings_PagePrevious'))
   if (debugLog) console.log('Settings_PagePrevious ', pageprevious)
-  const name = JSON.parse(sessionStorage.getItem('Settings_Name'))
-  const email = JSON.parse(sessionStorage.getItem('Settings_Email'))
-  const owner = JSON.parse(sessionStorage.getItem('Settings_Owner'))
-  const group1 = JSON.parse(sessionStorage.getItem('Settings_Group1'))
-  const group2 = JSON.parse(sessionStorage.getItem('Settings_Group2'))
-  const group3 = JSON.parse(sessionStorage.getItem('Settings_Group3'))
+
+  let name = ''
+  const nameJSON = sessionStorage.getItem('Settings_Name')
+  if (nameJSON !== '') name = JSON.parse(nameJSON)
+
+  let email = ''
+  const emailJSON = sessionStorage.getItem('Settings_Email')
+  if (emailJSON !== '') email = JSON.parse(emailJSON)
+
+  let owner = ''
+  const ownerJSON = sessionStorage.getItem('Settings_Owner')
+  if (ownerJSON !== '') owner = JSON.parse(ownerJSON)
+
+  let group1 = ''
+  const group1JSON = sessionStorage.getItem('Settings_Group1')
+  if (group1JSON !== '') group1 = JSON.parse(group1JSON)
+
+  let group2 = ''
+  const group2JSON = sessionStorage.getItem('Settings_Group2')
+  if (group2JSON !== '') group1 = JSON.parse(group2JSON)
+
+  let group3 = ''
+  const group3JSON = sessionStorage.getItem('Settings_Group3')
+  if (group3JSON !== '') group3 = JSON.parse(group3JSON)
+
   const DataSource = 'Server'
   //
   //  Show Info ?

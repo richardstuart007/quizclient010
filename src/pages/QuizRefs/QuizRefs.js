@@ -39,8 +39,9 @@ export default function QuizRefs({ handlePage }) {
   //
   //  Find reference link
   //
+  let Data_Reflinks = []
   const Data_ReflinksJSON = sessionStorage.getItem('Data_Reflinks')
-  const Data_Reflinks = JSON.parse(Data_ReflinksJSON)
+  if (Data_ReflinksJSON !== '') Data_Reflinks = JSON.parse(Data_ReflinksJSON)
   if (debugLog) console.log('Data_Reflinks ', Data_Reflinks)
   //
   //  build records from Refs & Links
@@ -68,7 +69,11 @@ export default function QuizRefs({ handlePage }) {
   //
   //  Populate the Table
   //
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useMyTable(records, headCells, filterFn)
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useMyTable(
+    records,
+    headCells,
+    filterFn
+  )
   if (debugLog) console.log('recordsAfterPagingAndSorting ', recordsAfterPagingAndSorting)
   if (debugLog) console.log('records ', records)
   //...................................................................................

@@ -8,6 +8,7 @@ import makeStyles from '@mui/styles/makeStyles'
 import SearchIcon from '@mui/icons-material/Search'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import FilterListIcon from '@mui/icons-material/FilterList'
+import ScoreboardIcon from '@mui/icons-material/Scoreboard'
 import { format, parseISO } from 'date-fns'
 //
 //  Controls
@@ -17,11 +18,13 @@ import MyInput from '../../components/controls/MyInput'
 import MySelect from '../../components/controls/MySelect'
 import PageHeader from '../../components/controls/PageHeader'
 import useMyTable from '../../components/controls/useMyTable'
+import MyActionButton from '../../components/controls/MyActionButton'
 //
 //  Services
 //
 import MyQueryPromise from '../../services/MyQueryPromise'
 import getTable from '../../services/getTable'
+import QuizHistoryDetailLoad from './QuizHistoryDetailLoad'
 //
 //  Debug Settings
 //
@@ -51,16 +54,17 @@ const useStyles = makeStyles(theme => ({
 //
 const headCells = [
   { id: 'r_id', label: 'ID' },
-  { id: 'ddmmyy', label: 'Date' },
+  { id: 'yymmdd', label: 'Date' },
   { id: 'r_owner', label: 'Owner' },
   { id: 'g1title', label: 'Group 1' },
   { id: 'r_questions', label: 'Questions' },
   { id: 'r_correct', label: 'Correct' },
-  { id: 'r_percent', label: '%' }
+  { id: 'r_percent', label: '%' },
+  { id: 'review', label: 'Review', disableSorting: true }
 ]
 const searchTypeOptions = [
   { id: 'r_id', title: 'ID' },
-  { id: 'ddmmyy', title: 'Date' },
+  { id: 'yymmdd', title: 'Date' },
   { id: 'r_owner', title: 'Owner' },
   { id: 'g1title', title: 'Group 1' }
 ]
@@ -70,15 +74,16 @@ let subTitle
 //  Constants
 //
 const functionName = 'QuizHistory'
+const { WAIT } = require('../../services/constants.js')
 //
 // Debug Settings
 //
 const debugLog = debugSettings()
-const debugLogTest = true
-const debugFunStart = true
+const debugLogTest = false
+const debugFunStart = false
 const debugModule = 'QuizHistory'
 //=====================================================================================
-export default function QuizHistory(props) {
+export default function QuizHistory({ handlePage }) {
   //.............................................................................
   //.  GET ALL
   //.............................................................................
@@ -93,8 +98,11 @@ export default function QuizHistory(props) {
     //
     //  Selection
     //
-    let sqlString = `r_id, r_datetime, r_owner, g1title, r_questions, r_correct, 100 * r_correct/r_questions as r_percent from usershistory join group1 on r_group1 = g1id 
-    where r_email='${email}' and r_questions > 0 order by r_id desc`
+    let sqlString = `r_id, r_datetime, r_owner, r_group1, g1title, r_qid, r_ans, r_questions, r_correct, 100 * r_correct/r_questions as r_percent`
+    sqlString = sqlString + ` from usershistory`
+    sqlString = sqlString + ` join group1 on r_group1 = g1id`
+    sqlString = sqlString + ` where r_email='${email}' and r_questions > 0`
+    sqlString = sqlString + ` order by r_id desc`
     if (debugLog) console.log('sqlString', sqlString)
     //
     //  Process promise
@@ -109,27 +117,27 @@ export default function QuizHistory(props) {
     //
     //  Resolve Status
     //
-    myPromiseusershistory.then(function (Data_History) {
+    myPromiseusershistory.then(function (Data_Hist) {
       //
       //  Data History with split time stamp
       //
-      if (debugLogTest) console.log('Data_History ', Data_History)
-      const Data_History_Update = Data_History.map(record => ({
+      if (debugLogTest) console.log('Data_Hist ', Data_Hist)
+      const Data_Hist_Update = Data_Hist.map(record => ({
         ...record,
-        ddmmyy: format(parseISO(record.r_datetime), 'dd-MM-yy')
+        yymmdd: format(parseISO(record.r_datetime), 'yy-MM-dd')
       }))
-      if (debugLogTest) console.log('Data_History_Update ', Data_History_Update)
+      if (debugLogTest) console.log('Data_Hist_Update ', Data_Hist_Update)
       //
       //  Session Storage
       //
-      if (debugLog) console.log('Data_History_Update ', Data_History_Update)
-      sessionStorage.setItem('Data_History', JSON.stringify(Data_History_Update))
+      if (debugLog) console.log('Data_Hist_Update ', Data_Hist_Update)
+      sessionStorage.setItem('Data_Hist', JSON.stringify(Data_Hist_Update))
       const TimeStamp = Date.now()
-      if (debugLogTest) console.log(`${TimeStamp} Data_History ==>`)
+      if (debugLogTest) console.log(`${TimeStamp} Data_Hist ==>`)
       //
       //  Update Table
       //
-      setRecords(Data_History_Update)
+      setRecords(Data_Hist_Update)
       //
       //  Filter
       //
@@ -143,6 +151,47 @@ export default function QuizHistory(props) {
     //  Return Promise
     //
     return myPromiseusershistory
+  }
+  //...................................................................................
+  //.  Prepare Row before switching to QuizHistoryDetail
+  //...................................................................................
+  const QuizHistoryRow = row => {
+    if (debugLog) console.log('QuizHistoryRow ')
+    //
+    //  Store Row
+    //
+    sessionStorage.setItem('Data_Hist_Row', JSON.stringify(row))
+    //
+    //  Get data
+    //
+    QuizHistoryDetailLoad(row)
+    //
+    //  Wait for data
+    //
+    let totalWAIT = 0
+    const myInterval = setInterval(myTimer, WAIT)
+    function myTimer() {
+      if (debugLog) console.log(`Wait ${WAIT}`)
+      totalWAIT = totalWAIT + WAIT
+      //
+      //  Data received, end wait
+      //
+      const Data_Hist_Row_Join_Received = JSON.parse(
+        sessionStorage.getItem('Data_Hist_Row_Join_Received')
+      )
+      if (debugLog) console.log(`Data_Hist_Row_Join_Received(${Data_Hist_Row_Join_Received}) `)
+      //
+      //  Update Selection
+      //
+      if (Data_Hist_Row_Join_Received) {
+        if (debugLog) console.log('All DATA received totalWAIT = ', totalWAIT)
+        //
+        //  Change Page
+        //
+        handlePage('QuizHistoryDetail')
+        clearInterval(myInterval)
+      }
+    }
   }
   //.............................................................................
   //
@@ -186,8 +235,8 @@ export default function QuizHistory(props) {
           case 'r_id':
             itemsFilter = items.filter(x => x.r_id === searchValueInt)
             break
-          case 'ddmmyy':
-            itemsFilter = items.filter(x => x.ddmmyy === searchValue)
+          case 'yymmdd':
+            itemsFilter = items.filter(x => x.yymmdd === searchValue)
             break
           case 'r_owner':
             itemsFilter = items.filter(x =>
@@ -282,12 +331,21 @@ export default function QuizHistory(props) {
             {recordsAfterPagingAndSorting().map(row => (
               <TableRow key={row.r_id}>
                 <TableCell>{row.r_id}</TableCell>
-                <TableCell>{row.ddmmyy}</TableCell>
+                <TableCell>{row.yymmdd}</TableCell>
                 <TableCell>{row.r_owner}</TableCell>
                 <TableCell>{row.g1title}</TableCell>
                 <TableCell>{row.r_questions}</TableCell>
                 <TableCell>{row.r_correct}</TableCell>
                 <TableCell>{row.r_percent}</TableCell>
+                <TableCell>
+                  <MyActionButton
+                    startIcon={<ScoreboardIcon fontSize='small' />}
+                    color='primary'
+                    onClick={() => {
+                      QuizHistoryRow(row)
+                    }}
+                  ></MyActionButton>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

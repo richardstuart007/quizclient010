@@ -17,8 +17,8 @@ const QuizInfo = ({ page }) => {
   //
   //  Retrieve the state
   //
-  const pageprevious = JSON.parse(sessionStorage.getItem('Settings_PagePrevious'))
-  if (debugLog) console.log('Settings_PagePrevious ', pageprevious)
+  const pageprevious = JSON.parse(sessionStorage.getItem('Settings_Page_Previous'))
+  if (debugLog) console.log('Settings_Page_Previous ', pageprevious)
 
   let name = ''
   const nameJSON = sessionStorage.getItem('Settings_Name')

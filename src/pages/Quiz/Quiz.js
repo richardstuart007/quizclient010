@@ -57,12 +57,12 @@ const Quiz = ({ handlePage }) => {
     //
     //  Get store data & copy to State
     //
-    const Data_Questions_SortedJSON = sessionStorage.getItem('Data_Questions_Sorted')
-    const Data_Questions_Sorted = JSON.parse(Data_Questions_SortedJSON)
-    if (debugLog) console.log(Data_Questions_Sorted)
+    const Data_Questions_QuizJSON = sessionStorage.getItem('Data_Questions_Quiz')
+    const Data_Questions_Quiz = JSON.parse(Data_Questions_QuizJSON)
+    if (debugLog) console.log(Data_Questions_Quiz)
 
     let quest = []
-    Data_Questions_Sorted.forEach(row => {
+    Data_Questions_Quiz.forEach(row => {
       const rowData = { ...row }
       if (debugLog) console.log('rowData ', rowData)
       quest.push(rowData)
@@ -162,9 +162,13 @@ const Quiz = ({ handlePage }) => {
 
       <QuizPanel key={g_quizRow.qid} quizRow={g_quizRow} handleSelect={handleSelect} />
       {/* .......................................................................................... */}
-      {showLinearProgress ? <QuizLinearProgress count={ansCount} total={g_questCount} text={'Progress'} /> : null}
+      {showLinearProgress ? (
+        <QuizLinearProgress count={ansCount} total={g_questCount} text={'Progress'} />
+      ) : null}
       {/* .......................................................................................... */}
-      {showLinearScore ? <QuizLinearProgress count={ansPass} total={ansCount} text={'Score'}></QuizLinearProgress> : null}
+      {showLinearScore ? (
+        <QuizLinearProgress count={ansPass} total={ansCount} text={'Score'}></QuizLinearProgress>
+      ) : null}
     </>
   )
 }

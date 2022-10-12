@@ -20,12 +20,12 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
 const debugLog = debugSettings()
 //===================================================================================
-const QuizSettings = ({ handlePage, page }) => {
+const QuizSettings = ({ handlePage, currentPage }) => {
   if (debugLog) console.log('Start QuizSettings')
   //
   //  Define the Store
   //
-  const PagePrevious = JSON.parse(sessionStorage.getItem('Settings_PagePrevious'))
+  const PagePrevious = JSON.parse(sessionStorage.getItem('Settings_Page_Previous'))
   //
   //  Initial Values
   //
@@ -181,7 +181,13 @@ const QuizSettings = ({ handlePage, page }) => {
           </Grid>
 
           <Grid item xs={4}>
-            <MyCheckbox name='z_ShowQid' label='Show Qid' value={values.z_ShowQid} onChange={handleInputChange} error={errors.z_ShowQid} />
+            <MyCheckbox
+              name='z_ShowQid'
+              label='Show Qid'
+              value={values.z_ShowQid}
+              onChange={handleInputChange}
+              error={errors.z_ShowQid}
+            />
           </Grid>
 
           <Grid item xs={4}>

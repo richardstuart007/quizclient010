@@ -203,13 +203,11 @@ const QuizSelect = ({ handlePage }) => {
     sessionStorage.setItem('Data_Bidding_Received', false)
     sessionStorage.setItem('Data_Hands_Received', false)
     sessionStorage.setItem('Data_Reflinks_Received', false)
-
     sessionStorage.setItem('Data_Questions', [])
     sessionStorage.setItem('Data_Bidding', [])
     sessionStorage.setItem('Data_Hands', [])
     sessionStorage.setItem('Data_Reflinks', [])
-
-    sessionStorage.setItem('Data_Questions_Sorted', [])
+    sessionStorage.setItem('Data_Questions_Quiz', [])
     sessionStorage.setItem('Data_Questions_Count', 0)
     //
     //  QuizSelectData
@@ -318,22 +316,22 @@ const QuizSelect = ({ handlePage }) => {
       //
       //  Apply max number
       //
-      let Data_Questions_Sorted = []
+      let Data_Questions_Quiz = []
       let i = 0
       do {
-        if (i < sortedData.length) Data_Questions_Sorted.push(sortedData[i])
+        if (i < sortedData.length) Data_Questions_Quiz.push(sortedData[i])
         i++
       } while (i < params.MaxQuestions)
       //
       //  Session Storage
       //
-      if (debugLog) console.log('Data_Questions_Sorted ', Data_Questions_Sorted)
-      sessionStorage.setItem('Data_Questions_Sorted', JSON.stringify(Data_Questions_Sorted))
+      if (debugLog) console.log('Data_Questions_Quiz ', Data_Questions_Quiz)
+      sessionStorage.setItem('Data_Questions_Quiz', JSON.stringify(Data_Questions_Quiz))
 
-      const Data_Questions_Count = Data_Questions_Sorted.length
+      const Data_Questions_Count = Data_Questions_Quiz.length
       sessionStorage.setItem('Data_Questions_Count', JSON.stringify(Data_Questions_Count))
 
-      g_QCount = Data_Questions_Sorted.length
+      g_QCount = Data_Questions_Quiz.length
     }
   }
   //...................................................................................

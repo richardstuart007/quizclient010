@@ -35,7 +35,7 @@ const debugLog = debugSettings()
 export default function QuizRefs({ handlePage }) {
   if (debugLog) console.log('Start QuizRefs')
 
-  const PagePrevious = JSON.parse(sessionStorage.getItem('Settings_PagePrevious'))
+  const PagePrevious = JSON.parse(sessionStorage.getItem('Settings_Page_Previous'))
   //
   //  Find reference link
   //

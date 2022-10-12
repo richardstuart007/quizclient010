@@ -36,14 +36,14 @@ const useStyles = makeStyles(theme => {
 //
 const debugLog = debugSettings()
 //===================================================================================
-export default function QuizNavigation({ handlePage, page }) {
+export default function QuizNavigation({ handlePage, currentPage }) {
   if (debugLog) console.log('Start QuizNavigation')
   const classes = useStyles()
   //
   //  Define
   //
-  const CurrentPage = page
-  if (debugLog) console.log('page ', page)
+  const CurrentPage = currentPage
+  if (debugLog) console.log('currentPage ', currentPage)
   //
   //  Show Signin Button ?
   //
@@ -72,6 +72,7 @@ export default function QuizNavigation({ handlePage, page }) {
     CurrentPage === 'QuizRefs' ||
     CurrentPage === 'Quiz' ||
     CurrentPage === 'QuizHistory' ||
+    CurrentPage === 'QuizHistoryDetail' ||
     CurrentPage === 'QuizReview'
   )
     showButtonRestart = true
@@ -90,9 +91,12 @@ export default function QuizNavigation({ handlePage, page }) {
   const Data_ReflinksJSON = sessionStorage.getItem('Data_Reflinks')
   if (Data_ReflinksJSON && Data_ReflinksJSON.length > 0)
     Data_Reflinks = JSON.parse(Data_ReflinksJSON)
-
+  if (debugLog) console.log('Data_ReflinksJSON ', Data_ReflinksJSON)
+  if (debugLog) console.log('Data_Reflinks ', Data_Reflinks)
   if (
-    (CurrentPage === 'Quiz' || CurrentPage === 'QuizReview') &&
+    (CurrentPage === 'Quiz' ||
+      CurrentPage === 'QuizReview' ||
+      CurrentPage === 'QuizHistoryDetail') &&
     Data_Reflinks[0] &&
     Data_Reflinks.length > 0
   )
@@ -119,7 +123,12 @@ export default function QuizNavigation({ handlePage, page }) {
   //  Show History Button ?
   //
   let showButtonHistory = false
-  if (CurrentPage === 'QuizSelect') showButtonHistory = true
+  if (
+    CurrentPage === 'QuizSelect' ||
+    CurrentPage === 'QuizHistoryDetail' ||
+    CurrentPage === 'QuizReview'
+  )
+    showButtonHistory = true
   //...................................................................................
   //.  Render the component
   //...................................................................................

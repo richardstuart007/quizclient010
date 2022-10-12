@@ -14,6 +14,7 @@ import QuizSelect from './QuizSelect/QuizSelect'
 import Quiz from './Quiz/Quiz'
 import QuizReview from './QuizReview/QuizReview'
 import QuizHistory from './QuizHistory/QuizHistory'
+import QuizHistoryDetail from './QuizHistory/QuizHistoryDetail'
 import QuizRefs from './QuizRefs/QuizRefs'
 import QuizInfo from './Common/QuizInfo'
 //
@@ -26,7 +27,7 @@ const debugLog = debugSettings()
 let g_Params
 let g_HideParams
 //===================================================================================
-function QuizControl({ handlePage, page }) {
+function QuizControl({ handlePage, currentPage }) {
   if (debugLog) console.log('Start QuizControl')
   //.............................................................................
   //.  Unpack Parameters
@@ -132,7 +133,7 @@ function QuizControl({ handlePage, page }) {
   //.............................................................................
   //.  Main Line
   //.............................................................................
-  if (debugLog) console.log('page ', page)
+  if (debugLog) console.log('currentPage ', currentPage)
   //
   //  Load Store values
   //
@@ -150,7 +151,7 @@ function QuizControl({ handlePage, page }) {
   return (
     <>
       {(() => {
-        switch (page) {
+        switch (currentPage) {
           case 'QuizSplash':
             return <QuizSplash handlePage={handlePage} />
           case 'QuizSettings':
@@ -171,11 +172,13 @@ function QuizControl({ handlePage, page }) {
             return <QuizReview handlePage={handlePage} />
           case 'QuizHistory':
             return <QuizHistory handlePage={handlePage} />
+          case 'QuizHistoryDetail':
+            return <QuizHistoryDetail handlePage={handlePage} />
           default:
             return null
         }
       })()}
-      <QuizInfo page={page} />
+      <QuizInfo currentPage={currentPage} />
     </>
   )
 }

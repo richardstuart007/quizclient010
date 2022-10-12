@@ -171,22 +171,14 @@ const QuizSelectData = props => {
   //...................................................................................
   const LoadServerReflinks = () => {
     if (debugFunStart) console.log('LoadServerReflinks')
-    //
-    //  Sub query of questions
-    //
-    let sqlSubQuery1 = `select qrefs[1] from questions where qowner = '${qowner}' and qgroup1 = '${qgroup1}'`
-    if (qgroup2 & (qgroup2 !== 'All')) sqlSubQuery1 = sqlSubQuery1 + ` qgroup2 = '${qgroup2}`
-    if (qgroup3 & (qgroup3 !== 'All')) sqlSubQuery1 = sqlSubQuery1 + ` qgroup3 = '${qgroup3}`
-    if (debugLog) console.log('sqlSubQuery1', sqlSubQuery1)
 
-    let sqlSubQuery2 = `select qrefs[2] from questions where qowner = '${qowner}' and qgroup1 = '${qgroup1}'`
-    if (qgroup2 & (qgroup2 !== 'All')) sqlSubQuery2 = sqlSubQuery2 + ` qgroup2 = '${qgroup2}`
-    if (qgroup3 & (qgroup3 !== 'All')) sqlSubQuery2 = sqlSubQuery2 + ` qgroup3 = '${qgroup3}`
-    if (debugLog) console.log('sqlSubQuery2', sqlSubQuery2)
-    //
-    //  Selection
-    //
-    let sqlString = `* from reflinks where rref in (${sqlSubQuery1}) or rref in (${sqlSubQuery2}) order by rid`
+    let sqlString =
+      'rid, rref, rdesc, rlink, rwho, rtype from reflinks JOIN questions on rref = ANY (qrefs)'
+    sqlString = sqlString + ` where qowner = '${qowner}' and qgroup1 = '${qgroup1}'`
+    if (qgroup2 & (qgroup2 !== 'All')) sqlString = sqlString + ` qgroup2 = '${qgroup2}`
+    if (qgroup3 & (qgroup3 !== 'All')) sqlString = sqlString + ` qgroup3 = '${qgroup3}`
+    sqlString = sqlString + ` group by rid, rref, rdesc, rlink, rwho, rtype`
+    sqlString = sqlString + ` order by rid`
     if (debugLog) console.log('sqlString', sqlString)
     //
     //  Process promise

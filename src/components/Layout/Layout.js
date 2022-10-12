@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => {
 //
 const debugLog = debugSettings()
 //===================================================================================
-export default function Layout({ handlePage, page, children }) {
+export default function Layout({ handlePage, currentPage, children }) {
   if (debugLog) console.log('Start Layout')
   //
   //  Style overrides
@@ -70,10 +70,10 @@ export default function Layout({ handlePage, page, children }) {
   //  Title
   //
   let title
-  if (debugLog) console.log('page ', page)
+  if (debugLog) console.log('currentPage ', currentPage)
   let showWelcome = true
 
-  switch (page) {
+  switch (currentPage) {
     case 'QuizSettings':
       title = 'Settings'
       break
@@ -104,7 +104,7 @@ export default function Layout({ handlePage, page, children }) {
       title = 'Review'
       break
     default:
-      title = page
+      title = currentPage
       break
   }
   //
@@ -175,7 +175,7 @@ export default function Layout({ handlePage, page, children }) {
               />
             </Grid>
             {/* .......................................................................................... */}
-            {ScreenMedium && <QuizNavigation handlePage={handlePage} page={page} />}
+            {ScreenMedium && <QuizNavigation handlePage={handlePage} currentPage={currentPage} />}
             {/* .......................................................................................... */}
           </Grid>
         </Toolbar>
@@ -185,7 +185,7 @@ export default function Layout({ handlePage, page, children }) {
       {/* .......................................................................................... */}
       <div className={classes.page}>
         <div className={classes.toolbar}></div>
-        {!ScreenMedium && <QuizNavigation handlePage={handlePage} page={page} />}
+        {!ScreenMedium && <QuizNavigation handlePage={handlePage} currentPage={currentPage} />}
         {children}
       </div>
     </div>

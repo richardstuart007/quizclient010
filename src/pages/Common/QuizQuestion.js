@@ -50,8 +50,11 @@ const QuizQuestion = params => {
   const Data_Questions_Count = JSON.parse(Data_Questions_CountJSON)
   if (debugLog) console.log(Data_Questions_Count)
 
-  let QuestionString = `Question ${quizQuestion}/${Data_Questions_Count}`
-  if (ShowQid) QuestionString = QuestionString.concat(`        (KEY: ${qkey} ID: ${qid})`)
+  let QuestionString = `Question ${quizQuestion}`
+  const CurrentPage = JSON.parse(sessionStorage.getItem('Settings_Page_Current'))
+  if (debugLog) console.log('CurrentPage ', CurrentPage)
+  if (CurrentPage === 'Quiz') QuestionString = QuestionString.concat(`/${Data_Questions_Count}`)
+  if (ShowQid) QuestionString = QuestionString.concat(` (KEY: ${qkey} ID: ${qid})`)
   //
   //  Uppercase the question
   //
@@ -83,7 +86,12 @@ const QuizQuestion = params => {
       {/* Normal Text */}
       {/* .......................................................................................... */}
       {!hyperLink && (
-        <Typography variant='body2' style={{ color: 'blue' }} sx={{ marginTop: '8px' }} gutterBottom>
+        <Typography
+          variant='body2'
+          style={{ color: 'blue' }}
+          sx={{ marginTop: '8px' }}
+          gutterBottom
+        >
           {qdetailUpper}
         </Typography>
       )}

@@ -14,7 +14,7 @@ import MyButton from '../../components/controls/MyButton'
 //
 //  Sub Components
 //
-import QuizReviewAnswers from './QuizReviewAnswers'
+import QuizReviewAnswers from '../QuizReview/QuizReviewAnswers'
 import QuizHands from '../QuizHands/QuizHands'
 import QuizBidding from '../QuizBidding/QuizBidding'
 //
@@ -29,8 +29,8 @@ import QuizQuestion from '../Common/QuizQuestion'
 //
 const debugLog = debugSettings()
 //===================================================================================
-const QuizReview = props => {
-  if (debugLog) console.log('Start QuizReview')
+const QuizHistoryDetail = ({ handlePage }) => {
+  if (debugLog) console.log('Start QuizHistoryDetail')
   //
   //  Counts
   //
@@ -52,14 +52,25 @@ const QuizReview = props => {
   const firstLoad = () => {
     if (debugLog) console.log('firstLoad ')
     //
-    //  Initialise global variables
+    //  Get Row Values
     //
-    if (debugLog) console.log('Initialise global variables')
+    const row = JSON.parse(sessionStorage.getItem('Data_Hist_Row'))
+    if (debugLog) console.log('Data_Hist_Row ', row)
+    updateSelection(row)
+  }
+  //...................................................................................
+  //.  Update Selection
+  //...................................................................................
+  const updateSelection = row => {
+    if (debugLog) console.log('updateSelection')
     //
-    //  Get Store Values
+    //  Get Stored Data
     //
+    const Data_Hist_Row_Join = JSON.parse(sessionStorage.getItem('Data_Hist_Row_Join'))
+    if (debugLog) console.log('Data_Hist_Row_Join ', Data_Hist_Row_Join)
+
     const Data_Questions_Quiz = JSON.parse(sessionStorage.getItem('Data_Questions_Quiz'))
-    const Data_Answers = JSON.parse(sessionStorage.getItem('Data_Answers'))
+    const Hist_r_ans = row.r_ans
     //
     //  Questions
     //
@@ -80,13 +91,14 @@ const QuizReview = props => {
     let AnsQuestIdx = -1
     let AnsReview = 0
 
-    Data_Answers.forEach(id => {
+    Hist_r_ans.forEach(id => {
       AnsCount++
       AnsQuestIdx++
       //
       //  Only show failed answers ?
       //
-      const ReviewSkipPass = JSON.parse(sessionStorage.getItem('Settings_ReviewSkipPass'))
+      let ReviewSkipPass = JSON.parse(sessionStorage.getItem('Settings_ReviewSkipPass'))
+      ReviewSkipPass = false
       if (id !== 1 || !ReviewSkipPass) {
         Ans.push(id)
         AnsNum.push(AnsQuestIdx)
@@ -169,12 +181,12 @@ const QuizReview = props => {
   //  No data to review
   //
   if (!quizRow) {
-    if (debugLog) console.log('Quiz Row empty')
+    if (debugLog) console.log('Waiting for data')
     if (countAns === 0) {
       return (
         <>
           <Typography variant='subtitle1' sx={{ marginTop: '8px' }}>
-            No questions answered, nothing to review
+            Waiting for data
           </Typography>
         </>
       )
@@ -238,4 +250,4 @@ const QuizReview = props => {
   )
 }
 
-export default QuizReview
+export default QuizHistoryDetail

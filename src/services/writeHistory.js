@@ -44,8 +44,8 @@ function writeHistory() {
   //
   let r_qid = []
   let count = 0
-  const Data_Questions_Sorted = JSON.parse(sessionStorage.getItem('Data_Questions_Sorted'))
-  Data_Questions_Sorted.forEach(row => {
+  const Data_Questions_Quiz = JSON.parse(sessionStorage.getItem('Data_Questions_Quiz'))
+  Data_Questions_Quiz.forEach(row => {
     count++
     if (count <= r_questions) r_qid.push(row.qid)
   })

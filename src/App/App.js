@@ -46,42 +46,53 @@ let g_firstTimeFlag = true
 //----------------------------------------------------------------------------
 function App() {
   if (debugLog) console.log(`Start APP`)
-  const [page, setPage] = useState('QuizSplash')
+  const [currentPage, setCurrentPage] = useState('QuizSplash')
   //.............................................................................
   //.  Handle Page Change
   //.............................................................................
-  const handlePage = newPage => {
+  const handlePage = nextPage => {
     //
-    //  Current Page is Quiz and Quiz End, write history
+    //  If no change of Page, return
     //
-    if (page === 'Quiz' && newPage !== page && newPage !== 'QuizRefs') {
+    if (nextPage === currentPage) return
+    //
+    //  Quiz End, write history
+    //
+    if (currentPage === 'Quiz' && nextPage !== 'QuizRefs') {
       writeHistory()
     }
     //
-    //  Update State
+    //  Change of Page
     //
-    const CurrentPage = page
-    if (debugLog) console.log(`Current Page ${CurrentPage} ==> New Page ${newPage}`)
-    setPage(newPage)
+    const CurrentPage = currentPage
+    if (debugLog) console.log(`Current Page ${CurrentPage} ==> New Page ${nextPage}`)
     //
     //  Update Previous Page
     //
-    sessionStorage.setItem('Settings_PagePrevious', JSON.stringify(CurrentPage))
+    sessionStorage.setItem('Settings_Page_Previous', JSON.stringify(CurrentPage))
     if (debugLog)
       console.log(
-        `UPDATED Previous Page ${JSON.parse(sessionStorage.getItem('Settings_PagePrevious'))}`
+        `UPDATED PREVIOUS_Page ${JSON.parse(sessionStorage.getItem('Settings_Page_Previous'))}`
       )
     //
     //  Update NEW Page
     //
-    sessionStorage.setItem('Settings_Page', JSON.stringify(newPage))
-    if (debugLog) console.log(`UPDATED PAGE ${JSON.parse(sessionStorage.getItem('Settings_Page'))}`)
+    sessionStorage.setItem('Settings_Page_Current', JSON.stringify(nextPage))
+    if (debugLog)
+      console.log(
+        `UPDATED CURRENT_PAGE ${JSON.parse(sessionStorage.getItem('Settings_Page_Current'))}`
+      )
+    //
+    //  Update State
+    //
+    setCurrentPage(nextPage)
   }
   //.............................................................................
   //
   //  First Time Setup
   //
   const firstTime = () => {
+    if (debugLog) console.log(`First Time APP Reset`)
     //
     //  Update URL and Server Name
     //
@@ -142,8 +153,8 @@ function App() {
     sessionStorage.setItem('Settings_ShowSelectionGroup2', false)
     sessionStorage.setItem('Settings_ShowSelectionGroup3', false)
     sessionStorage.setItem('Settings_Params', null)
-    sessionStorage.setItem('Settings_Page', JSON.stringify('QuizSplash'))
-    sessionStorage.setItem('Settings_PagePrevious', JSON.stringify(''))
+    sessionStorage.setItem('Settings_Page_Current', JSON.stringify('QuizSplash'))
+    sessionStorage.setItem('Settings_Page_Previous', JSON.stringify(''))
     sessionStorage.setItem('Settings_DataLoad', true)
     sessionStorage.setItem('Settings_Email', JSON.stringify(''))
     sessionStorage.setItem('Settings_Name', JSON.stringify(''))
@@ -168,8 +179,8 @@ function App() {
     <div>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <Layout handlePage={handlePage} page={page}>
-            <QuizControl handlePage={handlePage} page={page} />
+          <Layout handlePage={handlePage} currentPage={currentPage}>
+            <QuizControl handlePage={handlePage} currentPage={currentPage} />
           </Layout>
           <CssBaseline />
         </ThemeProvider>

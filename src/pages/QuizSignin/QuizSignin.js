@@ -123,7 +123,7 @@ function QuizSignin({ handlePage }) {
         if (user.u_id) {
           ProcessSignIn(user, email)
         } else {
-          setForm_message('Please REGISTER or email/password invalid')
+          setForm_message('Please REGISTER or email/password invalid.  Try again')
         }
       })
       .catch(err => {

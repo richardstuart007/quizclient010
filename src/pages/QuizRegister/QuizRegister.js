@@ -130,7 +130,7 @@ function QuizRegister({ handlePage }) {
           sessionStorage.setItem('Settings_Name', JSON.stringify(name))
           handlePage('QuizSignin')
         } else {
-          setForm_message('User not registered')
+          setForm_message('User not registered, try again')
         }
       })
       .catch(err => {
@@ -164,18 +164,42 @@ function QuizRegister({ handlePage }) {
         <Grid container spacing={2}>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <MyInput name='name' label='name' value={values.name} onChange={handleInputChange} error={errors.name} />
+            <MyInput
+              name='name'
+              label='name'
+              value={values.name}
+              onChange={handleInputChange}
+              error={errors.name}
+            />
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <MyInput name='fedid' label='Bridge Federation Id' value={values.fedid} onChange={handleInputChange} error={errors.fedid} />
+            <MyInput
+              name='fedid'
+              label='Bridge Federation Id'
+              value={values.fedid}
+              onChange={handleInputChange}
+              error={errors.fedid}
+            />
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <MyInput name='email' label='email' value={values.email} onChange={handleInputChange} error={errors.email} />
+            <MyInput
+              name='email'
+              label='email'
+              value={values.email}
+              onChange={handleInputChange}
+              error={errors.email}
+            />
           </Grid>
           <Grid item xs={12}>
-            <MyInput name='password' label='password' value={values.password} onChange={handleInputChange} error={errors.password} />
+            <MyInput
+              name='password'
+              label='password'
+              value={values.password}
+              onChange={handleInputChange}
+              error={errors.password}
+            />
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>

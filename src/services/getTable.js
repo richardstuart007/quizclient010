@@ -22,7 +22,7 @@ const debugLog = debugSettings()
 async function getTable(props) {
   if (debugLog) console.log('Start getTable')
   if (debugLog) console.log('props ', props)
-
+  const timeStart = new Date()
   //--------------------------------------------------------------------
   //.  fetch data
   //--------------------------------------------------------------------
@@ -56,11 +56,19 @@ async function getTable(props) {
       let resultData = []
       resultData = await apiAxios(method, URL, body)
       if (debugLog) console.log('Axios Data fetched ', resultData)
+      const timeEnd = new Date()
+      const timeDiff = timeEnd - timeStart
+      if (debugLog)
+        console.log(
+          `sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) Elapsed Time(${timeDiff})`
+        )
       //
       // No data
       //
       if (!resultData[0]) {
-        throw Error('No data received')
+        console.log(
+          `No data received: sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) `
+        )
       }
       //
       // Return data
@@ -83,7 +91,14 @@ async function getTable(props) {
   //
   //  Deconstruct props
   //
-  const { sqlCaller, sqlTable, sqlAction = 'SELECT', sqlWhere = '', sqlOrderByRaw = '', sqlString = '' } = props
+  const {
+    sqlCaller,
+    sqlTable,
+    sqlAction = 'SELECT',
+    sqlWhere = '',
+    sqlOrderByRaw = '',
+    sqlString = ''
+  } = props
   if (debugLog) console.log('props ', props)
   let sqlClient = `${functionName}/${sqlCaller}`
   //

@@ -74,7 +74,7 @@ let subTitle
 //  Constants
 //
 const functionName = 'QuizHistory'
-const { WAIT } = require('../../services/constants.js')
+
 //
 // Debug Settings
 //
@@ -82,6 +82,7 @@ const debugLog = debugSettings()
 const debugLogTest = false
 const debugFunStart = false
 const debugModule = 'QuizHistory'
+
 //=====================================================================================
 export default function QuizHistory({ handlePage }) {
   //.............................................................................
@@ -168,30 +169,75 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Wait for data
     //
+    const waitSessionStorageParams = {
+      sessionItem: 'Data_Hist_Row_Join_Received',
+      dftFunctionValue: 'QuizHistoryDetail'
+    }
+    waitSessionStorage(waitSessionStorageParams, handlePage)
+  }
+  //--------------------------------------------------------------------
+  //-  Wait
+  //--------------------------------------------------------------------
+  function waitSessionStorage(props, handlePage) {
+    if (debugLog) console.log('Start waitSessionStorage')
+    if (debugLog) console.log('props ', props)
+    const timeStart = new Date()
+    //
+    //  Constants
+    //
+    const { WAIT } = require('../../services/constants')
+    const { WAIT_MAX_TRY } = require('../../services/constants')
+    //
+    //  Deconstruct props
+    //
+    const { sessionItem, dftWait = WAIT, dftMaxTry = WAIT_MAX_TRY, dftFunctionValue } = props
+    if (debugLog) console.log('sessionItem ', sessionItem)
+    if (debugLog) console.log('dftWait ', dftWait)
+    if (debugLog) console.log('dftMaxTry ', dftMaxTry)
+    //
+    //  Global
+    //
+    let completedFlag = false
     let totalWAIT = 0
-    const myInterval = setInterval(myTimer, WAIT)
+    //
+    //  Wait for data
+    //
+    let w_try = 0
+    const myInterval = setInterval(myTimer, dftWait)
     function myTimer() {
-      if (debugLog) console.log(`Wait ${WAIT}`)
-      totalWAIT = totalWAIT + WAIT
       //
       //  Data received, end wait
       //
-      const Data_Hist_Row_Join_Received = JSON.parse(
-        sessionStorage.getItem('Data_Hist_Row_Join_Received')
-      )
-      if (debugLog) console.log(`Data_Hist_Row_Join_Received(${Data_Hist_Row_Join_Received}) `)
-      //
-      //  Update Selection
-      //
-      if (Data_Hist_Row_Join_Received) {
-        if (debugLog) console.log('All DATA received totalWAIT = ', totalWAIT)
-        //
-        //  Change Page
-        //
-        handlePage('QuizHistoryDetail')
+      completedFlag = JSON.parse(sessionStorage.getItem(sessionItem))
+      if (completedFlag) {
+        const timeEnd = new Date()
+        const timeDiff = timeEnd - timeStart
+        if (debugLog)
+          console.log(
+            `waitSessionStorage sessionStorage(${sessionItem}) value(${completedFlag}) Elapsed Time(${timeDiff})`
+          )
         clearInterval(myInterval)
+        handlePage(dftFunctionValue)
+      } else {
+        //
+        //  Waited enough
+        //
+        if (w_try >= dftMaxTry) {
+          if (debugLog)
+            console.log(`waitSessionStorage sessionStorage(${sessionItem}) Timed out(${totalWAIT})`)
+          clearInterval(myInterval)
+        }
+        //
+        //  Update counters
+        //
+        totalWAIT = totalWAIT + dftWait
+        w_try++
       }
     }
+    //
+    // Return completion flag
+    //
+    return completedFlag
   }
   //.............................................................................
   //

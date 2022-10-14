@@ -33,7 +33,7 @@ const QuizBidding = ({ qid }) => {
   //
   //  No Bidding, return
   //
-  if (Data_BiddingJSON === '') return null
+  if (Data_BiddingJSON === []) return null
   //
   //  Parse data
   //

@@ -145,7 +145,7 @@ function App() {
     sessionStorage.setItem('Settings_ShowInfo', false)
     sessionStorage.setItem('Settings_ShowLinearProgress', false)
     sessionStorage.setItem('Settings_ShowLinearScore', false)
-    sessionStorage.setItem('Settings_ShowButtonSettings', false)
+    sessionStorage.setItem('Settings_ShowButtonSettings', true)
     sessionStorage.setItem('Settings_ShowSelectionOwner', true)
     sessionStorage.setItem('Settings_ShowAllOwner', false)
     sessionStorage.setItem('Settings_ShowSelectionGroup1', true)

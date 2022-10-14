@@ -27,7 +27,7 @@ const QuizQuestion = params => {
   //  Deconstruct params
   //
   const { quizRow, quizQuestion } = params
-  const ShowQid = sessionStorage.getItem('Settings_ShowQid')
+  const ShowQid = JSON.parse(sessionStorage.getItem('Settings_ShowQid'))
   //
   //  Deconstruct row
   //

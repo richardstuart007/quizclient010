@@ -88,9 +88,6 @@ export default function Layout({ handlePage, currentPage, children }) {
     case 'QuizSplash':
       showWelcome = false
       break
-    case 'QuizServerData':
-      title = 'Get Server Data'
-      break
     case 'QuizSelect':
       title = 'Selection'
       break

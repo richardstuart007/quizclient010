@@ -67,7 +67,7 @@ const QuizHistoryDetailLoad = row => {
       //
       //  Session Storage
       //
-      if (debugLog) console.log('Data_Hist_Row_Join ', Data_Hist_Row_Join)
+      if (debugLog) console.log('Data_Hist_Row_Join RESOLVED', Data_Hist_Row_Join)
       sessionStorage.setItem('Data_Hist_Row_Join', JSON.stringify(Data_Hist_Row_Join))
       //
       //  Store separately
@@ -117,22 +117,26 @@ const QuizHistoryDetailLoad = row => {
         //
         //  Bidding
         //
-        const rowBidding = {
-          bid: qid,
-          brounds: brounds
+        if (brounds !== null) {
+          const rowBidding = {
+            bid: qid,
+            brounds: brounds
+          }
+          Data_Bidding[i] = rowBidding
         }
-        Data_Bidding[i] = rowBidding
         //
         //  Hands
         //
-        const rowHands = {
-          hid: qid,
-          hnorth: hnorth,
-          heast: heast,
-          hsouth: hsouth,
-          hwest: hwest
+        if (hnorth !== null || heast !== null || hsouth !== null || hwest !== null) {
+          const rowHands = {
+            hid: qid,
+            hnorth: hnorth,
+            heast: heast,
+            hsouth: hsouth,
+            hwest: hwest
+          }
+          Data_Hands[i] = rowHands
         }
-        Data_Hands[i] = rowHands
       })
       //
       //  Completion
@@ -194,7 +198,7 @@ const QuizHistoryDetailLoad = row => {
       //
       //  Session Storage
       //
-      if (debugLog) console.log('Data_Reflinks ', Data_Reflinks)
+      if (debugLog) console.log('Data_Reflinks RESOLVED', Data_Reflinks)
       sessionStorage.setItem('Data_Reflinks', JSON.stringify(Data_Reflinks))
       sessionStorage.setItem('Data_Reflinks_Received', true)
       //

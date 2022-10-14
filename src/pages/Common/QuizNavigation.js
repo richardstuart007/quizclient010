@@ -109,13 +109,9 @@ export default function QuizNavigation({ handlePage, currentPage }) {
   if (showButtonSettings) {
     showButtonSettings = false
     if (
-      CurrentPage === 'Quiz' ||
-      CurrentPage === 'QuizReview' ||
-      CurrentPage === 'QuizRefs' ||
-      CurrentPage === 'QuizSignin' ||
-      CurrentPage === 'QuizRegister' ||
-      CurrentPage === 'QuizServerData' ||
-      CurrentPage === 'QuizSelect'
+      CurrentPage !== 'QuizSettings' &&
+      CurrentPage !== 'QuizSignin' &&
+      CurrentPage !== 'QuizRegister'
     )
       showButtonSettings = true
   }
@@ -205,6 +201,17 @@ export default function QuizNavigation({ handlePage, currentPage }) {
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}
+        {showButtonSettings ? (
+          <MyActionButton
+            startIcon={<SettingsApplicationsIcon fontSize='small' />}
+            color='warning'
+            onClick={() => {
+              handlePage('QuizSettings')
+            }}
+            text='Settings'
+          ></MyActionButton>
+        ) : null}
+        {/* .......................................................................................... */}
         {showButtonSignOut ? (
           <MyActionButton
             startIcon={<LogoutIcon fontSize='small' />}
@@ -214,17 +221,6 @@ export default function QuizNavigation({ handlePage, currentPage }) {
               handlePage('QuizSplash')
             }}
             text='Signout'
-          ></MyActionButton>
-        ) : null}
-        {/* .......................................................................................... */}
-        {showButtonSettings ? (
-          <MyActionButton
-            startIcon={<SettingsApplicationsIcon fontSize='small' />}
-            color='warning'
-            onClick={() => {
-              handlePage('QuizSettings')
-            }}
-            text='Settings'
           ></MyActionButton>
         ) : null}
       </Grid>

@@ -23,5 +23,6 @@ exports.URL_TABLES = '/QuizTables'
 //
 //  Other Parameters
 //
-exports.ROWS_MAX = 2000
+exports.ROWS_MAX = 5000
 exports.WAIT = 100
+exports.WAIT_MAX_TRY = 20

@@ -33,7 +33,7 @@ const QuizHands = ({ qid }) => {
   //
   //  No data, return
   //
-  if (Data_HandsJSON === '') return null
+  if (Data_HandsJSON === []) return null
   //
   //  Parse data
   //

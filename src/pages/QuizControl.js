@@ -9,7 +9,6 @@ import QuizSettings from './QuizSettings/QuizSettings'
 import QuizSplash from './QuizSplash/QuizSplash'
 import QuizRegister from './QuizRegister/QuizRegister'
 import QuizSignin from './QuizSignin/QuizSignin'
-import QuizServerData from './QuizServerData/QuizServerData'
 import QuizSelect from './QuizSelect/QuizSelect'
 import Quiz from './Quiz/Quiz'
 import QuizReview from './QuizReview/QuizReview'
@@ -160,8 +159,6 @@ function QuizControl({ handlePage, currentPage }) {
             return <QuizRegister handlePage={handlePage} />
           case 'QuizSignin':
             return <QuizSignin handlePage={handlePage} />
-          case 'QuizServerData':
-            return <QuizServerData handlePage={handlePage} />
           case 'QuizSelect':
             return <QuizSelect handlePage={handlePage} />
           case 'QuizRefs':

@@ -26,6 +26,7 @@ function writeHistory() {
   //  Key
   //
   const r_email = JSON.parse(sessionStorage.getItem('Settings_Email'))
+  const r_uid = JSON.parse(sessionStorage.getItem('Settings_Uid'))
   const r_datetime = new Date()
   //
   //  Selection Data
@@ -54,6 +55,7 @@ function writeHistory() {
   //
   const sqlRow = {
     r_email: r_email,
+    r_uid: r_uid,
     r_datetime: r_datetime,
     r_owner: r_owner,
     r_group1: r_group1,

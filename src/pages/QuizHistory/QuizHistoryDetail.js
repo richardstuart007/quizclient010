@@ -29,7 +29,7 @@ import QuizQuestion from '../Common/QuizQuestion'
 //
 const debugLog = debugSettings()
 //===================================================================================
-const QuizHistoryDetail = ({ handlePage }) => {
+const QuizHistoryDetail = () => {
   if (debugLog) console.log('Start QuizHistoryDetail')
   //
   //  Counts

@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => {
     title: {
       marginLeft: theme.spacing(2)
     },
-    server: {
+    clientserver: {
       marginLeft: theme.spacing(2)
     },
     welcome: {
@@ -72,7 +72,6 @@ export default function Layout({ handlePage, currentPage, children }) {
   let title
   if (debugLog) console.log('currentPage ', currentPage)
   let showWelcome = true
-
   switch (currentPage) {
     case 'QuizSettings':
       title = 'Settings'
@@ -105,19 +104,19 @@ export default function Layout({ handlePage, currentPage, children }) {
       break
   }
   //
-  //  Add server
+  //  Add clientserver
   //
-  const Settings_ServerJSON = sessionStorage.getItem('Settings_Server')
-  const Settings_Server = JSON.parse(Settings_ServerJSON)
-  if (debugLog) console.log('Settings_Server ', Settings_Server)
-  const server = `(Server:${Settings_Server})`
+  const ShowClientServer = JSON.parse(sessionStorage.getItem('Settings_DevMode'))
+  const Settings_Client = JSON.parse(sessionStorage.getItem('Settings_Client'))
+  const Settings_Server = JSON.parse(sessionStorage.getItem('Settings_Server'))
+  const Settings_Database = JSON.parse(sessionStorage.getItem('Settings_Database'))
+  const clientserver = `Client(${Settings_Client}) Server(${Settings_Server}) Database(${Settings_Database})`
   //
   //  Welcome User
   //
-  let welcome = ''
-  const v_NameJSON = sessionStorage.getItem('Settings_Name')
-  const Settings_SignedIn = sessionStorage.getItem('Settings_SignedIn')
-  if (Settings_SignedIn) welcome = `Welcome ${JSON.parse(v_NameJSON)}`
+  let Settings_Name = ''
+  const Settings_SignedIn = JSON.parse(sessionStorage.getItem('Settings_SignedIn'))
+  if (Settings_SignedIn) Settings_Name = JSON.parse(sessionStorage.getItem('Settings_Name'))
   //...................................................................................
   //.  Render the component
   //...................................................................................
@@ -138,11 +137,16 @@ export default function Layout({ handlePage, currentPage, children }) {
               <Typography className={classes.title}>{title}</Typography>
             </Grid>
             {/* .......................................................................................... */}
-            <Grid item>
-              <Typography className={classes.server} sx={{ display: { xs: 'none', sm: 'inline' } }}>
-                {server}
-              </Typography>
-            </Grid>
+            {ShowClientServer ? (
+              <Grid item>
+                <Typography
+                  className={classes.clientserver}
+                  sx={{ display: { xs: 'none', sm: 'inline' } }}
+                >
+                  {clientserver}
+                </Typography>
+              </Grid>
+            ) : null}
             {/* .......................................................................................... */}
             {showWelcome ? (
               <Grid item>
@@ -153,7 +157,20 @@ export default function Layout({ handlePage, currentPage, children }) {
                     color: 'yellow'
                   }}
                 >
-                  {welcome}
+                  Welcome
+                </Typography>
+              </Grid>
+            ) : null}
+            {showWelcome ? (
+              <Grid item>
+                <Typography
+                  className={classes.welcome}
+                  sx={{
+                    display: { xs: 'none', sm: 'inline' },
+                    color: 'red'
+                  }}
+                >
+                  {Settings_Name}
                 </Typography>
               </Grid>
             ) : null}

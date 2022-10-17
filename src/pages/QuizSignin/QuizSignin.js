@@ -140,6 +140,8 @@ function QuizSignin({ handlePage }) {
     //
     sessionStorage.setItem('Settings_Email', JSON.stringify(email))
     sessionStorage.setItem('Settings_Name', JSON.stringify(user.u_name))
+    sessionStorage.setItem('Settings_Uid', JSON.stringify(user.u_id))
+    sessionStorage.setItem('Settings_Uadmin', JSON.stringify(user.u_admin))
     sessionStorage.setItem('Settings_SignedIn', true)
     //
     //  Initialise storage status

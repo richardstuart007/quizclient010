@@ -95,7 +95,8 @@ export default function QuizHistory({ handlePage }) {
     //
     const name = JSON.parse(sessionStorage.getItem('Settings_Name'))
     const email = JSON.parse(sessionStorage.getItem('Settings_Email'))
-    subTitle = `Email: ${email}  User: ${name}`
+    const uid = JSON.parse(sessionStorage.getItem('Settings_Uid'))
+    subTitle = `Userid: ${uid} Email: ${email}  User: ${name}`
     //
     //  Selection
     //

@@ -10,15 +10,15 @@ import debugSettings from '../../debug/debugSettings'
 //
 const debugLog = debugSettings()
 //===================================================================================
-const QuizInfo = ({ page }) => {
+const QuizInfo = () => {
   //...................................................................................
   //.  Main Line
   //...................................................................................
   //
   //  Retrieve the state
   //
-  const pageprevious = JSON.parse(sessionStorage.getItem('Settings_Page_Previous'))
-  if (debugLog) console.log('Settings_Page_Previous ', pageprevious)
+  const pageCurrent = JSON.parse(sessionStorage.getItem('Settings_Page_Current'))
+  const pagePrevious = JSON.parse(sessionStorage.getItem('Settings_Page_Previous'))
 
   let name = ''
   const nameJSON = sessionStorage.getItem('Settings_Name')
@@ -27,6 +27,9 @@ const QuizInfo = ({ page }) => {
   let email = ''
   const emailJSON = sessionStorage.getItem('Settings_Email')
   if (emailJSON !== '') email = JSON.parse(emailJSON)
+  let uid = 0
+  const uidJSON = sessionStorage.getItem('Settings_Uid')
+  if (uidJSON !== 0) uid = JSON.parse(uidJSON)
 
   let owner = ''
   const ownerJSON = sessionStorage.getItem('Settings_Owner')
@@ -38,13 +41,12 @@ const QuizInfo = ({ page }) => {
 
   let group2 = ''
   const group2JSON = sessionStorage.getItem('Settings_Group2')
-  if (group2JSON !== '') group1 = JSON.parse(group2JSON)
+  if (group2JSON !== '') group2 = JSON.parse(group2JSON)
 
   let group3 = ''
   const group3JSON = sessionStorage.getItem('Settings_Group3')
   if (group3JSON !== '') group3 = JSON.parse(group3JSON)
 
-  const DataSource = 'Server'
   //
   //  Show Info ?
   //
@@ -56,21 +58,23 @@ const QuizInfo = ({ page }) => {
   //...................................................................................
   return (
     <footer>
-      <Box bgcolor='DodgerBlue' color='white' sx={{ p: 1, mt: 1 }}>
+      <Box bgcolor='LightGray' color='white' sx={{ p: 1, mt: 1 }}>
         <Container maxWidth='lg'>
           <Grid container spacing={5}>
             <Grid item xs={12} sm={4}>
               <Box borderBottom={1}>Page</Box>
-              <Box>{page}</Box>
-              <Box>{pageprevious}</Box>
+              <Box>{pageCurrent}</Box>
+              <Box>{pagePrevious}</Box>
             </Grid>
             <Grid item xs={12} sm={4}>
               <Box borderBottom={1}>User</Box>
               <Box>{name}</Box>
-              <Box>{email}</Box>
+              <Box>
+                {uid}:{email}
+              </Box>
             </Grid>
             <Grid item xs={12} sm={4}>
-              <Box borderBottom={1}>{`Selection (${DataSource})`}</Box>
+              <Box borderBottom={1}>Selection</Box>
               {{ owner } ? <Box>{owner}</Box> : null}
               {{ group1 } ? <Box>{group1}</Box> : null}
               {{ group2 } ? <Box>{group2}</Box> : null}

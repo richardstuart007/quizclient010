@@ -20,7 +20,7 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
 const debugLog = debugSettings()
 //===================================================================================
-const QuizSettings = ({ handlePage, currentPage }) => {
+const QuizSettings = ({ handlePage }) => {
   if (debugLog) console.log('Start QuizSettings')
   //
   //  Define the Store
@@ -30,7 +30,6 @@ const QuizSettings = ({ handlePage, currentPage }) => {
   //  Initial Values
   //
   const initialFValues = {
-    z_HideParams: JSON.parse(sessionStorage.getItem('Settings_HideParams')),
     z_ShowInfo: JSON.parse(sessionStorage.getItem('Settings_ShowInfo')),
     z_ShowLinearProgress: JSON.parse(sessionStorage.getItem('Settings_ShowLinearProgress')),
     z_ShowLinearScore: JSON.parse(sessionStorage.getItem('Settings_ShowLinearScore')),
@@ -42,7 +41,6 @@ const QuizSettings = ({ handlePage, currentPage }) => {
   //  Saved Values on Submit
   //
   const savedValues = {
-    z_HideParams: false,
     z_ShowInfo: false,
     z_ShowLinearProgress: false,
     z_ShowLinearScore: false,
@@ -56,7 +54,6 @@ const QuizSettings = ({ handlePage, currentPage }) => {
   const validate = (fieldValues = values) => {
     if (debugLog) console.log('fieldValues ', fieldValues)
     let temp = { ...errors }
-    if ('z_HideParams' in fieldValues) temp.z_HideParams = ''
     if ('z_ShowInfo' in fieldValues) temp.z_ShowInfo = ''
     if ('z_ShowLinearProgress' in fieldValues) temp.z_ShowLinearProgress = ''
     if ('z_ShowLinearScore' in fieldValues) temp.z_ShowLinearScore = ''
@@ -90,7 +87,6 @@ const QuizSettings = ({ handlePage, currentPage }) => {
     //  Save data
     //
     if (debugLog) console.log(values)
-    savedValues.z_HideParams = values.z_HideParams
     savedValues.z_ShowInfo = values.z_ShowInfo
     savedValues.z_ShowLinearProgress = values.z_ShowLinearProgress
     savedValues.z_ShowLinearScore = values.z_ShowLinearScore
@@ -101,7 +97,6 @@ const QuizSettings = ({ handlePage, currentPage }) => {
     //  Update Store
     //
     if (debugLog) console.log('Update Store: z_ShowInfo ', savedValues.z_ShowInfo)
-    sessionStorage.setItem('Settings_HideParams', savedValues.z_HideParams)
     sessionStorage.setItem('Settings_ShowInfo', savedValues.z_ShowInfo)
     sessionStorage.setItem('Settings_ShowLinearProgress', savedValues.z_ShowLinearProgress)
     sessionStorage.setItem('Settings_ShowLinearScore', savedValues.z_ShowLinearScore)
@@ -129,16 +124,6 @@ const QuizSettings = ({ handlePage, currentPage }) => {
       <Container>
         <MyForm>
           {/*.................................................................................................*/}
-
-          <Grid item xs={4}>
-            <MyCheckbox
-              name='z_HideParams'
-              label='Hide Params'
-              value={values.z_HideParams}
-              onChange={handleInputChange}
-              error={errors.z_HideParams}
-            />
-          </Grid>
 
           <Grid item xs={4}>
             <MyCheckbox
@@ -193,7 +178,7 @@ const QuizSettings = ({ handlePage, currentPage }) => {
           <Grid item xs={4}>
             <MyCheckbox
               name='z_ReviewSkipPass'
-              label='Review Pass'
+              label='Skip Review of Correct Answers'
               value={values.z_ReviewSkipPass}
               onChange={handleInputChange}
               error={errors.z_ReviewSkipPass}

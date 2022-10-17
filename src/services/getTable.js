@@ -104,8 +104,7 @@ async function getTable(props) {
   //
   //  Get the URL
   //
-  const Settings_URLJSON = sessionStorage.getItem('Settings_URL')
-  const Settings_URL = JSON.parse(Settings_URLJSON)
+  const Settings_URL = JSON.parse(sessionStorage.getItem('Settings_URL'))
   if (debugLog) console.log('Settings_URL ', Settings_URL)
   //
   // Fetch the data

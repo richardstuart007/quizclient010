@@ -20,137 +20,23 @@ import QuizInfo from './Common/QuizInfo'
 // Debug Settings
 //
 const debugLog = debugSettings()
-//
-//  Global Variables
-//
-let g_Params
-let g_HideParams
 //===================================================================================
-function QuizControl({ handlePage, currentPage }) {
+function QuizControl({ handlePage }) {
   if (debugLog) console.log('Start QuizControl')
-  //.............................................................................
-  //.  Unpack Parameters
-  //.............................................................................
-  const UnpackParams = () => {
-    if (debugLog) console.log('Get Parameters')
-    //
-    //  Set Params Load already done
-    //
-    g_Params = false
-    sessionStorage.setItem('Settings_Params', false)
-    //
-    //  Get Query string of Parameters
-    //
-    const queryString = window.location.search
-    if (debugLog) console.log('queryString ', queryString)
-    if (!queryString) return
-    //
-    //  Update the Store
-    //
-    if (debugLog) console.log('Has Parameters')
-    g_Params = true
-    sessionStorage.setItem('Settings_Params', true)
-
-    const urlParams = new URLSearchParams(queryString)
-    //..............................
-    //.  Dev Mode
-    //..............................
-    const Devmode = urlParams.get('Devmode')
-    if (Devmode) {
-      if (Devmode === 'true') {
-        sessionStorage.setItem('Settings_ShowSelectionOwner', true)
-        sessionStorage.setItem('Settings_ShowAllOwner', true)
-        sessionStorage.setItem('Settings_ShowSelectionGroup1', true)
-        sessionStorage.setItem('Settings_ShowSelectionGroup2', true)
-        sessionStorage.setItem('Settings_ShowSelectionGroup3', true)
-        sessionStorage.setItem('Settings_ShowInfo', true)
-        sessionStorage.setItem('Settings_ShowButtonSettings', true)
-      }
-    }
-    //..............................
-    //.  Show Overrides
-    //..............................
-    const ShowButtonSettings = urlParams.get('ShowButtonSettings')
-    if (ShowButtonSettings && ShowButtonSettings === 'true')
-      sessionStorage.setItem('Settings_ShowButtonSettings', true)
-
-    const ShowSelectionOwner = urlParams.get('ShowSelectionOwner')
-    if (ShowSelectionOwner && ShowSelectionOwner === 'true')
-      sessionStorage.setItem('Settings_ShowSelectionOwner', true)
-
-    const ShowSelectionGroup1 = urlParams.get('ShowSelectionGroup1')
-    if (ShowSelectionGroup1 && ShowSelectionGroup1 === 'true')
-      sessionStorage.setItem('Settings_ShowSelectionGroup1', true)
-
-    const ShowSelectionGroup2 = urlParams.get('ShowSelectionGroup2')
-    if (ShowSelectionGroup2 && ShowSelectionGroup2 === 'true')
-      sessionStorage.setItem('Settings_ShowSelectionGroup2', true)
-
-    const ShowSelectionGroup3 = urlParams.get('ShowSelectionGroup3')
-    if (ShowSelectionGroup3 && ShowSelectionGroup3 === 'true')
-      sessionStorage.setItem('Settings_ShowSelectionGroup3', true)
-
-    const ShowInfo = urlParams.get('ShowInfo')
-    if (ShowInfo) {
-      ShowInfo === 'true'
-        ? sessionStorage.setItem('Settings_ShowInfo', true)
-        : sessionStorage.setItem('Settings_ShowInfo', false)
-    }
-    //..............................
-    //.  Selection
-    //..............................
-    const AllowSelection = urlParams.get('AllowSelection')
-    if (debugLog) console.log('AllowSelection ', AllowSelection)
-    if (AllowSelection) {
-      AllowSelection === 'true'
-        ? sessionStorage.setItem('Settings_AllowSelection', true)
-        : sessionStorage.setItem('Settings_AllowSelection', false)
-    }
-
-    const Owner = urlParams.get('Owner')
-    if (Owner) sessionStorage.setItem('Settings_Owner', JSON.stringify(Owner))
-    if (debugLog) console.log('Owner ', Owner)
-
-    const Group1 = urlParams.get('Group1')
-    if (Group1) sessionStorage.setItem('Settings_Group1', JSON.stringify(Group1))
-    if (debugLog) console.log('Group1 ', Group1)
-
-    const Group2 = urlParams.get('Group2')
-    if (Group2) sessionStorage.setItem('Settings_Group1', JSON.stringify(Group2))
-
-    const Group3 = urlParams.get('Group3')
-    if (Group3) sessionStorage.setItem('Settings_Group1', JSON.stringify(Group3))
-    //..............................
-    //.  Remove Parameters
-    //..............................
-    if (g_HideParams) {
-      if (debugLog) console.log('Hide Parameters')
-      // eslint-disable-next-line
-      history.replaceState({}, null, 'Params')
-    }
-  }
   //.............................................................................
   //.  Main Line
   //.............................................................................
-  if (debugLog) console.log('currentPage ', currentPage)
   //
-  //  Load Store values
+  //  Retrieve the state
   //
-  g_Params = JSON.parse(sessionStorage.getItem('Settings_Params'))
-  g_HideParams = JSON.parse(sessionStorage.getItem('Settings_HideParams'))
-  //
-  //  Get the URL Parameters (once only)
-  //
-  if (g_Params === null) {
-    UnpackParams()
-  }
+  const pageCurrent = JSON.parse(sessionStorage.getItem('Settings_Page_Current'))
   //
   //  Present the selected component
   //
   return (
     <>
       {(() => {
-        switch (currentPage) {
+        switch (pageCurrent) {
           case 'QuizSplash':
             return <QuizSplash handlePage={handlePage} />
           case 'QuizSettings':
@@ -170,12 +56,12 @@ function QuizControl({ handlePage, currentPage }) {
           case 'QuizHistory':
             return <QuizHistory handlePage={handlePage} />
           case 'QuizHistoryDetail':
-            return <QuizHistoryDetail handlePage={handlePage} />
+            return <QuizHistoryDetail />
           default:
             return null
         }
       })()}
-      <QuizInfo currentPage={currentPage} />
+      <QuizInfo />
     </>
   )
 }

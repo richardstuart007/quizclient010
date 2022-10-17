@@ -25,13 +25,26 @@ import Layout from '../components/Layout/Layout'
 //
 const theme = createTheme({})
 //
+//  Client
+//
+const { CLIENT_REMOTE } = require('../services/constants.js')
+const { CLIENT_LOCAL } = require('../services/constants.js')
+//
 //  Server
 //
 const { SERVER_REMOTE } = require('../services/constants.js')
-const { URL_REMOTE } = require('../services/constants.js')
 const { SERVER_LOCAL_REMOTE } = require('../services/constants.js')
-const { URL_LOCAL_REMOTE } = require('../services/constants.js')
 const { SERVER_LOCAL } = require('../services/constants.js')
+//
+//  Database
+//
+const { DATABASE_REMOTE } = require('../services/constants.js')
+const { DATABASE_LOCAL } = require('../services/constants.js')
+//
+//  URL
+//
+const { URL_REMOTE } = require('../services/constants.js')
+const { URL_LOCAL_REMOTE } = require('../services/constants.js')
 const { URL_LOCAL } = require('../services/constants.js')
 //
 // Debug Settings
@@ -96,6 +109,8 @@ function App() {
     //
     //  Update URL and Server Name
     //
+    let w_Client = CLIENT_REMOTE
+    let w_Database = DATABASE_REMOTE
     let w_Server
     let w_URL
     let port = '9003'
@@ -106,6 +121,7 @@ function App() {
     //  Update store with URL and Server Name - REMOTE
     //
     if (port === '9003') {
+      w_Client = CLIENT_LOCAL
       w_Server = SERVER_REMOTE
       w_URL = URL_REMOTE
     }
@@ -113,6 +129,7 @@ function App() {
     //  Update store with URL and Server Name - LOCAL-->REMOTE
     //
     if (port === '9013') {
+      w_Client = CLIENT_LOCAL
       w_Server = SERVER_LOCAL_REMOTE
       w_URL = URL_LOCAL_REMOTE
     }
@@ -120,24 +137,25 @@ function App() {
     //  Update store with URL and Server Name - LOCAL
     //
     if (port === '8003') {
+      w_Client = CLIENT_LOCAL
       w_Server = SERVER_LOCAL
+      w_Database = DATABASE_LOCAL
       w_URL = URL_LOCAL
     }
     //
-    //  Store Server
+    //  Store Client, Server, URL
     //
-    const Settings_ServerJSON = JSON.stringify(w_Server)
-    sessionStorage.setItem('Settings_Server', Settings_ServerJSON)
-    //
-    //  Store URL
-    //
-    const Settings_URLJSON = JSON.stringify(w_URL)
-    sessionStorage.setItem('Settings_URL', Settings_URLJSON)
-    if (debugLog) console.log(`QuizClient-PORT(${port}) LOCAL: SERVER(${w_Server}) URL(${w_URL})`)
+    sessionStorage.setItem('Settings_Client', JSON.stringify(w_Client))
+    sessionStorage.setItem('Settings_Server', JSON.stringify(w_Server))
+    sessionStorage.setItem('Settings_Database', JSON.stringify(w_Database))
+    sessionStorage.setItem('Settings_URL', JSON.stringify(w_URL))
+    if (debugLog)
+      console.log(
+        `QuizClient-PORT(${port}) CLIENT(${w_Client}) SERVER(${w_Server}) DATABASE(${w_Database}) URL(${w_URL})`
+      )
     //
     //  Session Storage
     //
-    sessionStorage.setItem('Settings_HideParams', false)
     sessionStorage.setItem('Settings_RandomSort', true)
     sessionStorage.setItem('Settings_ReviewSkipPass', true)
     sessionStorage.setItem('Settings_AllowSelection', true)
@@ -147,16 +165,18 @@ function App() {
     sessionStorage.setItem('Settings_ShowLinearScore', false)
     sessionStorage.setItem('Settings_ShowButtonSettings', true)
     sessionStorage.setItem('Settings_ShowSelectionOwner', true)
-    sessionStorage.setItem('Settings_ShowAllOwner', false)
     sessionStorage.setItem('Settings_ShowSelectionGroup1', true)
     sessionStorage.setItem('Settings_ShowAllGroup1', false)
+    let Settings_DevMode
+    w_Client === CLIENT_REMOTE ? (Settings_DevMode = false) : (Settings_DevMode = true)
+    sessionStorage.setItem('Settings_DevMode', Settings_DevMode)
     sessionStorage.setItem('Settings_ShowSelectionGroup2', false)
     sessionStorage.setItem('Settings_ShowSelectionGroup3', false)
-    sessionStorage.setItem('Settings_Params', null)
     sessionStorage.setItem('Settings_Page_Current', JSON.stringify('QuizSplash'))
     sessionStorage.setItem('Settings_Page_Previous', JSON.stringify(''))
     sessionStorage.setItem('Settings_DataLoad', true)
     sessionStorage.setItem('Settings_Email', JSON.stringify(''))
+    sessionStorage.setItem('Settings_Uid', JSON.stringify(0))
     sessionStorage.setItem('Settings_Name', JSON.stringify(''))
     sessionStorage.setItem('Settings_SignedIn', false)
     sessionStorage.setItem('Settings_Owner', JSON.stringify('NZBridge'))

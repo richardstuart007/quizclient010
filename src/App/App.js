@@ -27,25 +27,27 @@ const theme = createTheme({})
 //
 //  Client
 //
-const { CLIENT_REMOTE } = require('../services/constants.js')
-const { CLIENT_LOCAL } = require('../services/constants.js')
+const { REMOTE_CLIENT } = require('../services/constants.js')
+const { LOC_REMOTE_REMOTE_CLIENT } = require('../services/constants.js')
+const { LOC_LOC_LOC_CLIENT } = require('../services/constants.js')
+const { LOC_LOC_REMOTE_CLIENT } = require('../services/constants.js')
 //
 //  Server
 //
-const { SERVER_REMOTE } = require('../services/constants.js')
-const { SERVER_LOCAL_REMOTE } = require('../services/constants.js')
-const { SERVER_LOCAL } = require('../services/constants.js')
+const { REMOTE_SERVER } = require('../services/constants.js')
+const { LOC_LOC_REMOTE_SERVER } = require('../services/constants.js')
+const { LOC_LOC_LOC_SERVER } = require('../services/constants.js')
 //
 //  Database
 //
-const { DATABASE_REMOTE } = require('../services/constants.js')
-const { DATABASE_LOCAL } = require('../services/constants.js')
+const { REMOTE_DATABASE } = require('../services/constants.js')
+const { LOC_LOC_LOC_DATABASE } = require('../services/constants.js')
 //
 //  URL
 //
-const { URL_REMOTE } = require('../services/constants.js')
-const { URL_LOCAL_REMOTE } = require('../services/constants.js')
-const { URL_LOCAL } = require('../services/constants.js')
+const { REMOTE_SERVERURL } = require('../services/constants.js')
+const { LOC_LOC_REMOTE_SERVERURL } = require('../services/constants.js')
+const { LOC_LOC_LOC_SERVERURL } = require('../services/constants.js')
 //
 // Debug Settings
 //
@@ -106,44 +108,50 @@ function App() {
   //
   const firstTime = () => {
     if (debugLog) console.log(`First Time APP Reset`)
-    //
-    //  Update URL and Server Name
-    //
-    let w_Client = CLIENT_REMOTE
-    let w_Database = DATABASE_REMOTE
-    let w_Server
-    let w_URL
+    //------------------------------------------------------
+    //  Set Defaults for REMOTE setup
+    //------------------------------------------------------
     let port = '9003'
+    let w_Client = REMOTE_CLIENT
+    let w_Database = REMOTE_DATABASE
+    let w_Server = REMOTE_SERVER
+    let w_URL = REMOTE_SERVERURL
+    //------------------------------------------------------
+    //  Override LOCAL if Windows port (from package.json)
+    //------------------------------------------------------
     const windowport = window.location.port
-    if (windowport) port = windowport
-    if (debugLog) console.log(`port(${port})`)
-    //
-    //  Update store with URL and Server Name - REMOTE
-    //
-    if (port === '9003') {
-      w_Client = CLIENT_LOCAL
-      w_Server = SERVER_REMOTE
-      w_URL = URL_REMOTE
+    if (windowport) {
+      port = windowport
+      //------------------------------------------------------
+      //  9003 - Local Client --> Remote Server --> Remote Database
+      //------------------------------------------------------
+      if (port === '9003') {
+        w_Client = LOC_REMOTE_REMOTE_CLIENT
+        w_Server = REMOTE_SERVER
+        w_Database = REMOTE_DATABASE
+        w_URL = REMOTE_SERVERURL
+      }
+      //------------------------------------------------------
+      //  9013 - Local Client --> Local Server --> Remote Database
+      //------------------------------------------------------
+      if (port === '9013') {
+        w_Client = LOC_LOC_REMOTE_CLIENT
+        w_Server = LOC_LOC_REMOTE_SERVER
+        w_Database = REMOTE_DATABASE
+        w_URL = LOC_LOC_REMOTE_SERVERURL
+      }
+      //------------------------------------------------------
+      //  8003 - Local Client --> Local Server --> Local Database
+      //------------------------------------------------------
+      if (port === '8003') {
+        w_Client = LOC_LOC_LOC_CLIENT
+        w_Server = LOC_LOC_LOC_SERVER
+        w_Database = LOC_LOC_LOC_DATABASE
+        w_URL = LOC_LOC_LOC_SERVERURL
+      }
     }
     //
-    //  Update store with URL and Server Name - LOCAL-->REMOTE
-    //
-    if (port === '9013') {
-      w_Client = CLIENT_LOCAL
-      w_Server = SERVER_LOCAL_REMOTE
-      w_URL = URL_LOCAL_REMOTE
-    }
-    //
-    //  Update store with URL and Server Name - LOCAL
-    //
-    if (port === '8003') {
-      w_Client = CLIENT_LOCAL
-      w_Server = SERVER_LOCAL
-      w_Database = DATABASE_LOCAL
-      w_URL = URL_LOCAL
-    }
-    //
-    //  Store Client, Server, URL
+    //  Store Client, Server, Database, URL
     //
     sessionStorage.setItem('Settings_Client', JSON.stringify(w_Client))
     sessionStorage.setItem('Settings_Server', JSON.stringify(w_Server))
@@ -168,7 +176,7 @@ function App() {
     sessionStorage.setItem('Settings_ShowSelectionGroup1', true)
     sessionStorage.setItem('Settings_ShowAllGroup1', false)
     let Settings_DevMode
-    w_Client === CLIENT_REMOTE ? (Settings_DevMode = false) : (Settings_DevMode = true)
+    w_Client === REMOTE_CLIENT ? (Settings_DevMode = false) : (Settings_DevMode = true)
     sessionStorage.setItem('Settings_DevMode', Settings_DevMode)
     sessionStorage.setItem('Settings_ShowSelectionGroup2', false)
     sessionStorage.setItem('Settings_ShowSelectionGroup3', false)

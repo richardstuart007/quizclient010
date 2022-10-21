@@ -111,6 +111,7 @@ export default function QuizNavigation({ handlePage, currentPage }) {
     if (
       CurrentPage !== 'QuizSettings' &&
       CurrentPage !== 'QuizSignin' &&
+      CurrentPage !== 'QuizSplash' &&
       CurrentPage !== 'QuizRegister'
     )
       showButtonSettings = true

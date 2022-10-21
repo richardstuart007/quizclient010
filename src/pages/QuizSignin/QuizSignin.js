@@ -32,9 +32,8 @@ const sqlClient = 'Quiz/Signin'
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
-// const debugLogTest = false
-const debugFunStart = false
+const debugLog = debugSettings(true)
+const debugFunStart = true
 const debugModule = 'QuizSignin'
 //.............................................................................
 //.  Data Input Fields
@@ -209,9 +208,13 @@ function QuizSignin({ handlePage }) {
   //
   //  Get the URL
   //
-  const Settings_URLJSON = sessionStorage.getItem('Settings_URL')
-  const Settings_URL = JSON.parse(Settings_URLJSON)
-  if (debugLog) console.log('Settings_URL ', Settings_URL)
+  const Settings_URL = JSON.parse(sessionStorage.getItem('Settings_URL'))
+  //
+  //  Get the Email
+  //
+  const Settings_Email = JSON.parse(sessionStorage.getItem('Settings_Email'))
+  if (debugLog) console.log('Settings_Email ', Settings_Email)
+  initialFValues.email = Settings_Email
   //
   // Form Message
   //

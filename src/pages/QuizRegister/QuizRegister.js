@@ -19,8 +19,7 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
-// const debugLogTest = false
+const debugLog = debugSettings(true)
 const debugFunStartSetting = false
 const debugModule = 'QuizRegister'
 //
@@ -47,7 +46,6 @@ function QuizRegister({ handlePage }) {
   //.............................................................................
   const validate = (fieldValues = values) => {
     if (debugFunStartSetting) console.log('validate')
-    if (debugLog) console.log('fieldValues ', fieldValues)
     let temp = { ...errors }
     //
     //  name
@@ -110,6 +108,7 @@ function QuizRegister({ handlePage }) {
     //  Post to server
     //
     const URL = Settings_URL + URL_REGISTER
+    if (debugLog) console.log('email ', email)
     fetch(URL, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -146,7 +145,6 @@ function QuizRegister({ handlePage }) {
   //
   const Settings_URLJSON = sessionStorage.getItem('Settings_URL')
   const Settings_URL = JSON.parse(Settings_URLJSON)
-  if (debugLog) console.log('Settings_URL ', Settings_URL)
   //
   // Form Message
   //

@@ -18,7 +18,7 @@ import MyButton from '../../components/controls/MyButton'
 //
 const debugLog = debugSettings()
 //===================================================================================
-const QuizSplash = ({ handlePage }) => {
+export default function QuizSplash({ handlePage }) {
   if (debugLog) console.log('Start QuizSplash')
   //...................................................................................
   //.  Render the form
@@ -30,17 +30,15 @@ const QuizSplash = ({ handlePage }) => {
           DATABASE VERSION 010
         </Typography>
         <Typography variant='subtitle2' sx={{ marginTop: '8px' }}>
-          This product is in Trial/Development.
-        </Typography>
-        <Typography variant='subtitle2' sx={{ marginTop: '8px' }}>
-          It has been developed by Richard Stuart and is FREE to use/distribute.
-        </Typography>
-        <Typography variant='h6' sx={{ marginTop: '8px', color: 'red' }}>
-          Please REGISTER/LOGIN
+          This product has been developed by Richard Stuart and is FREE to use/distribute.
         </Typography>
         <Typography variant='subtitle2' sx={{ marginTop: '8px' }}>
           Any suggestions or problems email me at richardstuart007@hotmail.com
         </Typography>
+        <Typography variant='h6' sx={{ marginTop: '8px', color: 'red' }}>
+          Please click on the CONTINUE button below to REGISTER & SIGNIN
+        </Typography>
+
         {/*.................................................................................................*/}
         <Grid item xs={12}>
           <MyButton
@@ -56,5 +54,3 @@ const QuizSplash = ({ handlePage }) => {
     </Grid>
   )
 }
-
-export default QuizSplash

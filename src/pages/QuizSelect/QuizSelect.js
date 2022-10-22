@@ -17,46 +17,36 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
 //  Utilities
 //
-import randomSort from '../../services/randomSort'
 import QuizSelectData from './QuizSelectData'
 //
 //  Constants
 //
-const { ROWS_MAX } = require('../../services/constants.js')
+const { MAX_QUESTIONS } = require('../../services/constants.js')
 const { WAIT } = require('../../services/constants.js')
 //
-let g_DataLoad = null
+let g_DataLoad = true
 //
-//  Define State of store values
+//  Settings
 //
-let g_Questions
-let g_OwnerOptions
-let g_Group1OptionsOwner
-let g_Group2Options
-let g_Group3Options
-let g_Group1OptionsSubset
-let g_disabled
-let g_showOwner
-let g_showGroup1
-let g_showGroup2
-let g_showGroup3
-let g_RandomSort
+let Settings_AllowSelection
+let Settings_ShowSelectionOwner
+let Settings_ShowSelectionGroup1
+let Settings_ShowSelectionGroup2
+let Settings_ShowSelectionGroup3
 //
-//  Global workfields
+//  Data output
 //
-let g_QCount = 0
-//..............................................................................
-//.  Initialisation
-//.............................................................................
+let Data_Options_Owner = []
+let Data_Options_Group1Owner = []
+let Data_Options_Group2 = []
+let Data_Options_Group3 = []
+let Data_Group1OptionsSubset = []
 //
 // Debug Settings
 //
 const debugLog = debugSettings()
 const debugFunStart = false
 const debugModule = 'QuizSelect'
-//.............................................................................
-//.  Data Input Fields
-//.............................................................................
 //
 //  Initial Values
 //
@@ -95,8 +85,7 @@ const QuizSelect = ({ handlePage }) => {
     if (debugLog) console.log('owner ', owner)
     if (debugLog) console.log('group1 ', group1)
 
-    if (debugLog) console.log('g_Group1OptionsOwner ', g_Group1OptionsOwner)
-    g_Group1OptionsOwner.forEach(item => {
+    Data_Options_Group1Owner.forEach(item => {
       if (item.qowner === owner || owner === 'All') {
         //
         //  Do not add duplicates
@@ -143,8 +132,7 @@ const QuizSelect = ({ handlePage }) => {
     //
     if ('qowner' in fieldValues) {
       temp.qowner = fieldValues.qowner.length !== 0 ? '' : 'This field is required.'
-      g_Group1OptionsSubset = loadGroup1Options(false, fieldValues.qowner, values.qgroup1)
-      if (debugLog) console.log('g_Group1OptionsSubset ', g_Group1OptionsSubset)
+      Data_Group1OptionsSubset = loadGroup1Options(false, fieldValues.qowner, values.qgroup1)
     }
     //
     //  qgroup1
@@ -158,9 +146,10 @@ const QuizSelect = ({ handlePage }) => {
     //
     if ('MaxQuestions' in fieldValues)
       temp.MaxQuestions =
-        parseInt(fieldValues.MaxQuestions) > 0 && parseInt(fieldValues.MaxQuestions) <= ROWS_MAX
+        parseInt(fieldValues.MaxQuestions) > 0 &&
+        parseInt(fieldValues.MaxQuestions) <= MAX_QUESTIONS
           ? ''
-          : `You must select between 1 and ${ROWS_MAX}.`
+          : `You must select between 1 and ${MAX_QUESTIONS}.`
     //
     //  Set the errors
     //
@@ -187,31 +176,15 @@ const QuizSelect = ({ handlePage }) => {
   //...................................................................................
   const getQuestionData = () => {
     if (debugFunStart) console.log('getQuestionData')
+
     //
-    //  Save selection
+    //  QuizSelectData
     //
-    if (debugLog) console.log(values)
     params.qowner = values.qowner
     params.qgroup1 = values.qgroup1
     params.qgroup2 = values.qgroup2
     params.qgroup3 = values.qgroup3
     params.MaxQuestions = values.MaxQuestions
-    //
-    //  Reset the Data
-    //
-    sessionStorage.setItem('Data_Questions_Received', false)
-    sessionStorage.setItem('Data_Bidding_Received', false)
-    sessionStorage.setItem('Data_Hands_Received', false)
-    sessionStorage.setItem('Data_Reflinks_Received', false)
-    sessionStorage.setItem('Data_Questions', [])
-    sessionStorage.setItem('Data_Bidding', [])
-    sessionStorage.setItem('Data_Hands', [])
-    sessionStorage.setItem('Data_Reflinks', [])
-    sessionStorage.setItem('Data_Questions_Quiz', [])
-    sessionStorage.setItem('Data_Questions_Count', 0)
-    //
-    //  QuizSelectData
-    //
     QuizSelectData(params)
     //
     //  Wait for data
@@ -255,18 +228,13 @@ const QuizSelect = ({ handlePage }) => {
     //
     //  Session Storage
     //
-    const Data_Questions = JSON.parse(sessionStorage.getItem('Data_Questions'))
-    g_Questions = Data_Questions
-    if (debugLog) console.log('g_Questions ', g_Questions)
-    //
-    //  Sort the Questions
-    //
-    QuestionsSort()
+    const Data_Questions_Quiz_Count = JSON.parse(
+      sessionStorage.getItem('Data_Questions_Quiz_Count')
+    )
     //
     //  No questions
     //
-    if (debugLog) console.log('g_QCount ', g_QCount)
-    if (g_QCount === 0) {
+    if (Data_Questions_Quiz_Count === 0) {
       setForm_message('QuizSelect: No Questions found')
       if (debugLog) console.log('QuizSelect: No Questions found')
       return
@@ -282,58 +250,14 @@ const QuizSelect = ({ handlePage }) => {
         return
       }
     }
-    //
-    //  Update store
-    //
-    sessionStorage.setItem('Settings_Reset', true)
-    sessionStorage.setItem('Settings_Owner', JSON.stringify(params.qowner))
-    sessionStorage.setItem('Settings_Group1', JSON.stringify(params.qgroup1))
-    sessionStorage.setItem('Settings_Group2', JSON.stringify(params.qgroup2))
-    sessionStorage.setItem('Settings_Group3', JSON.stringify(params.qgroup3))
-    sessionStorage.setItem('Settings_MaxQuestions', JSON.stringify(params.MaxQuestions))
+
     //
     //  Start Quiz
     //
+    sessionStorage.setItem('Settings_Reset', true)
     handlePage(g_PageNew)
   }
-  //...................................................................................
-  //.  Sort questions
-  //...................................................................................
-  const QuestionsSort = () => {
-    if (debugFunStart) console.log('QuestionsSort')
-    //
-    //  Clear Global workfields
-    //
-    g_QCount = 0
-    const filteredData = g_Questions
-    if (debugLog) console.log('filteredData ', filteredData)
 
-    if (filteredData) {
-      let sortedData = []
-
-      g_RandomSort ? (sortedData = randomSort(filteredData)) : (sortedData = filteredData)
-      if (debugLog) console.log('sortedData ', sortedData)
-      //
-      //  Apply max number
-      //
-      let Data_Questions_Quiz = []
-      let i = 0
-      do {
-        if (i < sortedData.length) Data_Questions_Quiz.push(sortedData[i])
-        i++
-      } while (i < params.MaxQuestions)
-      //
-      //  Session Storage
-      //
-      if (debugLog) console.log('Data_Questions_Quiz ', Data_Questions_Quiz)
-      sessionStorage.setItem('Data_Questions_Quiz', JSON.stringify(Data_Questions_Quiz))
-
-      const Data_Questions_Count = Data_Questions_Quiz.length
-      sessionStorage.setItem('Data_Questions_Count', JSON.stringify(Data_Questions_Count))
-
-      g_QCount = Data_Questions_Quiz.length
-    }
-  }
   //...................................................................................
   //.  Initial Load of Options
   //...................................................................................
@@ -343,35 +267,25 @@ const QuizSelect = ({ handlePage }) => {
     //  Get Data from the Store  Data_Options_Group1Owner
     //
     const Data_Options_OwnerJSON = sessionStorage.getItem('Data_Options_Owner')
-    const Data_Options_Owner = JSON.parse(Data_Options_OwnerJSON)
-    if (debugLog) console.log(Data_Options_Owner)
-    g_OwnerOptions = Data_Options_Owner
-    if (debugLog) console.log('g_OwnerOptions ', g_OwnerOptions)
+    Data_Options_Owner = JSON.parse(Data_Options_OwnerJSON)
 
     const Data_Options_Group1OwnerJSON = sessionStorage.getItem('Data_Options_Group1Owner')
-    const Data_Options_Group1Owner = JSON.parse(Data_Options_Group1OwnerJSON)
-    if (debugLog) console.log(Data_Options_Group1Owner)
-    g_Group1OptionsOwner = Data_Options_Group1Owner
+    Data_Options_Group1Owner = JSON.parse(Data_Options_Group1OwnerJSON)
 
     const Data_Options_Group2JSON = sessionStorage.getItem('Data_Options_Group2')
-    const Data_Options_Group2 = JSON.parse(Data_Options_Group2JSON)
-    if (debugLog) console.log(Data_Options_Group2)
-    g_Group2Options = Data_Options_Group2
+    Data_Options_Group2 = JSON.parse(Data_Options_Group2JSON)
 
     const Data_Options_Group3JSON = sessionStorage.getItem('Data_Options_Group3')
-    const Data_Options_Group3 = JSON.parse(Data_Options_Group3JSON)
-    if (debugLog) console.log(Data_Options_Group3)
-    g_Group3Options = Data_Options_Group3
-
-    if (debugLog) console.log('g_OwnerOptions ', g_OwnerOptions)
-    if (debugLog) console.log('g_Group1OptionsOwner ', g_Group1OptionsOwner)
-    if (debugLog) console.log('g_Group2Options ', g_Group2Options)
-    if (debugLog) console.log('g_Group3Options ', g_Group3Options)
+    Data_Options_Group3 = JSON.parse(Data_Options_Group3JSON)
     //
     //  Set Group1 Options
     //
-    g_Group1OptionsSubset = loadGroup1Options(true, initialFValues.qowner, initialFValues.qgroup1)
-    if (debugLog) console.log('g_Group1OptionsSubset ', g_Group1OptionsSubset)
+    Data_Group1OptionsSubset = loadGroup1Options(
+      true,
+      initialFValues.qowner,
+      initialFValues.qgroup1
+    )
+    sessionStorage.setItem('Data_Group1OptionsSubset', JSON.stringify(Data_Group1OptionsSubset))
   }
   //...................................................................................
   //.  Main Line
@@ -393,36 +307,26 @@ const QuizSelect = ({ handlePage }) => {
   //
   //  Load setup values
   //
-  g_disabled = !JSON.parse(sessionStorage.getItem('Settings_AllowSelection'))
-  g_showOwner = JSON.parse(sessionStorage.getItem('Settings_ShowSelectionOwner'))
-  g_showGroup1 = JSON.parse(sessionStorage.getItem('Settings_ShowSelectionGroup1'))
-  g_showGroup2 = JSON.parse(sessionStorage.getItem('Settings_ShowSelectionGroup2'))
-  g_showGroup3 = JSON.parse(sessionStorage.getItem('Settings_ShowSelectionGroup3'))
-  g_RandomSort = JSON.parse(sessionStorage.getItem('Settings_RandomSort'))
-  if (debugLog) console.log(g_disabled, g_showOwner, g_showGroup1)
+  Settings_AllowSelection = !JSON.parse(sessionStorage.getItem('Settings_AllowSelection'))
+  Settings_ShowSelectionOwner = JSON.parse(sessionStorage.getItem('Settings_ShowSelectionOwner'))
+  Settings_ShowSelectionGroup1 = JSON.parse(sessionStorage.getItem('Settings_ShowSelectionGroup1'))
+  Settings_ShowSelectionGroup2 = JSON.parse(sessionStorage.getItem('Settings_ShowSelectionGroup2'))
+  Settings_ShowSelectionGroup3 = JSON.parse(sessionStorage.getItem('Settings_ShowSelectionGroup3'))
   //
   //  Load the data array from the store
   //
-  g_DataLoad = JSON.parse(sessionStorage.getItem('Settings_DataLoad'))
   if (g_DataLoad) {
     g_DataLoad = false
-    sessionStorage.setItem('Settings_DataLoad', false)
     LoadOptions()
   }
   //
   //  Interface to Form
   //
-  if (debugLog) console.log('initialFValues ', initialFValues)
   const { values, setValues, errors, setErrors, handleInputChange } = useMyForm(
     initialFValues,
     true,
     validate
   )
-  //
-  if (debugLog) console.log('g_OwnerOptions ', g_OwnerOptions)
-  if (debugLog) console.log('g_Group1OptionsSubset ', g_Group1OptionsSubset)
-  if (debugLog) console.log('g_Group2Options ', g_Group2Options)
-  if (debugLog) console.log('g_Group3Options ', g_Group3Options)
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -431,57 +335,57 @@ const QuizSelect = ({ handlePage }) => {
       <MyForm>
         <Grid container spacing={2}>
           {/*.................................................................................................*/}
-          {g_showOwner ? (
+          {Settings_ShowSelectionOwner ? (
             <Grid item xs={12}>
               <MySelect
                 name='qowner'
                 label='Owner'
                 value={values.qowner}
                 onChange={handleInputChange}
-                options={g_OwnerOptions}
+                options={Data_Options_Owner}
                 error={errors.qowner}
-                disabled={g_disabled}
+                disabled={Settings_AllowSelection}
               />
             </Grid>
           ) : null}
 
           {/*.................................................................................................*/}
-          {g_showGroup1 ? (
+          {Settings_ShowSelectionGroup1 ? (
             <Grid item xs={12}>
               <MySelect
                 name='qgroup1'
                 label='Group1'
                 value={values.qgroup1}
                 onChange={handleInputChange}
-                options={g_Group1OptionsSubset}
+                options={Data_Group1OptionsSubset}
                 error={errors.qgroup1}
-                disabled={g_disabled}
+                disabled={Settings_AllowSelection}
               />
             </Grid>
           ) : null}
 
-          {g_showGroup2 ? (
+          {Settings_ShowSelectionGroup2 ? (
             <Grid item xs={12}>
               <MySelect
                 name='qgroup2'
                 label='Group2'
                 value={values.qgroup2}
                 onChange={handleInputChange}
-                options={g_Group2Options}
-                disabled={g_disabled}
+                options={Data_Options_Group2}
+                disabled={Settings_AllowSelection}
               />
             </Grid>
           ) : null}
 
-          {g_showGroup3 ? (
+          {Settings_ShowSelectionGroup3 ? (
             <Grid item xs={12}>
               <MySelect
                 name='qgroup3'
                 label='Group3'
                 value={values.qgroup3}
                 onChange={handleInputChange}
-                options={g_Group3Options}
-                disabled={g_disabled}
+                options={Data_Options_Group3}
+                disabled={Settings_AllowSelection}
               />
             </Grid>
           ) : null}

@@ -71,21 +71,22 @@ export default function Layout({ handlePage, currentPage, children }) {
   //
   let title
   if (debugLog) console.log('currentPage ', currentPage)
-  let showWelcome = true
+  let showSettings_Name = true
   switch (currentPage) {
     case 'QuizSettings':
       title = 'Settings'
       break
     case 'QuizRegister':
       title = 'Register'
-      showWelcome = false
+      showSettings_Name = false
       break
     case 'QuizSignin':
       title = 'SignIn'
-      showWelcome = false
+      showSettings_Name = false
       break
     case 'QuizSplash':
-      showWelcome = false
+      title = 'Splash'
+      showSettings_Name = false
       break
     case 'QuizSelect':
       title = 'Selection'
@@ -134,7 +135,9 @@ export default function Layout({ handlePage, currentPage, children }) {
             </Grid>
             {/* .......................................................................................... */}
             <Grid item>
-              <Typography className={classes.title}>{title}</Typography>
+              <Typography className={classes.title} sx={{ color: 'yellow' }}>
+                {title}
+              </Typography>
             </Grid>
             {/* .......................................................................................... */}
             {ShowClientServer ? (
@@ -148,20 +151,7 @@ export default function Layout({ handlePage, currentPage, children }) {
               </Grid>
             ) : null}
             {/* .......................................................................................... */}
-            {showWelcome ? (
-              <Grid item>
-                <Typography
-                  className={classes.welcome}
-                  sx={{
-                    display: { xs: 'none', sm: 'inline' },
-                    color: 'yellow'
-                  }}
-                >
-                  Welcome
-                </Typography>
-              </Grid>
-            ) : null}
-            {showWelcome ? (
+            {showSettings_Name ? (
               <Grid item>
                 <Typography
                   className={classes.welcome}

@@ -46,14 +46,15 @@ const QuizQuestion = params => {
   //
   //  Question string (with ID ?)
   //
-  const Data_Questions_CountJSON = sessionStorage.getItem('Data_Questions_Count')
-  const Data_Questions_Count = JSON.parse(Data_Questions_CountJSON)
-  if (debugLog) console.log(Data_Questions_Count)
+  const Data_Questions_Quiz_CountJSON = sessionStorage.getItem('Data_Questions_Quiz_Count')
+  const Data_Questions_Quiz_Count = JSON.parse(Data_Questions_Quiz_CountJSON)
+  if (debugLog) console.log(Data_Questions_Quiz_Count)
 
   let QuestionString = `Question ${quizQuestion}`
   const CurrentPage = JSON.parse(sessionStorage.getItem('Settings_Page_Current'))
   if (debugLog) console.log('CurrentPage ', CurrentPage)
-  if (CurrentPage === 'Quiz') QuestionString = QuestionString.concat(`/${Data_Questions_Count}`)
+  if (CurrentPage === 'Quiz')
+    QuestionString = QuestionString.concat(`/${Data_Questions_Quiz_Count}`)
   if (ShowQid) QuestionString = QuestionString.concat(` (KEY: ${qkey} ID: ${qid})`)
   //
   //  Uppercase the question

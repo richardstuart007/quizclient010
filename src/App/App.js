@@ -181,7 +181,6 @@ function App() {
     sessionStorage.setItem('Settings_ShowSelectionGroup3', false)
     sessionStorage.setItem('Settings_Page_Current', JSON.stringify('QuizSplash'))
     sessionStorage.setItem('Settings_Page_Previous', JSON.stringify(''))
-    sessionStorage.setItem('Settings_DataLoad', true)
     sessionStorage.setItem('Settings_Email', JSON.stringify(''))
     sessionStorage.setItem('Settings_Uid', JSON.stringify(0))
     sessionStorage.setItem('Settings_Name', JSON.stringify(''))
@@ -190,7 +189,7 @@ function App() {
     sessionStorage.setItem('Settings_Group1', JSON.stringify('NZBIMP01'))
     sessionStorage.setItem('Settings_Group2', JSON.stringify('All'))
     sessionStorage.setItem('Settings_Group3', JSON.stringify('All'))
-    sessionStorage.setItem('Settings_MaxQuestions', 20)
+    sessionStorage.setItem('Settings_MaxQuestions', 5)
     sessionStorage.setItem('Settings_Reset', true)
   }
   //.............................................................................

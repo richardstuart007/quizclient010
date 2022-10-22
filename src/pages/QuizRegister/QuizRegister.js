@@ -19,7 +19,7 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 const debugFunStartSetting = false
 const debugModule = 'QuizRegister'
 //

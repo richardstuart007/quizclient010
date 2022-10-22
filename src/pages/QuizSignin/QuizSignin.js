@@ -32,8 +32,8 @@ const sqlClient = 'Quiz/Signin'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
-const debugFunStart = true
+const debugLog = debugSettings()
+const debugFunStart = false
 const debugModule = 'QuizSignin'
 //.............................................................................
 //.  Data Input Fields

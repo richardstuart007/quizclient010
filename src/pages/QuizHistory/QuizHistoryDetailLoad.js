@@ -97,8 +97,7 @@ const QuizHistoryDetailLoad = row => {
         //
         //  Index of current question
         //
-        const i = row.r_qid.indexOf(qid)
-        if (debugLog) console.log('i ', i)
+        if (debugLog) console.log('row.r_qid.indexOf ', row.r_qid.indexOf(qid))
         //
         //  Questions
         //
@@ -113,7 +112,7 @@ const QuizHistoryDetailLoad = row => {
           qbad3: qbad3,
           qgroup1: qgroup1
         }
-        Data_Questions_Quiz[i] = rowQuestion
+        Data_Questions_Quiz.push(rowQuestion)
         //
         //  Bidding
         //
@@ -122,7 +121,7 @@ const QuizHistoryDetailLoad = row => {
             bid: qid,
             brounds: brounds
           }
-          Data_Bidding[i] = rowBidding
+          Data_Bidding.push(rowBidding)
         }
         //
         //  Hands
@@ -135,7 +134,7 @@ const QuizHistoryDetailLoad = row => {
             hsouth: hsouth,
             hwest: hwest
           }
-          Data_Hands[i] = rowHands
+          Data_Hands.push(rowHands)
         }
       })
       //

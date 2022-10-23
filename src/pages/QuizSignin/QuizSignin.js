@@ -20,9 +20,6 @@ import debugSettings from '../../debug/debugSettings'
 import MyButton from '../../components/controls/MyButton'
 import MyInput from '../../components/controls/MyInput'
 import { useMyForm, MyForm } from '../../components/controls/useMyForm'
-//..............................................................................
-//.  Initialisation
-//.............................................................................
 //
 // Constants
 //
@@ -35,9 +32,6 @@ const sqlClient = 'Quiz/Signin'
 const debugLog = debugSettings()
 const debugFunStart = false
 const debugModule = 'QuizSignin'
-//.............................................................................
-//.  Data Input Fields
-//.............................................................................
 //
 //  Initial Values
 //
@@ -45,12 +39,40 @@ const initialFValues = {
   email: '',
   password: ''
 }
-//===================================================================================
+//...................................................................................
+//.  Main Line
+//...................................................................................
 function QuizSignin({ handlePage }) {
+  if (debugFunStart) console.log(debugModule)
+  //
+  //  Get the URL
+  //
+  const Settings_URL = JSON.parse(sessionStorage.getItem('Settings_URL'))
+  //
+  //  Get the Email
+  //
+  const Settings_Email = JSON.parse(sessionStorage.getItem('Settings_Email'))
+  if (debugLog) console.log('Settings_Email ', Settings_Email)
+  initialFValues.email = Settings_Email
+  //
+  //  Dev Mode
+  //
+  const Settings_DevMode = JSON.parse(sessionStorage.getItem('Settings_DevMode'))
+  if (Settings_DevMode) {
+    initialFValues.email = 't@t.com'
+  }
+  //
+  // Form Message
+  //
+  const [form_message, setForm_message] = useState('')
+  //
+  //  Interface to Form
+  //
+  const { values, errors, setErrors, handleInputChange } = useMyForm(initialFValues, true, validate)
   //.............................................................................
   //.  Input field validation
   //.............................................................................
-  const validate = (fieldValues = values) => {
+  function validate(fieldValues = values) {
     if (debugFunStart) console.log('validate')
     if (debugLog) console.log('fieldValues ', fieldValues)
     let temp = { ...errors }
@@ -76,7 +98,6 @@ function QuizSignin({ handlePage }) {
     if (fieldValues === values) return Object.values(temp).every(x => x === '')
   }
   //...................................................................................
-
   function validateEmail(email) {
     if (debugFunStart) console.log('validateEmail')
     return String(email)
@@ -88,7 +109,7 @@ function QuizSignin({ handlePage }) {
   //...................................................................................
   //.  Form Submit
   //...................................................................................
-  const FormSubmit = e => {
+  function FormSubmit(e) {
     if (debugFunStart) console.log('FormSubmit')
     if (validate()) {
       FormUpdate()
@@ -97,7 +118,7 @@ function QuizSignin({ handlePage }) {
   //...................................................................................
   //.  Update
   //...................................................................................
-  const FormUpdate = () => {
+  function FormUpdate() {
     if (debugFunStart) console.log('FormUpdate')
     //
     //  Deconstruct values
@@ -117,7 +138,6 @@ function QuizSignin({ handlePage }) {
       })
     })
       .then(response => response.json())
-
       .then(user => {
         if (user.u_id) {
           ProcessSignIn(user, email)
@@ -132,7 +152,7 @@ function QuizSignin({ handlePage }) {
   //...................................................................................
   //.  Process User Signin
   //...................................................................................
-  const ProcessSignIn = (user, email) => {
+  function ProcessSignIn(user, email) {
     if (debugFunStart) console.log('ProcessSignIn')
     //
     //  Store the sign-in info
@@ -201,28 +221,6 @@ function QuizSignin({ handlePage }) {
       }
     }
   }
-  //...................................................................................
-  //.  Main Line
-  //...................................................................................
-  if (debugFunStart) console.log(debugModule)
-  //
-  //  Get the URL
-  //
-  const Settings_URL = JSON.parse(sessionStorage.getItem('Settings_URL'))
-  //
-  //  Get the Email
-  //
-  const Settings_Email = JSON.parse(sessionStorage.getItem('Settings_Email'))
-  if (debugLog) console.log('Settings_Email ', Settings_Email)
-  initialFValues.email = Settings_Email
-  //
-  // Form Message
-  //
-  const [form_message, setForm_message] = useState('')
-  //
-  //  Interface to Form
-  //
-  const { values, errors, setErrors, handleInputChange } = useMyForm(initialFValues, true, validate)
   //...................................................................................
   //.  Render the form
   //...................................................................................

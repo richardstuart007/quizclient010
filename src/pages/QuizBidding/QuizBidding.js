@@ -1,8 +1,7 @@
 //
 //  Libraries
 //
-import { Typography, Table, TableBody, Card } from '@mui/material'
-import { cyan, teal } from 'material-ui-colors'
+import { Table, TableBody, Card } from '@mui/material'
 //
 //  Debug Settings
 //
@@ -84,7 +83,7 @@ const QuizBidding = ({ qid }) => {
       switch (level) {
         // Pass
         case 'P':
-          bidObj.bid = bid
+          bidObj.bid = 'Pass'
           bidObj.suit = null
           break
         // Question
@@ -152,10 +151,7 @@ const QuizBidding = ({ qid }) => {
   //...................................................................................
   return (
     <>
-      <Typography variant='subtitle2' style={{ color: teal['A700'] }} sx={{ marginTop: '8px' }}>
-        Bidding
-      </Typography>
-      <Card sx={{ maxWidth: 400 }} style={{ backgroundColor: cyan['A100'] }}>
+      <Card sx={{ maxWidth: 200, marginTop: '16px' }} style={{ backgroundColor: 'LightGray' }}>
         <Table>
           {/* .......................................................................................... */}
           <QuizBiddingTableHeader />

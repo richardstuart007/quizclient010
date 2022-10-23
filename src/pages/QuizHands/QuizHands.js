@@ -1,8 +1,7 @@
 //
 //  Libraries
 //
-import { Typography, Table, TableBody, Card } from '@mui/material'
-import { cyan, teal } from 'material-ui-colors'
+import { Table, TableBody, Card } from '@mui/material'
 //
 //  Debug Settings
 //
@@ -118,11 +117,7 @@ const QuizHands = ({ qid }) => {
   //...................................................................................
   return (
     <>
-      <Typography variant='subtitle2' style={{ color: teal['A700'] }} sx={{ marginTop: '8px' }}>
-        Hands
-      </Typography>
-
-      <Card sx={{ maxWidth: 500 }} style={{ backgroundColor: cyan['A100'] }}>
+      <Card sx={{ maxWidth: 500, marginTop: '16px' }} style={{ backgroundColor: 'LightGray' }}>
         <Table>
           {/* .......................................................................................... */}
           <QuizHandsTableHeader />

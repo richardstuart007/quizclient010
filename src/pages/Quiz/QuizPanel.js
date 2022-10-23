@@ -59,11 +59,7 @@ const QuizPanel = ({ quizRow, handleSelect }) => {
   //...................................................................................
   return (
     <>
-      <Typography
-        variant='subtitle2'
-        style={{ color: teal['A700'] }}
-        sx={{ marginTop: '8px' }}
-      >
+      <Typography variant='subtitle2' style={{ color: teal['A700'] }} sx={{ marginTop: '16px' }}>
         CLICK on your answer below
       </Typography>
       {Answers.map((answer, key) => (

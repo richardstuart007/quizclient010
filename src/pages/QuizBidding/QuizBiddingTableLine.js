@@ -6,7 +6,7 @@ import debugSettings from '../../debug/debugSettings'
 //
 //  Sub Components
 //
-import QuizBiddingTableCell from './QuizBiddingTableCell'
+import QuizBiddingTableLineCell from './QuizBiddingTableLineCell'
 //.............................................................................
 //.  Initialisation
 //.............................................................................
@@ -60,30 +60,20 @@ const QuizBiddingTableLine = props => {
   //...................................................................................
   return (
     <TableRow key={roundCount}>
-      <QuizBiddingTableCell
+      <QuizBiddingTableLineCell
         key='north'
         cell='north'
         bid={roundBid.north}
         suit={roundSuit.north}
       />
-      <QuizBiddingTableCell
-        key='east'
-        cell='east'
-        bid={roundBid.east}
-        suit={roundSuit.east}
-      />
-      <QuizBiddingTableCell
+      <QuizBiddingTableLineCell key='east' cell='east' bid={roundBid.east} suit={roundSuit.east} />
+      <QuizBiddingTableLineCell
         key='south'
         cell='south'
         bid={roundBid.south}
         suit={roundSuit.south}
       />
-      <QuizBiddingTableCell
-        key='west'
-        cell='west'
-        bid={roundBid.west}
-        suit={roundSuit.west}
-      />
+      <QuizBiddingTableLineCell key='west' cell='west' bid={roundBid.west} suit={roundSuit.west} />
     </TableRow>
   )
 }

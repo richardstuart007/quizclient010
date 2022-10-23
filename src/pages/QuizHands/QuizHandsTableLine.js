@@ -6,7 +6,7 @@ import debugSettings from '../../debug/debugSettings'
 //
 //  Sub Components
 //
-import QuizHandsTableCell from './QuizHandsTableCell'
+import QuizHandsTableLineCell from './QuizHandsTableLineCell'
 //.............................................................................
 //.  Initialisation
 //.............................................................................
@@ -40,11 +40,11 @@ const QuizHandsTableLine = props => {
   //...................................................................................
   return (
     <TableRow key={rowCount}>
-      <QuizHandsTableCell cell='position' cellValue={position} />
-      <QuizHandsTableCell cell='spades' cellValue={hand[0]} />
-      <QuizHandsTableCell cell='hearts' cellValue={hand[1]} />
-      <QuizHandsTableCell cell='diamonds' cellValue={hand[2]} />
-      <QuizHandsTableCell cell='clubs' cellValue={hand[3]} />
+      <QuizHandsTableLineCell cell='position' cellValue={position} />
+      <QuizHandsTableLineCell cell='spades' cellValue={hand[0]} />
+      <QuizHandsTableLineCell cell='hearts' cellValue={hand[1]} />
+      <QuizHandsTableLineCell cell='diamonds' cellValue={hand[2]} />
+      <QuizHandsTableLineCell cell='clubs' cellValue={hand[3]} />
     </TableRow>
   )
 }

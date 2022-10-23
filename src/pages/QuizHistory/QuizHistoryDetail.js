@@ -21,16 +21,14 @@ import QuizBidding from '../QuizBidding/QuizBidding'
 //  Common Components
 //
 import QuizQuestion from '../Common/QuizQuestion'
-//.............................................................................
-//.  Initialisation
-//.............................................................................
 //
 // Debug Settings
 //
 const debugLog = debugSettings()
-//===================================================================================
-const QuizHistoryDetail = () => {
-  if (debugLog) console.log('Start QuizHistoryDetail')
+//...................................................................................
+//.  Main Line
+//...................................................................................
+export default function QuizHistoryDetail() {
   //
   //  Counts
   //
@@ -46,10 +44,53 @@ const QuizHistoryDetail = () => {
   const [arrAns, setArrAns] = useState([])
   const [arrAnsNum, setArrAnsNum] = useState([])
   const [ansIdx, setAnsIdx] = useState(0)
+  if (debugLog) console.log('Start QuizHistoryDetail')
+  //
+  //  Load the data array from the store
+  //
+  useEffect(() => {
+    firstLoad()
+    // eslint-disable-next-line
+  }, [])
+  //
+  //  No data to review
+  //
+  if (!quizRow) {
+    if (debugLog) console.log('Waiting for data')
+    if (countAns === 0) {
+      return (
+        <>
+          <Typography variant='subtitle1' sx={{ marginTop: '8px' }}>
+            Waiting for data
+          </Typography>
+        </>
+      )
+    } else {
+      return (
+        <>
+          <Typography variant='subtitle1' sx={{ marginTop: '8px' }}>
+            Result ({mark}%) {countPass} out of {countAns}. WELL DONE !!
+          </Typography>
+        </>
+      )
+    }
+  }
+  //
+  //  Hide/Show Previous/Next Buttons
+  //
+  let hidePreviousButton
+  ansIdx + 1 === 1 ? (hidePreviousButton = true) : (hidePreviousButton = false)
+  let hideNextButton
+  ansIdx + 1 === countReview ? (hideNextButton = true) : (hideNextButton = false)
+
+  if (debugLog) console.log('quizRow ', quizRow)
+  if (debugLog) console.log('ansIdx ', ansIdx)
+  if (debugLog) console.log('arrAnsNum ', arrAnsNum)
+  if (debugLog) console.log('arrAns ', arrAns)
   //...................................................................................
   //.  First time data received
   //...................................................................................
-  const firstLoad = () => {
+  function firstLoad() {
     if (debugLog) console.log('firstLoad ')
     //
     //  Get Row Values
@@ -61,7 +102,7 @@ const QuizHistoryDetail = () => {
   //...................................................................................
   //.  Update Selection
   //...................................................................................
-  const updateSelection = row => {
+  function updateSelection(row) {
     if (debugLog) console.log('updateSelection')
     //
     //  Get Stored Data
@@ -137,7 +178,7 @@ const QuizHistoryDetail = () => {
   //...................................................................................
   //.  Next Question
   //...................................................................................
-  const nextQuestion = () => {
+  function nextQuestion() {
     if (debugLog) console.log('nextQuestion ')
     if (debugLog) console.log('arrQuest ', arrQuest)
     if (debugLog) console.log('ansIdx ', ansIdx)
@@ -155,7 +196,7 @@ const QuizHistoryDetail = () => {
   //...................................................................................
   //.  Previous Question
   //...................................................................................
-  const handlePrevious = () => {
+  function handlePrevious() {
     if (debugLog) console.log('Previous Question ')
     //
     //  More rows
@@ -167,51 +208,6 @@ const QuizHistoryDetail = () => {
       setQuizRow(arrQuest[QuizIdx])
     }
   }
-  //...................................................................................
-  //.  Main Line
-  //...................................................................................
-  //
-  //  Load the data array from the store
-  //
-  useEffect(() => {
-    firstLoad()
-    // eslint-disable-next-line
-  }, [])
-  //
-  //  No data to review
-  //
-  if (!quizRow) {
-    if (debugLog) console.log('Waiting for data')
-    if (countAns === 0) {
-      return (
-        <>
-          <Typography variant='subtitle1' sx={{ marginTop: '8px' }}>
-            Waiting for data
-          </Typography>
-        </>
-      )
-    } else {
-      return (
-        <>
-          <Typography variant='subtitle1' sx={{ marginTop: '8px' }}>
-            Result ({mark}%) {countPass} out of {countAns}. WELL DONE !!
-          </Typography>
-        </>
-      )
-    }
-  }
-  //
-  //  Hide/Show Previous/Next Buttons
-  //
-  let hidePreviousButton
-  ansIdx + 1 === 1 ? (hidePreviousButton = true) : (hidePreviousButton = false)
-  let hideNextButton
-  ansIdx + 1 === countReview ? (hideNextButton = true) : (hideNextButton = false)
-
-  if (debugLog) console.log('quizRow ', quizRow)
-  if (debugLog) console.log('ansIdx ', ansIdx)
-  if (debugLog) console.log('arrAnsNum ', arrAnsNum)
-  if (debugLog) console.log('arrAns ', arrAns)
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -249,5 +245,3 @@ const QuizHistoryDetail = () => {
     </>
   )
 }
-
-export default QuizHistoryDetail

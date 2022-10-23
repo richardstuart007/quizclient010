@@ -45,7 +45,7 @@ const QuizHandsTableHeader = () => {
   //...................................................................................
   return (
     <>
-      <TableHead>
+      <TableHead style={{ backgroundColor: 'Gray' }}>
         <TableRow>
           <TableCell
             sx={{ padding: '0px' }}

@@ -7,18 +7,14 @@ import { Typography, Grid } from '@mui/material'
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
-
-//.............................................................................
-//.  Initialisation
-//.............................................................................
 //
 // Debug Settings
 //
 const debugLog = debugSettings()
-const QuizHandsTableCell = props => {
-  //...................................................................................
-  //.  Main Line
-  //...................................................................................
+//...................................................................................
+//.  Main Line
+//...................................................................................
+const QuizHandsTableLineCell = props => {
   if (debugLog) console.log('props ', props)
   //
   //  Destructure props
@@ -34,13 +30,8 @@ const QuizHandsTableCell = props => {
       {/* .......................................................................................... */}
       {/*  Suit                                                                               */}
       {/* .......................................................................................... */}
-      <TableCell key={cell} align='left' sx={{ padding: '0px' }}>
-        <Grid
-          container
-          direction='row'
-          justifyContent='flex-start'
-          alignItems='center'
-        >
+      <TableCell key={cell} sx={{ padding: '0px' }}>
+        <Grid container direction='row' justifyContent='flex-start' alignItems='center'>
           <Grid item>
             <Typography variant='body2'>{cellValue}</Typography>
           </Grid>
@@ -53,4 +44,4 @@ const QuizHandsTableCell = props => {
   )
 }
 
-export default QuizHandsTableCell
+export default QuizHandsTableLineCell

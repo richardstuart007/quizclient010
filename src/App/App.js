@@ -172,8 +172,6 @@ function App() {
     sessionStorage.setItem('Settings_ShowLinearProgress', false)
     sessionStorage.setItem('Settings_ShowLinearScore', false)
     sessionStorage.setItem('Settings_ShowButtonSettings', true)
-    sessionStorage.setItem('Settings_ShowSelectionOwner', true)
-    sessionStorage.setItem('Settings_ShowSelectionGroup1', true)
     let Settings_DevMode
     w_Client === REMOTE_CLIENT ? (Settings_DevMode = false) : (Settings_DevMode = true)
     sessionStorage.setItem('Settings_DevMode', Settings_DevMode)

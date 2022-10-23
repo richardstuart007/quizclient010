@@ -74,7 +74,6 @@ let subTitle
 //  Constants
 //
 const functionName = 'QuizHistory'
-
 //
 // Debug Settings
 //
@@ -82,13 +81,39 @@ const debugLog = debugSettings()
 const debugLogTest = false
 const debugFunStart = false
 const debugModule = 'QuizHistory'
-
-//=====================================================================================
+//...................................................................................
+//.  Main Line
+//...................................................................................
 export default function QuizHistory({ handlePage }) {
+  //
+  //  Styles
+  //
+  const classes = useStyles()
+  //
+  //  State
+  //
+  const [records, setRecords] = useState([])
+  const [filterFn, setFilterFn] = useState({
+    fn: items => {
+      return items
+    }
+  })
+  const [searchType, setSearchType] = useState('r_owner')
+  const [searchValue, setSearchValue] = useState('')
+
+  if (debugFunStart) console.log(debugModule)
+  //
+  //  Initial Data Load
+  //
+  useEffect(() => {
+    getRowAllData()
+    // eslint-disable-next-line
+  }, [])
+
   //.............................................................................
   //.  GET ALL
   //.............................................................................
-  const getRowAllData = () => {
+  function getRowAllData() {
     if (debugFunStart) console.log('getRowAllData')
     //
     //  Get User
@@ -96,7 +121,7 @@ export default function QuizHistory({ handlePage }) {
     const name = JSON.parse(sessionStorage.getItem('Settings_Name'))
     const email = JSON.parse(sessionStorage.getItem('Settings_Email'))
     const uid = JSON.parse(sessionStorage.getItem('Settings_Uid'))
-    subTitle = `Userid: ${uid} Email: ${email}  User: ${name}`
+    subTitle = `${name} (${uid})`
     //
     //  Selection
     //
@@ -157,7 +182,7 @@ export default function QuizHistory({ handlePage }) {
   //...................................................................................
   //.  Prepare Row before switching to QuizHistoryDetail
   //...................................................................................
-  const QuizHistoryRow = row => {
+  function QuizHistoryRow(row) {
     if (debugLog) console.log('QuizHistoryRow ')
     //
     //  Store Row
@@ -240,27 +265,12 @@ export default function QuizHistory({ handlePage }) {
     //
     return completedFlag
   }
-  //.............................................................................
-  //
-  //  Styles
-  //
-  const classes = useStyles()
-  //
-  //  State
-  //
-  const [records, setRecords] = useState([])
-  const [filterFn, setFilterFn] = useState({
-    fn: items => {
-      return items
-    }
-  })
-  const [searchType, setSearchType] = useState('r_owner')
-  const [searchValue, setSearchValue] = useState('')
+
   //.............................................................................
   //
   //  Search/Filter
   //
-  const handleSearch = () => {
+  function handleSearch() {
     if (debugFunStart) console.log('handleSearch')
     setFilterFn({
       fn: items => {
@@ -302,18 +312,6 @@ export default function QuizHistory({ handlePage }) {
       }
     })
   }
-
-  //...................................................................................
-  //.  Main Line
-  //...................................................................................
-  if (debugFunStart) console.log(debugModule)
-  //
-  //  Initial Data Load
-  //
-  useEffect(() => {
-    getRowAllData()
-    // eslint-disable-next-line
-  }, [])
   //.............................................................................
   //
   //  Populate the Table

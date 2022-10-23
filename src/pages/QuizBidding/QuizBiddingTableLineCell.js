@@ -21,10 +21,10 @@ import club from '../../assets/images/club.svg'
 // Debug Settings
 //
 const debugLog = debugSettings()
-const QuizBiddingTableCell = props => {
-  //...................................................................................
-  //.  Main Line
-  //...................................................................................
+//...................................................................................
+//.  Main Line
+//...................................................................................
+const QuizBiddingTableLineCell = props => {
   if (debugLog) console.log('props ', props)
   //
   //  Destructure props
@@ -62,13 +62,8 @@ const QuizBiddingTableCell = props => {
       {/* .......................................................................................... */}
       {/*  Bid & Suit                                                                               */}
       {/* .......................................................................................... */}
-      <TableCell key={cell} align='left' sx={{ padding: '0px' }}>
-        <Grid
-          container
-          direction='row'
-          justifyContent='flex-start'
-          alignItems='center'
-        >
+      <TableCell key={cell} sx={{ padding: '0px' }} style={{ width: 50 }}>
+        <Grid container direction='row' justifyContent='center' alignItems='center'>
           {/* .......................................................................................... */}
           {/*  Bid                                                                               */}
           {/* .......................................................................................... */}
@@ -92,4 +87,4 @@ const QuizBiddingTableCell = props => {
   )
 }
 
-export default QuizBiddingTableCell
+export default QuizBiddingTableLineCell

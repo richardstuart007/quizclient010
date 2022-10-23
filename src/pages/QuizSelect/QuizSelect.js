@@ -29,8 +29,6 @@ let g_DataLoad = true
 //  Settings
 //
 let Settings_AllowSelection
-let Settings_ShowSelectionOwner
-let Settings_ShowSelectionGroup1
 let Settings_ShowSelectionGroup2
 let Settings_ShowSelectionGroup3
 //
@@ -308,8 +306,6 @@ const QuizSelect = ({ handlePage }) => {
   //  Load setup values
   //
   Settings_AllowSelection = !JSON.parse(sessionStorage.getItem('Settings_AllowSelection'))
-  Settings_ShowSelectionOwner = JSON.parse(sessionStorage.getItem('Settings_ShowSelectionOwner'))
-  Settings_ShowSelectionGroup1 = JSON.parse(sessionStorage.getItem('Settings_ShowSelectionGroup1'))
   Settings_ShowSelectionGroup2 = JSON.parse(sessionStorage.getItem('Settings_ShowSelectionGroup2'))
   Settings_ShowSelectionGroup3 = JSON.parse(sessionStorage.getItem('Settings_ShowSelectionGroup3'))
   //
@@ -335,37 +331,36 @@ const QuizSelect = ({ handlePage }) => {
       <MyForm>
         <Grid container spacing={2}>
           {/*.................................................................................................*/}
-          {Settings_ShowSelectionOwner ? (
-            <Grid item xs={12}>
-              <MySelect
-                name='qowner'
-                label='Owner'
-                value={values.qowner}
-                onChange={handleInputChange}
-                options={Data_Options_Owner}
-                error={errors.qowner}
-                disabled={Settings_AllowSelection}
-              />
-            </Grid>
-          ) : null}
 
+          <Grid item xs={3}>
+            <MySelect
+              name='qowner'
+              label='Owner'
+              value={values.qowner}
+              onChange={handleInputChange}
+              options={Data_Options_Owner}
+              error={errors.qowner}
+              disabled={Settings_AllowSelection}
+            />
+          </Grid>
+          <Grid item xs={9}></Grid>
           {/*.................................................................................................*/}
-          {Settings_ShowSelectionGroup1 ? (
-            <Grid item xs={12}>
-              <MySelect
-                name='qgroup1'
-                label='Group1'
-                value={values.qgroup1}
-                onChange={handleInputChange}
-                options={Data_Group1OptionsSubset}
-                error={errors.qgroup1}
-                disabled={Settings_AllowSelection}
-              />
-            </Grid>
-          ) : null}
+          <Grid item xs={3}>
+            <MySelect
+              name='qgroup1'
+              label='Group1'
+              value={values.qgroup1}
+              onChange={handleInputChange}
+              options={Data_Group1OptionsSubset}
+              error={errors.qgroup1}
+              disabled={Settings_AllowSelection}
+            />
+          </Grid>
+          <Grid item xs={9}></Grid>
+          {/*.................................................................................................*/}
 
           {Settings_ShowSelectionGroup2 ? (
-            <Grid item xs={12}>
+            <Grid item xs={3}>
               <MySelect
                 name='qgroup2'
                 label='Group2'
@@ -376,9 +371,10 @@ const QuizSelect = ({ handlePage }) => {
               />
             </Grid>
           ) : null}
-
+          {Settings_ShowSelectionGroup2 ? <Grid item xs={9}></Grid> : null}
+          {/*.................................................................................................*/}
           {Settings_ShowSelectionGroup3 ? (
-            <Grid item xs={12}>
+            <Grid item xs={3}>
               <MySelect
                 name='qgroup3'
                 label='Group3'
@@ -389,9 +385,10 @@ const QuizSelect = ({ handlePage }) => {
               />
             </Grid>
           ) : null}
+          {Settings_ShowSelectionGroup2 ? <Grid item xs={9}></Grid> : null}
           {/*.................................................................................................*/}
 
-          <Grid item xs={6}>
+          <Grid item xs={2}>
             <MyInput
               name='MaxQuestions'
               label='MaxQuestions'
@@ -400,13 +397,14 @@ const QuizSelect = ({ handlePage }) => {
               error={errors.MaxQuestions}
             />
           </Grid>
-          {/*.................................................................................................*/}
-          <Grid item xs={12}>
-            <Typography style={{ color: 'red' }}>{form_message}</Typography>
-          </Grid>
-
+          <Grid item xs={10}></Grid>
           {/*.................................................................................................*/}
           <Grid item xs={6}>
+            <Typography style={{ color: 'red' }}>{form_message}</Typography>
+          </Grid>
+          <Grid item xs={6}></Grid>
+          {/*.................................................................................................*/}
+          <Grid item xs={2}>
             <MyButton
               text='Start Quiz'
               onClick={() => {
@@ -416,7 +414,7 @@ const QuizSelect = ({ handlePage }) => {
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={2}>
             <MyButton
               text='Learn'
               onClick={() => {
@@ -425,6 +423,7 @@ const QuizSelect = ({ handlePage }) => {
               }}
             />
           </Grid>
+          <Grid item xs={8}></Grid>
           {/*.................................................................................................*/}
         </Grid>
       </MyForm>

@@ -2,19 +2,10 @@
 //  Libraries
 //
 import { TableCell, TableHead, TableRow } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
 //
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
-//
-// Styles
-//
-const useStyles = makeStyles({
-  tableCell: {
-    maxWidth: '100px'
-  }
-})
 //.............................................................................
 //.  Initialisation
 //.............................................................................
@@ -24,10 +15,6 @@ const useStyles = makeStyles({
 const debugLog = debugSettings()
 //===================================================================================
 const QuizBiddingTableHeader = () => {
-  //
-  //  Styles
-  //
-  const classes = useStyles()
   //...................................................................................
   //.  Main Line
   //...................................................................................
@@ -38,47 +25,43 @@ const QuizBiddingTableHeader = () => {
   //...................................................................................
   return (
     <>
-      <TableHead>
+      <TableHead style={{ backgroundColor: 'Gray' }}>
         <TableRow key={'TableHeader'}>
           {/* .......................................................................................... */}
           <TableCell
             key='North'
             sx={{ padding: '0px' }}
-            align='left'
-            style={{ width: 60 }}
-            className={classes.tableCell}
+            align='center'
+            style={{ width: 50, color: 'white' }}
           >
-            North
+            N
           </TableCell>
           {/* .......................................................................................... */}
           <TableCell
             key='East'
             sx={{ padding: '0px' }}
-            align='left'
-            style={{ width: 60 }}
-            className={classes.tableCell}
+            align='center'
+            style={{ width: 50, color: 'white' }}
           >
-            East
+            E
           </TableCell>
           {/* .......................................................................................... */}
           <TableCell
             key='South'
             sx={{ padding: '0px' }}
-            align='left'
-            style={{ width: 60 }}
-            className={classes.tableCell}
+            align='center'
+            style={{ width: 50, color: 'white' }}
           >
-            South
+            S
           </TableCell>
           {/* .......................................................................................... */}
           <TableCell
             key='West'
             sx={{ padding: '0px' }}
-            align='left'
-            style={{ width: 60 }}
-            className={classes.tableCell}
+            align='center'
+            style={{ width: 50, color: 'white' }}
           >
-            West
+            W
           </TableCell>
           {/* .......................................................................................... */}
         </TableRow>

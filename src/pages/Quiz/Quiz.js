@@ -32,8 +32,10 @@ let g_quizQuest = []
 let g_questCount = 0
 let g_quizRow = {}
 let g_quizAns = []
-//===================================================================================
-const Quiz = ({ handlePage }) => {
+//...................................................................................
+//.  Main Line
+//...................................................................................
+function Quiz({ handlePage }) {
   if (debugLog) console.log('Start Quiz')
   //
   //  Show Linear Bars ?
@@ -45,10 +47,25 @@ const Quiz = ({ handlePage }) => {
   //
   const [ansPass, setAnsPass] = useState(0)
   const [ansCount, setAnsCount] = useState(0)
+
+  //
+  //  Reset Quiz State
+  //
+  const reset = JSON.parse(sessionStorage.getItem('Settings_Reset'))
+  if (reset) handleQuizReset()
+  //
+  //  No data (Error)
+  //
+  if (g_questCount === 0) {
+    if (debugLog) console.log('No data')
+    return <p style={{ color: 'red' }}>No data</p>
+  }
+  if (debugLog) console.log('g_quizRow ', g_quizRow)
+  if (debugLog) console.log('g_quizRow.qid ', g_quizRow.qid)
   //...................................................................................
   //.  Reset the Quiz
   //...................................................................................
-  const handleQuizReset = () => {
+  function handleQuizReset() {
     //
     //  Reset flag
     //
@@ -89,7 +106,7 @@ const Quiz = ({ handlePage }) => {
   //...................................................................................
   //.  Form Submit
   //...................................................................................
-  const onSubmitForm = id => {
+  function onSubmitForm(id) {
     //
     //  Update count
     //
@@ -129,28 +146,11 @@ const Quiz = ({ handlePage }) => {
   //...................................................................................
   //. Answer Selected
   //...................................................................................
-  const handleSelect = id => {
+  function handleSelect(id) {
     if (debugLog) console.log(`ID selected ${id}`)
     if (debugLog) console.log('g_Idx ', g_Idx, 'qid ', g_quizRow.qid)
     onSubmitForm(id)
   }
-  //...................................................................................
-  //.  Main Line
-  //...................................................................................
-  //
-  //  Reset Quiz State
-  //
-  const reset = JSON.parse(sessionStorage.getItem('Settings_Reset'))
-  if (reset) handleQuizReset()
-  //
-  //  No data (Error)
-  //
-  if (g_questCount === 0) {
-    if (debugLog) console.log('No data')
-    return <p style={{ color: 'red' }}>No data</p>
-  }
-  if (debugLog) console.log('g_quizRow ', g_quizRow)
-  if (debugLog) console.log('g_quizRow.qid ', g_quizRow.qid)
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -159,7 +159,6 @@ const Quiz = ({ handlePage }) => {
       <QuizQuestion quizRow={g_quizRow} quizQuestion={g_Idx + 1} />
       <QuizBidding qid={g_quizRow.qid} />
       <QuizHands qid={g_quizRow.qid} />
-
       <QuizPanel key={g_quizRow.qid} quizRow={g_quizRow} handleSelect={handleSelect} />
       {/* .......................................................................................... */}
       {showLinearProgress ? (

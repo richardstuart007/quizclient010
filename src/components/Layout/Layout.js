@@ -24,7 +24,7 @@ import Ukraine from '../../assets/images/Ukraine.svg'
 const useStyles = makeStyles(theme => {
   return {
     page: {
-      background: 'whitesmoke',
+      background: 'white',
       width: '100%',
       padding: theme.spacing(1)
     },
@@ -130,6 +130,18 @@ export default function Layout({ handlePage, currentPage, children }) {
         <Toolbar>
           <Grid container alignItems='center'>
             {/* .......................................................................................... */}
+            <Grid>
+              <CardMedia
+                component='img'
+                sx={{
+                  width: 30,
+                  height: 30
+                }}
+                image={Ukraine}
+                alt=''
+              />
+            </Grid>
+            {/* .......................................................................................... */}
             <Grid item>
               <Avatar className={classes.avatar} src={cards} />
             </Grid>
@@ -166,18 +178,7 @@ export default function Layout({ handlePage, currentPage, children }) {
             ) : null}
             {/* .......................................................................................... */}
             <Grid item xs></Grid>
-            {/* .......................................................................................... */}
-            <Grid>
-              <CardMedia
-                component='img'
-                sx={{
-                  width: 30,
-                  height: 30
-                }}
-                image={Ukraine}
-                alt=''
-              />
-            </Grid>
+
             {/* .......................................................................................... */}
             {ScreenMedium && <QuizNavigation handlePage={handlePage} currentPage={currentPage} />}
             {/* .......................................................................................... */}

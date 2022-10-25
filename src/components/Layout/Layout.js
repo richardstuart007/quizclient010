@@ -152,17 +152,6 @@ export default function Layout({ handlePage, currentPage, children }) {
               </Typography>
             </Grid>
             {/* .......................................................................................... */}
-            {ShowClientServer ? (
-              <Grid item>
-                <Typography
-                  className={classes.clientserver}
-                  sx={{ display: { xs: 'none', sm: 'inline' } }}
-                >
-                  {clientserver}
-                </Typography>
-              </Grid>
-            ) : null}
-            {/* .......................................................................................... */}
             {showSettings_Name ? (
               <Grid item>
                 <Typography
@@ -176,6 +165,18 @@ export default function Layout({ handlePage, currentPage, children }) {
                 </Typography>
               </Grid>
             ) : null}
+            {/* .......................................................................................... */}
+            {ShowClientServer ? (
+              <Grid item>
+                <Typography
+                  className={classes.clientserver}
+                  sx={{ display: { xs: 'none', sm: 'inline' } }}
+                >
+                  {clientserver}
+                </Typography>
+              </Grid>
+            ) : null}
+
             {/* .......................................................................................... */}
             <Grid item xs></Grid>
 

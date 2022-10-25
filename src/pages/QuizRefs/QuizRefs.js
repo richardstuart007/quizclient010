@@ -108,6 +108,7 @@ export default function QuizRefs({ handlePage }) {
         <Grid item xs={6}>
           <MyButton
             text='Go Back'
+            color='warning'
             onClick={() => {
               handlePage(PagePrevious)
             }}

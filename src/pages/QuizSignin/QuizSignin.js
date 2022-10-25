@@ -2,7 +2,7 @@
 //  Libraries
 //
 import { useState } from 'react'
-import { Grid, Typography } from '@mui/material'
+import { Grid, Typography, Box } from '@mui/material'
 //
 //  Utilities
 //
@@ -54,13 +54,6 @@ function QuizSignin({ handlePage }) {
   const Settings_Email = JSON.parse(sessionStorage.getItem('Settings_Email'))
   if (debugLog) console.log('Settings_Email ', Settings_Email)
   initialFValues.email = Settings_Email
-  //
-  //  Dev Mode
-  //
-  const Settings_DevMode = JSON.parse(sessionStorage.getItem('Settings_DevMode'))
-  if (Settings_DevMode) {
-    initialFValues.email = 't@t.com'
-  }
   //
   // Form Message
   //
@@ -230,39 +223,54 @@ function QuizSignin({ handlePage }) {
         {/*.................................................................................................*/}
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <MyInput
-              name='email'
-              label='email'
-              value={values.email}
-              onChange={handleInputChange}
-              error={errors.email}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <MyInput
-              name='password'
-              label='password'
-              value={values.password}
-              onChange={handleInputChange}
-              error={errors.password}
-            />
+            <Box sx={{ mt: 2, maxWidth: 600 }}>
+              <MyInput
+                name='email'
+                label='email'
+                value={values.email}
+                onChange={handleInputChange}
+                error={errors.email}
+              />
+            </Box>
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <Typography style={{ color: 'red' }}>{form_message}</Typography>
+            <Box sx={{ mt: 2, maxWidth: 600 }}>
+              <MyInput
+                name='password'
+                label='password'
+                value={values.password}
+                onChange={handleInputChange}
+                error={errors.password}
+              />
+            </Box>
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <MyButton
-              text='SignIn'
-              onClick={() => {
-                FormSubmit()
-              }}
-            />
+            <Box sx={{ mt: 2, maxWidth: 600 }}>
+              <Typography style={{ color: 'red' }}>{form_message}</Typography>
+            </Box>
           </Grid>
-
-          {/*.................................................................................................*/}
         </Grid>
+        {/*.................................................................................................*/}
+        <Box sx={{ mt: 2, maxWidth: 600 }}>
+          <MyButton
+            text='SignIn'
+            onClick={() => {
+              FormSubmit()
+            }}
+          />
+          {/*.................................................................................................*/}
+          <MyButton
+            color='warning'
+            sx={{ float: 'right' }}
+            onClick={() => {
+              handlePage('QuizRegister')
+            }}
+            text='Register'
+          />
+        </Box>
+        {/*.................................................................................................*/}
       </MyForm>
     </>
   )

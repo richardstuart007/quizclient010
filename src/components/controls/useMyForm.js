@@ -67,8 +67,8 @@ export function useMyForm(initialFValues, validateOnChange = false, validate) {
 const useStyles = makeStyles(theme => ({
   root: {
     '& .MuiFormControl-root': {
-      width: '95%',
-      margin: theme.spacing(0.5)
+      width: '100%',
+      margin: `${theme.spacing(3)} 0 0 ${theme.spacing(1)}`
     }
   }
 }))

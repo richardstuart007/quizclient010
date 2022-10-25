@@ -2,7 +2,7 @@
 //  Libraries
 //
 import { useState } from 'react'
-import { Grid, Typography } from '@mui/material'
+import { Grid, Typography, Box } from '@mui/material'
 //
 //  Debug Settings
 //
@@ -162,58 +162,79 @@ function QuizRegister({ handlePage }) {
         <Grid container spacing={2}>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <MyInput
-              name='name'
-              label='name'
-              value={values.name}
-              onChange={handleInputChange}
-              error={errors.name}
-            />
+            <Box sx={{ mt: 2, maxWidth: 600 }}>
+              <MyInput
+                name='name'
+                label='name'
+                value={values.name}
+                onChange={handleInputChange}
+                error={errors.name}
+              />
+            </Box>
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <MyInput
-              name='fedid'
-              label='Bridge Federation Id'
-              value={values.fedid}
-              onChange={handleInputChange}
-              error={errors.fedid}
-            />
+            <Box sx={{ mt: 2, maxWidth: 300 }}>
+              <MyInput
+                name='fedid'
+                label='Bridge Federation Id'
+                value={values.fedid}
+                onChange={handleInputChange}
+                error={errors.fedid}
+              />
+            </Box>
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <MyInput
-              name='email'
-              label='email'
-              value={values.email}
-              onChange={handleInputChange}
-              error={errors.email}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <MyInput
-              name='password'
-              label='password'
-              value={values.password}
-              onChange={handleInputChange}
-              error={errors.password}
-            />
+            <Box sx={{ mt: 2, maxWidth: 600 }}>
+              <MyInput
+                name='email'
+                label='email'
+                value={values.email}
+                onChange={handleInputChange}
+                error={errors.email}
+              />
+            </Box>
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <Typography style={{ color: 'red' }}>{form_message}</Typography>
+            <Box sx={{ mt: 2, maxWidth: 600 }}>
+              <MyInput
+                name='password'
+                label='password'
+                value={values.password}
+                onChange={handleInputChange}
+                error={errors.password}
+              />
+            </Box>
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <MyButton
-              text='Register'
-              onClick={() => {
-                FormSubmit()
-              }}
-            />
+            <Box sx={{ mt: 2, maxWidth: 600 }}>
+              <Typography style={{ color: 'red' }}>{form_message}</Typography>
+            </Box>
           </Grid>
-          {/*.................................................................................................*/}
         </Grid>
+        {/*.................................................................................................*/}
+        <Box sx={{ mt: 2, maxWidth: 600 }}>
+          <MyButton
+            text='Register'
+            onClick={() => {
+              FormSubmit()
+            }}
+          />
+          {/*.................................................................................................*/}
+
+          <MyButton
+            color='warning'
+            sx={{ float: 'right' }}
+            onClick={() => {
+              handlePage('QuizSignin')
+            }}
+            text='Signin'
+          />
+        </Box>
+        {/*.................................................................................................*/}
       </MyForm>
     </>
   )

@@ -29,7 +29,7 @@ import QuizQuestion from '../Common/QuizQuestion'
 //
 const debugLog = debugSettings()
 //===================================================================================
-const QuizReview = props => {
+export default function QuizReview({ handlePage }) {
   if (debugLog) console.log('Start QuizReview')
   //
   //  Counts
@@ -166,27 +166,19 @@ const QuizReview = props => {
     // eslint-disable-next-line
   }, [])
   //
-  //  No data to review
+  //  Quiz Message
+  //
+  let nothingToReview = false
+  let reviewMessage = `Result (${mark}%) ${countPass} out of ${countAns}.`
+  //
+  //  No Questions to review
   //
   if (!quizRow) {
-    if (debugLog) console.log('Quiz Row empty')
-    if (countAns === 0) {
-      return (
-        <>
-          <Typography variant='subtitle1' sx={{ marginTop: '8px' }}>
-            No questions answered, nothing to review
-          </Typography>
-        </>
-      )
-    } else {
-      return (
-        <>
-          <Typography variant='subtitle1' sx={{ marginTop: '8px' }}>
-            Result ({mark}%) {countPass} out of {countAns}. WELL DONE !!
-          </Typography>
-        </>
-      )
-    }
+    nothingToReview = true
+
+    countAns === 0
+      ? (reviewMessage = 'No questions answered, nothing to review')
+      : (reviewMessage = `Result (${mark}%) ${countPass} out of ${countAns}.  WELL DONE!!`)
   }
   //
   //  Hide/Show Previous/Next Buttons
@@ -205,17 +197,23 @@ const QuizReview = props => {
   //...................................................................................
   return (
     <>
-      <Typography variant='subtitle1' sx={{ marginTop: '8px' }}>
-        Result ({mark}%) {countPass} out of {countAns}
-      </Typography>
+      <Box sx={{ mt: 2, maxWidth: 600 }}>
+        <Typography variant='subtitle1' sx={{ marginTop: '8px' }}>
+          {reviewMessage}
+        </Typography>
+      </Box>
 
-      <QuizQuestion quizRow={quizRow} quizQuestion={arrAnsNum[ansIdx] + 1} />
-      <QuizBidding qid={quizRow.qid} />
-      <QuizHands qid={quizRow.qid} />
-      <QuizReviewAnswers quizRow={quizRow} AnswerNum={arrAns[ansIdx]} />
+      {nothingToReview ? null : (
+        <QuizQuestion quizRow={quizRow} quizQuestion={arrAnsNum[ansIdx] + 1} />
+      )}
+      {nothingToReview ? null : <QuizBidding qid={quizRow.qid} />}
+      {nothingToReview ? null : <QuizHands qid={quizRow.qid} />}
+      {nothingToReview ? null : <QuizReviewAnswers quizRow={quizRow} AnswerNum={arrAns[ansIdx]} />}
 
-      <Box sx={{ mt: 2 }}>
-        {hideNextButton ? null : (
+      {/* .......................................................................................... */}
+      <Box sx={{ mt: 2, maxWidth: 600 }}>
+        {/*.................................................................................................*/}
+        {nothingToReview || hideNextButton ? null : (
           <MyButton
             type='submit'
             text='Next'
@@ -224,7 +222,8 @@ const QuizReview = props => {
             onClick={() => nextQuestion()}
           />
         )}
-        {hidePreviousButton ? null : (
+        {/* .......................................................................................... */}
+        {nothingToReview || hidePreviousButton ? null : (
           <MyButton
             type='submit'
             text='Previous'
@@ -233,9 +232,19 @@ const QuizReview = props => {
             onClick={() => handlePrevious()}
           />
         )}
+        {/* .......................................................................................... */}
+        <MyButton
+          type='submit'
+          text='Restart'
+          color='warning'
+          variant='contained'
+          sx={{ float: 'right' }}
+          onClick={() => {
+            handlePage('QuizSelect')
+          }}
+        />
+        {/*.................................................................................................*/}
       </Box>
     </>
   )
 }
-
-export default QuizReview

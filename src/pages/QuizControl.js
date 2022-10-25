@@ -15,7 +15,6 @@ import QuizReview from './QuizReview/QuizReview'
 import QuizHistory from './QuizHistory/QuizHistory'
 import QuizHistoryDetail from './QuizHistory/QuizHistoryDetail'
 import QuizRefs from './QuizRefs/QuizRefs'
-import QuizInfo from './Common/QuizInfo'
 //
 // Debug Settings
 //
@@ -56,12 +55,11 @@ function QuizControl({ handlePage }) {
           case 'QuizHistory':
             return <QuizHistory handlePage={handlePage} />
           case 'QuizHistoryDetail':
-            return <QuizHistoryDetail />
+            return <QuizHistoryDetail handlePage={handlePage} />
           default:
             return null
         }
       })()}
-      <QuizInfo />
     </>
   )
 }

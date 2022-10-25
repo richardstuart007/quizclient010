@@ -117,7 +117,7 @@ const QuizHands = ({ qid }) => {
   //...................................................................................
   return (
     <>
-      <Card sx={{ maxWidth: 500, marginTop: '16px' }} style={{ backgroundColor: 'LightGray' }}>
+      <Card sx={{ maxWidth: 600, marginTop: '16px' }} style={{ backgroundColor: 'LightGray' }}>
         <Table>
           {/* .......................................................................................... */}
           <QuizHandsTableHeader />

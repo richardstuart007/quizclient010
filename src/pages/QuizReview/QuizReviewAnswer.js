@@ -38,7 +38,7 @@ export default function QuizAnswer(props) {
     <>
       <Card
         elevation={1}
-        sx={{ mt: 2, maxWidth: 700 }}
+        sx={{ mt: 2, maxWidth: 600 }}
         style={{ backgroundColor: backgroundColor }}
       >
         <CardActionArea>

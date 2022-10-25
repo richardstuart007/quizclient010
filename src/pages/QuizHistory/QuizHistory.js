@@ -38,15 +38,11 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1)
   },
   searchInput: {
-    width: '40%'
+    width: '25%'
   },
   searchInputTypeBox: {
     width: '10%',
     margin: `0 0 0 ${theme.spacing(2)}`
-  },
-  newButton: {
-    position: 'absolute',
-    right: '10px'
   }
 }))
 //
@@ -333,6 +329,7 @@ export default function QuizHistory({ handlePage }) {
       />
       <Paper className={classes.pageContent}>
         <Toolbar>
+          {/* .......................................................................................... */}
           <MyInput
             label='Search'
             name='Search'
@@ -347,6 +344,7 @@ export default function QuizHistory({ handlePage }) {
             }}
             onChange={e => setSearchValue(e.target.value)}
           />
+          {/* .......................................................................................... */}
           <Box className={classes.searchInputTypeBox}>
             <MySelect
               fullWidth={true}
@@ -357,19 +355,25 @@ export default function QuizHistory({ handlePage }) {
               options={searchTypeOptions}
             />
           </Box>
+          {/* .......................................................................................... */}
           <MyButton
             text='Filter'
             variant='outlined'
+            size='large'
             startIcon={<FilterListIcon />}
             onClick={handleSearch}
           />
+          {/* .......................................................................................... */}
           <MyButton
             text='Refresh'
             variant='outlined'
+            size='large'
             startIcon={<RefreshIcon />}
             onClick={getRowAllData}
           />
+          {/* .......................................................................................... */}
         </Toolbar>
+        {/* .......................................................................................... */}
         <TblContainer>
           <TblHead />
           <TableBody>

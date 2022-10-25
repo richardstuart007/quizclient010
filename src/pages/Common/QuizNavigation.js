@@ -11,8 +11,6 @@ import ScoreboardIcon from '@mui/icons-material/Scoreboard'
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import LogoutIcon from '@mui/icons-material/Logout'
-import LoginIcon from '@mui/icons-material/Login'
-import HowToRegIcon from '@mui/icons-material/HowToReg'
 //
 //  Debug Settings
 //
@@ -45,16 +43,6 @@ export default function QuizNavigation({ handlePage, currentPage }) {
   const CurrentPage = currentPage
   if (debugLog) console.log('currentPage ', currentPage)
   //
-  //  Show Signin Button ?
-  //
-  let showButtonSignin = false
-  if (CurrentPage === 'QuizRegister') showButtonSignin = true
-  //
-  //  Show Register Button ?
-  //
-  let showButtonRegister = false
-  if (CurrentPage === 'QuizSignin') showButtonRegister = true
-  //
   //  Show SignOut Button ?
   //
   let showButtonSignOut = false
@@ -72,17 +60,9 @@ export default function QuizNavigation({ handlePage, currentPage }) {
     CurrentPage === 'QuizRefs' ||
     CurrentPage === 'Quiz' ||
     CurrentPage === 'QuizHistory' ||
-    CurrentPage === 'QuizHistoryDetail' ||
-    CurrentPage === 'QuizReview'
+    CurrentPage === 'QuizHistoryDetail'
   )
     showButtonRestart = true
-  //
-  //  Show Review Button ?
-  //
-  let showButtonReview = false
-  if (CurrentPage === 'Quiz') {
-    showButtonReview = true
-  }
   //
   //  Show Book Button ?
   //
@@ -108,52 +88,19 @@ export default function QuizNavigation({ handlePage, currentPage }) {
   if (debugLog) console.log('showButtonSettings ', showButtonSettings)
   if (showButtonSettings) {
     showButtonSettings = false
-    if (
-      CurrentPage !== 'QuizSettings' &&
-      CurrentPage !== 'QuizSignin' &&
-      CurrentPage !== 'QuizSplash' &&
-      CurrentPage !== 'QuizRegister'
-    )
-      showButtonSettings = true
+    if (CurrentPage === 'Quiz' || CurrentPage === 'QuizSelect') showButtonSettings = true
   }
   //
   //  Show History Button ?
   //
   let showButtonHistory = false
-  if (
-    CurrentPage === 'QuizSelect' ||
-    CurrentPage === 'QuizHistoryDetail' ||
-    CurrentPage === 'QuizReview'
-  )
-    showButtonHistory = true
+  if (CurrentPage === 'QuizSelect' || CurrentPage === 'QuizReview') showButtonHistory = true
   //...................................................................................
   //.  Render the component
   //...................................................................................
   return (
     <div className={classes.root}>
       <Grid container alignItems='center'>
-        {/* .......................................................................................... */}
-        {showButtonSignin ? (
-          <MyActionButton
-            startIcon={<LoginIcon fontSize='small' />}
-            color='warning'
-            onClick={() => {
-              handlePage('QuizSignin')
-            }}
-            text='SignIn'
-          ></MyActionButton>
-        ) : null}
-        {/* .......................................................................................... */}
-        {showButtonRegister ? (
-          <MyActionButton
-            startIcon={<HowToRegIcon fontSize='small' />}
-            color='warning'
-            onClick={() => {
-              handlePage('QuizRegister')
-            }}
-            text='Register'
-          ></MyActionButton>
-        ) : null}
         {/* .......................................................................................... */}
 
         {showButtonHistory ? (
@@ -166,19 +113,6 @@ export default function QuizNavigation({ handlePage, currentPage }) {
             text='History'
           ></MyActionButton>
         ) : null}
-        {/* .......................................................................................... */}
-
-        {showButtonReview ? (
-          <MyActionButton
-            startIcon={<ScoreboardIcon fontSize='small' />}
-            color='warning'
-            onClick={() => {
-              handlePage('QuizReview')
-            }}
-            text='Review'
-          ></MyActionButton>
-        ) : null}
-
         {/* .......................................................................................... */}
         {showMenuBook ? (
           <MyActionButton
@@ -219,7 +153,7 @@ export default function QuizNavigation({ handlePage, currentPage }) {
             color='warning'
             onClick={() => {
               sessionStorage.setItem('Settings_SignedIn', false)
-              handlePage('QuizSplash')
+              handlePage('QuizSignin')
             }}
             text='Signout'
           ></MyActionButton>

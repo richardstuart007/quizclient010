@@ -2,7 +2,7 @@
 //  Libraries
 //
 import { useState } from 'react'
-import { Grid, Typography } from '@mui/material'
+import { Grid, Typography, Box } from '@mui/material'
 //
 //  Debug Settings
 //
@@ -331,101 +331,105 @@ const QuizSelect = ({ handlePage }) => {
       <MyForm>
         <Grid container spacing={2}>
           {/*.................................................................................................*/}
-
-          <Grid item xs={3}>
-            <MySelect
-              name='qowner'
-              label='Owner'
-              value={values.qowner}
-              onChange={handleInputChange}
-              options={Data_Options_Owner}
-              error={errors.qowner}
-              disabled={Settings_AllowSelection}
-            />
+          <Grid item xs={12}>
+            <Box sx={{ mt: 2, maxWidth: 600 }}>
+              <MySelect
+                name='qowner'
+                label='Owner'
+                value={values.qowner}
+                onChange={handleInputChange}
+                options={Data_Options_Owner}
+                error={errors.qowner}
+                disabled={Settings_AllowSelection}
+              />
+            </Box>
           </Grid>
-          <Grid item xs={9}></Grid>
           {/*.................................................................................................*/}
-          <Grid item xs={3}>
-            <MySelect
-              name='qgroup1'
-              label='Group1'
-              value={values.qgroup1}
-              onChange={handleInputChange}
-              options={Data_Group1OptionsSubset}
-              error={errors.qgroup1}
-              disabled={Settings_AllowSelection}
-            />
+          <Grid item xs={12}>
+            <Box sx={{ mt: 2, maxWidth: 600 }}>
+              <MySelect
+                name='qgroup1'
+                label='Group1'
+                value={values.qgroup1}
+                onChange={handleInputChange}
+                options={Data_Group1OptionsSubset}
+                error={errors.qgroup1}
+                disabled={Settings_AllowSelection}
+              />
+            </Box>
           </Grid>
-          <Grid item xs={9}></Grid>
           {/*.................................................................................................*/}
 
           {Settings_ShowSelectionGroup2 ? (
-            <Grid item xs={3}>
-              <MySelect
-                name='qgroup2'
-                label='Group2'
-                value={values.qgroup2}
-                onChange={handleInputChange}
-                options={Data_Options_Group2}
-                disabled={Settings_AllowSelection}
-              />
+            <Grid item xs={12}>
+              <Box sx={{ mt: 2, maxWidth: 600 }}>
+                <MySelect
+                  name='qgroup2'
+                  label='Group2'
+                  value={values.qgroup2}
+                  onChange={handleInputChange}
+                  options={Data_Options_Group2}
+                  disabled={Settings_AllowSelection}
+                />
+              </Box>
             </Grid>
           ) : null}
-          {Settings_ShowSelectionGroup2 ? <Grid item xs={9}></Grid> : null}
           {/*.................................................................................................*/}
           {Settings_ShowSelectionGroup3 ? (
-            <Grid item xs={3}>
-              <MySelect
-                name='qgroup3'
-                label='Group3'
-                value={values.qgroup3}
-                onChange={handleInputChange}
-                options={Data_Options_Group3}
-                disabled={Settings_AllowSelection}
-              />
+            <Grid item xs={12}>
+              <Box sx={{ mt: 2, maxWidth: 600 }}>
+                <MySelect
+                  name='qgroup3'
+                  label='Group3'
+                  value={values.qgroup3}
+                  onChange={handleInputChange}
+                  options={Data_Options_Group3}
+                  disabled={Settings_AllowSelection}
+                />
+              </Box>
             </Grid>
           ) : null}
-          {Settings_ShowSelectionGroup2 ? <Grid item xs={9}></Grid> : null}
           {/*.................................................................................................*/}
 
-          <Grid item xs={2}>
-            <MyInput
-              name='MaxQuestions'
-              label='MaxQuestions'
-              value={values.MaxQuestions}
-              onChange={handleInputChange}
-              error={errors.MaxQuestions}
-            />
+          <Grid item xs={12}>
+            <Box sx={{ mt: 2, maxWidth: 100 }}>
+              <MyInput
+                name='MaxQuestions'
+                label='MaxQuestions'
+                value={values.MaxQuestions}
+                onChange={handleInputChange}
+                error={errors.MaxQuestions}
+              />
+            </Box>
           </Grid>
-          <Grid item xs={10}></Grid>
           {/*.................................................................................................*/}
-          <Grid item xs={6}>
-            <Typography style={{ color: 'red' }}>{form_message}</Typography>
+          <Grid item xs={12}>
+            <Box sx={{ mt: 2, maxWidth: 600 }}>
+              <Typography style={{ color: 'red' }}>{form_message}</Typography>
+            </Box>
           </Grid>
-          <Grid item xs={6}></Grid>
-          {/*.................................................................................................*/}
-          <Grid item xs={2}>
-            <MyButton
-              text='Start Quiz'
-              onClick={() => {
-                g_PageNew = 'Quiz'
-                SubmitForm()
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={2}>
-            <MyButton
-              text='Learn'
-              onClick={() => {
-                g_PageNew = 'QuizRefs'
-                SubmitForm()
-              }}
-            />
-          </Grid>
-          <Grid item xs={8}></Grid>
-          {/*.................................................................................................*/}
         </Grid>
+        {/*.................................................................................................*/}
+        <Box sx={{ mt: 2, maxWidth: 600 }}>
+          <MyButton
+            text='Start Quiz'
+            onClick={() => {
+              g_PageNew = 'Quiz'
+              SubmitForm()
+            }}
+          />
+
+          <MyButton
+            color='warning'
+            text='Learn'
+            sx={{ float: 'right' }}
+            onClick={() => {
+              g_PageNew = 'QuizRefs'
+              SubmitForm()
+            }}
+          />
+        </Box>
+        {/* .......................................................................................... */}
       </MyForm>
     </>
   )

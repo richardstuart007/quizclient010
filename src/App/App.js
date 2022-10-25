@@ -162,19 +162,21 @@ function App() {
         `QuizClient-PORT(${port}) CLIENT(${w_Client}) SERVER(${w_Server}) DATABASE(${w_Database}) URL(${w_URL})`
       )
     //
+    //  DevMode ?
+    //
+    let Settings_DevMode
+    w_Client === REMOTE_CLIENT ? (Settings_DevMode = false) : (Settings_DevMode = true)
+    sessionStorage.setItem('Settings_DevMode', Settings_DevMode)
+    //
     //  Session Storage
     //
     sessionStorage.setItem('Settings_RandomSort', true)
     sessionStorage.setItem('Settings_ReviewSkipPass', true)
     sessionStorage.setItem('Settings_AllowSelection', true)
     sessionStorage.setItem('Settings_ShowQid', true)
-    sessionStorage.setItem('Settings_ShowInfo', false)
     sessionStorage.setItem('Settings_ShowLinearProgress', false)
     sessionStorage.setItem('Settings_ShowLinearScore', false)
     sessionStorage.setItem('Settings_ShowButtonSettings', true)
-    let Settings_DevMode
-    w_Client === REMOTE_CLIENT ? (Settings_DevMode = false) : (Settings_DevMode = true)
-    sessionStorage.setItem('Settings_DevMode', Settings_DevMode)
     sessionStorage.setItem('Settings_ShowSelectionGroup2', false)
     sessionStorage.setItem('Settings_ShowSelectionGroup3', false)
     sessionStorage.setItem('Settings_Page_Current', JSON.stringify('QuizSplash'))
@@ -189,6 +191,14 @@ function App() {
     sessionStorage.setItem('Settings_Group3', JSON.stringify('All'))
     sessionStorage.setItem('Settings_MaxQuestions', 5)
     sessionStorage.setItem('Settings_Reset', true)
+    //
+    //  DevMode : Override Initial Values
+    //
+    if (Settings_DevMode) {
+      sessionStorage.setItem('Settings_Owner', JSON.stringify('Richard'))
+      sessionStorage.setItem('Settings_Group1', JSON.stringify('AndyRobson'))
+      sessionStorage.setItem('Settings_Email', JSON.stringify('r@r.com'))
+    }
   }
   //.............................................................................
   //

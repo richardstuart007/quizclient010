@@ -28,7 +28,7 @@ const debugLog = debugSettings()
 //...................................................................................
 //.  Main Line
 //...................................................................................
-export default function QuizHistoryDetail() {
+export default function QuizHistoryDetail({ handlePage }) {
   //
   //  Counts
   //
@@ -213,16 +213,17 @@ export default function QuizHistoryDetail() {
   //...................................................................................
   return (
     <>
-      <Typography variant='subtitle1' sx={{ marginTop: '8px' }}>
-        Result ({mark}%) {countPass} out of {countAns}
-      </Typography>
-
+      <Box sx={{ mt: 2, maxWidth: 600 }}>
+        <Typography variant='subtitle1' sx={{ marginTop: '8px' }}>
+          Result ({mark}%) {countPass} out of {countAns}
+        </Typography>
+      </Box>
       <QuizQuestion quizRow={quizRow} quizQuestion={arrAnsNum[ansIdx] + 1} />
       <QuizBidding qid={quizRow.qid} />
       <QuizHands qid={quizRow.qid} />
       <QuizReviewAnswers quizRow={quizRow} AnswerNum={arrAns[ansIdx]} />
 
-      <Box sx={{ mt: 2 }}>
+      <Box sx={{ mt: 2, maxWidth: 600 }}>
         {hideNextButton ? null : (
           <MyButton
             type='submit'
@@ -232,6 +233,7 @@ export default function QuizHistoryDetail() {
             onClick={() => nextQuestion()}
           />
         )}
+        {/* .......................................................................................... */}
         {hidePreviousButton ? null : (
           <MyButton
             type='submit'
@@ -241,6 +243,18 @@ export default function QuizHistoryDetail() {
             onClick={() => handlePrevious()}
           />
         )}
+        {/* .......................................................................................... */}
+        <MyButton
+          type='submit'
+          text='Back'
+          color='warning'
+          variant='contained'
+          sx={{ float: 'right' }}
+          onClick={() => {
+            handlePage('QuizHistory')
+          }}
+        />
+        {/* .......................................................................................... */}
       </Box>
     </>
   )

@@ -2,19 +2,21 @@
 //  Libraries
 //
 import { useState } from 'react'
+import { Box } from '@mui/material'
 //
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
+//
+//  Controls
+//
+import MyButton from '../../components/controls/MyButton'
 //
 //  Sub Components
 //
 import QuizPanel from './QuizPanel'
 import QuizHands from '../QuizHands/QuizHands'
 import QuizBidding from '../QuizBidding/QuizBidding'
-//
-//  Common Sub Components
-//
 import QuizQuestion from '../Common/QuizQuestion'
 import QuizLinearProgress from '../Common/QuizLinearProgress'
 //.............................................................................
@@ -168,6 +170,21 @@ function Quiz({ handlePage }) {
       {showLinearScore ? (
         <QuizLinearProgress count={ansPass} total={ansCount} text={'Score'}></QuizLinearProgress>
       ) : null}
+      {/* .......................................................................................... */}
+      <Box sx={{ mt: 2, maxWidth: 600 }}>
+        {g_Idx > 0 ? (
+          <MyButton
+            type='submit'
+            text='End & Review'
+            color='warning'
+            variant='contained'
+            onClick={() => {
+              handlePage('QuizReview')
+            }}
+          />
+        ) : null}
+      </Box>
+      {/* .......................................................................................... */}
     </>
   )
 }

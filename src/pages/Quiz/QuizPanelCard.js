@@ -27,7 +27,7 @@ export default function QuizPanelCard({ answer, handleSelect }) {
     <>
       <Card
         elevation={1}
-        sx={{ mt: 2, maxWidth: 700 }}
+        sx={{ mt: 2, maxWidth: 600 }}
         className={`${classes.cardHover} ${classes.root}`}
       >
         <CardActionArea>

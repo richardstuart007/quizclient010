@@ -30,7 +30,6 @@ const QuizSettings = ({ handlePage }) => {
   //  Initial Values
   //
   const initialFValues = {
-    z_ShowInfo: JSON.parse(sessionStorage.getItem('Settings_ShowInfo')),
     z_ShowLinearProgress: JSON.parse(sessionStorage.getItem('Settings_ShowLinearProgress')),
     z_ShowLinearScore: JSON.parse(sessionStorage.getItem('Settings_ShowLinearScore')),
     z_QuestionSort: JSON.parse(sessionStorage.getItem('Settings_RandomSort')),
@@ -41,7 +40,6 @@ const QuizSettings = ({ handlePage }) => {
   //  Saved Values on Submit
   //
   const savedValues = {
-    z_ShowInfo: false,
     z_ShowLinearProgress: false,
     z_ShowLinearScore: false,
     z_QuestionSort: false,
@@ -54,7 +52,6 @@ const QuizSettings = ({ handlePage }) => {
   const validate = (fieldValues = values) => {
     if (debugLog) console.log('fieldValues ', fieldValues)
     let temp = { ...errors }
-    if ('z_ShowInfo' in fieldValues) temp.z_ShowInfo = ''
     if ('z_ShowLinearProgress' in fieldValues) temp.z_ShowLinearProgress = ''
     if ('z_ShowLinearScore' in fieldValues) temp.z_ShowLinearScore = ''
     if ('z_QuestionSort' in fieldValues) temp.z_QuestionSort = ''
@@ -87,7 +84,6 @@ const QuizSettings = ({ handlePage }) => {
     //  Save data
     //
     if (debugLog) console.log(values)
-    savedValues.z_ShowInfo = values.z_ShowInfo
     savedValues.z_ShowLinearProgress = values.z_ShowLinearProgress
     savedValues.z_ShowLinearScore = values.z_ShowLinearScore
     savedValues.z_QuestionSort = values.z_QuestionSort
@@ -96,8 +92,6 @@ const QuizSettings = ({ handlePage }) => {
     //
     //  Update Store
     //
-    if (debugLog) console.log('Update Store: z_ShowInfo ', savedValues.z_ShowInfo)
-    sessionStorage.setItem('Settings_ShowInfo', savedValues.z_ShowInfo)
     sessionStorage.setItem('Settings_ShowLinearProgress', savedValues.z_ShowLinearProgress)
     sessionStorage.setItem('Settings_ShowLinearScore', savedValues.z_ShowLinearScore)
     sessionStorage.setItem('Settings_RandomSort', savedValues.z_QuestionSort)
@@ -124,16 +118,6 @@ const QuizSettings = ({ handlePage }) => {
       <Container>
         <MyForm>
           {/*.................................................................................................*/}
-
-          <Grid item xs={4}>
-            <MyCheckbox
-              name='z_ShowInfo'
-              label='Show Info'
-              value={values.z_ShowInfo}
-              onChange={handleInputChange}
-              error={errors.z_ShowInfo}
-            />
-          </Grid>
 
           <Grid item xs={4}>
             <MyCheckbox

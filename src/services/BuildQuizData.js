@@ -1,28 +1,27 @@
 //
 //  Debug Settings
 //
-import debugSettings from '../../debug/debugSettings'
+import debugSettings from '../debug/debugSettings'
 //
 //  Services
 //
-import MyQueryPromise from '../../services/MyQueryPromise'
-import getTable from '../../services/getTable'
-import randomSort from '../../services/randomSort'
+import MyQueryPromise from './MyQueryPromise'
+import getTable from './getTable'
+import randomSort from './randomSort'
 //
 //  Constants
 //
-const functionName = 'QuizSelectData'
+const functionName = 'BuildQuizData'
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 const debugFunStart = false
-const debugModule = 'QuizSelectData'
-
+const debugModule = 'BuildQuizData'
 //...................................................................................
 //.  Main Line
 //...................................................................................
-export default function QuizSelectData(props) {
+export default function BuildQuizData(props) {
   if (debugFunStart) console.log(debugModule)
   //
   //  Function Variables
@@ -38,14 +37,12 @@ export default function QuizSelectData(props) {
   //  Deconstruct props
   //
   if (debugLog) console.log('props', props)
-  const { qowner, qgroup1, qgroup2, qgroup3 } = props
+  const { SqlString_Q, MaxQuestions } = props
   //
   //  Update store
   //
-  sessionStorage.setItem('Settings_Owner', JSON.stringify(qowner))
-  sessionStorage.setItem('Settings_Group1', JSON.stringify(qgroup1))
-  sessionStorage.setItem('Settings_Group2', JSON.stringify(qgroup2))
-  sessionStorage.setItem('Settings_Group3', JSON.stringify(qgroup3))
+  sessionStorage.setItem('BuildQuizData_SqlString_Q', JSON.stringify(SqlString_Q))
+  sessionStorage.setItem('BuildQuizData_MaxQuestions', JSON.stringify(MaxQuestions))
   //
   //  Reset the Data
   //
@@ -53,6 +50,7 @@ export default function QuizSelectData(props) {
   sessionStorage.setItem('Data_Bidding_Received', false)
   sessionStorage.setItem('Data_Hands_Received', false)
   sessionStorage.setItem('Data_Reflinks_Received', false)
+  sessionStorage.setItem('BuildQuizData_Received', false)
 
   sessionStorage.setItem('Data_Questions', [])
   sessionStorage.setItem('Data_Bidding', [])
@@ -75,9 +73,8 @@ export default function QuizSelectData(props) {
     //
     //  Selection
     //
-    let sqlString = `* from questions where qowner = '${qowner}' and qgroup1 = '${qgroup1}'`
-    if (qgroup2 & (qgroup2 !== 'All')) sqlString = sqlString + ` qgroup2 = '${qgroup2}`
-    if (qgroup3 & (qgroup3 !== 'All')) sqlString = sqlString + ` qgroup3 = '${qgroup3}`
+    let sqlString = SqlString_Q
+    if (debugLog) console.log('sqlString ', sqlString)
     //
     //  Process promise
     //
@@ -92,6 +89,25 @@ export default function QuizSelectData(props) {
     //  Resolve Status
     //
     myPromiseQuestions.then(function (Data_Questions) {
+      //
+      //  Session Storage
+      //
+      if (debugLog) console.log('Data_Questions ', Data_Questions)
+      sessionStorage.setItem('Data_Questions', JSON.stringify(Data_Questions))
+      sessionStorage.setItem('Data_Questions_Received', true)
+      //
+      //  No Questions
+      //
+      if (!Data_Questions[0]) {
+        sessionStorage.setItem('BuildQuizData_Received', true)
+        return
+      }
+      //
+      //  Store Owner/group1
+      //
+      const row1 = Data_Questions[0]
+      sessionStorage.setItem('Settings_Owner', JSON.stringify(row1.qowner))
+      sessionStorage.setItem('Settings_Group1', JSON.stringify(row1.qgroup1))
       //
       //  Output Data_Questions_Quiz
       //
@@ -118,13 +134,6 @@ export default function QuizSelectData(props) {
   function QuestionsSortMax(Data_Questions) {
     if (debugFunStart) console.log('QuestionsSortMax')
     //
-    //  Session Storage
-    //
-    if (debugLog) console.log('Data_Questions ', Data_Questions)
-    sessionStorage.setItem('Data_Questions', JSON.stringify(Data_Questions))
-    sessionStorage.setItem('Data_Questions_Received', true)
-
-    //
     //  Random sort questions
     //
     const Settings_RandomSort = JSON.parse(sessionStorage.getItem('Settings_RandomSort'))
@@ -134,7 +143,6 @@ export default function QuizSelectData(props) {
     //
     //  Apply max number
     //
-    const MaxQuestions = JSON.parse(sessionStorage.getItem('Settings_MaxQuestions'))
     if (Data_Questions_Quiz.length > MaxQuestions) {
       let i = Data_Questions_Quiz.length - 1
       for (i; i >= MaxQuestions; i--) {
@@ -219,6 +227,10 @@ export default function QuizSelectData(props) {
       sessionStorage.setItem('Data_Bidding', JSON.stringify(Data_Bidding))
       sessionStorage.setItem('Data_Bidding_Received', true)
       //
+      //  All Data Received ?
+      //
+      CheckAllData()
+      //
       //  Return
       //
       return
@@ -259,6 +271,10 @@ export default function QuizSelectData(props) {
       sessionStorage.setItem('Data_Hands', JSON.stringify(Data_Hands))
       sessionStorage.setItem('Data_Hands_Received', true)
       //
+      //  All Data Received ?
+      //
+      CheckAllData()
+      //
       //  Return
       //
       return
@@ -296,6 +312,10 @@ export default function QuizSelectData(props) {
       sessionStorage.setItem('Data_Reflinks', JSON.stringify(Data_Reflinks))
       sessionStorage.setItem('Data_Reflinks_Received', true)
       //
+      //  All Data Received ?
+      //
+      CheckAllData()
+      //
       //  Return
       //
       return
@@ -305,4 +325,30 @@ export default function QuizSelectData(props) {
     //
     return
   }
+  //...................................................................................
+  //.  All Data Received ?
+  //...................................................................................
+  function CheckAllData() {
+    if (debugFunStart) console.log('CheckAllData')
+    //
+    //  Data received, end wait
+    //
+    const Data_Questions_Received = JSON.parse(sessionStorage.getItem('Data_Questions_Received'))
+    const Data_Bidding_Received = JSON.parse(sessionStorage.getItem('Data_Bidding_Received'))
+    const Data_Hands_Received = JSON.parse(sessionStorage.getItem('Data_Hands_Received'))
+    const Data_Reflinks_Received = JSON.parse(sessionStorage.getItem('Data_Reflinks_Received'))
+    //
+    //  All data received
+    //
+    if (
+      Data_Questions_Received &&
+      Data_Bidding_Received &&
+      Data_Hands_Received &&
+      Data_Reflinks_Received
+    ) {
+      if (debugLog) console.log('All DATA received')
+      sessionStorage.setItem('BuildQuizData_Received', true)
+    }
+  }
+  //...................................................................................
 }

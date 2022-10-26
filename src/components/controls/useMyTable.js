@@ -42,8 +42,11 @@ const useStyles = makeStyles(theme => ({
 //
 const debugLog = debugSettings()
 //=====================================================================================
-export default function useMyTable(records, headCells, filterFn) {
-  if (debugLog) console.log('Start useMyTable')
+export default function useMyTable(records, headCells, filterFn, startPage0, setStartPage0) {
+  if (debugLog) console.log('Start Function:  useMyTable')
+  if (debugLog) console.log('records ', records)
+  if (debugLog) console.log('headCells ', headCells)
+  if (debugLog) console.log('startPage0 ', startPage0)
   //
   //  Styles
   //
@@ -51,17 +54,24 @@ export default function useMyTable(records, headCells, filterFn) {
   //
   //  State
   //
-  const pages = [10, 20, 50]
+  const pages = [10, 100, 200]
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(pages[page])
   const [order, setOrder] = useState()
   const [orderBy, setOrderBy] = useState()
+  //
+  //  Start at Page 0
+  //
+  if (startPage0) {
+    if (debugLog) console.log('setPage(0) ')
+    setPage(0)
+    setStartPage0(false)
+    if (debugLog) console.log('setStartPage0(false) ')
+  }
   //.....................................................................................
   //. Table Container
   //.....................................................................................
-  const TblContainer = props => (
-    <Table className={classes.table}>{props.children}</Table>
-  )
+  const TblContainer = props => <Table className={classes.table}>{props.children}</Table>
   //.....................................................................................
   //. Table Header
   //.....................................................................................
@@ -81,10 +91,7 @@ export default function useMyTable(records, headCells, filterFn) {
       <TableHead>
         <TableRow>
           {headCells.map(headCell => (
-            <TableCell
-              key={headCell.id}
-              sortDirection={orderBy === headCell.id ? order : false}
-            >
+            <TableCell key={headCell.id} sortDirection={orderBy === headCell.id ? order : false}>
               {headCell.disableSorting ? (
                 headCell.label
               ) : (
@@ -108,12 +115,14 @@ export default function useMyTable(records, headCells, filterFn) {
   //.  Change Page
   //.....................................................................................
   const handleChangePage = (event, newPage) => {
+    if (debugLog) console.log('handleChangePage ')
     setPage(newPage)
   }
   //.....................................................................................
   //.  Change Rows per page
   //.....................................................................................
   const handleChangeRowsPerPage = event => {
+    if (debugLog) console.log('Start Function: handleChangeRowsPerPage ')
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
   }
@@ -135,6 +144,7 @@ export default function useMyTable(records, headCells, filterFn) {
   //.  Sort Functions
   //.....................................................................................
   function stableSort(array, comparator) {
+    if (debugLog) console.log('Start Function: stableSort ')
     const stabilizedThis = array.map((el, index) => [el, index])
     stabilizedThis.sort((a, b) => {
       const order = comparator(a[0], b[0])
@@ -163,14 +173,16 @@ export default function useMyTable(records, headCells, filterFn) {
   //.  Filter, Slice a page, sort
   //.....................................................................................
   const recordsAfterPagingAndSorting = () => {
-    return stableSort(
-      filterFn.fn(records),
-      getComparator(order, orderBy)
-    ).slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+    if (debugLog) console.log('Start Function: recordsAfterPagingAndSorting ')
+    return stableSort(filterFn.fn(records), getComparator(order, orderBy)).slice(
+      page * rowsPerPage,
+      (page + 1) * rowsPerPage
+    )
   }
   //.....................................................................................
   //.  Return Values
   //.....................................................................................
+
   return {
     TblContainer,
     TblHead,

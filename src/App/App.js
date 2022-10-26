@@ -61,52 +61,18 @@ let g_firstTimeFlag = true
 //----------------------------------------------------------------------------
 function App() {
   if (debugLog) console.log(`Start APP`)
-  const [currentPage, setCurrentPage] = useState('QuizSplash')
-  //.............................................................................
-  //.  Handle Page Change
-  //.............................................................................
-  const handlePage = nextPage => {
-    //
-    //  If no change of Page, return
-    //
-    if (nextPage === currentPage) return
-    //
-    //  Quiz End, write history
-    //
-    if (currentPage === 'Quiz' && nextPage !== 'QuizRefs') {
-      writeHistory()
-    }
-    //
-    //  Change of Page
-    //
-    const CurrentPage = currentPage
-    if (debugLog) console.log(`Current Page ${CurrentPage} ==> New Page ${nextPage}`)
-    //
-    //  Update Previous Page
-    //
-    sessionStorage.setItem('Settings_Page_Previous', JSON.stringify(CurrentPage))
-    if (debugLog)
-      console.log(
-        `UPDATED PREVIOUS_Page ${JSON.parse(sessionStorage.getItem('Settings_Page_Previous'))}`
-      )
-    //
-    //  Update NEW Page
-    //
-    sessionStorage.setItem('Settings_Page_Current', JSON.stringify(nextPage))
-    if (debugLog)
-      console.log(
-        `UPDATED CURRENT_PAGE ${JSON.parse(sessionStorage.getItem('Settings_Page_Current'))}`
-      )
-    //
-    //  Update State
-    //
-    setCurrentPage(nextPage)
-  }
-  //.............................................................................
+  const [pageCurrent, setPageCurrent] = useState('QuizSplash')
   //
   //  First Time Setup
   //
-  const firstTime = () => {
+  if (g_firstTimeFlag) {
+    g_firstTimeFlag = false
+    firstTime()
+  }
+  //.............................................................................
+  //  First Time Setup
+  //.............................................................................
+  function firstTime() {
     if (debugLog) console.log(`First Time APP Reset`)
     //------------------------------------------------------
     //  Set Defaults for REMOTE setup
@@ -174,9 +140,8 @@ function App() {
     sessionStorage.setItem('Settings_ReviewSkipPass', true)
     sessionStorage.setItem('Settings_AllowSelection', true)
     sessionStorage.setItem('Settings_ShowQid', true)
-    sessionStorage.setItem('Settings_ShowLinearProgress', false)
-    sessionStorage.setItem('Settings_ShowLinearScore', false)
-    sessionStorage.setItem('Settings_ShowButtonSettings', true)
+    sessionStorage.setItem('Settings_ShowLinearProgress', true)
+    sessionStorage.setItem('Settings_ShowLinearScore', true)
     sessionStorage.setItem('Settings_ShowSelectionGroup2', false)
     sessionStorage.setItem('Settings_ShowSelectionGroup3', false)
     sessionStorage.setItem('Settings_Page_Current', JSON.stringify('QuizSplash'))
@@ -189,8 +154,8 @@ function App() {
     sessionStorage.setItem('Settings_Group1', JSON.stringify('NZBIMP01'))
     sessionStorage.setItem('Settings_Group2', JSON.stringify('All'))
     sessionStorage.setItem('Settings_Group3', JSON.stringify('All'))
-    sessionStorage.setItem('Settings_MaxQuestions', 5)
-    sessionStorage.setItem('Settings_Reset', true)
+    sessionStorage.setItem('Settings_MaxQuestions', JSON.stringify(5))
+    sessionStorage.setItem('Quiz_Reset', true)
     //
     //  DevMode : Override Initial Values
     //
@@ -201,20 +166,59 @@ function App() {
     }
   }
   //.............................................................................
-  //
-  //  First Time Setup
-  //
-  if (g_firstTimeFlag) {
-    g_firstTimeFlag = false
-    firstTime()
+  //.  Handle Page Change
+  //.............................................................................
+  const handlePage = nextPage => {
+    //
+    //  Retrieve the state
+    //
+    let PageCurrent = JSON.parse(sessionStorage.getItem('Settings_Page_Current'))
+    //
+    //  If no change of Page, return
+    //
+    if (nextPage === PageCurrent) return
+    //
+    //  Quiz End, write history
+    //
+    if (PageCurrent === 'Quiz') {
+      writeHistory()
+    }
+    //
+    //  Change of Page
+    //
+    if (debugLog) console.log(`Current Page ${PageCurrent} ==> New Page ${nextPage}`)
+    //
+    //  Update Previous Page
+    //
+    sessionStorage.setItem('Settings_Page_Previous', JSON.stringify(PageCurrent))
+    if (debugLog)
+      console.log(
+        `UPDATED Settings_Page_Previous ${JSON.parse(
+          sessionStorage.getItem('Settings_Page_Previous')
+        )}`
+      )
+    //
+    //  Update NEW Page
+    //
+    sessionStorage.setItem('Settings_Page_Current', JSON.stringify(nextPage))
+    if (debugLog)
+      console.log(
+        `UPDATED Settings_Page_Current ${JSON.parse(
+          sessionStorage.getItem('Settings_Page_Current')
+        )}`
+      )
+    //
+    //  Update State
+    //
+    setPageCurrent(nextPage)
   }
   //.............................................................................
   return (
     <div>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <Layout handlePage={handlePage} currentPage={currentPage}>
-            <QuizControl handlePage={handlePage} currentPage={currentPage} />
+          <Layout handlePage={handlePage} pageCurrent={pageCurrent}>
+            <QuizControl handlePage={handlePage} />
           </Layout>
           <CssBaseline />
         </ThemeProvider>

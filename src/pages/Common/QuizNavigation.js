@@ -34,35 +34,29 @@ const useStyles = makeStyles(theme => {
 //
 const debugLog = debugSettings()
 //===================================================================================
-export default function QuizNavigation({ handlePage, currentPage }) {
+export default function QuizNavigation({ handlePage }) {
   if (debugLog) console.log('Start QuizNavigation')
   const classes = useStyles()
   //
   //  Define
   //
-  const CurrentPage = currentPage
-  if (debugLog) console.log('currentPage ', currentPage)
+  const PageCurrent = JSON.parse(sessionStorage.getItem('Settings_Page_Current'))
+  const Settings_SignedIn = JSON.parse(sessionStorage.getItem('Settings_SignedIn'))
   //
   //  Show SignOut Button ?
   //
-  let showButtonSignOut = false
-  if (
-    CurrentPage !== 'QuizSignin' &&
-    CurrentPage !== 'QuizRegister' &&
-    CurrentPage !== 'QuizSplash'
-  )
-    showButtonSignOut = true
+  let showButtonSignOut
+  Settings_SignedIn ? (showButtonSignOut = true) : (showButtonSignOut = false)
   //
   //  Show  Restart Button ?
   //
-  let showButtonRestart = false
-  if (
-    CurrentPage === 'QuizRefs' ||
-    CurrentPage === 'Quiz' ||
-    CurrentPage === 'QuizHistory' ||
-    CurrentPage === 'QuizHistoryDetail'
-  )
-    showButtonRestart = true
+  let showButtonRestart
+  Settings_SignedIn &&
+  PageCurrent !== 'QuizSelect' &&
+  PageCurrent !== 'QuizReview' &&
+  PageCurrent !== 'Quiz'
+    ? (showButtonRestart = true)
+    : (showButtonRestart = false)
   //
   //  Show Book Button ?
   //
@@ -71,12 +65,8 @@ export default function QuizNavigation({ handlePage, currentPage }) {
   const Data_ReflinksJSON = sessionStorage.getItem('Data_Reflinks')
   if (Data_ReflinksJSON && Data_ReflinksJSON.length > 0)
     Data_Reflinks = JSON.parse(Data_ReflinksJSON)
-  if (debugLog) console.log('Data_ReflinksJSON ', Data_ReflinksJSON)
-  if (debugLog) console.log('Data_Reflinks ', Data_Reflinks)
   if (
-    (CurrentPage === 'Quiz' ||
-      CurrentPage === 'QuizReview' ||
-      CurrentPage === 'QuizHistoryDetail') &&
+    (PageCurrent === 'QuizReview' || PageCurrent === 'QuizHistoryDetail') &&
     Data_Reflinks[0] &&
     Data_Reflinks.length > 0
   )
@@ -84,23 +74,42 @@ export default function QuizNavigation({ handlePage, currentPage }) {
   //
   //  Show Settings Button ?
   //
-  let showButtonSettings = JSON.parse(sessionStorage.getItem('Settings_ShowButtonSettings'))
-  if (debugLog) console.log('showButtonSettings ', showButtonSettings)
-  if (showButtonSettings) {
-    showButtonSettings = false
-    if (CurrentPage === 'Quiz' || CurrentPage === 'QuizSelect') showButtonSettings = true
-  }
+  let showButtonSettings
+  Settings_SignedIn && PageCurrent !== 'QuizSettings'
+    ? (showButtonSettings = true)
+    : (showButtonSettings = false)
   //
   //  Show History Button ?
   //
-  let showButtonHistory = false
-  if (CurrentPage === 'QuizSelect' || CurrentPage === 'QuizReview') showButtonHistory = true
+  let showButtonHistory
+  Settings_SignedIn && PageCurrent !== 'QuizHistory' && PageCurrent !== 'QuizHistoryDetail'
+    ? (showButtonHistory = true)
+    : (showButtonHistory = false)
+  //
+  //  Show RefLibrary Button ?
+  //
+  let showButtonRefLibrary
+  Settings_SignedIn && PageCurrent !== 'RefLibrary'
+    ? (showButtonRefLibrary = true)
+    : (showButtonRefLibrary = false)
   //...................................................................................
   //.  Render the component
   //...................................................................................
   return (
     <div className={classes.root}>
       <Grid container alignItems='center'>
+        {/* .......................................................................................... */}
+
+        {showButtonRefLibrary ? (
+          <MyActionButton
+            startIcon={<ScoreboardIcon fontSize='small' />}
+            color='warning'
+            onClick={() => {
+              handlePage('RefLibrary')
+            }}
+            text='Library'
+          ></MyActionButton>
+        ) : null}
         {/* .......................................................................................... */}
 
         {showButtonHistory ? (
@@ -132,7 +141,7 @@ export default function QuizNavigation({ handlePage, currentPage }) {
             onClick={() => {
               handlePage('QuizSelect')
             }}
-            text='Restart'
+            text='Quiz'
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}

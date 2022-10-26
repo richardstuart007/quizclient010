@@ -51,9 +51,9 @@ const QuizQuestion = params => {
   if (debugLog) console.log(Data_Questions_Quiz_Count)
 
   let QuestionString = `Question ${quizQuestion}`
-  const CurrentPage = JSON.parse(sessionStorage.getItem('Settings_Page_Current'))
-  if (debugLog) console.log('CurrentPage ', CurrentPage)
-  if (CurrentPage === 'Quiz')
+  const PageCurrent = JSON.parse(sessionStorage.getItem('Settings_Page_Current'))
+  if (debugLog) console.log('PageCurrent ', PageCurrent)
+  if (PageCurrent === 'Quiz')
     QuestionString = QuestionString.concat(`/${Data_Questions_Quiz_Count}`)
   if (ShowQid) QuestionString = QuestionString.concat(` (KEY: ${qkey} ID: ${qid})`)
   //

@@ -15,6 +15,7 @@ import QuizReview from './QuizReview/QuizReview'
 import QuizHistory from './QuizHistory/QuizHistory'
 import QuizHistoryDetail from './QuizHistory/QuizHistoryDetail'
 import QuizRefs from './QuizRefs/QuizRefs'
+import RefLibrary from './RefLibrary/RefLibrary'
 //
 // Debug Settings
 //
@@ -28,14 +29,14 @@ function QuizControl({ handlePage }) {
   //
   //  Retrieve the state
   //
-  const pageCurrent = JSON.parse(sessionStorage.getItem('Settings_Page_Current'))
+  const PageCurrent = JSON.parse(sessionStorage.getItem('Settings_Page_Current'))
   //
   //  Present the selected component
   //
   return (
     <>
       {(() => {
-        switch (pageCurrent) {
+        switch (PageCurrent) {
           case 'QuizSplash':
             return <QuizSplash handlePage={handlePage} />
           case 'QuizSettings':
@@ -48,6 +49,8 @@ function QuizControl({ handlePage }) {
             return <QuizSelect handlePage={handlePage} />
           case 'QuizRefs':
             return <QuizRefs handlePage={handlePage} />
+          case 'RefLibrary':
+            return <RefLibrary handlePage={handlePage} />
           case 'Quiz':
             return <Quiz handlePage={handlePage} />
           case 'QuizReview':

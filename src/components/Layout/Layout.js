@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => {
 //
 const debugLog = debugSettings()
 //===================================================================================
-export default function Layout({ handlePage, currentPage, children }) {
+export default function Layout({ handlePage, pageCurrent, children }) {
   if (debugLog) console.log('Start Layout')
   //
   //  Style overrides
@@ -69,10 +69,12 @@ export default function Layout({ handlePage, currentPage, children }) {
   //
   //  Title
   //
+  const PageCurrent = JSON.parse(sessionStorage.getItem('Settings_Page_Current'))
   let title
-  if (debugLog) console.log('currentPage ', currentPage)
+  if (debugLog) console.log('PageCurrent ', PageCurrent)
+  if (debugLog) console.log('pageCurrent ', pageCurrent)
   let showSettings_Name = true
-  switch (currentPage) {
+  switch (PageCurrent) {
     case 'QuizSettings':
       title = 'Settings'
       break
@@ -101,9 +103,10 @@ export default function Layout({ handlePage, currentPage, children }) {
       title = 'Review'
       break
     default:
-      title = currentPage
+      title = PageCurrent
       break
   }
+  if (debugLog) console.log('title ', title)
   //
   //  Add clientserver
   //
@@ -181,7 +184,7 @@ export default function Layout({ handlePage, currentPage, children }) {
             <Grid item xs></Grid>
 
             {/* .......................................................................................... */}
-            {ScreenMedium && <QuizNavigation handlePage={handlePage} currentPage={currentPage} />}
+            {ScreenMedium && <QuizNavigation handlePage={handlePage} />}
             {/* .......................................................................................... */}
           </Grid>
         </Toolbar>
@@ -191,7 +194,7 @@ export default function Layout({ handlePage, currentPage, children }) {
       {/* .......................................................................................... */}
       <div className={classes.page}>
         <div className={classes.toolbar}></div>
-        {!ScreenMedium && <QuizNavigation handlePage={handlePage} currentPage={currentPage} />}
+        {!ScreenMedium && <QuizNavigation handlePage={handlePage} />}
         {children}
       </div>
     </div>

@@ -1,25 +1,25 @@
 //
 //  Debug Settings
 //
-import debugSettings from '../../debug/debugSettings'
+import debugSettings from '../debug/debugSettings'
 //
 //  Services
 //
-import MyQueryPromise from '../../services/MyQueryPromise'
-import getTable from '../../services/getTable'
+import MyQueryPromise from './MyQueryPromise'
+import getTable from './getTable'
 //
 //  Constants
 //
-const functionName = 'QuizHistoryDetailLoad'
+const functionName = 'BuildHistoryDetail'
 //
 // Debug Settings
 //
 const debugLog = debugSettings()
 const debugFunStart = false
-const debugModule = 'QuizHistoryDetailLoad'
+const debugModule = 'BuildHistoryDetail'
 
 //===================================================================================
-const QuizHistoryDetailLoad = row => {
+const BuildHistoryDetail = row => {
   //...................................................................................
   //.  Load Server - Questions
   //...................................................................................
@@ -221,4 +221,4 @@ const QuizHistoryDetailLoad = row => {
   LoadServerReflinks()
 }
 
-export default QuizHistoryDetailLoad
+export default BuildHistoryDetail

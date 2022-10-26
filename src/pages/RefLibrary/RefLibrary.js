@@ -7,9 +7,8 @@ import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Box } f
 import makeStyles from '@mui/styles/makeStyles'
 import SearchIcon from '@mui/icons-material/Search'
 import FilterListIcon from '@mui/icons-material/FilterList'
-import ScoreboardIcon from '@mui/icons-material/Scoreboard'
+import PreviewIcon from '@mui/icons-material/Preview'
 import QuizIcon from '@mui/icons-material/Quiz'
-import { format, parseISO } from 'date-fns'
 //
 //  Controls
 //
@@ -25,7 +24,6 @@ import MyActionButton from '../../components/controls/MyActionButton'
 import MyQueryPromise from '../../services/MyQueryPromise'
 import getTable from '../../services/getTable'
 import BuildQuizData from '../../services/BuildQuizData'
-import BuildHistoryDetail from '../../services/BuildHistoryDetail'
 //
 //  Debug Settings
 //
@@ -50,39 +48,35 @@ const useStyles = makeStyles(theme => ({
 //  Table Heading
 //
 const headCells = [
-  { id: 'r_id', label: 'ID' },
-  { id: 'yymmdd', label: 'Date' },
-  { id: 'r_owner', label: 'Owner' },
-  { id: 'g1title', label: 'Group 1' },
-  { id: 'r_questions', label: 'Questions' },
-  { id: 'r_correct', label: 'Correct' },
-  { id: 'r_percent', label: '%' },
-  { id: 'review', label: 'Review', disableSorting: true },
+  { id: 'rid', label: 'ID' },
+  { id: 'rref', label: 'Reference' },
+  { id: 'rdesc', label: 'Description' },
+  { id: 'rwho', label: 'Who' },
+  { id: 'rtype', label: 'Type' },
+  { id: 'learn', label: 'Learn', disableSorting: true },
   { id: 'quiz', label: 'Quiz', disableSorting: true }
 ]
 const searchTypeOptions = [
-  { id: 'r_id', title: 'ID' },
-  { id: 'yymmdd', title: 'Date' },
-  { id: 'r_owner', title: 'Owner' },
-  { id: 'g1title', title: 'Group 1' }
+  { id: 'rid', title: 'ID' },
+  { id: 'rref', title: 'Reference' },
+  { id: 'rdesc', title: 'Description' },
+  { id: 'rwho', title: 'Who' },
+  { id: 'rtype', title: 'Type' }
 ]
-//
-let subTitle
 //
 //  Constants
 //
-const functionName = 'QuizHistory'
+const functionName = 'RefLibrary'
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
-const debugLogTest = false
+const debugLog = debugSettings(true)
 const debugFunStart = false
-const debugModule = 'QuizHistory'
+const debugModule = 'RefLibrary'
 //...................................................................................
 //.  Main Line
 //...................................................................................
-export default function QuizHistory({ handlePage }) {
+export default function RefLibrary({ handlePage }) {
   //
   //  Styles
   //
@@ -96,7 +90,7 @@ export default function QuizHistory({ handlePage }) {
       return items
     }
   })
-  const [searchType, setSearchType] = useState('r_owner')
+  const [searchType, setSearchType] = useState('rdesc')
   const [searchValue, setSearchValue] = useState('')
   const [startPage0, setStartPage0] = useState(false)
 
@@ -108,62 +102,40 @@ export default function QuizHistory({ handlePage }) {
     getRowAllData()
     // eslint-disable-next-line
   }, [])
-
   //.............................................................................
   //.  GET ALL
   //.............................................................................
   function getRowAllData() {
     if (debugFunStart) console.log('getRowAllData')
     //
-    //  Get User
-    //
-    const name = JSON.parse(sessionStorage.getItem('Settings_Name'))
-    const email = JSON.parse(sessionStorage.getItem('Settings_Email'))
-    const uid = JSON.parse(sessionStorage.getItem('Settings_Uid'))
-    subTitle = `${name} (${uid})`
-    //
     //  Selection
     //
-    let sqlString = `r_id, r_datetime, r_owner, r_group1, g1title, r_qid, r_ans, r_questions, r_correct, 100 * r_correct/r_questions as r_percent`
-    sqlString = sqlString + ` from usershistory`
-    sqlString = sqlString + ` join group1 on r_group1 = g1id`
-    sqlString = sqlString + ` where r_email='${email}' and r_questions > 0`
-    sqlString = sqlString + ` order by r_id desc`
+    let sqlString = `*`
+    sqlString = sqlString + ` from reflinks`
+    sqlString = sqlString + ` order by rid`
     if (debugLog) console.log('sqlString', sqlString)
     //
     //  Process promise
     //
     const getTableparams = {
       sqlCaller: functionName,
-      sqlTable: 'usershistory',
+      sqlTable: 'reflinks',
       sqlAction: 'SELECTSQL',
       sqlString: sqlString
     }
-    const myPromiseusershistory = MyQueryPromise(getTable(getTableparams))
+    const myPromisereflinks = MyQueryPromise(getTable(getTableparams))
     //
     //  Resolve Status
     //
-    myPromiseusershistory.then(function (Data_Hist) {
-      //
-      //  Data History with split time stamp
-      //
-      if (debugLogTest) console.log('Data_Hist ', Data_Hist)
-      const Data_Hist_Update = Data_Hist.map(record => ({
-        ...record,
-        yymmdd: format(parseISO(record.r_datetime), 'yy-MM-dd')
-      }))
-      if (debugLogTest) console.log('Data_Hist_Update ', Data_Hist_Update)
+    myPromisereflinks.then(function (Data_RefLibrary) {
       //
       //  Session Storage
       //
-      if (debugLog) console.log('Data_Hist_Update ', Data_Hist_Update)
-      sessionStorage.setItem('Data_Hist', JSON.stringify(Data_Hist_Update))
-      const TimeStamp = Date.now()
-      if (debugLogTest) console.log(`${TimeStamp} Data_Hist ==>`)
+      sessionStorage.setItem('Data_RefLibrary', JSON.stringify(Data_RefLibrary))
       //
       //  Update Table
       //
-      setRecords(Data_Hist_Update)
+      setRecords(Data_RefLibrary)
       //
       //  Filter
       //
@@ -176,43 +148,21 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Return Promise
     //
-    return myPromiseusershistory
+    return myPromisereflinks
   }
   //...................................................................................
-  //.  Prepare Row before switching to QuizHistoryDetail
+  //.  Prepare Row before sqitching to Quiz
   //...................................................................................
-  function QuizHistoryRow(row) {
-    if (debugLog) console.log('QuizHistoryRow ')
+  function RefLibraryRow(row) {
+    if (debugLog) console.log('RefLibraryRow ')
     //
     //  Store Row
     //
-    sessionStorage.setItem('Data_Hist_Row', JSON.stringify(row))
-    //
-    //  Get data
-    //
-    BuildHistoryDetail(row)
-    //
-    //  Wait for data
-    //
-    const waitSessionStorageParams = {
-      sessionItem: 'Data_Hist_Row_Join_Received',
-      handlePageValue: 'QuizHistoryDetail'
-    }
-    waitSessionStorage(waitSessionStorageParams, handlePage)
-  }
-  //...................................................................................
-  //.  Prepare Row before switching to Quiz
-  //...................................................................................
-  function QuizBuild(row) {
-    if (debugLog) console.log('QuizBuild')
-    //
-    //  Store Row
-    //
-    sessionStorage.setItem('Data_Hist_Row', JSON.stringify(row))
+    sessionStorage.setItem('Data_RefLibrary_Row', JSON.stringify(row))
     //
     //  BuildQuizData
     //
-    const SqlString_Q = `* from questions where qowner = '${row.r_owner}' and qgroup1 = '${row.r_group1}'`
+    const SqlString_Q = `* from questions where '${row.rref}' = ANY (qrefs)`
     const MaxQuestions = JSON.parse(sessionStorage.getItem('Settings_MaxQuestions'))
     const params = {
       SqlString_Q: SqlString_Q,
@@ -315,22 +265,32 @@ export default function QuizHistory({ handlePage }) {
         //
         //  Filter
         //
+        if (debugLog) console.log('searchType ', searchType)
+        if (debugLog) console.log('searchValue ', searchValue)
         let itemsFilter = items
         switch (searchType) {
-          case 'r_id':
-            itemsFilter = items.filter(x => x.r_id === searchValueInt)
+          case 'rid':
+            itemsFilter = items.filter(x => x.rid === searchValueInt)
             break
-          case 'yymmdd':
-            itemsFilter = items.filter(x => x.yymmdd === searchValue)
-            break
-          case 'r_owner':
+          case 'rref':
             itemsFilter = items.filter(x =>
-              x.r_owner.toLowerCase().includes(searchValue.toLowerCase())
+              x.rref.toLowerCase().includes(searchValue.toLowerCase())
             )
             break
-          case 'g1title':
+          case 'rdesc':
+            if (debugLog) console.log('rdesc ')
             itemsFilter = items.filter(x =>
-              x.g1title.toLowerCase().includes(searchValue.toLowerCase())
+              x.rdesc.toLowerCase().includes(searchValue.toLowerCase())
+            )
+            break
+          case 'rwho':
+            itemsFilter = items.filter(x =>
+              x.rwho.toLowerCase().includes(searchValue.toLowerCase())
+            )
+            break
+          case 'rtype':
+            itemsFilter = items.filter(x =>
+              x.rtype.toLowerCase().includes(searchValue.toLowerCase())
             )
             break
           default:
@@ -339,6 +299,14 @@ export default function QuizHistory({ handlePage }) {
         return itemsFilter
       }
     })
+  }
+  //.............................................................................
+  //
+  //  Hyperlink open
+  //
+  const openHyperlink = hyperlink => {
+    if (debugLog) console.log('hyperlink ', hyperlink)
+    window.open(hyperlink, '_blank')
   }
   //.............................................................................
   //
@@ -357,8 +325,8 @@ export default function QuizHistory({ handlePage }) {
   return (
     <>
       <PageHeader
-        title='QUIZ History'
-        subTitle={subTitle}
+        title='Library of Teaching Material'
+        subTitle='View Reference Material or Take a Quiz'
         icon={<PeopleOutlineTwoToneIcon fontSize='large' />}
       />
       <Paper className={classes.pageContent}>
@@ -404,22 +372,18 @@ export default function QuizHistory({ handlePage }) {
           <TblHead />
           <TableBody>
             {recordsAfterPagingAndSorting().map(row => (
-              <TableRow key={row.r_id}>
-                <TableCell>{row.r_id}</TableCell>
-                <TableCell>{row.yymmdd}</TableCell>
-                <TableCell>{row.r_owner}</TableCell>
-                <TableCell>{row.g1title}</TableCell>
-                <TableCell>{row.r_questions}</TableCell>
-                <TableCell>{row.r_correct}</TableCell>
-                <TableCell>{row.r_percent}</TableCell>
+              <TableRow key={row.rid}>
+                <TableCell>{row.rid}</TableCell>
+                <TableCell>{row.rref}</TableCell>
+                <TableCell>{row.rdesc}</TableCell>
+                <TableCell>{row.rwho}</TableCell>
+                <TableCell>{row.rtype}</TableCell>
                 <TableCell>
                   <MyActionButton
-                    startIcon={<ScoreboardIcon fontSize='small' />}
-                    text='Detail'
+                    startIcon={<PreviewIcon fontSize='small' />}
+                    text='View'
                     color='warning'
-                    onClick={() => {
-                      QuizHistoryRow(row)
-                    }}
+                    onClick={() => openHyperlink(row.rlink)}
                   ></MyActionButton>
                 </TableCell>
                 <TableCell>
@@ -428,7 +392,7 @@ export default function QuizHistory({ handlePage }) {
                     text='Quiz'
                     color='warning'
                     onClick={() => {
-                      QuizBuild(row)
+                      RefLibraryRow(row)
                     }}
                   ></MyActionButton>
                 </TableCell>

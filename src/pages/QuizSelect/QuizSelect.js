@@ -11,7 +11,6 @@ import debugSettings from '../../debug/debugSettings'
 //  Controls
 //
 import MyButton from '../../components/controls/MyButton'
-import MyInput from '../../components/controls/MyInput'
 import MySelect from '../../components/controls/MySelect'
 import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 //
@@ -21,7 +20,6 @@ import QuizSelectData from './QuizSelectData'
 //
 //  Constants
 //
-const { MAX_QUESTIONS } = require('../../services/constants.js')
 const { WAIT } = require('../../services/constants.js')
 //
 let g_DataLoad = true
@@ -52,8 +50,7 @@ const initialFValues = {
   qowner: '',
   qgroup1: '',
   qgroup2: '',
-  qgroup3: '',
-  MaxQuestions: 0
+  qgroup3: ''
 }
 //
 //  Saved Values on Submit
@@ -62,8 +59,7 @@ const params = {
   qowner: '',
   qgroup1: '',
   qgroup2: '',
-  qgroup3: '',
-  MaxQuestions: 0
+  qgroup3: ''
 }
 //
 //  References to display
@@ -140,15 +136,6 @@ const QuizSelect = ({ handlePage }) => {
       temp.qgroup1 = fieldValues.qgroup1.length !== 0 ? '' : 'This field is required.'
     }
     //
-    //  MaxQuestions
-    //
-    if ('MaxQuestions' in fieldValues)
-      temp.MaxQuestions =
-        parseInt(fieldValues.MaxQuestions) > 0 &&
-        parseInt(fieldValues.MaxQuestions) <= MAX_QUESTIONS
-          ? ''
-          : `You must select between 1 and ${MAX_QUESTIONS}.`
-    //
     //  Set the errors
     //
     setErrors({
@@ -182,7 +169,6 @@ const QuizSelect = ({ handlePage }) => {
     params.qgroup1 = values.qgroup1
     params.qgroup2 = values.qgroup2
     params.qgroup3 = values.qgroup3
-    params.MaxQuestions = values.MaxQuestions
     QuizSelectData(params)
     //
     //  Wait for data
@@ -252,7 +238,7 @@ const QuizSelect = ({ handlePage }) => {
     //
     //  Start Quiz
     //
-    sessionStorage.setItem('Settings_Reset', true)
+    sessionStorage.setItem('Quiz_Reset', true)
     handlePage(g_PageNew)
   }
 
@@ -300,7 +286,6 @@ const QuizSelect = ({ handlePage }) => {
   initialFValues.qgroup1 = JSON.parse(sessionStorage.getItem('Settings_Group1'))
   initialFValues.qgroup2 = JSON.parse(sessionStorage.getItem('Settings_Group2'))
   initialFValues.qgroup3 = JSON.parse(sessionStorage.getItem('Settings_Group3'))
-  initialFValues.MaxQuestions = JSON.parse(sessionStorage.getItem('Settings_MaxQuestions'))
   if (debugLog) console.log('initialFValues ', initialFValues)
   //
   //  Load setup values
@@ -389,19 +374,6 @@ const QuizSelect = ({ handlePage }) => {
               </Box>
             </Grid>
           ) : null}
-          {/*.................................................................................................*/}
-
-          <Grid item xs={12}>
-            <Box sx={{ mt: 2, maxWidth: 100 }}>
-              <MyInput
-                name='MaxQuestions'
-                label='MaxQuestions'
-                value={values.MaxQuestions}
-                onChange={handleInputChange}
-                error={errors.MaxQuestions}
-              />
-            </Box>
-          </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
             <Box sx={{ mt: 2, maxWidth: 600 }}>

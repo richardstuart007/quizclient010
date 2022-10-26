@@ -25,7 +25,7 @@ import QuizLinearProgress from '../Common/QuizLinearProgress'
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 //
 //  Global store variables
 //
@@ -53,8 +53,8 @@ function Quiz({ handlePage }) {
   //
   //  Reset Quiz State
   //
-  const reset = JSON.parse(sessionStorage.getItem('Settings_Reset'))
-  if (reset) handleQuizReset()
+  const Quiz_Reset = JSON.parse(sessionStorage.getItem('Quiz_Reset'))
+  if (Quiz_Reset) handleQuizReset()
   //
   //  No data (Error)
   //
@@ -71,8 +71,8 @@ function Quiz({ handlePage }) {
     //
     //  Reset flag
     //
-    if (debugLog) console.log('quizReset')
-    sessionStorage.setItem('Settings_Reset', false)
+    if (debugLog) console.log('Quiz_Reset')
+    sessionStorage.setItem('Quiz_Reset', false)
     //
     //  Get store data & copy to State
     //

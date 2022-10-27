@@ -175,7 +175,7 @@ function Quiz({ handlePage }) {
         {g_Idx > 0 ? (
           <MyButton
             type='submit'
-            text='End & Review'
+            text='End/Review'
             color='warning'
             variant='contained'
             onClick={() => {
@@ -183,6 +183,17 @@ function Quiz({ handlePage }) {
             }}
           />
         ) : null}
+        {/* .......................................................................................... */}
+        <MyButton
+          type='submit'
+          text='Back'
+          color='warning'
+          variant='contained'
+          sx={{ float: 'right' }}
+          onClick={() => {
+            handlePage('RefLibrary')
+          }}
+        />
       </Box>
       {/* .......................................................................................... */}
     </>

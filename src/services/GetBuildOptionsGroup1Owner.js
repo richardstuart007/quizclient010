@@ -44,7 +44,7 @@ const GetBuildOptionsGroup1Owner = () => {
     //
     //  Update Status
     //
-    sessionStorage.setItem('Data_Options_Group1Owner_Loaded', true)
+    sessionStorage.setItem('Data_Options_Group1Owner_Received', true)
     //
     //  Load Options and Store
     //

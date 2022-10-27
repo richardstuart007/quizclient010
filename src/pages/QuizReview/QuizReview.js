@@ -235,12 +235,12 @@ export default function QuizReview({ handlePage }) {
         {/* .......................................................................................... */}
         <MyButton
           type='submit'
-          text='Restart'
+          text='Back'
           color='warning'
           variant='contained'
           sx={{ float: 'right' }}
           onClick={() => {
-            handlePage('QuizSelect')
+            handlePage('RefLibrary')
           }}
         />
         {/*.................................................................................................*/}

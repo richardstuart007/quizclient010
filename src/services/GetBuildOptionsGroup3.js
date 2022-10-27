@@ -44,7 +44,7 @@ const GetBuildOptionsGroup3 = () => {
     //
     //  Update Status
     //
-    sessionStorage.setItem('Data_Options_Group3_Loaded', true)
+    sessionStorage.setItem('Data_Options_Group3_Received', true)
     //
     //  Load Options and Store
     //

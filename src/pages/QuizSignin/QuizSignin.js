@@ -24,7 +24,6 @@ import { useMyForm, MyForm } from '../../components/controls/useMyForm'
 // Constants
 //
 const { URL_SIGNIN } = require('../../services/constants.js')
-const { WAIT } = require('../../services/constants.js')
 const sqlClient = 'Quiz/Signin'
 //
 // Debug Settings
@@ -117,6 +116,7 @@ function QuizSignin({ handlePage }) {
     //  Deconstruct values
     //
     const { email, password } = values
+    setForm_message('Email/Password being checked')
     //
     //  Post to server
     //
@@ -133,6 +133,7 @@ function QuizSignin({ handlePage }) {
       .then(response => response.json())
       .then(user => {
         if (user.u_id) {
+          setForm_message('Email/Password correct, signin being processed')
           ProcessSignIn(user, email)
         } else {
           setForm_message('KEEP TRYING (else REGISTER first)')
@@ -158,10 +159,10 @@ function QuizSignin({ handlePage }) {
     //
     //  Initialise storage status
     //
-    sessionStorage.setItem('Data_Options_Owner_Loaded', false)
-    sessionStorage.setItem('Data_Options_Group1Owner_Loaded', false)
-    sessionStorage.setItem('Data_Options_Group2_Loaded', false)
-    sessionStorage.setItem('Data_Options_Group3_Loaded', false)
+    sessionStorage.setItem('Data_Options_Owner_Received', false)
+    sessionStorage.setItem('Data_Options_Group1Owner_Received', false)
+    sessionStorage.setItem('Data_Options_Group2_Received', false)
+    sessionStorage.setItem('Data_Options_Group3_Received', false)
     //
     //  Get the Selection Options
     //
@@ -170,49 +171,9 @@ function QuizSignin({ handlePage }) {
     GetBuildOptionsGroup2()
     GetBuildOptionsGroup3()
     //
-    //  Wait for data
+    //  Change Page
     //
-    let totalWAIT = 0
-    const myInterval = setInterval(myTimer, WAIT)
-    function myTimer() {
-      if (debugLog) console.log(`Wait ${WAIT}`)
-      totalWAIT = totalWAIT + WAIT
-      //
-      //  Get Data Status
-      //
-      const Data_Options_Owner_Loaded = JSON.parse(
-        sessionStorage.getItem('Data_Options_Owner_Loaded')
-      )
-      const Data_Options_Group1Owner_Loaded = JSON.parse(
-        sessionStorage.getItem('Data_Options_Group1Owner_Loaded')
-      )
-      const Data_Options_Group2_Loaded = JSON.parse(
-        sessionStorage.getItem('Data_Options_Group2_Loaded')
-      )
-      const Data_Options_Group3_Loaded = JSON.parse(
-        sessionStorage.getItem('Data_Options_Group3_Loaded')
-      )
-      if (debugLog)
-        console.log(
-          `Owner(${Data_Options_Owner_Loaded}) Group1(${Data_Options_Group1Owner_Loaded}) Group2(${Data_Options_Group2_Loaded}) Group3(${Data_Options_Group3_Loaded})`
-        )
-      //
-      //  Data received, end wait
-      //
-      if (
-        Data_Options_Owner_Loaded &&
-        Data_Options_Group1Owner_Loaded &&
-        Data_Options_Group2_Loaded &&
-        Data_Options_Group3_Loaded
-      ) {
-        if (debugLog) console.log('All DATA received totalWAIT = ', totalWAIT)
-        clearInterval(myInterval)
-        //
-        //  Change Page
-        //
-        handlePage('QuizSelect')
-      }
-    }
+    handlePage('RefLibrary')
   }
   //...................................................................................
   //.  Render the form

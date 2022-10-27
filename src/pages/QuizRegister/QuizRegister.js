@@ -129,7 +129,7 @@ function QuizRegister({ handlePage }) {
           sessionStorage.setItem('User_Settings_Name', JSON.stringify(name))
           handlePage('QuizSignin')
         } else {
-          setForm_message('User not registered, try again')
+          setForm_message('KEEP Trying, waiting for server')
         }
       })
       .catch(err => {

@@ -70,7 +70,7 @@ const functionName = 'RefLibrary'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 const debugFunStart = false
 const debugModule = 'RefLibrary'
 //...................................................................................
@@ -163,7 +163,7 @@ export default function RefLibrary({ handlePage }) {
     //  BuildQuizData
     //
     const SqlString_Q = `* from questions where '${row.rref}' = ANY (qrefs)`
-    const MaxQuestions = JSON.parse(sessionStorage.getItem('Settings_MaxQuestions'))
+    const MaxQuestions = JSON.parse(sessionStorage.getItem('BuildQuizData_MaxQuestions'))
     const params = {
       SqlString_Q: SqlString_Q,
       MaxQuestions: MaxQuestions
@@ -351,7 +351,7 @@ export default function RefLibrary({ handlePage }) {
             <MySelect
               fullWidth={true}
               name='SearchType'
-              label='Column Heading'
+              label='Search By'
               value={searchType}
               onChange={e => setSearchType(e.target.value)}
               options={searchTypeOptions}

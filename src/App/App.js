@@ -119,10 +119,10 @@ function App() {
     //
     //  Store Client, Server, Database, URL
     //
-    sessionStorage.setItem('Settings_Client', JSON.stringify(w_Client))
-    sessionStorage.setItem('Settings_Server', JSON.stringify(w_Server))
-    sessionStorage.setItem('Settings_Database', JSON.stringify(w_Database))
-    sessionStorage.setItem('Settings_URL', JSON.stringify(w_URL))
+    sessionStorage.setItem('App_Settings_Client', JSON.stringify(w_Client))
+    sessionStorage.setItem('App_Settings_Server', JSON.stringify(w_Server))
+    sessionStorage.setItem('App_Settings_Database', JSON.stringify(w_Database))
+    sessionStorage.setItem('App_Settings_URL', JSON.stringify(w_URL))
     if (debugLog)
       console.log(
         `QuizClient-PORT(${port}) CLIENT(${w_Client}) SERVER(${w_Server}) DATABASE(${w_Database}) URL(${w_URL})`
@@ -130,39 +130,62 @@ function App() {
     //
     //  DevMode ?
     //
-    let Settings_DevMode
-    w_Client === REMOTE_CLIENT ? (Settings_DevMode = false) : (Settings_DevMode = true)
-    sessionStorage.setItem('Settings_DevMode', Settings_DevMode)
+    let App_Settings_DevMode
+    w_Client === REMOTE_CLIENT ? (App_Settings_DevMode = false) : (App_Settings_DevMode = true)
+    sessionStorage.setItem('App_Settings_DevMode', App_Settings_DevMode)
     //
-    //  Session Storage
+    //  Navigation
     //
-    sessionStorage.setItem('Settings_RandomSort', true)
-    sessionStorage.setItem('Settings_ReviewSkipPass', true)
-    sessionStorage.setItem('Settings_AllowSelection', true)
-    sessionStorage.setItem('Settings_ShowQid', true)
-    sessionStorage.setItem('Settings_ShowLinearProgress', true)
-    sessionStorage.setItem('Settings_ShowLinearScore', true)
-    sessionStorage.setItem('Settings_ShowSelectionGroup2', false)
-    sessionStorage.setItem('Settings_ShowSelectionGroup3', false)
-    sessionStorage.setItem('Settings_Page_Current', JSON.stringify('QuizSplash'))
-    sessionStorage.setItem('Settings_Page_Previous', JSON.stringify(''))
-    sessionStorage.setItem('Settings_Email', JSON.stringify(''))
-    sessionStorage.setItem('Settings_Uid', JSON.stringify(0))
-    sessionStorage.setItem('Settings_Name', JSON.stringify(''))
-    sessionStorage.setItem('Settings_SignedIn', false)
-    sessionStorage.setItem('Settings_Owner', JSON.stringify('NZBridge'))
-    sessionStorage.setItem('Settings_Group1', JSON.stringify('NZBIMP01'))
-    sessionStorage.setItem('Settings_Group2', JSON.stringify('All'))
-    sessionStorage.setItem('Settings_Group3', JSON.stringify('All'))
-    sessionStorage.setItem('Settings_MaxQuestions', JSON.stringify(5))
+    sessionStorage.setItem('Nav_Page_Current', JSON.stringify('QuizSplash'))
+    sessionStorage.setItem('Nav_Page_Previous', JSON.stringify(''))
+    //
+    //  SignedIn Status
+    //
+    sessionStorage.setItem('User_Settings_Email', JSON.stringify(''))
+    sessionStorage.setItem('User_Settings_Uid', JSON.stringify(0))
+    sessionStorage.setItem('User_Settings_Name', JSON.stringify(''))
+    sessionStorage.setItem('User_Settings_SignedIn', false)
+    //
+    //  QuizSelect
+    //
+    sessionStorage.setItem('QuizSelect_ShowSelectionGroup2', false)
+    sessionStorage.setItem('QuizSelect_ShowSelectionGroup3', false)
+    //
+    //  BuildQuizData
+    //
+    sessionStorage.setItem('BuildQuizData_RandomSort', true)
+    sessionStorage.setItem('BuildQuizData_MaxQuestions', JSON.stringify(5))
+    //
+    //  Quiz
+    //
     sessionStorage.setItem('Quiz_Reset', true)
+    sessionStorage.setItem('Quiz_Select_Owner', JSON.stringify('NZBridge'))
+    sessionStorage.setItem('Quiz_Select_Group1', JSON.stringify('NZBIMP01'))
+    sessionStorage.setItem('Quiz_Select_Group2', JSON.stringify('All'))
+    sessionStorage.setItem('Quiz_Select_Group3', JSON.stringify('All'))
+    //
+    //  QuizSettings
+    //
+    sessionStorage.setItem('Quiz_ShowQid', true)
+    sessionStorage.setItem('Quiz_ShowLinearProgress', true)
+    sessionStorage.setItem('Quiz_ShowLinearScore', true)
+    //
+    //  QuizReview
+    //
+    sessionStorage.setItem('QuizReview_SkipPass', true)
+    //
+    //  QuizHistory
+    //
+    sessionStorage.setItem('QuizHistory_Reset', true)
+    sessionStorage.setItem('QuizHistory_SearchValue', JSON.stringify(''))
+    sessionStorage.setItem('QuizHistory_SearchType', JSON.stringify('g1title'))
     //
     //  DevMode : Override Initial Values
     //
-    if (Settings_DevMode) {
-      sessionStorage.setItem('Settings_Owner', JSON.stringify('Richard'))
-      sessionStorage.setItem('Settings_Group1', JSON.stringify('AndyRobson'))
-      sessionStorage.setItem('Settings_Email', JSON.stringify('r@r.com'))
+    if (App_Settings_DevMode) {
+      sessionStorage.setItem('Quiz_Select_Owner', JSON.stringify('Richard'))
+      sessionStorage.setItem('Quiz_Select_Group1', JSON.stringify('AndyRobson'))
+      sessionStorage.setItem('User_Settings_Email', JSON.stringify('r@r.com'))
     }
   }
   //.............................................................................
@@ -172,7 +195,7 @@ function App() {
     //
     //  Retrieve the state
     //
-    let PageCurrent = JSON.parse(sessionStorage.getItem('Settings_Page_Current'))
+    let PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
     //
     //  If no change of Page, return
     //
@@ -190,22 +213,18 @@ function App() {
     //
     //  Update Previous Page
     //
-    sessionStorage.setItem('Settings_Page_Previous', JSON.stringify(PageCurrent))
+    sessionStorage.setItem('Nav_Page_Previous', JSON.stringify(PageCurrent))
     if (debugLog)
       console.log(
-        `UPDATED Settings_Page_Previous ${JSON.parse(
-          sessionStorage.getItem('Settings_Page_Previous')
-        )}`
+        `UPDATED Nav_Page_Previous ${JSON.parse(sessionStorage.getItem('Nav_Page_Previous'))}`
       )
     //
     //  Update NEW Page
     //
-    sessionStorage.setItem('Settings_Page_Current', JSON.stringify(nextPage))
+    sessionStorage.setItem('Nav_Page_Current', JSON.stringify(nextPage))
     if (debugLog)
       console.log(
-        `UPDATED Settings_Page_Current ${JSON.parse(
-          sessionStorage.getItem('Settings_Page_Current')
-        )}`
+        `UPDATED Nav_Page_Current ${JSON.parse(sessionStorage.getItem('Nav_Page_Current'))}`
       )
     //
     //  Update State

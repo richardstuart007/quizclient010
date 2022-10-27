@@ -69,26 +69,26 @@ export default function Layout({ handlePage, pageCurrent, children }) {
   //
   //  Title
   //
-  const PageCurrent = JSON.parse(sessionStorage.getItem('Settings_Page_Current'))
+  const PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
   let title
   if (debugLog) console.log('PageCurrent ', PageCurrent)
   if (debugLog) console.log('pageCurrent ', pageCurrent)
-  let showSettings_Name = true
+  let showUser_Settings_Name = true
   switch (PageCurrent) {
     case 'QuizSettings':
       title = 'Settings'
       break
     case 'QuizRegister':
       title = 'Register'
-      showSettings_Name = false
+      showUser_Settings_Name = false
       break
     case 'QuizSignin':
       title = 'SignIn'
-      showSettings_Name = false
+      showUser_Settings_Name = false
       break
     case 'QuizSplash':
       title = 'Splash'
-      showSettings_Name = false
+      showUser_Settings_Name = false
       break
     case 'QuizSelect':
       title = 'Selection'
@@ -110,17 +110,18 @@ export default function Layout({ handlePage, pageCurrent, children }) {
   //
   //  Add clientserver
   //
-  const ShowClientServer = JSON.parse(sessionStorage.getItem('Settings_DevMode'))
-  const Settings_Client = JSON.parse(sessionStorage.getItem('Settings_Client'))
-  const Settings_Server = JSON.parse(sessionStorage.getItem('Settings_Server'))
-  const Settings_Database = JSON.parse(sessionStorage.getItem('Settings_Database'))
-  const clientserver = `Client(${Settings_Client}) Server(${Settings_Server}) Database(${Settings_Database})`
+  const ShowClientServer = JSON.parse(sessionStorage.getItem('App_Settings_DevMode'))
+  const App_Settings_Client = JSON.parse(sessionStorage.getItem('App_Settings_Client'))
+  const App_Settings_Server = JSON.parse(sessionStorage.getItem('App_Settings_Server'))
+  const App_Settings_Database = JSON.parse(sessionStorage.getItem('App_Settings_Database'))
+  const clientserver = `Client(${App_Settings_Client}) Server(${App_Settings_Server}) Database(${App_Settings_Database})`
   //
   //  Welcome User
   //
-  let Settings_Name = ''
-  const Settings_SignedIn = JSON.parse(sessionStorage.getItem('Settings_SignedIn'))
-  if (Settings_SignedIn) Settings_Name = JSON.parse(sessionStorage.getItem('Settings_Name'))
+  let User_Settings_Name = ''
+  const User_Settings_SignedIn = JSON.parse(sessionStorage.getItem('User_Settings_SignedIn'))
+  if (User_Settings_SignedIn)
+    User_Settings_Name = JSON.parse(sessionStorage.getItem('User_Settings_Name'))
   //...................................................................................
   //.  Render the component
   //...................................................................................
@@ -155,7 +156,7 @@ export default function Layout({ handlePage, pageCurrent, children }) {
               </Typography>
             </Grid>
             {/* .......................................................................................... */}
-            {showSettings_Name ? (
+            {showUser_Settings_Name ? (
               <Grid item>
                 <Typography
                   className={classes.welcome}
@@ -164,7 +165,7 @@ export default function Layout({ handlePage, pageCurrent, children }) {
                     color: 'red'
                   }}
                 >
-                  {Settings_Name}
+                  {User_Settings_Name}
                 </Typography>
               </Grid>
             ) : null}

@@ -107,7 +107,7 @@ function QuizRegister({ handlePage }) {
     //
     //  Post to server
     //
-    const URL = Settings_URL + URL_REGISTER
+    const URL = App_Settings_URL + URL_REGISTER
     if (debugLog) console.log('email ', email)
     fetch(URL, {
       method: 'post',
@@ -125,8 +125,8 @@ function QuizRegister({ handlePage }) {
       .then(user => {
         if (user.u_id) {
           setForm_message(`Data updated in Database with ID(${user.u_id})`)
-          sessionStorage.setItem('Settings_Email', JSON.stringify(email))
-          sessionStorage.setItem('Settings_Name', JSON.stringify(name))
+          sessionStorage.setItem('User_Settings_Email', JSON.stringify(email))
+          sessionStorage.setItem('User_Settings_Name', JSON.stringify(name))
           handlePage('QuizSignin')
         } else {
           setForm_message('User not registered, try again')
@@ -143,8 +143,8 @@ function QuizRegister({ handlePage }) {
   //
   //  Get the URL
   //
-  const Settings_URLJSON = sessionStorage.getItem('Settings_URL')
-  const Settings_URL = JSON.parse(Settings_URLJSON)
+  const App_Settings_URLJSON = sessionStorage.getItem('App_Settings_URL')
+  const App_Settings_URL = JSON.parse(App_Settings_URLJSON)
   //
   // Form Message
   //

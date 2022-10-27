@@ -76,13 +76,15 @@ const functionName = 'QuizHistory'
 // Debug Settings
 //
 const debugLog = debugSettings()
-const debugLogTest = false
 const debugFunStart = false
-const debugModule = 'QuizHistory'
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function QuizHistory({ handlePage }) {
+  //
+  //  Start of function
+  //
+  if (debugFunStart) console.log(`Function: ${functionName}`)
   //
   //  Styles
   //
@@ -96,30 +98,76 @@ export default function QuizHistory({ handlePage }) {
       return items
     }
   })
-  const [searchType, setSearchType] = useState('r_owner')
+  const [searchType, setSearchType] = useState('g1title')
   const [searchValue, setSearchValue] = useState('')
   const [startPage0, setStartPage0] = useState(false)
-
-  if (debugFunStart) console.log(debugModule)
+  //
+  //  Reset Quiz State
+  //
+  let QuizHistory_Reset = JSON.parse(sessionStorage.getItem('QuizHistory_Reset'))
+  if (debugLog) console.log('QuizHistory_Reset ', QuizHistory_Reset)
   //
   //  Initial Data Load
   //
   useEffect(() => {
-    getRowAllData()
+    handleQuizReset()
     // eslint-disable-next-line
   }, [])
+  //
+  //  Populate the Table
+  //
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useMyTable(
+    records,
+    headCells,
+    filterFn,
+    startPage0,
+    setStartPage0
+  )
+  //...................................................................................
+  //.  Reset the Quiz
+  //...................................................................................
+  function handleQuizReset() {
+    //
+    //  Start of function
+    //
+    if (debugFunStart) console.log(`Function: handleQuizReset`)
+    //
+    //  Restore saved search values & search
+    //
+    if (!QuizHistory_Reset) {
+      const QuizHistory_SearchValue = JSON.parse(sessionStorage.getItem('QuizHistory_SearchValue'))
+      setSearchValue(QuizHistory_SearchValue)
+      if (debugLog) console.log('QuizHistory_SearchValue ', QuizHistory_SearchValue)
 
+      const QuizHistory_SearchType = JSON.parse(sessionStorage.getItem('QuizHistory_SearchType'))
+      setSearchType(QuizHistory_SearchType)
+      if (debugLog) console.log('QuizHistory_SearchType ', QuizHistory_SearchType)
+    }
+    //
+    //  Reset flag
+    //
+    sessionStorage.setItem('QuizHistory_Reset', false)
+    QuizHistory_Reset = false
+    if (debugLog) console.log('QuizHistory_Reset ', false)
+    //
+    //  Get Data
+    //
+    getRowAllData()
+  }
   //.............................................................................
   //.  GET ALL
   //.............................................................................
   function getRowAllData() {
-    if (debugFunStart) console.log('getRowAllData')
+    //
+    //  Start of function
+    //
+    if (debugFunStart) console.log(`Function: getRowAllData`)
     //
     //  Get User
     //
-    const name = JSON.parse(sessionStorage.getItem('Settings_Name'))
-    const email = JSON.parse(sessionStorage.getItem('Settings_Email'))
-    const uid = JSON.parse(sessionStorage.getItem('Settings_Uid'))
+    const name = JSON.parse(sessionStorage.getItem('User_Settings_Name'))
+    const email = JSON.parse(sessionStorage.getItem('User_Settings_Email'))
+    const uid = JSON.parse(sessionStorage.getItem('User_Settings_Uid'))
     subTitle = `${name} (${uid})`
     //
     //  Selection
@@ -145,21 +193,17 @@ export default function QuizHistory({ handlePage }) {
     //
     myPromiseusershistory.then(function (Data_Hist) {
       //
-      //  Data History with split time stamp
+      //  Data History add time stamp
       //
-      if (debugLogTest) console.log('Data_Hist ', Data_Hist)
       const Data_Hist_Update = Data_Hist.map(record => ({
         ...record,
         yymmdd: format(parseISO(record.r_datetime), 'yy-MM-dd')
       }))
-      if (debugLogTest) console.log('Data_Hist_Update ', Data_Hist_Update)
       //
       //  Session Storage
       //
-      if (debugLog) console.log('Data_Hist_Update ', Data_Hist_Update)
       sessionStorage.setItem('Data_Hist', JSON.stringify(Data_Hist_Update))
-      const TimeStamp = Date.now()
-      if (debugLogTest) console.log(`${TimeStamp} Data_Hist ==>`)
+      if (debugLog) console.log('Data_Hist ', Data_Hist_Update)
       //
       //  Update Table
       //
@@ -182,7 +226,10 @@ export default function QuizHistory({ handlePage }) {
   //.  Prepare Row before switching to QuizHistoryDetail
   //...................................................................................
   function QuizHistoryRow(row) {
-    if (debugLog) console.log('QuizHistoryRow ')
+    //
+    //  Start of function
+    //
+    if (debugFunStart) console.log(`Function: QuizHistoryRow`)
     //
     //  Store Row
     //
@@ -204,7 +251,10 @@ export default function QuizHistory({ handlePage }) {
   //.  Prepare Row before switching to Quiz
   //...................................................................................
   function QuizBuild(row) {
-    if (debugLog) console.log('QuizBuild')
+    //
+    //  Start of function
+    //
+    if (debugFunStart) console.log(`Function: QuizBuild`)
     //
     //  Store Row
     //
@@ -213,7 +263,7 @@ export default function QuizHistory({ handlePage }) {
     //  BuildQuizData
     //
     const SqlString_Q = `* from questions where qowner = '${row.r_owner}' and qgroup1 = '${row.r_group1}'`
-    const MaxQuestions = JSON.parse(sessionStorage.getItem('Settings_MaxQuestions'))
+    const MaxQuestions = JSON.parse(sessionStorage.getItem('BuildQuizData_MaxQuestions'))
     const params = {
       SqlString_Q: SqlString_Q,
       MaxQuestions: MaxQuestions
@@ -236,7 +286,10 @@ export default function QuizHistory({ handlePage }) {
   //-  Wait
   //--------------------------------------------------------------------
   function waitSessionStorage(props, handlePage) {
-    if (debugLog) console.log('Start waitSessionStorage')
+    //
+    //  Start of function
+    //
+    if (debugFunStart) console.log(`Function: waitSessionStorage`)
     if (debugLog) console.log('props ', props)
     const timeStart = new Date()
     //
@@ -274,6 +327,8 @@ export default function QuizHistory({ handlePage }) {
             `waitSessionStorage sessionStorage(${sessionItem}) value(${completedFlag}) Elapsed Time(${timeDiff})`
           )
         clearInterval(myInterval)
+        sessionStorage.setItem('QuizHistory_SearchValue', JSON.stringify(searchValue))
+        sessionStorage.setItem('QuizHistory_SearchType', JSON.stringify(searchType))
         handlePage(handlePageValue)
       } else {
         //
@@ -297,25 +352,39 @@ export default function QuizHistory({ handlePage }) {
   //  Search/Filter
   //
   function handleSearch() {
-    if (debugFunStart) console.log('handleSearch')
+    //
+    //  Start of function
+    //
+    if (debugFunStart) console.log(`Function: handleSearch`)
+    //
+    //  Start at first page (0)
+    //
     setStartPage0(true)
     if (debugLog) console.log('setStartPage0(true)')
+    //
+    //  Filter
+    //
     setFilterFn({
       fn: items => {
+        if (debugLog) console.log('searchValue ', searchValue)
+        if (debugLog) console.log('searchType ', searchType)
         //
         //  Nothing to search, return rows
         //
         if (searchValue === '') {
+          if (debugLog) console.log('setFilterFn items ', items)
           return items
         }
         //
         //  Numeric
         //
         const searchValueInt = parseInt(searchValue)
+        if (debugLog) console.log('searchValueInt ', searchValueInt)
         //
         //  Filter
         //
         let itemsFilter = items
+        if (debugLog) console.log('itemsFilter ', itemsFilter)
         switch (searchType) {
           case 'r_id':
             itemsFilter = items.filter(x => x.r_id === searchValueInt)
@@ -335,22 +404,12 @@ export default function QuizHistory({ handlePage }) {
             break
           default:
         }
-        if (debugLog) console.log('itemsFilter ', itemsFilter)
+        if (debugLog) console.log('setFilterFn itemsFilter ', itemsFilter)
         return itemsFilter
       }
     })
   }
-  //.............................................................................
-  //
-  //  Populate the Table
-  //
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useMyTable(
-    records,
-    headCells,
-    filterFn,
-    startPage0,
-    setStartPage0
-  )
+
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -383,7 +442,7 @@ export default function QuizHistory({ handlePage }) {
             <MySelect
               fullWidth={true}
               name='SearchType'
-              label='Column Heading'
+              label='Search By'
               value={searchType}
               onChange={e => setSearchType(e.target.value)}
               options={searchTypeOptions}

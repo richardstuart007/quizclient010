@@ -40,27 +40,27 @@ export default function QuizNavigation({ handlePage }) {
   //
   //  Define
   //
-  const PageCurrent = JSON.parse(sessionStorage.getItem('Settings_Page_Current'))
-  const Settings_SignedIn = JSON.parse(sessionStorage.getItem('Settings_SignedIn'))
+  const PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
+  const User_Settings_SignedIn = JSON.parse(sessionStorage.getItem('User_Settings_SignedIn'))
   //
   //  Show SignOut Button ?
   //
-  let showButtonSignOut
-  Settings_SignedIn ? (showButtonSignOut = true) : (showButtonSignOut = false)
+  let showButton_Signin
+  User_Settings_SignedIn ? (showButton_Signin = true) : (showButton_Signin = false)
   //
   //  Show  Restart Button ?
   //
-  let showButtonRestart
-  Settings_SignedIn &&
+  let showButton_QuizSelect
+  User_Settings_SignedIn &&
   PageCurrent !== 'QuizSelect' &&
   PageCurrent !== 'QuizReview' &&
   PageCurrent !== 'Quiz'
-    ? (showButtonRestart = true)
-    : (showButtonRestart = false)
+    ? (showButton_QuizSelect = true)
+    : (showButton_QuizSelect = false)
   //
   //  Show Book Button ?
   //
-  let showMenuBook = false
+  let showButton_QuizRefs = false
   let Data_Reflinks = []
   const Data_ReflinksJSON = sessionStorage.getItem('Data_Reflinks')
   if (Data_ReflinksJSON && Data_ReflinksJSON.length > 0)
@@ -70,28 +70,31 @@ export default function QuizNavigation({ handlePage }) {
     Data_Reflinks[0] &&
     Data_Reflinks.length > 0
   )
-    showMenuBook = true
+    showButton_QuizRefs = true
   //
   //  Show Settings Button ?
   //
-  let showButtonSettings
-  Settings_SignedIn && PageCurrent !== 'QuizSettings'
-    ? (showButtonSettings = true)
-    : (showButtonSettings = false)
+  let showButton_QuizSettings
+  User_Settings_SignedIn && PageCurrent !== 'QuizSettings'
+    ? (showButton_QuizSettings = true)
+    : (showButton_QuizSettings = false)
   //
   //  Show History Button ?
   //
-  let showButtonHistory
-  Settings_SignedIn && PageCurrent !== 'QuizHistory' && PageCurrent !== 'QuizHistoryDetail'
-    ? (showButtonHistory = true)
-    : (showButtonHistory = false)
+  let showButton_QuizHistory
+  User_Settings_SignedIn &&
+  PageCurrent !== 'QuizHistory' &&
+  PageCurrent !== 'QuizHistoryDetail' &&
+  PageCurrent !== 'Quiz'
+    ? (showButton_QuizHistory = true)
+    : (showButton_QuizHistory = false)
   //
   //  Show RefLibrary Button ?
   //
-  let showButtonRefLibrary
-  Settings_SignedIn && PageCurrent !== 'RefLibrary'
-    ? (showButtonRefLibrary = true)
-    : (showButtonRefLibrary = false)
+  let showButton_RefLibrary
+  User_Settings_SignedIn && PageCurrent !== 'RefLibrary' && PageCurrent !== 'Quiz'
+    ? (showButton_RefLibrary = true)
+    : (showButton_RefLibrary = false)
   //...................................................................................
   //.  Render the component
   //...................................................................................
@@ -100,7 +103,7 @@ export default function QuizNavigation({ handlePage }) {
       <Grid container alignItems='center'>
         {/* .......................................................................................... */}
 
-        {showButtonRefLibrary ? (
+        {showButton_RefLibrary ? (
           <MyActionButton
             startIcon={<ScoreboardIcon fontSize='small' />}
             color='warning'
@@ -112,18 +115,19 @@ export default function QuizNavigation({ handlePage }) {
         ) : null}
         {/* .......................................................................................... */}
 
-        {showButtonHistory ? (
+        {showButton_QuizHistory ? (
           <MyActionButton
             startIcon={<ScoreboardIcon fontSize='small' />}
             color='warning'
             onClick={() => {
+              sessionStorage.setItem('QuizHistory_Reset', true)
               handlePage('QuizHistory')
             }}
             text='History'
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}
-        {showMenuBook ? (
+        {showButton_QuizRefs ? (
           <MyActionButton
             startIcon={<MenuBookIcon fontSize='small' />}
             color='warning'
@@ -134,7 +138,7 @@ export default function QuizNavigation({ handlePage }) {
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}
-        {showButtonRestart ? (
+        {showButton_QuizSelect ? (
           <MyActionButton
             startIcon={<RefreshIcon fontSize='small' />}
             color='warning'
@@ -145,7 +149,7 @@ export default function QuizNavigation({ handlePage }) {
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}
-        {showButtonSettings ? (
+        {showButton_QuizSettings ? (
           <MyActionButton
             startIcon={<SettingsApplicationsIcon fontSize='small' />}
             color='warning'
@@ -156,12 +160,12 @@ export default function QuizNavigation({ handlePage }) {
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}
-        {showButtonSignOut ? (
+        {showButton_Signin ? (
           <MyActionButton
             startIcon={<LogoutIcon fontSize='small' />}
             color='warning'
             onClick={() => {
-              sessionStorage.setItem('Settings_SignedIn', false)
+              sessionStorage.setItem('User_Settings_SignedIn', false)
               handlePage('QuizSignin')
             }}
             text='Signout'

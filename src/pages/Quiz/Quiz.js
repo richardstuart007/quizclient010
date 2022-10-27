@@ -25,7 +25,7 @@ import QuizLinearProgress from '../Common/QuizLinearProgress'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 //
 //  Global store variables
 //
@@ -42,8 +42,8 @@ function Quiz({ handlePage }) {
   //
   //  Show Linear Bars ?
   //
-  const showLinearProgress = JSON.parse(sessionStorage.getItem('Settings_ShowLinearProgress'))
-  const showLinearScore = JSON.parse(sessionStorage.getItem('Settings_ShowLinearScore'))
+  const showLinearProgress = JSON.parse(sessionStorage.getItem('Quiz_ShowLinearProgress'))
+  const showLinearScore = JSON.parse(sessionStorage.getItem('Quiz_ShowLinearScore'))
   //
   //  Define the State variables
   //

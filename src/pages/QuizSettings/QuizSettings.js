@@ -30,17 +30,17 @@ const QuizSettings = ({ handlePage }) => {
   //
   //  Define the Store
   //
-  const PagePrevious = JSON.parse(sessionStorage.getItem('Settings_Page_Previous'))
+  const PagePrevious = JSON.parse(sessionStorage.getItem('Nav_Page_Previous'))
   //
   //  Initial Values
   //
   const initialFValues = {
-    z_ShowLinearProgress: JSON.parse(sessionStorage.getItem('Settings_ShowLinearProgress')),
-    z_ShowLinearScore: JSON.parse(sessionStorage.getItem('Settings_ShowLinearScore')),
-    z_QuestionSort: JSON.parse(sessionStorage.getItem('Settings_RandomSort')),
-    z_ShowQid: JSON.parse(sessionStorage.getItem('Settings_ShowQid')),
-    z_ReviewSkipPass: JSON.parse(sessionStorage.getItem('Settings_ReviewSkipPass')),
-    z_MaxQuestions: JSON.parse(sessionStorage.getItem('Settings_MaxQuestions'))
+    z_ShowLinearProgress: JSON.parse(sessionStorage.getItem('Quiz_ShowLinearProgress')),
+    z_ShowLinearScore: JSON.parse(sessionStorage.getItem('Quiz_ShowLinearScore')),
+    z_QuestionSort: JSON.parse(sessionStorage.getItem('BuildQuizData_RandomSort')),
+    z_ShowQid: JSON.parse(sessionStorage.getItem('Quiz_ShowQid')),
+    z_ReviewSkipPass: JSON.parse(sessionStorage.getItem('QuizReview_SkipPass')),
+    z_MaxQuestions: JSON.parse(sessionStorage.getItem('BuildQuizData_MaxQuestions'))
   }
   //
   //  Saved Values on Submit
@@ -109,12 +109,12 @@ const QuizSettings = ({ handlePage }) => {
     //
     //  Update Store
     //
-    sessionStorage.setItem('Settings_ShowLinearProgress', savedValues.z_ShowLinearProgress)
-    sessionStorage.setItem('Settings_ShowLinearScore', savedValues.z_ShowLinearScore)
-    sessionStorage.setItem('Settings_RandomSort', savedValues.z_QuestionSort)
-    sessionStorage.setItem('Settings_ShowQid', savedValues.z_ShowQid)
-    sessionStorage.setItem('Settings_ReviewSkipPass', savedValues.z_ReviewSkipPass)
-    sessionStorage.setItem('Settings_MaxQuestions', JSON.stringify(savedValues.z_MaxQuestions))
+    sessionStorage.setItem('Quiz_ShowLinearProgress', savedValues.z_ShowLinearProgress)
+    sessionStorage.setItem('Quiz_ShowLinearScore', savedValues.z_ShowLinearScore)
+    sessionStorage.setItem('BuildQuizData_RandomSort', savedValues.z_QuestionSort)
+    sessionStorage.setItem('Quiz_ShowQid', savedValues.z_ShowQid)
+    sessionStorage.setItem('QuizReview_SkipPass', savedValues.z_ReviewSkipPass)
+    sessionStorage.setItem('BuildQuizData_MaxQuestions', JSON.stringify(savedValues.z_MaxQuestions))
     //
     //  return to previous
     //

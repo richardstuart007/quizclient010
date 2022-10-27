@@ -138,7 +138,7 @@ export default function QuizHistoryDetail({ handlePage }) {
       //
       //  Only show failed answers ?
       //
-      let ReviewSkipPass = JSON.parse(sessionStorage.getItem('Settings_ReviewSkipPass'))
+      let ReviewSkipPass = JSON.parse(sessionStorage.getItem('QuizReview_SkipPass'))
       ReviewSkipPass = false
       if (id !== 1 || !ReviewSkipPass) {
         Ans.push(id)

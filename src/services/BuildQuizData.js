@@ -15,7 +15,7 @@ const functionName = 'BuildQuizData'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 const debugFunStart = false
 const debugModule = 'BuildQuizData'
 //...................................................................................
@@ -106,8 +106,8 @@ export default function BuildQuizData(props) {
       //  Store Owner/group1
       //
       const row1 = Data_Questions[0]
-      sessionStorage.setItem('Settings_Owner', JSON.stringify(row1.qowner))
-      sessionStorage.setItem('Settings_Group1', JSON.stringify(row1.qgroup1))
+      sessionStorage.setItem('Quiz_Select_Owner', JSON.stringify(row1.qowner))
+      sessionStorage.setItem('Quiz_Select_Group1', JSON.stringify(row1.qgroup1))
       //
       //  Output Data_Questions_Quiz
       //
@@ -136,8 +136,8 @@ export default function BuildQuizData(props) {
     //
     //  Random sort questions
     //
-    const Settings_RandomSort = JSON.parse(sessionStorage.getItem('Settings_RandomSort'))
-    Settings_RandomSort
+    const BuildQuizData_RandomSort = JSON.parse(sessionStorage.getItem('BuildQuizData_RandomSort'))
+    BuildQuizData_RandomSort
       ? (Data_Questions_Quiz = randomSort(Data_Questions))
       : (Data_Questions_Quiz = Data_Questions)
     //

@@ -29,7 +29,7 @@ function QuizControl({ handlePage }) {
   //
   //  Retrieve the state
   //
-  const PageCurrent = JSON.parse(sessionStorage.getItem('Settings_Page_Current'))
+  const PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
   //
   //  Present the selected component
   //

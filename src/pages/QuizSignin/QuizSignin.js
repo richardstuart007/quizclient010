@@ -47,13 +47,13 @@ function QuizSignin({ handlePage }) {
   //
   //  Get the URL
   //
-  const Settings_URL = JSON.parse(sessionStorage.getItem('Settings_URL'))
+  const App_Settings_URL = JSON.parse(sessionStorage.getItem('App_Settings_URL'))
   //
   //  Get the Email
   //
-  const Settings_Email = JSON.parse(sessionStorage.getItem('Settings_Email'))
-  if (debugLog) console.log('Settings_Email ', Settings_Email)
-  initialFValues.email = Settings_Email
+  const User_Settings_Email = JSON.parse(sessionStorage.getItem('User_Settings_Email'))
+  if (debugLog) console.log('User_Settings_Email ', User_Settings_Email)
+  initialFValues.email = User_Settings_Email
   //
   // Form Message
   //
@@ -120,7 +120,7 @@ function QuizSignin({ handlePage }) {
     //
     //  Post to server
     //
-    const URL = Settings_URL + URL_SIGNIN
+    const URL = App_Settings_URL + URL_SIGNIN
     fetch(URL, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -150,11 +150,11 @@ function QuizSignin({ handlePage }) {
     //
     //  Store the sign-in info
     //
-    sessionStorage.setItem('Settings_Email', JSON.stringify(email))
-    sessionStorage.setItem('Settings_Name', JSON.stringify(user.u_name))
-    sessionStorage.setItem('Settings_Uid', JSON.stringify(user.u_id))
-    sessionStorage.setItem('Settings_Uadmin', JSON.stringify(user.u_admin))
-    sessionStorage.setItem('Settings_SignedIn', true)
+    sessionStorage.setItem('User_Settings_Email', JSON.stringify(email))
+    sessionStorage.setItem('User_Settings_Name', JSON.stringify(user.u_name))
+    sessionStorage.setItem('User_Settings_Uid', JSON.stringify(user.u_id))
+    sessionStorage.setItem('User_Settings_Admin', JSON.stringify(user.u_admin))
+    sessionStorage.setItem('User_Settings_SignedIn', true)
     //
     //  Initialise storage status
     //

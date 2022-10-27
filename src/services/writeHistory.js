@@ -25,14 +25,14 @@ function writeHistory() {
   //
   //  Key
   //
-  const r_email = JSON.parse(sessionStorage.getItem('Settings_Email'))
-  const r_uid = JSON.parse(sessionStorage.getItem('Settings_Uid'))
+  const r_email = JSON.parse(sessionStorage.getItem('User_Settings_Email'))
+  const r_uid = JSON.parse(sessionStorage.getItem('User_Settings_Uid'))
   const r_datetime = new Date()
   //
   //  Selection Data
   //
-  const r_owner = JSON.parse(sessionStorage.getItem('Settings_Owner'))
-  const r_group1 = JSON.parse(sessionStorage.getItem('Settings_Group1'))
+  const r_owner = JSON.parse(sessionStorage.getItem('Quiz_Select_Owner'))
+  const r_group1 = JSON.parse(sessionStorage.getItem('Quiz_Select_Group1'))
   //
   //  Correct Answers
   //

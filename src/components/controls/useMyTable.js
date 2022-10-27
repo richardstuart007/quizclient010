@@ -182,7 +182,6 @@ export default function useMyTable(records, headCells, filterFn, startPage0, set
   //.....................................................................................
   //.  Return Values
   //.....................................................................................
-
   return {
     TblContainer,
     TblHead,

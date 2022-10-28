@@ -308,14 +308,12 @@ export default function QuizSelect({ handlePage }) {
   function updateSelection(handlePageValue) {
     if (debugFunStart) console.log('updateSelection')
     //
-    //  Session Storage
+    //  No questions
     //
     const Data_Questions_Quiz_Count = JSON.parse(
       sessionStorage.getItem('Data_Questions_Quiz_Count')
     )
-    //
-    //  No questions
-    //
+
     if (Data_Questions_Quiz_Count === 0) {
       setForm_message('QuizSelect: No Questions found')
       if (debugLog) console.log('QuizSelect: No Questions found')

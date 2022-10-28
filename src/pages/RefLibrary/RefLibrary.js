@@ -3,7 +3,16 @@
 //
 import { useState, useEffect } from 'react'
 import PeopleOutlineTwoToneIcon from '@mui/icons-material/PeopleOutlineTwoTone'
-import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Box } from '@mui/material'
+import {
+  Paper,
+  TableBody,
+  TableRow,
+  TableCell,
+  Toolbar,
+  InputAdornment,
+  Box,
+  Typography
+} from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import SearchIcon from '@mui/icons-material/Search'
 import FilterListIcon from '@mui/icons-material/FilterList'
@@ -49,6 +58,8 @@ const useStyles = makeStyles(theme => ({
 //
 const headCells = [
   { id: 'rid', label: 'ID' },
+  { id: 'rowner', label: 'Owner' },
+  { id: 'rgroup1', label: 'Group' },
   { id: 'rref', label: 'Reference' },
   { id: 'rdesc', label: 'Description' },
   { id: 'rwho', label: 'Who' },
@@ -58,6 +69,8 @@ const headCells = [
 ]
 const searchTypeOptions = [
   { id: 'rid', title: 'ID' },
+  { id: 'rowner', title: 'Owner' },
+  { id: 'rgroup1', title: 'Group' },
   { id: 'rref', title: 'Reference' },
   { id: 'rdesc', title: 'Description' },
   { id: 'rwho', title: 'Who' },
@@ -93,6 +106,7 @@ export default function RefLibrary({ handlePage }) {
   const [searchType, setSearchType] = useState('rdesc')
   const [searchValue, setSearchValue] = useState('')
   const [startPage0, setStartPage0] = useState(false)
+  const [form_message, setForm_message] = useState('')
 
   if (debugFunStart) console.log(debugModule)
   //
@@ -224,6 +238,17 @@ export default function RefLibrary({ handlePage }) {
             `waitSessionStorage sessionStorage(${sessionItem}) value(${completedFlag}) Elapsed Time(${timeDiff})`
           )
         clearInterval(myInterval)
+        //
+        //  Data ?
+        //
+        const Data_Questions_Quiz_Count = JSON.parse(
+          sessionStorage.getItem('Data_Questions_Quiz_Count')
+        )
+        if (Data_Questions_Quiz_Count === 0) {
+          setForm_message('QuizSelect: No Questions found')
+          if (debugLog) console.log('No Quiz Questions found')
+          return
+        }
         handlePage(handlePageValue)
       } else {
         //
@@ -271,6 +296,16 @@ export default function RefLibrary({ handlePage }) {
         switch (searchType) {
           case 'rid':
             itemsFilter = items.filter(x => x.rid === searchValueInt)
+            break
+          case 'rowner':
+            itemsFilter = items.filter(x =>
+              x.rowner.toLowerCase().includes(searchValue.toLowerCase())
+            )
+            break
+          case 'rgroup1':
+            itemsFilter = items.filter(x =>
+              x.rgroup1.toLowerCase().includes(searchValue.toLowerCase())
+            )
             break
           case 'rref':
             itemsFilter = items.filter(x =>
@@ -374,6 +409,8 @@ export default function RefLibrary({ handlePage }) {
             {recordsAfterPagingAndSorting().map(row => (
               <TableRow key={row.rid}>
                 <TableCell>{row.rid}</TableCell>
+                <TableCell>{row.rowner}</TableCell>
+                <TableCell>{row.rgroup1}</TableCell>
                 <TableCell>{row.rref}</TableCell>
                 <TableCell>{row.rdesc}</TableCell>
                 <TableCell>{row.rwho}</TableCell>
@@ -386,21 +423,29 @@ export default function RefLibrary({ handlePage }) {
                     onClick={() => openHyperlink(row.rlink)}
                   ></MyActionButton>
                 </TableCell>
+
                 <TableCell>
-                  <MyActionButton
-                    startIcon={<QuizIcon fontSize='small' />}
-                    text='Quiz'
-                    color='warning'
-                    onClick={() => {
-                      RefLibraryRow(row)
-                    }}
-                  ></MyActionButton>
+                  {row.rgroup1 !== 'NOQUIZ' ? (
+                    <MyActionButton
+                      startIcon={<QuizIcon fontSize='small' />}
+                      text='Quiz'
+                      color='warning'
+                      onClick={() => {
+                        RefLibraryRow(row)
+                      }}
+                    ></MyActionButton>
+                  ) : null}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </TblContainer>
         <TblPagination />
+        {/*.................................................................................................*/}
+        <Box sx={{ mt: 2, maxWidth: 600 }}>
+          <Typography style={{ color: 'red' }}>{form_message}</Typography>
+        </Box>
+        {/*.................................................................................................*/}
       </Paper>
     </>
   )

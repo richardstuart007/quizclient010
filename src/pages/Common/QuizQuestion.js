@@ -44,7 +44,7 @@ const QuizQuestion = params => {
     window.open(hyperlink, '_blank')
   }
   //
-  //  Question string (with ID ?)
+  //  Question string
   //
   const Data_Questions_Quiz_CountJSON = sessionStorage.getItem('Data_Questions_Quiz_Count')
   const Data_Questions_Quiz_Count = JSON.parse(Data_Questions_Quiz_CountJSON)

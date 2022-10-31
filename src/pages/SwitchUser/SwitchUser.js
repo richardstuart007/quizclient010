@@ -199,6 +199,7 @@ export default function SwitchUser({ handlePage }) {
   //.............................................................................
   function submitSwitchUser(row) {
     sessionStorage.setItem('User_Settings_User', JSON.stringify(row))
+    sessionStorage.setItem('User_Settings_UserSwitch', JSON.stringify(true))
     handlePage('PAGEBACK')
   }
   //...................................................................................
@@ -208,7 +209,7 @@ export default function SwitchUser({ handlePage }) {
     <>
       <PageHeader
         title='Users'
-        subTitle='Data Entry and Maintenance'
+        subTitle='Switch Users'
         icon={<PeopleOutlineTwoToneIcon fontSize='large' />}
       />
       <Paper className={classes.pageContent}>

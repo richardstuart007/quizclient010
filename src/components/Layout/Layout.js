@@ -120,6 +120,7 @@ export default function Layout({ handlePage, pageCurrent, children }) {
   //
   let User_Name = ''
   let User_Admin = false
+  let User_Switched = false
   //
   //  Signed in User
   //
@@ -127,8 +128,10 @@ export default function Layout({ handlePage, pageCurrent, children }) {
   if (User_Settings_SignedIn) {
     const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
     const User_Settings_UserAdmin = JSON.parse(sessionStorage.getItem('User_Settings_UserAdmin'))
+    const User_Settings_UserSwitch = JSON.parse(sessionStorage.getItem('User_Settings_UserSwitch'))
     User_Name = User_Settings_User.u_name
     User_Admin = User_Settings_UserAdmin
+    User_Switched = User_Settings_UserSwitch
   }
   //...................................................................................
   //.  Render the component
@@ -187,6 +190,19 @@ export default function Layout({ handlePage, pageCurrent, children }) {
                   }}
                 >
                   ADMIN
+                </Typography>
+              </Grid>
+            ) : null}
+            {/* .......................................................................................... */}
+            {User_Switched ? (
+              <Grid item>
+                <Typography
+                  className={classes.clientserver}
+                  sx={{
+                    display: { xs: 'none', sm: 'inline', color: 'white', backgroundColor: 'purple' }
+                  }}
+                >
+                  SWITCHED
                 </Typography>
               </Grid>
             ) : null}

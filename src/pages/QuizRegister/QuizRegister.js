@@ -164,7 +164,7 @@ function QuizRegister({ handlePage }) {
         <Grid container spacing={2}>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <Box sx={{ mt: 2, maxWidth: 600 }}>
+            <Box sx={{ mt: 2, maxWidth: 300 }}>
               <MyInput
                 name='name'
                 label='name'
@@ -175,33 +175,8 @@ function QuizRegister({ handlePage }) {
             </Box>
           </Grid>
           {/*.................................................................................................*/}
-          <Grid item xs={2}>
-            <Box sx={{ mt: 2, maxWidth: 300 }}>
-              <MyInput
-                name='fedid'
-                label='Bridge Federation Id'
-                value={values.fedid}
-                onChange={handleInputChange}
-                error={errors.fedid}
-              />
-            </Box>
-          </Grid>
-          {/*.................................................................................................*/}
-          <Grid item xs={2}>
-            <Box sx={{ mt: 2, maxWidth: 300 }}>
-              <MyInput
-                name='fedcountry'
-                label='Country'
-                value={values.fedcountry}
-                onChange={handleInputChange}
-                error={errors.fedcountry}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={8}></Grid>
-          {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <Box sx={{ mt: 2, maxWidth: 600 }}>
+            <Box sx={{ mt: 2, maxWidth: 300 }}>
               <MyInput
                 name='email'
                 label='email'
@@ -213,7 +188,7 @@ function QuizRegister({ handlePage }) {
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
-            <Box sx={{ mt: 2, maxWidth: 600 }}>
+            <Box sx={{ mt: 2, maxWidth: 300 }}>
               <MyInput
                 name='password'
                 label='password'
@@ -225,13 +200,38 @@ function QuizRegister({ handlePage }) {
           </Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
+            <Box sx={{ mt: 2, maxWidth: 200 }}>
+              <MyInput
+                name='fedid'
+                label='Bridge Federation Id'
+                value={values.fedid}
+                onChange={handleInputChange}
+                error={errors.fedid}
+              />
+            </Box>
+          </Grid>
+          {/*.................................................................................................*/}
+          <Grid item xs={12}>
+            <Box sx={{ mt: 2, maxWidth: 200 }}>
+              <MyInput
+                name='fedcountry'
+                label='Country'
+                value={values.fedcountry}
+                onChange={handleInputChange}
+                error={errors.fedcountry}
+              />
+            </Box>
+          </Grid>
+
+          {/*.................................................................................................*/}
+          <Grid item xs={12}>
             <Box sx={{ mt: 2, maxWidth: 600 }}>
               <Typography style={{ color: 'red' }}>{form_message}</Typography>
             </Box>
           </Grid>
         </Grid>
         {/*.................................................................................................*/}
-        <Box sx={{ mt: 2, maxWidth: 600 }}>
+        <Box sx={{ mt: 2, maxWidth: 300 }}>
           <MyButton
             text='Register'
             onClick={() => {

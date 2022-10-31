@@ -9,6 +9,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import ScoreboardIcon from '@mui/icons-material/Scoreboard'
 import QuizIcon from '@mui/icons-material/Quiz'
+import PeopleIcon from '@mui/icons-material/People'
 import { format, parseISO } from 'date-fns'
 //
 //  Controls
@@ -67,16 +68,19 @@ const searchTypeOptions = [
   { id: 'g1title', title: 'Group 1' }
 ]
 //
-let subTitle
-//
 //  Constants
 //
 const functionName = 'QuizHistory'
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 const debugFunStart = false
+//
+//  Global Variables
+//
+let g_allUsers = false
+let g_allUsersText = 'ALL'
 //...................................................................................
 //.  Main Line
 //...................................................................................
@@ -101,6 +105,19 @@ export default function QuizHistory({ handlePage }) {
   const [searchType, setSearchType] = useState('g1title')
   const [searchValue, setSearchValue] = useState('')
   const [startPage0, setStartPage0] = useState(false)
+  const [allUsersText, setAllUsersText] = useState('ALL')
+  const [subtitle, setSubtitle] = useState('')
+  //
+  //  Get User
+  //
+  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+  const name = User_Settings_User.u_name
+  const email = User_Settings_User.u_email
+  const uid = User_Settings_User.u_id
+  //
+  //  Default if not signed in
+  //
+  const User_Admin = JSON.parse(sessionStorage.getItem('User_Settings_UserAdmin'))
   //
   //  Reset Quiz State
   //
@@ -162,21 +179,14 @@ export default function QuizHistory({ handlePage }) {
     //  Start of function
     //
     if (debugFunStart) console.log(`Function: getRowAllData`)
-    //
-    //  Get User
-    //
-    const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
-    const name = User_Settings_User.u_name
-    const email = User_Settings_User.u_email
-    const uid = User_Settings_User.u_id
-    subTitle = `${name} (${uid})`
+
     //
     //  Selection
     //
-    let sqlString = `r_id, r_datetime, r_owner, r_group1, g1title, r_qid, r_ans, r_questions, r_correct, 100 * r_correct/r_questions as r_percent`
+    let sqlString = `r_id, r_email, r_datetime, r_owner, r_group1, g1title, r_qid, r_ans, r_questions, r_correct, 100 * r_correct/r_questions as r_percent`
     sqlString = sqlString + ` from usershistory`
     sqlString = sqlString + ` join group1 on r_group1 = g1id`
-    sqlString = sqlString + ` where r_email='${email}' and r_questions > 0`
+    if (!User_Admin) sqlString = sqlString + ` where r_email='${email}'`
     sqlString = sqlString + ` order by r_id desc`
     if (debugLog) console.log('sqlString', sqlString)
     //
@@ -347,9 +357,8 @@ export default function QuizHistory({ handlePage }) {
     }
   }
   //.............................................................................
-  //
   //  Search/Filter
-  //
+  //.............................................................................
   function handleSearch() {
     //
     //  Start of function
@@ -361,18 +370,34 @@ export default function QuizHistory({ handlePage }) {
     setStartPage0(true)
     if (debugLog) console.log('setStartPage0(true)')
     //
+    //  Subtitle
+    //
+    g_allUsers ? setSubtitle('ALL USERS') : setSubtitle(`${name} (${uid})`)
+    //
     //  Filter
     //
     setFilterFn({
       fn: items => {
         if (debugLog) console.log('searchValue ', searchValue)
         if (debugLog) console.log('searchType ', searchType)
+        if (debugLog) console.log('email ', email)
+        //
+        //  Filter by email ?
+        //
+        let emailFilter = items
+        if (debugLog) console.log('emailFilter ', emailFilter)
+        if (debugLog) console.log('g_allUsers ', g_allUsers)
+        if (!g_allUsers) {
+          if (debugLog) console.log('Filter by email ')
+          emailFilter = items.filter(x => x.r_email === email)
+        }
+        if (debugLog) console.log('emailFilter ', emailFilter)
         //
         //  Nothing to search, return rows
         //
         if (searchValue === '') {
-          if (debugLog) console.log('setFilterFn items ', items)
-          return items
+          if (debugLog) console.log('setFilterFn emailFilter ', emailFilter)
+          return emailFilter
         }
         //
         //  Numeric
@@ -382,22 +407,22 @@ export default function QuizHistory({ handlePage }) {
         //
         //  Filter
         //
-        let itemsFilter = items
+        let itemsFilter = emailFilter
         if (debugLog) console.log('itemsFilter ', itemsFilter)
         switch (searchType) {
           case 'r_id':
-            itemsFilter = items.filter(x => x.r_id === searchValueInt)
+            itemsFilter = emailFilter.filter(x => x.r_id === searchValueInt)
             break
           case 'yymmdd':
-            itemsFilter = items.filter(x => x.yymmdd === searchValue)
+            itemsFilter = emailFilter.filter(x => x.yymmdd === searchValue)
             break
           case 'r_owner':
-            itemsFilter = items.filter(x =>
+            itemsFilter = emailFilter.filter(x =>
               x.r_owner.toLowerCase().includes(searchValue.toLowerCase())
             )
             break
           case 'g1title':
-            itemsFilter = items.filter(x =>
+            itemsFilter = emailFilter.filter(x =>
               x.g1title.toLowerCase().includes(searchValue.toLowerCase())
             )
             break
@@ -408,7 +433,28 @@ export default function QuizHistory({ handlePage }) {
       }
     })
   }
-
+  //.............................................................................
+  //  Switch to All/Users
+  //.............................................................................
+  function handleAllUsers() {
+    if (g_allUsers) {
+      g_allUsers = false
+      g_allUsersText = 'ALL'
+    } else {
+      g_allUsers = true
+      g_allUsersText = 'Users'
+    }
+    if (debugLog) console.log('g_allUsers ', g_allUsers)
+    if (debugLog) console.log('g_allUsersText ', g_allUsersText)
+    //
+    //  Button Text
+    //
+    setAllUsersText(g_allUsersText)
+    //
+    //  Subtitle
+    //
+    g_allUsers ? setSubtitle('ALL USERS') : setSubtitle(`${name} (${uid})`)
+  }
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -416,7 +462,7 @@ export default function QuizHistory({ handlePage }) {
     <>
       <PageHeader
         title='QUIZ History'
-        subTitle={subTitle}
+        subTitle={subtitle}
         icon={<PeopleOutlineTwoToneIcon fontSize='large' />}
       />
       <Paper className={classes.pageContent}>
@@ -455,6 +501,17 @@ export default function QuizHistory({ handlePage }) {
             startIcon={<FilterListIcon />}
             onClick={handleSearch}
           />
+          {/* .......................................................................................... */}
+          {User_Admin ? (
+            <MyButton
+              text={allUsersText}
+              variant='outlined'
+              size='large'
+              startIcon={<PeopleIcon />}
+              onClick={handleAllUsers}
+            />
+          ) : null}
+
           {/* .......................................................................................... */}
         </Toolbar>
         {/* .......................................................................................... */}

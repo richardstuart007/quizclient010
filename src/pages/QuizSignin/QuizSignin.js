@@ -2,7 +2,7 @@
 //  Libraries
 //
 import { useState } from 'react'
-import { Grid, Typography, Box } from '@mui/material'
+import { Paper, Grid, Typography } from '@mui/material'
 //
 //  Utilities
 //
@@ -182,56 +182,77 @@ function QuizSignin({ handlePage }) {
   return (
     <>
       <MyForm>
-        {/*.................................................................................................*/}
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Box sx={{ mt: 2, maxWidth: 600 }}>
+        <Paper
+          sx={{
+            margin: 3,
+            padding: 1,
+            maxWidth: 400,
+            backgroundColor: 'whitesmoke',
+            elevation: 12
+          }}
+        >
+          <Grid
+            container
+            spacing={2}
+            justify='center'
+            alignItems='center'
+            direction='column'
+            style={{ minheight: '100vh' }}
+          >
+            {/*.................................................................................................*/}
+            <Grid item xs={12} sx={{ mt: 2 }}>
+              <Typography variant='h6' style={{ color: 'blue' }}>
+                SignIn Page
+              </Typography>
+            </Grid>
+            {/*.................................................................................................*/}
+            <Grid item xs={12}>
               <MyInput
                 name='email'
                 label='email'
                 value={values.email}
                 onChange={handleInputChange}
                 error={errors.email}
+                sx={{ backgroundColor: 'azure' }}
               />
-            </Box>
-          </Grid>
-          {/*.................................................................................................*/}
-          <Grid item xs={12}>
-            <Box sx={{ mt: 2, maxWidth: 600 }}>
+            </Grid>
+            {/*.................................................................................................*/}
+            <Grid item xs={12}>
               <MyInput
                 name='password'
                 label='password'
                 value={values.password}
                 onChange={handleInputChange}
                 error={errors.password}
+                sx={{ backgroundColor: 'azure' }}
               />
-            </Box>
-          </Grid>
-          {/*.................................................................................................*/}
-          <Grid item xs={12}>
-            <Box sx={{ mt: 2, maxWidth: 600 }}>
+            </Grid>
+            {/*.................................................................................................*/}
+            <Grid item xs={12}>
               <Typography style={{ color: 'red' }}>{form_message}</Typography>
-            </Box>
+            </Grid>
+
+            {/*.................................................................................................*/}
+            <Grid item xs={12}>
+              <MyButton
+                text='SignIn'
+                onClick={() => {
+                  FormSubmit()
+                }}
+              />
+            </Grid>
           </Grid>
-        </Grid>
+        </Paper>
         {/*.................................................................................................*/}
-        <Box sx={{ mt: 2, maxWidth: 600 }}>
-          <MyButton
-            text='SignIn'
-            onClick={() => {
-              FormSubmit()
-            }}
-          />
-          {/*.................................................................................................*/}
+        <Grid item xs={12}>
           <MyButton
             color='warning'
-            sx={{ float: 'right' }}
             onClick={() => {
               handlePage('QuizRegister')
             }}
             text='Register'
           />
-        </Box>
+        </Grid>
         {/*.................................................................................................*/}
       </MyForm>
     </>

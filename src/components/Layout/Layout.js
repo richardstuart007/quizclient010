@@ -126,8 +126,9 @@ export default function Layout({ handlePage, pageCurrent, children }) {
   const User_Settings_SignedIn = JSON.parse(sessionStorage.getItem('User_Settings_SignedIn'))
   if (User_Settings_SignedIn) {
     const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+    const User_Settings_UserAdmin = JSON.parse(sessionStorage.getItem('User_Settings_UserAdmin'))
     User_Name = User_Settings_User.u_name
-    User_Admin = User_Settings_User.u_admin
+    User_Admin = User_Settings_UserAdmin
   }
   //...................................................................................
   //.  Render the component

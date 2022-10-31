@@ -95,6 +95,18 @@ export default function QuizNavigation({ handlePage }) {
   User_Settings_SignedIn && PageCurrent !== 'RefLibrary' && PageCurrent !== 'Quiz'
     ? (showButton_RefLibrary = true)
     : (showButton_RefLibrary = false)
+  //
+  //  Show SwitchUser Button ?
+  //
+  let User_Admin = false
+  if (User_Settings_SignedIn) {
+    const User_Settings_UserAdmin = JSON.parse(sessionStorage.getItem('User_Settings_UserAdmin'))
+    User_Admin = User_Settings_UserAdmin
+  }
+  let showButton_SwitchUser
+  User_Settings_SignedIn && User_Admin
+    ? (showButton_SwitchUser = true)
+    : (showButton_SwitchUser = false)
   //...................................................................................
   //.  Render the component
   //...................................................................................
@@ -166,11 +178,24 @@ export default function QuizNavigation({ handlePage }) {
             color='warning'
             onClick={() => {
               sessionStorage.setItem('User_Settings_SignedIn', false)
+              sessionStorage.removeItem('User_Settings_User')
               handlePage('QuizSignin')
             }}
             text='Signout'
           ></MyActionButton>
         ) : null}
+        {/* .......................................................................................... */}
+        {showButton_SwitchUser ? (
+          <MyActionButton
+            startIcon={<LogoutIcon fontSize='small' />}
+            color='warning'
+            onClick={() => {
+              handlePage('SwitchUser')
+            }}
+            text='Switch User'
+          ></MyActionButton>
+        ) : null}
+        {/* .......................................................................................... */}
       </Grid>
     </div>
   )

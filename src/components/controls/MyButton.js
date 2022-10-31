@@ -12,9 +12,7 @@ import debugSettings from '../../debug/debugSettings'
 //
 const useStyles = makeStyles(theme => ({
   root: {
-    margin: theme.spacing(1)
-  },
-  label: {
+    margin: theme.spacing(0.5),
     textTransform: 'none'
   }
 }))
@@ -36,7 +34,7 @@ export default function MyButton(props) {
       color={color || 'primary'}
       onClick={onClick}
       {...other}
-      classes={{ root: classes.root, label: classes.label }}
+      classes={{ root: classes.root }}
     >
       {text}
     </Button>

@@ -16,6 +16,7 @@ import QuizHistory from './QuizHistory/QuizHistory'
 import QuizHistoryDetail from './QuizHistory/QuizHistoryDetail'
 import QuizRefs from './QuizRefs/QuizRefs'
 import RefLibrary from './RefLibrary/RefLibrary'
+import SwitchUser from './SwitchUser/SwitchUser'
 //
 // Debug Settings
 //
@@ -59,6 +60,8 @@ function QuizControl({ handlePage }) {
             return <QuizHistory handlePage={handlePage} />
           case 'QuizHistoryDetail':
             return <QuizHistoryDetail handlePage={handlePage} />
+          case 'SwitchUser':
+            return <SwitchUser handlePage={handlePage} />
           default:
             return null
         }

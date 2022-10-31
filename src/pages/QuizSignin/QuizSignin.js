@@ -151,6 +151,7 @@ function QuizSignin({ handlePage }) {
     //  User Info
     //
     sessionStorage.setItem('User_Settings_User', JSON.stringify(user))
+    sessionStorage.setItem('User_Settings_UserAdmin', JSON.stringify(user.u_admin))
     //
     //  Signed In
     //

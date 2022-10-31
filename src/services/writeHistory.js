@@ -23,10 +23,14 @@ function writeHistory() {
   //
   if (r_questions === 0) return
   //
+  //  Get User
+  //
+  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+  //
   //  Key
   //
-  const r_email = JSON.parse(sessionStorage.getItem('User_Settings_Email'))
-  const r_uid = JSON.parse(sessionStorage.getItem('User_Settings_Uid'))
+  const r_email = User_Settings_User.u_email
+  const r_uid = User_Settings_User.u_id
   const r_datetime = new Date()
   //
   //  Selection Data

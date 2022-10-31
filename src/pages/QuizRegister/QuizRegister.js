@@ -36,6 +36,7 @@ const sqlClient = 'Quiz/Register'
 const initialFValues = {
   name: '',
   fedid: '',
+  fedcountry: 'NZ',
   email: '',
   password: ''
 }
@@ -103,7 +104,8 @@ function QuizRegister({ handlePage }) {
     //
     //  Deconstruct values
     //
-    const { name, email, password, fedid } = values
+    const { name, email, password, fedid, fedcountry } = values
+    if (debugLog) console.log('values ', values)
     //
     //  Post to server
     //
@@ -117,7 +119,8 @@ function QuizRegister({ handlePage }) {
         email: email,
         password: password,
         name: name,
-        fedid: fedid
+        fedid: fedid,
+        fedcountry: fedcountry
       })
     })
       .then(response => response.json())
@@ -125,8 +128,7 @@ function QuizRegister({ handlePage }) {
       .then(user => {
         if (user.u_id) {
           setForm_message(`Data updated in Database with ID(${user.u_id})`)
-          sessionStorage.setItem('User_Settings_Email', JSON.stringify(email))
-          sessionStorage.setItem('User_Settings_Name', JSON.stringify(name))
+          sessionStorage.setItem('User_Settings_User', JSON.stringify(user))
           handlePage('QuizSignin')
         } else {
           setForm_message('KEEP Trying, waiting for server')
@@ -173,7 +175,7 @@ function QuizRegister({ handlePage }) {
             </Box>
           </Grid>
           {/*.................................................................................................*/}
-          <Grid item xs={12}>
+          <Grid item xs={2}>
             <Box sx={{ mt: 2, maxWidth: 300 }}>
               <MyInput
                 name='fedid'
@@ -184,6 +186,19 @@ function QuizRegister({ handlePage }) {
               />
             </Box>
           </Grid>
+          {/*.................................................................................................*/}
+          <Grid item xs={2}>
+            <Box sx={{ mt: 2, maxWidth: 300 }}>
+              <MyInput
+                name='fedcountry'
+                label='Country'
+                value={values.fedcountry}
+                onChange={handleInputChange}
+                error={errors.fedcountry}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={8}></Grid>
           {/*.................................................................................................*/}
           <Grid item xs={12}>
             <Box sx={{ mt: 2, maxWidth: 600 }}>

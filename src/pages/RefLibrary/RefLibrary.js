@@ -177,10 +177,8 @@ export default function RefLibrary({ handlePage }) {
     //  BuildQuizData
     //
     const SqlString_Q = `* from questions where '${row.rref}' = ANY (qrefs)`
-    const MaxQuestions = JSON.parse(sessionStorage.getItem('BuildQuizData_MaxQuestions'))
     const params = {
-      SqlString_Q: SqlString_Q,
-      MaxQuestions: MaxQuestions
+      SqlString_Q: SqlString_Q
     }
     BuildQuizData(params)
     //

@@ -34,8 +34,6 @@ const debugLog = debugSettings()
 //=====================================================================================
 export default function QuizRefs({ handlePage }) {
   if (debugLog) console.log('Start QuizRefs')
-
-  const PagePrevious = JSON.parse(sessionStorage.getItem('Nav_Page_Previous'))
   //
   //  Find reference link
   //
@@ -110,7 +108,7 @@ export default function QuizRefs({ handlePage }) {
             text='Go Back'
             color='warning'
             onClick={() => {
-              handlePage(PagePrevious)
+              handlePage('PAGEBACK')
             }}
           />
         </Grid>

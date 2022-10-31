@@ -5,7 +5,7 @@ import debugSettings from '../debug/debugSettings'
 //
 //  Sub Components
 //
-import QuizSettings from './QuizSettings/QuizSettings'
+import UsersSettings from './UsersSettings/UsersSettings'
 import QuizSplash from './QuizSplash/QuizSplash'
 import QuizRegister from './QuizRegister/QuizRegister'
 import QuizSignin from './QuizSignin/QuizSignin'
@@ -39,8 +39,8 @@ function QuizControl({ handlePage }) {
         switch (PageCurrent) {
           case 'QuizSplash':
             return <QuizSplash handlePage={handlePage} />
-          case 'QuizSettings':
-            return <QuizSettings handlePage={handlePage} />
+          case 'UsersSettings':
+            return <UsersSettings handlePage={handlePage} />
           case 'QuizRegister':
             return <QuizRegister handlePage={handlePage} />
           case 'QuizSignin':

@@ -165,9 +165,10 @@ export default function QuizHistory({ handlePage }) {
     //
     //  Get User
     //
-    const name = JSON.parse(sessionStorage.getItem('User_Settings_Name'))
-    const email = JSON.parse(sessionStorage.getItem('User_Settings_Email'))
-    const uid = JSON.parse(sessionStorage.getItem('User_Settings_Uid'))
+    const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+    const name = User_Settings_User.u_name
+    const email = User_Settings_User.u_email
+    const uid = User_Settings_User.u_id
     subTitle = `${name} (${uid})`
     //
     //  Selection
@@ -263,10 +264,8 @@ export default function QuizHistory({ handlePage }) {
     //  BuildQuizData
     //
     const SqlString_Q = `* from questions where qowner = '${row.r_owner}' and qgroup1 = '${row.r_group1}'`
-    const MaxQuestions = JSON.parse(sessionStorage.getItem('BuildQuizData_MaxQuestions'))
     const params = {
-      SqlString_Q: SqlString_Q,
-      MaxQuestions: MaxQuestions
+      SqlString_Q: SqlString_Q
     }
     BuildQuizData(params)
     //

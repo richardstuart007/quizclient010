@@ -46,6 +46,10 @@ export default function QuizHistoryDetail({ handlePage }) {
   const [ansIdx, setAnsIdx] = useState(0)
   if (debugLog) console.log('Start QuizHistoryDetail')
   //
+  //  Signed in User
+  //
+  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+  //
   //  Load the data array from the store
   //
   useEffect(() => {
@@ -138,7 +142,10 @@ export default function QuizHistoryDetail({ handlePage }) {
       //
       //  Only show failed answers ?
       //
-      let ReviewSkipPass = JSON.parse(sessionStorage.getItem('QuizReview_SkipPass'))
+      let ReviewSkipPass = User_Settings_User.u_skipcorrect
+      //
+      //  BUGS!
+      //
       ReviewSkipPass = false
       if (id !== 1 || !ReviewSkipPass) {
         Ans.push(id)
@@ -251,7 +258,7 @@ export default function QuizHistoryDetail({ handlePage }) {
           variant='contained'
           sx={{ float: 'right' }}
           onClick={() => {
-            handlePage('QuizHistory')
+            handlePage('PAGEBACK')
           }}
         />
         {/* .......................................................................................... */}

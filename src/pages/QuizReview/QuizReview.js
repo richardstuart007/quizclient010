@@ -46,6 +46,10 @@ export default function QuizReview({ handlePage }) {
   const [arrAns, setArrAns] = useState([])
   const [arrAnsNum, setArrAnsNum] = useState([])
   const [ansIdx, setAnsIdx] = useState(0)
+  //
+  //  Signed in User
+  //
+  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
   //...................................................................................
   //.  First time data received
   //...................................................................................
@@ -86,7 +90,7 @@ export default function QuizReview({ handlePage }) {
       //
       //  Only show failed answers ?
       //
-      const ReviewSkipPass = JSON.parse(sessionStorage.getItem('QuizReview_SkipPass'))
+      const ReviewSkipPass = User_Settings_User.u_skipcorrect
       if (id !== 1 || !ReviewSkipPass) {
         Ans.push(id)
         AnsNum.push(AnsQuestIdx)
@@ -240,7 +244,7 @@ export default function QuizReview({ handlePage }) {
           variant='contained'
           sx={{ float: 'right' }}
           onClick={() => {
-            handlePage('RefLibrary')
+            handlePage('PAGEBACK')
           }}
         />
         {/*.................................................................................................*/}

@@ -27,7 +27,6 @@ const QuizQuestion = params => {
   //  Deconstruct params
   //
   const { quizRow, quizQuestion } = params
-  const ShowQid = JSON.parse(sessionStorage.getItem('Quiz_ShowQid'))
   //
   //  Deconstruct row
   //
@@ -54,8 +53,9 @@ const QuizQuestion = params => {
   const PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
   if (debugLog) console.log('PageCurrent ', PageCurrent)
   if (PageCurrent === 'Quiz')
-    QuestionString = QuestionString.concat(`/${Data_Questions_Quiz_Count}`)
-  if (ShowQid) QuestionString = QuestionString.concat(` (KEY: ${qkey} ID: ${qid})`)
+    QuestionString = QuestionString.concat(
+      `/${Data_Questions_Quiz_Count} (KEY: ${qkey} ID: ${qid})`
+    )
   //
   //  Uppercase the question
   //

@@ -24,6 +24,11 @@ const debugModule = 'BuildQuizData'
 export default function BuildQuizData(props) {
   if (debugFunStart) console.log(debugModule)
   //
+  //  Signed in User
+  //
+  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+  const MaxQuestions = User_Settings_User.u_dftmaxquestions
+  //
   //  Function Variables
   //
   let Data_Questions_Quiz = []
@@ -37,12 +42,11 @@ export default function BuildQuizData(props) {
   //  Deconstruct props
   //
   if (debugLog) console.log('props', props)
-  const { SqlString_Q, MaxQuestions } = props
+  const { SqlString_Q } = props
   //
   //  Update store
   //
   sessionStorage.setItem('BuildQuizData_SqlString_Q', JSON.stringify(SqlString_Q))
-  sessionStorage.setItem('BuildQuizData_MaxQuestions', JSON.stringify(MaxQuestions))
   //
   //  Reset the Data
   //
@@ -136,8 +140,8 @@ export default function BuildQuizData(props) {
     //
     //  Random sort questions
     //
-    const BuildQuizData_RandomSort = JSON.parse(sessionStorage.getItem('BuildQuizData_RandomSort'))
-    BuildQuizData_RandomSort
+    const SortQuestions = User_Settings_User.u_sortquestions
+    SortQuestions
       ? (Data_Questions_Quiz = randomSort(Data_Questions))
       : (Data_Questions_Quiz = Data_Questions)
     //

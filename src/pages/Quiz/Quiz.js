@@ -40,10 +40,14 @@ let g_quizAns = []
 function Quiz({ handlePage }) {
   if (debugLog) console.log('Start Quiz')
   //
+  //  Signed in User
+  //
+  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+  //
   //  Show Linear Bars ?
   //
-  const showLinearProgress = JSON.parse(sessionStorage.getItem('Quiz_ShowLinearProgress'))
-  const showLinearScore = JSON.parse(sessionStorage.getItem('Quiz_ShowLinearScore'))
+  const showLinearProgress = User_Settings_User.u_showprogress
+  const showLinearScore = User_Settings_User.u_showscore
   //
   //  Define the State variables
   //

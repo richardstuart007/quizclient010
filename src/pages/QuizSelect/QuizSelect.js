@@ -223,10 +223,8 @@ export default function QuizSelect({ handlePage }) {
     let SqlString_Q = `* from questions where qowner = '${qowner}' and qgroup1 = '${qgroup1}'`
     if (qgroup2 & (qgroup2 !== 'All')) SqlString_Q = SqlString_Q + ` qgroup2 = '${qgroup2}`
     if (qgroup3 & (qgroup3 !== 'All')) SqlString_Q = SqlString_Q + ` qgroup3 = '${qgroup3}`
-    const MaxQuestions = JSON.parse(sessionStorage.getItem('BuildQuizData_MaxQuestions'))
     const params = {
-      SqlString_Q: SqlString_Q,
-      MaxQuestions: MaxQuestions
+      SqlString_Q: SqlString_Q
     }
     BuildQuizData(params)
     //

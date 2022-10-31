@@ -74,10 +74,10 @@ export default function QuizNavigation({ handlePage }) {
   //
   //  Show Settings Button ?
   //
-  let showButton_QuizSettings
-  User_Settings_SignedIn && PageCurrent !== 'QuizSettings'
-    ? (showButton_QuizSettings = true)
-    : (showButton_QuizSettings = false)
+  let showButton_UsersSettings
+  User_Settings_SignedIn && PageCurrent !== 'UsersSettings'
+    ? (showButton_UsersSettings = true)
+    : (showButton_UsersSettings = false)
   //
   //  Show History Button ?
   //
@@ -149,12 +149,12 @@ export default function QuizNavigation({ handlePage }) {
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}
-        {showButton_QuizSettings ? (
+        {showButton_UsersSettings ? (
           <MyActionButton
             startIcon={<SettingsApplicationsIcon fontSize='small' />}
             color='warning'
             onClick={() => {
-              handlePage('QuizSettings')
+              handlePage('UsersSettings')
             }}
             text='Settings'
           ></MyActionButton>

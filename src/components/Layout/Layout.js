@@ -73,25 +73,22 @@ export default function Layout({ handlePage, pageCurrent, children }) {
   let title
   if (debugLog) console.log('PageCurrent ', PageCurrent)
   if (debugLog) console.log('pageCurrent ', pageCurrent)
-  let showUser_Settings_Name = true
+
   switch (PageCurrent) {
-    case 'QuizSettings':
+    case 'UsersSettings':
       title = 'Settings'
       break
     case 'QuizRegister':
       title = 'Register'
-      showUser_Settings_Name = false
       break
     case 'QuizSignin':
       title = 'SignIn'
-      showUser_Settings_Name = false
       break
     case 'QuizSplash':
       title = 'Splash'
-      showUser_Settings_Name = false
       break
     case 'QuizSelect':
-      title = 'Selection'
+      title = 'Quiz Selection'
       break
     case 'QuizRefs':
       title = 'References'
@@ -100,7 +97,10 @@ export default function Layout({ handlePage, pageCurrent, children }) {
       title = 'Quiz'
       break
     case 'QuizReview':
-      title = 'Review'
+      title = 'Quiz Review'
+      break
+    case 'RefLibrary':
+      title = 'Library'
       break
     default:
       title = PageCurrent
@@ -116,12 +116,19 @@ export default function Layout({ handlePage, pageCurrent, children }) {
   const App_Settings_Database = JSON.parse(sessionStorage.getItem('App_Settings_Database'))
   const clientserver = `Client(${App_Settings_Client}) Server(${App_Settings_Server}) Database(${App_Settings_Database})`
   //
-  //  Welcome User
+  //  Default if not signed in
   //
-  let User_Settings_Name = ''
+  let User_Name = ''
+  let User_Admin = false
+  //
+  //  Signed in User
+  //
   const User_Settings_SignedIn = JSON.parse(sessionStorage.getItem('User_Settings_SignedIn'))
-  if (User_Settings_SignedIn)
-    User_Settings_Name = JSON.parse(sessionStorage.getItem('User_Settings_Name'))
+  if (User_Settings_SignedIn) {
+    const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+    User_Name = User_Settings_User.u_name
+    User_Admin = User_Settings_User.u_admin
+  }
   //...................................................................................
   //.  Render the component
   //...................................................................................
@@ -156,7 +163,7 @@ export default function Layout({ handlePage, pageCurrent, children }) {
               </Typography>
             </Grid>
             {/* .......................................................................................... */}
-            {showUser_Settings_Name ? (
+            {User_Settings_SignedIn ? (
               <Grid item>
                 <Typography
                   className={classes.welcome}
@@ -165,7 +172,20 @@ export default function Layout({ handlePage, pageCurrent, children }) {
                     color: 'red'
                   }}
                 >
-                  {User_Settings_Name}
+                  {User_Name}
+                </Typography>
+              </Grid>
+            ) : null}
+            {/* .......................................................................................... */}
+            {User_Admin ? (
+              <Grid item>
+                <Typography
+                  className={classes.clientserver}
+                  sx={{
+                    display: { xs: 'none', sm: 'inline', color: 'white', backgroundColor: 'red' }
+                  }}
+                >
+                  ADMIN
                 </Typography>
               </Grid>
             ) : null}

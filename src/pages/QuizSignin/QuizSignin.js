@@ -48,11 +48,10 @@ function QuizSignin({ handlePage }) {
   //
   const App_Settings_URL = JSON.parse(sessionStorage.getItem('App_Settings_URL'))
   //
-  //  Get the Email
+  //  Get User
   //
-  const User_Settings_Email = JSON.parse(sessionStorage.getItem('User_Settings_Email'))
-  if (debugLog) console.log('User_Settings_Email ', User_Settings_Email)
-  initialFValues.email = User_Settings_Email
+  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+  if (User_Settings_User) initialFValues.email = User_Settings_User.u_email
   //
   // Form Message
   //
@@ -149,12 +148,12 @@ function QuizSignin({ handlePage }) {
   function ProcessSignIn(user, email) {
     if (debugFunStart) console.log('ProcessSignIn')
     //
-    //  Store the sign-in info
+    //  User Info
     //
-    sessionStorage.setItem('User_Settings_Email', JSON.stringify(email))
-    sessionStorage.setItem('User_Settings_Name', JSON.stringify(user.u_name))
-    sessionStorage.setItem('User_Settings_Uid', JSON.stringify(user.u_id))
-    sessionStorage.setItem('User_Settings_Admin', JSON.stringify(user.u_admin))
+    sessionStorage.setItem('User_Settings_User', JSON.stringify(user))
+    //
+    //  Signed In
+    //
     sessionStorage.setItem('User_Settings_SignedIn', true)
     //
     //  Initialise storage status

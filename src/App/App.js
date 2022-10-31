@@ -141,20 +141,12 @@ function App() {
     //
     //  SignedIn Status
     //
-    sessionStorage.setItem('User_Settings_Email', JSON.stringify(''))
-    sessionStorage.setItem('User_Settings_Uid', JSON.stringify(0))
-    sessionStorage.setItem('User_Settings_Name', JSON.stringify(''))
     sessionStorage.setItem('User_Settings_SignedIn', false)
     //
     //  QuizSelect
     //
     sessionStorage.setItem('QuizSelect_ShowSelectionGroup2', false)
     sessionStorage.setItem('QuizSelect_ShowSelectionGroup3', false)
-    //
-    //  BuildQuizData
-    //
-    sessionStorage.setItem('BuildQuizData_RandomSort', true)
-    sessionStorage.setItem('BuildQuizData_MaxQuestions', JSON.stringify(5))
     //
     //  Quiz
     //
@@ -163,16 +155,6 @@ function App() {
     sessionStorage.setItem('Quiz_Select_Group1', JSON.stringify('NZBIMP01'))
     sessionStorage.setItem('Quiz_Select_Group2', JSON.stringify('All'))
     sessionStorage.setItem('Quiz_Select_Group3', JSON.stringify('All'))
-    //
-    //  QuizSettings
-    //
-    sessionStorage.setItem('Quiz_ShowQid', true)
-    sessionStorage.setItem('Quiz_ShowLinearProgress', true)
-    sessionStorage.setItem('Quiz_ShowLinearScore', true)
-    //
-    //  QuizReview
-    //
-    sessionStorage.setItem('QuizReview_SkipPass', true)
     //
     //  QuizHistory
     //
@@ -183,9 +165,6 @@ function App() {
     //  DevMode : Override Initial Values
     //
     if (App_Settings_DevMode) {
-      sessionStorage.setItem('Quiz_Select_Owner', JSON.stringify('Richard'))
-      sessionStorage.setItem('Quiz_Select_Group1', JSON.stringify('AndyRobson'))
-      sessionStorage.setItem('User_Settings_Email', JSON.stringify('r@r.com'))
     }
   }
   //.............................................................................
@@ -196,10 +175,17 @@ function App() {
     //  Retrieve the state
     //
     let PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
+    const PagePrevious = JSON.parse(sessionStorage.getItem('Nav_Page_Previous'))
+
     //
     //  If no change of Page, return
     //
     if (nextPage === PageCurrent) return
+    //
+    //  Back
+    //
+    let PageNext
+    nextPage === 'PAGEBACK' ? (PageNext = PagePrevious) : (PageNext = nextPage)
     //
     //  Quiz End, write history
     //
@@ -209,7 +195,7 @@ function App() {
     //
     //  Change of Page
     //
-    if (debugLog) console.log(`Current Page ${PageCurrent} ==> New Page ${nextPage}`)
+    if (debugLog) console.log(`Current Page ${PageCurrent} ==> New Page ${PageNext}`)
     //
     //  Update Previous Page
     //
@@ -221,7 +207,7 @@ function App() {
     //
     //  Update NEW Page
     //
-    sessionStorage.setItem('Nav_Page_Current', JSON.stringify(nextPage))
+    sessionStorage.setItem('Nav_Page_Current', JSON.stringify(PageNext))
     if (debugLog)
       console.log(
         `UPDATED Nav_Page_Current ${JSON.parse(sessionStorage.getItem('Nav_Page_Current'))}`
@@ -229,7 +215,7 @@ function App() {
     //
     //  Update State
     //
-    setPageCurrent(nextPage)
+    setPageCurrent(PageNext)
   }
   //.............................................................................
   return (

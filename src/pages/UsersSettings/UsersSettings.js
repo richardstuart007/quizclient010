@@ -2,7 +2,7 @@
 //  Libraries
 //
 import { useEffect } from 'react'
-import { Grid, Box } from '@mui/material'
+import { Paper, Grid } from '@mui/material'
 //
 //  Debug Settings
 //
@@ -24,7 +24,6 @@ import rowUpdate from '../../services/rowUpdate'
 //  Form Initial Values
 //
 const initialFValues = {
-  u_email: '',
   u_name: '',
   u_showprogress: true,
   u_showscore: true,
@@ -84,8 +83,6 @@ export default function UsersSettings({ handlePage }) {
     //
     //  Validate current field
     //
-    if ('u_email' in fieldValues)
-      errorsUpd.u_email = fieldValues.u_email === '' ? 'This field is required.' : ''
     if ('u_name' in fieldValues)
       errorsUpd.u_name = fieldValues.u_name === '' ? 'This field is required.' : ''
     //
@@ -196,116 +193,69 @@ export default function UsersSettings({ handlePage }) {
   return (
     <>
       <MyForm onSubmit={handleSubmit}>
-        <Grid container>
-          {/*------------------------------------------------------------------------------ */}
-          <Grid item xs={4}>
-            <Box sx={{ mt: 2, maxWidth: 400 }}>
-              <MyInput
-                name='u_email'
-                label='Email'
-                value={values.u_email}
-                onChange={handleInputChange}
-                error={errors.u_email}
-                disabled={true}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={1}></Grid>
-          <Grid item xs={4}>
-            <Box sx={{ mt: 2, maxWidth: 400 }}>
+        <Paper
+          sx={{
+            margin: 2,
+            padding: 0,
+            maxWidth: 300,
+            backgroundColor: 'whitesmoke',
+            elevation: 12
+          }}
+        >
+          <Grid
+            container
+            spacing={0}
+            justifyContent='flex-start'
+            alignItems='flex-start'
+            direction='column'
+            style={{ minheight: '100vh' }}
+          >
+            {/*------------------------------------------------------------------------------ */}
+            <Grid item xs={12}>
               <MyInput
                 name='u_name'
                 label='Name'
                 value={values.u_name}
                 onChange={handleInputChange}
                 error={errors.u_name}
+                sx={{ backgroundColor: 'azure' }}
               />
-            </Box>
-          </Grid>
-          <Grid item xs={3}></Grid>
-          {/*------------------------------------------------------------------------------ */}
-          <Grid item xs={4}>
-            <Box sx={{ mt: 2, maxWidth: 200 }}>
+            </Grid>
+            {/*------------------------------------------------------------------------------ */}
+            <Grid item xs={12}>
               <MyInput
                 name='u_fedcountry'
                 label='Bridge Federation Country'
                 value={values.u_fedcountry}
                 onChange={handleInputChange}
                 error={errors.u_fedcountry}
+                sx={{ backgroundColor: 'azure' }}
               />
-            </Box>
-          </Grid>
-          <Grid item xs={1}></Grid>
-          <Grid item xs={4}>
-            <Box sx={{ mt: 2, maxWidth: 200 }}>
+            </Grid>
+            <Grid item xs={12}>
               <MyInput
                 name='u_fedid'
                 label='Bridge Federation ID'
                 value={values.u_fedid}
                 onChange={handleInputChange}
                 error={errors.u_fedid}
+                sx={{ backgroundColor: 'azure' }}
               />
-            </Box>
-          </Grid>
-          <Grid item xs={3}></Grid>
-          {/*------------------------------------------------------------------------------ */}
-          <Grid item xs={4}>
-            <MyCheckbox
-              name='u_showprogress'
-              label='Show Linear Progress'
-              value={values.u_showprogress}
-              onChange={handleInputChange}
-              error={errors.u_showprogress}
-            />
-          </Grid>
-          <Grid item xs={1}></Grid>
-          <Grid item xs={4}>
-            <MyCheckbox
-              name='u_showscore'
-              label='Show Linear Score'
-              value={values.u_showscore}
-              onChange={handleInputChange}
-              error={errors.u_showscore}
-            />
-          </Grid>
-          <Grid item xs={3}></Grid>
-          {/*------------------------------------------------------------------------------ */}
-          <Grid item xs={4}>
-            <MyCheckbox
-              name='u_sortquestions'
-              label='Sort Questions'
-              value={values.u_sortquestions}
-              onChange={handleInputChange}
-              error={errors.u_sortquestions}
-            />
-          </Grid>
-          <Grid item xs={1}></Grid>
-          <Grid item xs={4}>
-            <MyCheckbox
-              name='u_skipcorrect'
-              label='Skip Correct Answers'
-              value={values.u_skipcorrect}
-              onChange={handleInputChange}
-              error={errors.u_skipcorrect}
-            />
-          </Grid>
-          <Grid item xs={3}></Grid>
-          {/*------------------------------------------------------------------------------ */}
-          <Grid item xs={4}>
-            <Box sx={{ mt: 2, maxWidth: 200 }}>
+            </Grid>
+
+            {/*------------------------------------------------------------------------------ */}
+            <Grid item xs={12}>
               <MyInput
                 name='u_dftmaxquestions'
                 label='Default Maximum Questions'
                 value={values.u_dftmaxquestions}
                 onChange={handleInputChange}
                 error={errors.u_dftmaxquestions}
+                sx={{ backgroundColor: 'azure' }}
               />
-            </Box>
-          </Grid>
-          <Grid item xs={8}></Grid>
-          {/*------------------------------------------------------------------------------ */}
-          <Grid item xs={4}>
-            <Box sx={{ mt: 2, maxWidth: 200 }}>
+            </Grid>
+            {/*------------------------------------------------------------------------------ */}
+            <Grid item xs={12}>
               <MySelect
                 key={OptionsOwner.id}
                 name='u_dftowner'
@@ -314,36 +264,83 @@ export default function UsersSettings({ handlePage }) {
                 onChange={handleInputChange}
                 error={errors.u_dftowner}
                 options={OptionsOwner}
+                sx={{ backgroundColor: 'azure' }}
               />
-            </Box>
-          </Grid>
-          <Grid item xs={8}></Grid>
-          {/*------------------------------------------------------------------------------ */}
+            </Grid>
+            {/*------------------------------------------------------------------------------ */}
+            <Grid item xs={12}>
+              <MyCheckbox
+                sx={{ pt: 0, mt: 0 }}
+                name='u_showprogress'
+                label='Show Linear Progress'
+                value={values.u_showprogress}
+                onChange={handleInputChange}
+                error={errors.u_showprogress}
+              />
+            </Grid>
+            {/*------------------------------------------------------------------------------ */}
+            <Grid item xs={12}>
+              <MyCheckbox
+                sx={{ pt: 0, mt: 0 }}
+                name='u_showscore'
+                label='Show Linear Score'
+                value={values.u_showscore}
+                onChange={handleInputChange}
+                error={errors.u_showscore}
+              />
+            </Grid>
 
-          <Box sx={{ mt: 2, maxWidth: 600 }}>
-            <MyButton
-              type='submit'
-              text='Update'
-              color='primary'
-              variant='contained'
-              onClick={() => {
-                handleSubmit()
-              }}
-            />
-            {/* .......................................................................................... */}
-            <MyButton
-              type='submit'
-              text='Back'
-              color='warning'
-              variant='contained'
-              sx={{ float: 'right' }}
-              onClick={() => {
-                handlePage('PAGEBACK')
-              }}
-            />
-          </Box>
-          {/* .......................................................................................... */}
+            {/*------------------------------------------------------------------------------ */}
+            <Grid item xs={12}>
+              <MyCheckbox
+                sx={{ pt: 0, mt: 0 }}
+                name='u_sortquestions'
+                label='Sort Questions'
+                value={values.u_sortquestions}
+                onChange={handleInputChange}
+                error={errors.u_sortquestions}
+              />
+            </Grid>
+            {/*------------------------------------------------------------------------------ */}
+            <Grid item xs={12}>
+              <MyCheckbox
+                sx={{ pt: 0, mt: 0 }}
+                name='u_skipcorrect'
+                label='Skip Correct Answers'
+                value={values.u_skipcorrect}
+                onChange={handleInputChange}
+                error={errors.u_skipcorrect}
+              />
+            </Grid>
+
+            {/*------------------------------------------------------------------------------ */}
+            <Grid item xs={12}>
+              <MyButton
+                sx={{ mt: 2 }}
+                type='submit'
+                text='Update'
+                color='primary'
+                variant='contained'
+                onClick={() => {
+                  handleSubmit()
+                }}
+              />
+            </Grid>
+          </Grid>
+        </Paper>
+        {/* .......................................................................................... */}
+        <Grid item xs={12}>
+          <MyButton
+            type='submit'
+            text='Back'
+            color='warning'
+            variant='contained'
+            onClick={() => {
+              handlePage('PAGEBACK')
+            }}
+          />
         </Grid>
+        {/* .......................................................................................... */}
       </MyForm>
     </>
   )

@@ -2,7 +2,7 @@
 //  Libraries
 //
 import { useState } from 'react'
-import { Grid, Typography, Box } from '@mui/material'
+import { Paper, Grid, Typography } from '@mui/material'
 //
 //  Debug Settings
 //
@@ -340,10 +340,25 @@ export default function QuizSelect({ handlePage }) {
   return (
     <>
       <MyForm>
-        <Grid container spacing={2}>
-          {/*.................................................................................................*/}
-          <Grid item xs={12}>
-            <Box sx={{ mt: 2, maxWidth: 600 }}>
+        <Paper
+          sx={{
+            margin: 2,
+            padding: 2,
+            maxWidth: 400,
+            backgroundColor: 'whitesmoke',
+            elevation: 12
+          }}
+        >
+          <Grid
+            container
+            spacing={2}
+            justifyContent='flex-start'
+            alignItems='flex-start'
+            direction='column'
+            style={{ minheight: '100vh' }}
+          >
+            {/*.................................................................................................*/}
+            <Grid item xs={12}>
               <MySelect
                 name='qowner'
                 label='Owner'
@@ -351,12 +366,11 @@ export default function QuizSelect({ handlePage }) {
                 onChange={handleInputChange}
                 options={Data_Options_Owner}
                 error={errors.qowner}
+                sx={{ backgroundColor: 'azure' }}
               />
-            </Box>
-          </Grid>
-          {/*.................................................................................................*/}
-          <Grid item xs={12}>
-            <Box sx={{ mt: 2, maxWidth: 600 }}>
+            </Grid>
+            {/*.................................................................................................*/}
+            <Grid item xs={12}>
               <MySelect
                 name='qgroup1'
                 label='Group1'
@@ -364,55 +378,57 @@ export default function QuizSelect({ handlePage }) {
                 onChange={handleInputChange}
                 options={Data_Group1OptionsSubset}
                 error={errors.qgroup1}
+                sx={{ backgroundColor: 'azure' }}
               />
-            </Box>
-          </Grid>
-          {/*.................................................................................................*/}
-
-          {QuizSelect_ShowSelectionGroup2 ? (
-            <Grid item xs={12}>
-              <Box sx={{ mt: 2, maxWidth: 600 }}>
+            </Grid>
+            {/*.................................................................................................*/}
+            {QuizSelect_ShowSelectionGroup2 ? (
+              <Grid item xs={12}>
                 <MySelect
                   name='qgroup2'
                   label='Group2'
                   value={values.qgroup2}
                   onChange={handleInputChange}
                   options={Data_Options_Group2}
+                  sx={{ backgroundColor: 'azure' }}
                 />
-              </Box>
-            </Grid>
-          ) : null}
-          {/*.................................................................................................*/}
-          {QuizSelect_ShowSelectionGroup3 ? (
-            <Grid item xs={12}>
-              <Box sx={{ mt: 2, maxWidth: 600 }}>
+              </Grid>
+            ) : null}
+            {/*.................................................................................................*/}
+            {QuizSelect_ShowSelectionGroup3 ? (
+              <Grid item xs={12}>
                 <MySelect
                   name='qgroup3'
                   label='Group3'
                   value={values.qgroup3}
                   onChange={handleInputChange}
                   options={Data_Options_Group3}
+                  sx={{ backgroundColor: 'azure' }}
                 />
-              </Box>
-            </Grid>
-          ) : null}
-          {/*.................................................................................................*/}
-          <Grid item xs={12}>
-            <Box sx={{ mt: 2, maxWidth: 600 }}>
+              </Grid>
+            ) : null}
+            {/*.................................................................................................*/}
+            <Grid item xs={12}>
               <Typography style={{ color: 'red' }}>{form_message}</Typography>
-            </Box>
+            </Grid>
+            {/*.................................................................................................*/}
+            <MyButton
+              text='Start Quiz'
+              onClick={() => {
+                g_PageNew = 'Quiz'
+                SubmitForm()
+              }}
+            />
           </Grid>
-        </Grid>
+        </Paper>
         {/*.................................................................................................*/}
-        <Box sx={{ mt: 2, maxWidth: 600 }}>
-          <MyButton
-            text='Start Quiz'
-            onClick={() => {
-              g_PageNew = 'Quiz'
-              SubmitForm()
-            }}
-          />
-
+        <Grid
+          item
+          xs={12}
+          sx={{
+            maxWidth: 400
+          }}
+        >
           <MyButton
             color='warning'
             text='Learn'
@@ -422,7 +438,7 @@ export default function QuizSelect({ handlePage }) {
               SubmitForm()
             }}
           />
-        </Box>
+        </Grid>
         {/* .......................................................................................... */}
       </MyForm>
     </>

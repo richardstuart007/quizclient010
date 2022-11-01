@@ -43,6 +43,10 @@ export default function QuizNavigation({ handlePage }) {
   const PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
   const User_Settings_SignedIn = JSON.parse(sessionStorage.getItem('User_Settings_SignedIn'))
   //
+  //  Screen Width
+  //
+  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Settings_ScreenSmall'))
+  //
   //  Show SignOut Button ?
   //
   let showButton_Signin
@@ -66,6 +70,7 @@ export default function QuizNavigation({ handlePage }) {
   if (Data_ReflinksJSON && Data_ReflinksJSON.length > 0)
     Data_Reflinks = JSON.parse(Data_ReflinksJSON)
   if (
+    !ScreenSmall &&
     (PageCurrent === 'QuizReview' || PageCurrent === 'QuizHistoryDetail') &&
     Data_Reflinks[0] &&
     Data_Reflinks.length > 0
@@ -83,6 +88,7 @@ export default function QuizNavigation({ handlePage }) {
   //
   let showButton_QuizHistory
   User_Settings_SignedIn &&
+  !ScreenSmall &&
   PageCurrent !== 'QuizHistory' &&
   PageCurrent !== 'QuizHistoryDetail' &&
   PageCurrent !== 'Quiz'
@@ -92,7 +98,7 @@ export default function QuizNavigation({ handlePage }) {
   //  Show RefLibrary Button ?
   //
   let showButton_RefLibrary
-  User_Settings_SignedIn && PageCurrent !== 'RefLibrary' && PageCurrent !== 'Quiz'
+  User_Settings_SignedIn && !ScreenSmall && PageCurrent !== 'RefLibrary' && PageCurrent !== 'Quiz'
     ? (showButton_RefLibrary = true)
     : (showButton_RefLibrary = false)
   //
@@ -104,7 +110,7 @@ export default function QuizNavigation({ handlePage }) {
     User_Admin = User_Settings_UserAdmin
   }
   let showButton_SwitchUser
-  User_Settings_SignedIn && User_Admin
+  User_Settings_SignedIn && !ScreenSmall && User_Admin
     ? (showButton_SwitchUser = true)
     : (showButton_SwitchUser = false)
   //...................................................................................
@@ -177,8 +183,6 @@ export default function QuizNavigation({ handlePage }) {
             startIcon={<LogoutIcon fontSize='small' />}
             color='warning'
             onClick={() => {
-              sessionStorage.setItem('User_Settings_SignedIn', false)
-              sessionStorage.removeItem('User_Settings_User')
               handlePage('QuizSignin')
             }}
             text='Signout'

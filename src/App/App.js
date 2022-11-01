@@ -4,6 +4,7 @@
 import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material'
 import { useState } from 'react'
+import useMediaQuery from '@mui/material/useMediaQuery'
 //
 //  Debug Settings
 //
@@ -51,7 +52,7 @@ const { LOC_LOC_LOC_SERVERURL } = require('../services/constants.js')
 //
 // Debug Settings
 //
-const debugLog = debugSettings()
+const debugLog = debugSettings(true)
 //
 // Global
 //
@@ -62,6 +63,18 @@ let g_firstTimeFlag = true
 function App() {
   if (debugLog) console.log(`Start APP`)
   const [pageCurrent, setPageCurrent] = useState('QuizSplash')
+  //
+  //  Screen Width
+  //
+  const ScreenMedium = useMediaQuery(theme.breakpoints.up('sm'))
+  const ScreenSmall = !ScreenMedium
+  sessionStorage.setItem('App_Settings_ScreenSmall', ScreenSmall)
+  //
+  //  Set PageStart
+  //
+  let PageStart
+  ScreenSmall ? (PageStart = 'QuizSelect') : (PageStart = 'RefLibrary')
+  sessionStorage.setItem('Nav_Page_PageStart', JSON.stringify(PageStart))
   //
   //  First Time Setup
   //
@@ -133,6 +146,7 @@ function App() {
     let App_Settings_DevMode
     w_Client === REMOTE_CLIENT ? (App_Settings_DevMode = false) : (App_Settings_DevMode = true)
     sessionStorage.setItem('App_Settings_DevMode', App_Settings_DevMode)
+
     //
     //  Navigation
     //
@@ -161,6 +175,7 @@ function App() {
     sessionStorage.setItem('QuizHistory_Reset', true)
     sessionStorage.setItem('QuizHistory_SearchValue', JSON.stringify(''))
     sessionStorage.setItem('QuizHistory_SearchType', JSON.stringify('g1title'))
+
     //
     //  DevMode : Override Initial Values
     //
@@ -176,16 +191,15 @@ function App() {
     //
     let PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
     const PagePrevious = JSON.parse(sessionStorage.getItem('Nav_Page_Previous'))
-
     //
     //  If no change of Page, return
     //
     if (nextPage === PageCurrent) return
     //
-    //  Back
+    //  Back/Start ?
     //
-    let PageNext
-    nextPage === 'PAGEBACK' ? (PageNext = PagePrevious) : (PageNext = nextPage)
+    const PageNext =
+      nextPage === 'PAGEBACK' ? PagePrevious : nextPage === 'PAGESTART' ? PageStart : nextPage
     //
     //  Quiz End, write history
     //
@@ -204,6 +218,13 @@ function App() {
       console.log(
         `UPDATED Nav_Page_Previous ${JSON.parse(sessionStorage.getItem('Nav_Page_Previous'))}`
       )
+    //
+    //  If SignIN, Update signed in info
+    //
+    if (PageNext === 'QuizSignin') {
+      sessionStorage.setItem('User_Settings_SignedIn', false)
+      sessionStorage.removeItem('User_Settings_User')
+    }
     //
     //  Update NEW Page
     //

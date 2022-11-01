@@ -3,8 +3,6 @@
 //
 import { Typography, AppBar, Toolbar, Avatar, Grid, CardMedia } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
-import { useTheme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
 //
 //  Common Sub Components
 //
@@ -64,8 +62,7 @@ export default function Layout({ handlePage, pageCurrent, children }) {
   //
   //  Screen Width
   //
-  const theme = useTheme()
-  const ScreenMedium = useMediaQuery(theme.breakpoints.up('sm'))
+  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Settings_ScreenSmall'))
   //
   //  Title
   //
@@ -222,7 +219,7 @@ export default function Layout({ handlePage, pageCurrent, children }) {
             <Grid item xs></Grid>
 
             {/* .......................................................................................... */}
-            {ScreenMedium && <QuizNavigation handlePage={handlePage} />}
+            {!ScreenSmall && <QuizNavigation handlePage={handlePage} />}
             {/* .......................................................................................... */}
           </Grid>
         </Toolbar>
@@ -232,7 +229,7 @@ export default function Layout({ handlePage, pageCurrent, children }) {
       {/* .......................................................................................... */}
       <div className={classes.page}>
         <div className={classes.toolbar}></div>
-        {!ScreenMedium && <QuizNavigation handlePage={handlePage} />}
+        {ScreenSmall && <QuizNavigation handlePage={handlePage} />}
         {children}
       </div>
     </div>

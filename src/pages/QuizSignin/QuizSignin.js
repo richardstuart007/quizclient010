@@ -41,7 +41,7 @@ const initialFValues = {
 //...................................................................................
 //.  Main Line
 //...................................................................................
-function QuizSignin({ handlePage }) {
+export default function QuizSignin({ handlePage }) {
   if (debugFunStart) console.log(debugModule)
   //
   //  Get the URL
@@ -171,10 +171,7 @@ function QuizSignin({ handlePage }) {
     GetBuildOptionsGroup1Owner()
     GetBuildOptionsGroup2()
     GetBuildOptionsGroup3()
-    //
-    //  Change Page
-    //
-    handlePage('RefLibrary')
+    handlePage('PAGESTART')
   }
   //...................................................................................
   //.  Render the form
@@ -193,7 +190,7 @@ function QuizSignin({ handlePage }) {
         >
           <Grid
             container
-            spacing={2}
+            spacing={1}
             justify='center'
             alignItems='center'
             direction='column'
@@ -258,5 +255,3 @@ function QuizSignin({ handlePage }) {
     </>
   )
 }
-
-export default QuizSignin

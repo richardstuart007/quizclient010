@@ -172,7 +172,7 @@ function QuizRegister({ handlePage }) {
         >
           <Grid
             container
-            spacing={2}
+            spacing={1}
             justify='center'
             alignItems='center'
             direction='column'

@@ -159,11 +159,10 @@ function QuizRegister({ handlePage }) {
       <MyForm>
         <Paper
           sx={{
-            margin: 3,
+            margin: 1,
             padding: 1,
             maxWidth: 400,
-            backgroundColor: 'whitesmoke',
-            elevation: 12
+            backgroundColor: 'whitesmoke'
           }}
         >
           <Grid
@@ -188,7 +187,7 @@ function QuizRegister({ handlePage }) {
                 value={values.email}
                 onChange={handleInputChange}
                 error={errors.email}
-                sx={{ backgroundColor: 'azure' }}
+                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
               />
             </Grid>
             {/*.................................................................................................*/}
@@ -199,7 +198,7 @@ function QuizRegister({ handlePage }) {
                 value={values.password}
                 onChange={handleInputChange}
                 error={errors.password}
-                sx={{ backgroundColor: 'azure' }}
+                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
               />
             </Grid>
             {/*.................................................................................................*/}
@@ -210,7 +209,7 @@ function QuizRegister({ handlePage }) {
                 value={values.name}
                 onChange={handleInputChange}
                 error={errors.name}
-                sx={{ backgroundColor: 'azure' }}
+                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
               />
             </Grid>
             {/*.................................................................................................*/}

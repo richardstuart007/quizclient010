@@ -203,11 +203,10 @@ export default function QuizSignin({ handlePage }) {
       <MyForm>
         <Paper
           sx={{
-            margin: 3,
+            margin: 1,
             padding: 1,
             maxWidth: 400,
-            backgroundColor: 'whitesmoke',
-            elevation: 12
+            backgroundColor: 'whitesmoke'
           }}
         >
           <Grid
@@ -216,7 +215,7 @@ export default function QuizSignin({ handlePage }) {
             justify='center'
             alignItems='center'
             direction='column'
-            style={{ minheight: '100vh' }}
+            // style={{ minheight: '100vh' }}
           >
             {/*.................................................................................................*/}
             <Grid item xs={12} sx={{ mt: 2 }}>
@@ -232,7 +231,7 @@ export default function QuizSignin({ handlePage }) {
                 value={values.email}
                 onChange={handleInputChange}
                 error={errors.email}
-                sx={{ backgroundColor: 'azure' }}
+                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
               />
             </Grid>
             {/*.................................................................................................*/}
@@ -243,7 +242,7 @@ export default function QuizSignin({ handlePage }) {
                 value={values.password}
                 onChange={handleInputChange}
                 error={errors.password}
-                sx={{ backgroundColor: 'azure' }}
+                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
               />
             </Grid>
             {/*.................................................................................................*/}

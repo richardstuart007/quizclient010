@@ -16,12 +16,15 @@ import debugSettings from '../../debug/debugSettings'
 //
 //  Table Heading
 //
-const headCells = [
+const headCellsLarge = [
   { id: 'rid', label: 'ID' },
   { id: 'rdesc', label: 'Description' },
-  // { id: 'rlink', label: 'Link' },
   { id: 'rwho', label: 'Who' },
   { id: 'rtype', label: 'Type' },
+  { id: 'actions', label: 'View', disableSorting: true }
+]
+const headCellsSmall = [
+  { id: 'rdesc', label: 'Description' },
   { id: 'actions', label: 'View', disableSorting: true }
 ]
 //.............................................................................
@@ -34,6 +37,12 @@ const debugLog = debugSettings()
 //=====================================================================================
 export default function QuizRefs({ handlePage }) {
   if (debugLog) console.log('Start QuizRefs')
+  //
+  //  Screen Width
+  //
+  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Settings_ScreenSmall'))
+  let headCells
+  ScreenSmall ? (headCells = headCellsSmall) : (headCells = headCellsLarge)
   //
   //  Find reference link
   //
@@ -84,10 +93,10 @@ export default function QuizRefs({ handlePage }) {
         <TableBody>
           {recordsAfterPagingAndSorting().map(row => (
             <TableRow key={row.rid}>
-              <TableCell>{row.rid}</TableCell>
+              {ScreenSmall ? null : <TableCell>{row.rid}</TableCell>}
               <TableCell>{row.rdesc}</TableCell>
-              <TableCell>{row.rwho}</TableCell>
-              <TableCell>{row.rtype}</TableCell>
+              {ScreenSmall ? null : <TableCell>{row.rwho}</TableCell>}
+              {ScreenSmall ? null : <TableCell>{row.rtype}</TableCell>}
               <TableCell>
                 <MyActionButton
                   startIcon={<PreviewIcon fontSize='small' />}

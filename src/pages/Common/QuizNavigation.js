@@ -58,6 +58,8 @@ export default function QuizNavigation({ handlePage }) {
   User_Settings_SignedIn &&
   PageCurrent !== 'QuizSelect' &&
   PageCurrent !== 'QuizReview' &&
+  PageCurrent !== 'UsersSettings' &&
+  PageCurrent !== 'QuizRefs' &&
   PageCurrent !== 'Quiz'
     ? (showButton_QuizSelect = true)
     : (showButton_QuizSelect = false)
@@ -80,7 +82,8 @@ export default function QuizNavigation({ handlePage }) {
   //  Show Settings Button ?
   //
   let showButton_UsersSettings
-  User_Settings_SignedIn && PageCurrent !== 'UsersSettings'
+  User_Settings_SignedIn &&
+  (PageCurrent === 'QuizSelect' || PageCurrent === 'QuizHistory' || PageCurrent === 'RefLibrary')
     ? (showButton_UsersSettings = true)
     : (showButton_UsersSettings = false)
   //
@@ -91,6 +94,7 @@ export default function QuizNavigation({ handlePage }) {
   !ScreenSmall &&
   PageCurrent !== 'QuizHistory' &&
   PageCurrent !== 'QuizHistoryDetail' &&
+  PageCurrent !== 'UsersSettings' &&
   PageCurrent !== 'Quiz'
     ? (showButton_QuizHistory = true)
     : (showButton_QuizHistory = false)
@@ -98,7 +102,11 @@ export default function QuizNavigation({ handlePage }) {
   //  Show RefLibrary Button ?
   //
   let showButton_RefLibrary
-  User_Settings_SignedIn && !ScreenSmall && PageCurrent !== 'RefLibrary' && PageCurrent !== 'Quiz'
+  User_Settings_SignedIn &&
+  !ScreenSmall &&
+  PageCurrent !== 'RefLibrary' &&
+  PageCurrent !== 'Quiz' &&
+  PageCurrent !== 'UsersSettings'
     ? (showButton_RefLibrary = true)
     : (showButton_RefLibrary = false)
   //

@@ -165,8 +165,8 @@ export default function App() {
     //  Quiz
     //
     sessionStorage.setItem('Quiz_Reset', true)
-    sessionStorage.setItem('Quiz_Select_Owner', JSON.stringify('NZBridge'))
-    sessionStorage.setItem('Quiz_Select_Group1', JSON.stringify('NZBIMP01'))
+    sessionStorage.setItem('Quiz_Select_Owner', JSON.stringify(''))
+    sessionStorage.setItem('Quiz_Select_Group1', JSON.stringify(''))
     sessionStorage.setItem('Quiz_Select_Group2', JSON.stringify('All'))
     sessionStorage.setItem('Quiz_Select_Group3', JSON.stringify('All'))
     //

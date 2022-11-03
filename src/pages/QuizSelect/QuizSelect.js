@@ -61,12 +61,20 @@ export default function QuizSelect({ handlePage }) {
   //
   const [form_message, setForm_message] = useState('')
   //
+  //  Signed in User
+  //
+  const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+  //
   //  Set Selection from any previous values
   //
   initialFValues.qowner = JSON.parse(sessionStorage.getItem('Quiz_Select_Owner'))
   initialFValues.qgroup1 = JSON.parse(sessionStorage.getItem('Quiz_Select_Group1'))
   initialFValues.qgroup2 = JSON.parse(sessionStorage.getItem('Quiz_Select_Group2'))
   initialFValues.qgroup3 = JSON.parse(sessionStorage.getItem('Quiz_Select_Group3'))
+  //
+  //  Default owner from User if empty
+  //
+  if (initialFValues.qowner === '') initialFValues.qowner = User_Settings_User.u_dftowner
   if (debugLog) console.log('initialFValues ', initialFValues)
   //
   //  Load setup values
@@ -355,7 +363,6 @@ export default function QuizSelect({ handlePage }) {
             justifyContent='flex-start'
             alignItems='flex-start'
             direction='column'
-            style={{ minheight: '100vh' }}
           >
             {/*.................................................................................................*/}
             <Grid item xs={12}>
@@ -366,7 +373,7 @@ export default function QuizSelect({ handlePage }) {
                 onChange={handleInputChange}
                 options={Data_Options_Owner}
                 error={errors.qowner}
-                sx={{ backgroundColor: 'azure' }}
+                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
               />
             </Grid>
             {/*.................................................................................................*/}
@@ -378,7 +385,7 @@ export default function QuizSelect({ handlePage }) {
                 onChange={handleInputChange}
                 options={Data_Group1OptionsSubset}
                 error={errors.qgroup1}
-                sx={{ backgroundColor: 'azure' }}
+                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
               />
             </Grid>
             {/*.................................................................................................*/}
@@ -390,7 +397,7 @@ export default function QuizSelect({ handlePage }) {
                   value={values.qgroup2}
                   onChange={handleInputChange}
                   options={Data_Options_Group2}
-                  sx={{ backgroundColor: 'azure' }}
+                  sx={{ backgroundColor: 'azure', minWidth: '300px' }}
                 />
               </Grid>
             ) : null}
@@ -403,7 +410,7 @@ export default function QuizSelect({ handlePage }) {
                   value={values.qgroup3}
                   onChange={handleInputChange}
                   options={Data_Options_Group3}
-                  sx={{ backgroundColor: 'azure' }}
+                  sx={{ backgroundColor: 'azure', minWidth: '300px' }}
                 />
               </Grid>
             ) : null}

@@ -9,8 +9,8 @@ import debugSettings from '../debug/debugSettings'
 //
 // Constants
 //
-const functionName = 'getTable'
-const { URL_TABLES } = require('./constants.js')
+const functionName = 'checkSignin'
+const { URL_SIGNIN } = require('./constants.js')
 //..............................................................................
 //.  Initialisation
 //.............................................................................
@@ -21,21 +21,13 @@ const debugLog = debugSettings()
 //--------------------------------------------------------------------
 //-  Main Line
 //--------------------------------------------------------------------
-export default async function getTable(props) {
-  if (debugLog) console.log('Start getTable')
+export default async function checkSignin(props) {
+  if (debugLog) console.log('Start checkSignin')
   if (debugLog) console.log('props ', props)
   //
   //  Deconstruct props
   //
-  const {
-    sqlCaller,
-    sqlTable,
-    sqlAction = 'SELECT',
-    sqlWhere = '',
-    sqlOrderByRaw = '',
-    sqlString = ''
-  } = props
-  if (debugLog) console.log('props ', props)
+  const { sqlCaller, email, password } = props
   let sqlClient = `${functionName}/${sqlCaller}`
   //
   //  Get the URL
@@ -49,7 +41,6 @@ export default async function getTable(props) {
   //
   // Return promise
   //
-  if (debugLog) console.log('Return Promise', promise)
   return promise
   //--------------------------------------------------------------------
   //.  fetch data
@@ -60,44 +51,29 @@ export default async function getTable(props) {
       //  Setup actions
       //
       const method = 'post'
-      let body
-      sqlAction === 'SELECT'
-        ? (body = {
-            sqlClient: sqlClient,
-            sqlTable: sqlTable,
-            sqlAction: sqlAction,
-            sqlWhere: sqlWhere,
-            sqlOrderByRaw: sqlOrderByRaw
-          })
-        : (body = {
-            sqlClient: sqlClient,
-            sqlTable: sqlTable,
-            sqlAction: sqlAction,
-            sqlString: sqlString
-          })
-
-      const URL = App_Settings_URL + URL_TABLES
+      let body = {
+        sqlClient: sqlClient,
+        email: email,
+        password: password
+      }
+      const URL = App_Settings_URL + URL_SIGNIN
       if (debugLog) console.log('URL ', URL)
       //
       //  SQL database
       //
       let resultData = []
       resultData = await apiAxios(method, URL, body)
-
-      if (debugLog) console.log(`sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) `)
       //
       // No data
       //
       if (!resultData[0]) {
-        console.log(
-          `No data received: sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) `
-        )
+        console.log(`No data received `)
       }
       //
       // Return data
       //
       if (debugLog) console.log('Return Data', resultData)
-      return resultData
+      return resultData[0]
       //
       // Errors
       //

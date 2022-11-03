@@ -9,7 +9,7 @@ import debugSettings from '../debug/debugSettings'
 //
 // Constants
 //
-const sqlClient = 'rowUpsert'
+const sqlClient = 'rowInsert'
 const { URL_TABLES } = require('./constants.js')
 //
 // Debug Settings
@@ -18,8 +18,8 @@ const debugLog = debugSettings()
 //--------------------------------------------------------------------
 //-  Main Line
 //--------------------------------------------------------------------
-export default async function rowUpsert(props) {
-  if (debugLog) console.log('Start rowUpsert')
+export default async function rowInsert(props) {
+  if (debugLog) console.log('Start rowInsert')
   //
   //  Deconstruct
   //
@@ -52,7 +52,7 @@ export default async function rowUpsert(props) {
       const body = {
         sqlClient: sqlClient,
         sqlTable: sqlTable,
-        sqlAction: 'UPSERT',
+        sqlAction: 'INSERT',
         sqlKeyName: sqlKeyName,
         sqlRow: sqlRow
       }

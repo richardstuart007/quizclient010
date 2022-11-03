@@ -164,7 +164,7 @@ export default function UsersSettings({ handlePage }) {
     //
     //  Process promise
     //
-    var myPromiseUpdate = MyQueryPromise(rowUpdate(props))
+    const myPromiseUpdate = MyQueryPromise(rowUpdate(props))
     //
     //  Resolve Status
     //
@@ -185,7 +185,7 @@ export default function UsersSettings({ handlePage }) {
       }
       return
     })
-    return
+    return myPromiseUpdate
   }
   //...................................................................................
   //.  Render the form

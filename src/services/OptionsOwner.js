@@ -14,12 +14,42 @@ const debugLog = debugSettings()
 const debugFunStart = false
 const debugModule = 'OptionsOwner'
 
-//===================================================================================
-const OptionsOwner = props => {
+//...................................................................................
+//.  Main Line
+//...................................................................................
+export default function OptionsOwner() {
+  if (debugFunStart) console.log(debugModule)
+  //
+  //  SQL server
+  //
+  const props = {
+    sqlTable: 'owner'
+  }
+  const myPromiseGet = MyQueryPromise(rowSelect(props))
+  //
+  //  Resolve Status
+  //
+  myPromiseGet.then(function (data) {
+    if (debugFunStart) console.log('myPromiseGet')
+    debugLog('myPromiseGet Final fulfilled')
+    debugLog('data ', data)
+    //
+    //  Load Options from Data
+    //
+    if (data[0]) {
+      LoadOptions(data)
+    }
+
+    return
+  })
+  //
+  //  Return Promise
+  //
+  return myPromiseGet
   //...................................................................................
   //.  Load Options
   //...................................................................................
-  const LoadOptions = data => {
+  function LoadOptions(data) {
     if (debugFunStart) console.log('LoadOptions ')
     debugLog('Data ', data)
     //
@@ -39,54 +69,5 @@ const OptionsOwner = props => {
     sessionStorage.setItem('Settings_OptionsOwner', JSON.stringify(Options))
     debugLog('Options ', Options)
   }
-  //.............................................................................
-  //.  GET Data
-  //.............................................................................
-  const getRowAll = () => {
-    if (debugFunStart) console.log('getRowAll')
-    //
-    //  Process promise
-    //
-    const props = {
-      sqlURL: sqlURL,
-      sqlTable: 'owner'
-    }
-
-    var myPromiseGet = MyQueryPromise(rowSelect(props))
-    //
-    //  Resolve Status
-    //
-    myPromiseGet.then(function (data) {
-      if (debugFunStart) console.log('myPromiseGet')
-      debugLog('myPromiseGet Final fulfilled')
-      debugLog('data ', data)
-      //
-      //  Load Options from Data
-      //
-      if (data[0]) {
-        LoadOptions(data)
-      }
-      //
-      //  Return
-      return
-    })
-    //
-    //  Return Promise
-    //
-    return myPromiseGet
-  }
   //...................................................................................
-  //.  Main Line
-  //...................................................................................
-  if (debugFunStart) console.log(debugModule)
-  //
-  //  Deconstruct props
-  //
-  const { sqlURL } = props
-  debugLog('sqlURL ', sqlURL)
-  //
-  //  SQL server
-  //
-  getRowAll()
 }
-export default OptionsOwner

@@ -18,14 +18,34 @@ const { URL_TABLES } = require('./constants.js')
 // Debug Settings
 //
 const debugLog = debugSettings()
-//===================================================================================
-async function rowSelect(props) {
-  if (debugLog) console.log('Start getTable')
-  if (debugLog) console.log('props ', props)
+//--------------------------------------------------------------------
+//-  Main Line
+//--------------------------------------------------------------------
+export default async function rowSelect(props) {
+  if (debugLog) console.log('Start rowSelect')
+  //
+  //  Deconstruct props
+  //
+  if (debugLog) console.log('props: ', props)
+  const { sqlTable, sqlOrderBy, sqlWhere, sqlRows } = props
+  //
+  //  Get the URL
+  //
+  const App_Settings_URL = JSON.parse(sessionStorage.getItem('App_Settings_URL'))
+  if (debugLog) console.log('App_Settings_URL ', App_Settings_URL)
+  //
+  // Fetch the data
+  //
+  const promise = fetchItems()
+  //
+  // Return promise
+  //
+  if (debugLog) console.log('Return promise', promise)
+  return promise
   //--------------------------------------------------------------------
   //.  fetch data
   //--------------------------------------------------------------------
-  const fetchItems = async () => {
+  async function fetchItems() {
     try {
       //
       //  Setup actions
@@ -50,7 +70,7 @@ async function rowSelect(props) {
       //
       //  URL
       //
-      const URL = sqlURL + URL_TABLES
+      const URL = App_Settings_URL + URL_TABLES
       if (debugLog) console.log('URL ', URL)
       //
       //  SQL database
@@ -76,24 +96,4 @@ async function rowSelect(props) {
       return null
     }
   }
-  //--------------------------------------------------------------------
-  //-  Main Line
-  //--------------------------------------------------------------------
-  if (debugLog) console.log('Start rowSelect')
-  //
-  //  Deconstruct props
-  //
-  if (debugLog) console.log('props: ', props)
-  const { sqlURL, sqlTable, sqlOrderBy, sqlWhere, sqlRows } = props
-  //
-  // Fetch the data
-  //
-  const promise = fetchItems()
-  //
-  // Return promise
-  //
-  if (debugLog) console.log('Return promise', promise)
-  return promise
 }
-
-export default rowSelect

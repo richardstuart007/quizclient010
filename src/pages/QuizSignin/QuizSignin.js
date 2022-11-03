@@ -1,15 +1,14 @@
 //
 //  Libraries
 //
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Paper, Grid, Typography } from '@mui/material'
 //
 //  Utilities
 //
-import GetBuildOptionsOwner from '../../services/GetBuildOptionsOwner'
-import GetBuildOptionsGroup1Owner from '../../services/GetBuildOptionsGroup1Owner'
-import GetBuildOptionsGroup2 from '../../services/GetBuildOptionsGroup2'
-import GetBuildOptionsGroup3 from '../../services/GetBuildOptionsGroup3'
+import QuizSigninInit from './QuizSigninInit'
+import checkSignin from '../../services/checkSignin'
+import MyQueryPromise from '../../services/MyQueryPromise'
 //
 //  Debug Settings
 //
@@ -20,11 +19,6 @@ import debugSettings from '../../debug/debugSettings'
 import MyButton from '../../components/controls/MyButton'
 import MyInput from '../../components/controls/MyInput'
 import { useMyForm, MyForm } from '../../components/controls/useMyForm'
-//
-// Constants
-//
-const { URL_SIGNIN } = require('../../services/constants.js')
-const sqlClient = 'Quiz/Signin'
 //
 // Debug Settings
 //
@@ -38,20 +32,27 @@ const initialFValues = {
   email: '',
   password: ''
 }
+//
+let ALLReceived
 //...................................................................................
 //.  Main Line
 //...................................................................................
 export default function QuizSignin({ handlePage }) {
-  if (debugFunStart) console.log(debugModule)
-  //
-  //  Get the URL
-  //
-  const App_Settings_URL = JSON.parse(sessionStorage.getItem('App_Settings_URL'))
+  if (debugFunStart) console.log('QuizSignin')
   //
   //  Get User
   //
   const User_Settings_User = JSON.parse(sessionStorage.getItem('User_Settings_User'))
+  if (debugLog) console.log('User_Settings_User ', User_Settings_User)
   if (User_Settings_User) initialFValues.email = User_Settings_User.u_email
+  if (debugLog) console.log('initialFValues ', initialFValues)
+  //
+  //  Load Data Options
+  //
+  useEffect(() => {
+    GetBuildOptions()
+    // eslint-disable-next-line
+  }, [])
   //
   // Form Message
   //
@@ -65,7 +66,6 @@ export default function QuizSignin({ handlePage }) {
   //.............................................................................
   function validate(fieldValues = values) {
     if (debugFunStart) console.log('validate')
-    if (debugLog) console.log('fieldValues ', fieldValues)
     let temp = { ...errors }
     //
     //  email
@@ -115,38 +115,48 @@ export default function QuizSignin({ handlePage }) {
     //  Deconstruct values
     //
     const { email, password } = values
-    setForm_message('Email/Password being checked')
+    setForm_message('Validating')
     //
-    //  Post to server
+    //  Process promise
     //
-    const URL = App_Settings_URL + URL_SIGNIN
-    fetch(URL, {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        sqlClient: sqlClient,
-        email: email,
-        password: password
-      })
+    const params = {
+      sqlCaller: debugModule,
+      email: email,
+      password: password
+    }
+    const myPromiseSignin = MyQueryPromise(checkSignin(params))
+    //
+    //  Resolve Status
+    //
+    myPromiseSignin.then(function (user) {
+      if (debugLog) console.log('user ', user)
+      if (user.u_id) {
+        setForm_message('Signin being processed')
+        ProcessSignIn(user)
+      } else {
+        setForm_message('KEEP TRYING (else REGISTER first)')
+      }
+      return
     })
-      .then(response => response.json())
-      .then(user => {
-        if (user.u_id) {
-          setForm_message('Email/Password correct, signin being processed')
-          ProcessSignIn(user, email)
-        } else {
-          setForm_message('KEEP TRYING (else REGISTER first)')
-        }
-      })
-      .catch(err => {
-        setForm_message(err.message)
-      })
+    return myPromiseSignin
   }
   //...................................................................................
   //.  Process User Signin
   //...................................................................................
-  function ProcessSignIn(user, email) {
+  function ProcessSignIn(user) {
     if (debugFunStart) console.log('ProcessSignIn')
+    //
+    //  All received ?
+    //
+    ALLReceived = JSON.parse(sessionStorage.getItem('Data_Options_ALL_Received'))
+    if (debugFunStart) console.log('ALLReceived ', ALLReceived)
+    //
+    //  Not all data received - error
+    //
+    if (!ALLReceived) {
+      setForm_message('Unable to load ALL Options - Error')
+      return
+    }
     //
     //  User Info
     //
@@ -158,6 +168,22 @@ export default function QuizSignin({ handlePage }) {
     //
     sessionStorage.setItem('User_Settings_SignedIn', true)
     //
+    //  Start Page
+    //
+    handlePage('PAGESTART')
+  }
+  //...................................................................................
+  //.  Data Options
+  //...................................................................................
+  function GetBuildOptions() {
+    if (debugFunStart) console.log('GetBuildOptions')
+    //
+    //  Data Options already exist - return
+    //
+    ALLReceived = JSON.parse(sessionStorage.getItem('Data_Options_ALL_Received'))
+    if (debugFunStart) console.log('ALLReceived ALREADY', ALLReceived)
+    if (ALLReceived) return
+    //
     //  Initialise storage status
     //
     sessionStorage.setItem('Data_Options_Owner_Received', false)
@@ -167,11 +193,7 @@ export default function QuizSignin({ handlePage }) {
     //
     //  Get the Selection Options
     //
-    GetBuildOptionsOwner()
-    GetBuildOptionsGroup1Owner()
-    GetBuildOptionsGroup2()
-    GetBuildOptionsGroup3()
-    handlePage('PAGESTART')
+    QuizSigninInit()
   }
   //...................................................................................
   //.  Render the form

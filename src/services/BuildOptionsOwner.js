@@ -7,7 +7,7 @@ import debugSettings from '../debug/debugSettings'
 //
 const debugLog = debugSettings()
 //===================================================================================
-const BuildOptionsOwner = data => {
+export default function BuildOptionsOwner(data) {
   if (debugLog) console.log('Data Options Owner ', data)
   //
   //  Options
@@ -45,5 +45,9 @@ const BuildOptionsOwner = data => {
   const Data_Options_OwnerJSON = JSON.stringify(OwnerOptions)
   sessionStorage.setItem('Data_Options_Owner', Data_Options_OwnerJSON)
   if (debugLog) console.log('OwnerOptions ', OwnerOptions)
+  //
+  //  Return data
+  //
+  if (debugLog) console.log('Data_Options_OwnerJSON ', Data_Options_OwnerJSON)
+  return Data_Options_OwnerJSON
 }
-export default BuildOptionsOwner

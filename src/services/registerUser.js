@@ -9,8 +9,8 @@ import debugSettings from '../debug/debugSettings'
 //
 // Constants
 //
-const functionName = 'getTable'
-const { URL_TABLES } = require('./constants.js')
+const functionName = 'registerUser'
+const { URL_REGISTER } = require('./constants.js')
 //..............................................................................
 //.  Initialisation
 //.............................................................................
@@ -21,21 +21,27 @@ const debugLog = debugSettings()
 //--------------------------------------------------------------------
 //-  Main Line
 //--------------------------------------------------------------------
-export default async function getTable(props) {
-  if (debugLog) console.log('Start getTable')
+export default async function registerUser(props, { setForm_message }) {
+  if (debugLog) console.log('Start registerUser')
   if (debugLog) console.log('props ', props)
   //
   //  Deconstruct props
   //
   const {
     sqlCaller,
-    sqlTable,
-    sqlAction = 'SELECT',
-    sqlWhere = '',
-    sqlOrderByRaw = '',
-    sqlString = ''
+    email,
+    password,
+    name,
+    fedid,
+    fedcountry,
+    dftmaxquestions,
+    dftowner,
+    showprogress,
+    showscore,
+    sortquestions,
+    skipcorrect,
+    admin
   } = props
-  if (debugLog) console.log('props ', props)
   let sqlClient = `${functionName}/${sqlCaller}`
   //
   //  Get the URL
@@ -45,7 +51,7 @@ export default async function getTable(props) {
   //
   // Fetch the data
   //
-  const promise = fetchItems()
+  const promise = fetchItems({ setForm_message })
   //
   // Return promise
   //
@@ -54,57 +60,53 @@ export default async function getTable(props) {
   //--------------------------------------------------------------------
   //.  fetch data
   //--------------------------------------------------------------------
-  async function fetchItems() {
+  async function fetchItems({ setForm_message }) {
     try {
       //
       //  Setup actions
       //
       const method = 'post'
-      let body
-      sqlAction === 'SELECT'
-        ? (body = {
-            sqlClient: sqlClient,
-            sqlTable: sqlTable,
-            sqlAction: sqlAction,
-            sqlWhere: sqlWhere,
-            sqlOrderByRaw: sqlOrderByRaw
-          })
-        : (body = {
-            sqlClient: sqlClient,
-            sqlTable: sqlTable,
-            sqlAction: sqlAction,
-            sqlString: sqlString
-          })
-
-      const URL = App_Settings_URL + URL_TABLES
+      let body = {
+        sqlClient: sqlClient,
+        email: email,
+        password: password,
+        name: name,
+        fedid: fedid,
+        fedcountry: fedcountry,
+        dftmaxquestions: dftmaxquestions,
+        dftowner: dftowner,
+        showprogress: showprogress,
+        showscore: showscore,
+        sortquestions: sortquestions,
+        skipcorrect: skipcorrect,
+        admin: admin
+      }
+      const URL = App_Settings_URL + URL_REGISTER
       if (debugLog) console.log('URL ', URL)
       //
       //  SQL database
       //
-      let resultData = []
-      resultData = await apiAxios(method, URL, body)
-
-      if (debugLog) console.log(`sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) `)
+      const data = await apiAxios(method, URL, body)
+      if (debugLog) console.log('Data ', data)
       //
       // No data
       //
-      if (!resultData[0]) {
-        console.log(
-          `No data received: sqlClient(${sqlClient}) Action(${sqlAction}) Table(${sqlTable}) `
-        )
+      if (!data) {
+        const message = data
+        setForm_message('Error Registering Email')
+        console.log(message)
+        return null
       }
       //
-      // Return data
+      //  Data found
       //
-      if (debugLog) console.log('Return Data', resultData)
-      return resultData
+      return data[0]
       //
       // Errors
       //
     } catch (err) {
-      const resultData = []
-      console.log(err.message)
-      return resultData
+      setForm_message('Error Registering Email')
+      return null
     }
   }
   //--------------------------------------------------------------------

@@ -7,7 +7,7 @@ import debugSettings from '../debug/debugSettings'
 //
 const debugLog = debugSettings()
 //===================================================================================
-const BuildOptionsGroup1 = data => {
+export default function BuildOptionsGroup1(data) {
   //
   //  Options
   //
@@ -34,4 +34,3 @@ const BuildOptionsGroup1 = data => {
   sessionStorage.setItem('Data_Options_Group1', Data_Options_Group1JSON)
   if (debugLog) console.log('Group1Options ', Group1Options)
 }
-export default BuildOptionsGroup1

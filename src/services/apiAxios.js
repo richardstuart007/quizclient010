@@ -17,7 +17,7 @@ const debugLog = debugSettings()
 //
 // methods - post(get), post(update), delete(delete), put(upsert)
 //
-const apiAxios = async (method, url, data) => {
+export default async function apiAxios(method, url, data) {
   try {
     if (debugLog) console.log(`url(${url}) method(${method})`)
     const response = await axios({
@@ -25,24 +25,22 @@ const apiAxios = async (method, url, data) => {
       url: url,
       data: data
     })
+    if (debugLog) console.log(response)
     //
     //  Errors
     //
-    if (debugLog) console.log(response)
-    if (debugLog) console.log('return data rows ', response.data.length)
     if (response.status !== 200) throw Error('Did not receive expected data')
     //
     //  Return rows
     //
-    if (debugLog) console.log('return data rows ', response.data.length)
     return response.data
     //
     //  Catch Error
     //
   } catch (err) {
+    const message = err.response.data
+    console.log(message)
     console.log(err)
     return null
   }
 }
-
-export default apiAxios

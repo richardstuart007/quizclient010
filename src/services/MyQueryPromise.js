@@ -13,12 +13,12 @@ function MyQueryPromise(promise) {
   if (promise.isFulfilled) return promise
 
   // Set initial state
-  var isPending = true
-  var isRejected = false
-  var isFulfilled = false
+  let isPending = true
+  let isRejected = false
+  let isFulfilled = false
 
   // Observe the promise, saving the fulfillment in a closure scope.
-  var result = promise.then(
+  let result = promise.then(
     function (v) {
       isFulfilled = true
       isPending = false

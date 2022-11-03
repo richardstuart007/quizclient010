@@ -122,14 +122,9 @@ export default function BuildQuizData(props) {
       LoadServerBidding()
       LoadServerHands()
       LoadServerReflinks()
-      //
-      //  Return
-      //
       return
     })
-    //
-    //  Return
-    //
+
     return
   }
   //...................................................................................
@@ -234,14 +229,9 @@ export default function BuildQuizData(props) {
       //  All Data Received ?
       //
       CheckAllData()
-      //
-      //  Return
-      //
       return
     })
-    //
-    //  Return Promise
-    //
+
     return
   }
   //...................................................................................
@@ -278,14 +268,9 @@ export default function BuildQuizData(props) {
       //  All Data Received ?
       //
       CheckAllData()
-      //
-      //  Return
-      //
       return
     })
-    //
-    //  Return
-    //
+
     return
   }
   //...................................................................................
@@ -319,15 +304,10 @@ export default function BuildQuizData(props) {
       //  All Data Received ?
       //
       CheckAllData()
-      //
-      //  Return
-      //
       return
     })
-    //
-    //  Return Promise
-    //
-    return
+
+    return myPromiseReflinks
   }
   //...................................................................................
   //.  All Data Received ?

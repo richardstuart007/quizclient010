@@ -52,7 +52,7 @@ const { LOC_LOC_LOC_SERVERURL } = require('../services/constants.js')
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 //
 // Global
 //
@@ -60,7 +60,7 @@ let g_firstTimeFlag = true
 //----------------------------------------------------------------------------
 //- Main Line
 //----------------------------------------------------------------------------
-function App() {
+export default function App() {
   if (debugLog) console.log(`Start APP`)
   const [pageCurrent, setPageCurrent] = useState('QuizSplash')
   //
@@ -223,7 +223,6 @@ function App() {
     //
     if (PageNext === 'QuizSignin') {
       sessionStorage.setItem('User_Settings_SignedIn', false)
-      sessionStorage.removeItem('User_Settings_User')
     }
     //
     //  Update NEW Page
@@ -252,5 +251,3 @@ function App() {
     </div>
   )
 }
-
-export default App

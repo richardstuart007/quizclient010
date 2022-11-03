@@ -20,6 +20,10 @@ const debugLog = debugSettings()
 //===================================================================================
 export default function QuizSplash({ handlePage }) {
   if (debugLog) console.log('Start QuizSplash')
+  //
+  //  Screen Width
+  //
+  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Settings_ScreenSmall'))
   //...................................................................................
   //.  Render the form
   //...................................................................................
@@ -58,6 +62,14 @@ export default function QuizSplash({ handlePage }) {
               Email: richardstuart007@hotmail.com
             </Typography>
           </Grid>
+          {/*.................................................................................................*/}
+          {ScreenSmall ? (
+            <Grid item xs={12}>
+              <Typography variant='subtitle2' sx={{ color: 'blue', backgroundColor: 'yellow' }}>
+                Restricted Functionality on a SMALL screen
+              </Typography>
+            </Grid>
+          ) : null}
           {/*.................................................................................................*/}
           <Grid item xs={12}>
             <Typography variant='subtitle2'>Click below to REGISTER/SIGNIN</Typography>

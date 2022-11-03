@@ -18,7 +18,7 @@ const functionName = 'GetBuildOptionsOwner'
 const debugLog = debugSettings()
 const debugFunStart = false
 //===================================================================================
-const GetBuildOptionsOwner = () => {
+export default function GetBuildOptionsOwner() {
   //.............................................................................
   //
   //  Set Debug State
@@ -48,15 +48,13 @@ const GetBuildOptionsOwner = () => {
     //
     //  Load Options and Store
     //
+    let options = []
     if (data) {
-      BuildOptionsOwner(data)
+      options = BuildOptionsOwner(data)
     }
+    if (debugLog) console.log('myPromiseOwner options ', options)
     return
   })
-  //
-  //  Return Promise
-  //
+
   return myPromiseOwner
 }
-
-export default GetBuildOptionsOwner

@@ -18,7 +18,7 @@ const functionName = 'GetBuildOptionsGroup3'
 const debugLog = debugSettings()
 const debugFunStart = false
 //===================================================================================
-const GetBuildOptionsGroup3 = () => {
+export default function GetBuildOptionsGroup3() {
   //.............................................................................
   //
   //  Set Debug State
@@ -53,10 +53,6 @@ const GetBuildOptionsGroup3 = () => {
     }
     return
   })
-  //
-  //  Return Promise
-  //
+
   return myPromiseGroup3
 }
-
-export default GetBuildOptionsGroup3

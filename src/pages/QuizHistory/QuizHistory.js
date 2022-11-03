@@ -74,7 +74,7 @@ const functionName = 'QuizHistory'
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 const debugFunStart = false
 //
 //  Global Variables

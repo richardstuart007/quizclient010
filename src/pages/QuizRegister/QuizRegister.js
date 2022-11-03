@@ -4,6 +4,11 @@
 import { useState } from 'react'
 import { Paper, Grid, Typography } from '@mui/material'
 //
+//  Utilities
+//
+import registerUser from '../../services/registerUser'
+import MyQueryPromise from '../../services/MyQueryPromise'
+//
 //  Debug Settings
 //
 import debugSettings from '../../debug/debugSettings'
@@ -25,8 +30,7 @@ const debugModule = 'QuizRegister'
 //
 // Constants
 //
-const { URL_REGISTER } = require('../../services/constants.js')
-const sqlClient = 'Quiz/Register'
+const sqlClient = 'QuizRegister'
 //.............................................................................
 //.  Data Input Fields
 //.............................................................................
@@ -40,12 +44,23 @@ const initialFValues = {
   email: '',
   password: ''
 }
-//===================================================================================
+//...................................................................................
+//.  Main Line
+//...................................................................................
 function QuizRegister({ handlePage }) {
+  if (debugFunStartSetting) console.log(debugModule)
+  //
+  // Form Message
+  //
+  const [form_message, setForm_message] = useState('')
+  //
+  //  Interface to Form
+  //
+  const { values, errors, setErrors, handleInputChange } = useMyForm(initialFValues, true, validate)
   //.............................................................................
   //.  Input field validation
   //.............................................................................
-  const validate = (fieldValues = values) => {
+  function validate(fieldValues = values) {
     if (debugFunStartSetting) console.log('validate')
     let temp = { ...errors }
     //
@@ -76,7 +91,6 @@ function QuizRegister({ handlePage }) {
     if (fieldValues === values) return Object.values(temp).every(x => x === '')
   }
   //...................................................................................
-
   function validateEmail(email) {
     return String(email)
       .toLowerCase()
@@ -87,10 +101,7 @@ function QuizRegister({ handlePage }) {
   //...................................................................................
   //.  Form Submit
   //...................................................................................
-  //
-  //  Validate
-  //
-  const FormSubmit = e => {
+  function FormSubmit(e) {
     if (debugFunStartSetting) console.log('FormSubmit')
     if (validate()) {
       FormUpdate()
@@ -99,7 +110,7 @@ function QuizRegister({ handlePage }) {
   //...................................................................................
   //.  Update
   //...................................................................................
-  const FormUpdate = () => {
+  function FormUpdate() {
     if (debugFunStartSetting) console.log('FormUpdate')
     //
     //  Deconstruct values
@@ -107,54 +118,39 @@ function QuizRegister({ handlePage }) {
     const { name, email, password, fedid, fedcountry } = values
     if (debugLog) console.log('values ', values)
     //
-    //  Post to server
+    //  Process promise
     //
-    const URL = App_Settings_URL + URL_REGISTER
-    if (debugLog) console.log('email ', email)
-    fetch(URL, {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        sqlClient: sqlClient,
-        email: email,
-        password: password,
-        name: name,
-        fedid: fedid,
-        fedcountry: fedcountry
-      })
+    const params = {
+      sqlCaller: sqlClient,
+      email: email,
+      password: password,
+      name: name,
+      fedid: fedid,
+      fedcountry: fedcountry,
+      dftmaxquestions: 5,
+      dftowner: 'NZBridge',
+      showprogress: true,
+      showscore: true,
+      sortquestions: true,
+      skipcorrect: true,
+      admin: false
+    }
+    const myPromiseRegister = MyQueryPromise(registerUser(params, { setForm_message }))
+    //
+    //  Resolve Status
+    //
+    myPromiseRegister.then(function (user) {
+      if (debugLog) console.log('user ', user)
+      if (user) {
+        setForm_message(`Data updated in Database with ID(${user.u_id})`)
+        sessionStorage.setItem('User_Settings_User', JSON.stringify(user))
+        handlePage('QuizSignin')
+      }
+      return
     })
-      .then(response => response.json())
-
-      .then(user => {
-        if (user.u_id) {
-          setForm_message(`Data updated in Database with ID(${user.u_id})`)
-          sessionStorage.setItem('User_Settings_User', JSON.stringify(user))
-          handlePage('QuizSignin')
-        } else {
-          setForm_message('KEEP Trying, waiting for server')
-        }
-      })
-      .catch(err => {
-        setForm_message(err.message)
-      })
+    return myPromiseRegister
   }
-  //...................................................................................
-  //.  Main Line
-  //...................................................................................
-  if (debugFunStartSetting) console.log(debugModule)
-  //
-  //  Get the URL
-  //
-  const App_Settings_URLJSON = sessionStorage.getItem('App_Settings_URL')
-  const App_Settings_URL = JSON.parse(App_Settings_URLJSON)
-  //
-  // Form Message
-  //
-  const [form_message, setForm_message] = useState('')
-  //
-  //  Interface to Form
-  //
-  const { values, errors, setErrors, handleInputChange } = useMyForm(initialFValues, true, validate)
+
   //...................................................................................
   //.  Render the form
   //...................................................................................

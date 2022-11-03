@@ -84,7 +84,7 @@ function writeHistory() {
   //  Process promise
   //
   if (debugLog) console.log('rowUpsert')
-  var myPromiseInsert = MyQueryPromise(rowUpsert(props))
+  const myPromiseInsert = MyQueryPromise(rowUpsert(props))
   //
   //  Resolve Status
   //

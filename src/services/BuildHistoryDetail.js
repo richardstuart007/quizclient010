@@ -18,12 +18,20 @@ const debugLog = debugSettings()
 const debugFunStart = false
 const debugModule = 'BuildHistoryDetail'
 
-//===================================================================================
-const BuildHistoryDetail = row => {
+//...................................................................................
+//.  Main Line
+//...................................................................................
+export default function BuildHistoryDetail(row) {
+  if (debugFunStart) console.log(debugModule)
+  //
+  //  Load data
+  //
+  LoadServerQuestions()
+  LoadServerReflinks()
   //...................................................................................
   //.  Load Server - Questions
   //...................................................................................
-  const LoadServerQuestions = () => {
+  function LoadServerQuestions() {
     if (debugFunStart) console.log('LoadServerQuestions')
     //
     //  Initialise
@@ -145,15 +153,13 @@ const BuildHistoryDetail = row => {
       sessionStorage.setItem('Data_Hands', JSON.stringify(Data_Hands))
       sessionStorage.setItem('Data_Hist_Row_Join_Received', true)
     })
-    //
-    //  Return
-    //
+
     return
   }
   //...................................................................................
   //.  Load Server - Reflinks
   //...................................................................................
-  const LoadServerReflinks = () => {
+  function LoadServerReflinks() {
     if (debugFunStart) console.log('LoadServerReflinks')
     //
     //  Initialise
@@ -200,25 +206,11 @@ const BuildHistoryDetail = row => {
       if (debugLog) console.log('Data_Reflinks RESOLVED', Data_Reflinks)
       sessionStorage.setItem('Data_Reflinks', JSON.stringify(Data_Reflinks))
       sessionStorage.setItem('Data_Reflinks_Received', true)
-      //
-      //  Return
-      //
+
       return
     })
-    //
-    //  Return Promise
-    //
-    return
+
+    return myPromiseReflinks
   }
   //...................................................................................
-  //.  Main Line
-  //...................................................................................
-  if (debugFunStart) console.log(debugModule)
-  //
-  //  Load data
-  //
-  LoadServerQuestions()
-  LoadServerReflinks()
 }
-
-export default BuildHistoryDetail

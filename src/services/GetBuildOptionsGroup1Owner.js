@@ -18,7 +18,7 @@ const functionName = 'GetBuildOptionsGroup1Owner'
 const debugLog = debugSettings()
 const debugFunStart = false
 //===================================================================================
-const GetBuildOptionsGroup1Owner = () => {
+export default function GetBuildOptionsGroup1Owner() {
   //.............................................................................
   //
   //  Set Debug State
@@ -53,10 +53,6 @@ const GetBuildOptionsGroup1Owner = () => {
     }
     return
   })
-  //
-  //  Return Promise
-  //
+
   return myPromiseGroup1Owner
 }
-
-export default GetBuildOptionsGroup1Owner

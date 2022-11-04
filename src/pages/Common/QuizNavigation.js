@@ -72,7 +72,6 @@ export default function QuizNavigation({ handlePage }) {
   if (Data_ReflinksJSON && Data_ReflinksJSON.length > 0)
     Data_Reflinks = JSON.parse(Data_ReflinksJSON)
   if (
-    !ScreenSmall &&
     (PageCurrent === 'QuizReview' || PageCurrent === 'QuizHistoryDetail') &&
     Data_Reflinks[0] &&
     Data_Reflinks.length > 0
@@ -91,7 +90,6 @@ export default function QuizNavigation({ handlePage }) {
   //
   let showButton_QuizHistory
   User_Settings_SignedIn &&
-  !ScreenSmall &&
   PageCurrent !== 'QuizHistory' &&
   PageCurrent !== 'QuizHistoryDetail' &&
   PageCurrent !== 'UsersSettings' &&
@@ -103,7 +101,6 @@ export default function QuizNavigation({ handlePage }) {
   //
   let showButton_RefLibrary
   User_Settings_SignedIn &&
-  !ScreenSmall &&
   PageCurrent !== 'RefLibrary' &&
   PageCurrent !== 'Quiz' &&
   PageCurrent !== 'UsersSettings'

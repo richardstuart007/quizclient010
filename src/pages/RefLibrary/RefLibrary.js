@@ -44,19 +44,12 @@ const useStyles = makeStyles(theme => ({
   pageContent: {
     margin: theme.spacing(1),
     padding: theme.spacing(1)
-  },
-  searchInput: {
-    width: '25%'
-  },
-  searchInputTypeBox: {
-    width: '10%',
-    margin: `0 0 0 ${theme.spacing(2)}`
   }
 }))
 //
 //  Table Heading
 //
-const headCells = [
+const headCellsLarge = [
   { id: 'rid', label: 'ID' },
   { id: 'rowner', label: 'Owner' },
   { id: 'rgroup1', label: 'Group' },
@@ -67,13 +60,23 @@ const headCells = [
   { id: 'learn', label: 'Learn', disableSorting: true },
   { id: 'quiz', label: 'Quiz', disableSorting: true }
 ]
-const searchTypeOptions = [
+const headCellsSmall = [
+  { id: 'rdesc', label: 'Description' },
+  { id: 'rtype', label: 'Type' },
+  { id: 'learn', label: 'Learn', disableSorting: true },
+  { id: 'quiz', label: 'Quiz', disableSorting: true }
+]
+const searchTypeOptionsLarge = [
   { id: 'rid', title: 'ID' },
   { id: 'rowner', title: 'Owner' },
   { id: 'rgroup1', title: 'Group' },
   { id: 'rref', title: 'Reference' },
   { id: 'rdesc', title: 'Description' },
   { id: 'rwho', title: 'Who' },
+  { id: 'rtype', title: 'Type' }
+]
+const searchTypeOptionsSmall = [
+  { id: 'rdesc', title: 'Description' },
   { id: 'rtype', title: 'Type' }
 ]
 //
@@ -90,6 +93,7 @@ const debugModule = 'RefLibrary'
 //.  Main Line
 //...................................................................................
 export default function RefLibrary({ handlePage }) {
+  if (debugFunStart) console.log(debugModule)
   //
   //  Styles
   //
@@ -107,8 +111,20 @@ export default function RefLibrary({ handlePage }) {
   const [searchValue, setSearchValue] = useState('')
   const [startPage0, setStartPage0] = useState(false)
   const [form_message, setForm_message] = useState('')
+  //
+  //  Screen Width
+  //
+  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Settings_ScreenSmall'))
+  let headCells
+  ScreenSmall ? (headCells = headCellsSmall) : (headCells = headCellsLarge)
 
-  if (debugFunStart) console.log(debugModule)
+  let searchTypeOptions
+  ScreenSmall
+    ? (searchTypeOptions = searchTypeOptionsSmall)
+    : (searchTypeOptions = searchTypeOptionsLarge)
+
+  let buttonSize
+  ScreenSmall ? (buttonSize = 'small') : (buttonSize = 'large')
   //
   //  Initial Data Load
   //
@@ -369,7 +385,7 @@ export default function RefLibrary({ handlePage }) {
             label='Search'
             name='Search'
             value={searchValue}
-            className={classes.searchInput}
+            sx={{ backgroundColor: 'azure', minWidth: '200px' }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -380,24 +396,29 @@ export default function RefLibrary({ handlePage }) {
             onChange={e => setSearchValue(e.target.value)}
           />
           {/* .......................................................................................... */}
-          <Box className={classes.searchInputTypeBox}>
-            <MySelect
-              fullWidth={true}
-              name='SearchType'
-              label='Search By'
-              value={searchType}
-              onChange={e => setSearchType(e.target.value)}
-              options={searchTypeOptions}
+          {ScreenSmall ? null : (
+            <Box>
+              <MySelect
+                fullWidth={true}
+                name='SearchType'
+                label='Search By'
+                value={searchType}
+                onChange={e => setSearchType(e.target.value)}
+                options={searchTypeOptions}
+                sx={{ backgroundColor: 'azure', minWidth: '150px', ml: '8px' }}
+              />
+            </Box>
+          )}
+          {/* .......................................................................................... */}
+          <Box sx={{ ml: '16px' }}>
+            <MyButton
+              text='Filter'
+              variant='outlined'
+              size={buttonSize}
+              startIcon={<FilterListIcon />}
+              onClick={handleSearch}
             />
           </Box>
-          {/* .......................................................................................... */}
-          <MyButton
-            text='Filter'
-            variant='outlined'
-            size='large'
-            startIcon={<FilterListIcon />}
-            onClick={handleSearch}
-          />
           {/* .......................................................................................... */}
         </Toolbar>
         {/* .......................................................................................... */}
@@ -406,17 +427,18 @@ export default function RefLibrary({ handlePage }) {
           <TableBody>
             {recordsAfterPagingAndSorting().map(row => (
               <TableRow key={row.rid}>
-                <TableCell>{row.rid}</TableCell>
-                <TableCell>{row.rowner}</TableCell>
-                <TableCell>{row.rgroup1}</TableCell>
-                <TableCell>{row.rref}</TableCell>
+                {ScreenSmall ? null : <TableCell>{row.rid}</TableCell>}
+                {ScreenSmall ? null : <TableCell>{row.rowner}</TableCell>}
+                {ScreenSmall ? null : <TableCell>{row.rgroup1}</TableCell>}
+                {ScreenSmall ? null : <TableCell>{row.rref}</TableCell>}
                 <TableCell>{row.rdesc}</TableCell>
-                <TableCell>{row.rwho}</TableCell>
+                {ScreenSmall ? null : <TableCell>{row.rwho}</TableCell>}
                 <TableCell>{row.rtype}</TableCell>
                 <TableCell>
                   <MyActionButton
                     startIcon={<PreviewIcon fontSize='small' />}
                     text='View'
+                    size={buttonSize}
                     color='warning'
                     onClick={() => openHyperlink(row.rlink)}
                   ></MyActionButton>
@@ -427,6 +449,7 @@ export default function RefLibrary({ handlePage }) {
                     <MyActionButton
                       startIcon={<QuizIcon fontSize='small' />}
                       text='Quiz'
+                      size={buttonSize}
                       color='warning'
                       onClick={() => {
                         RefLibraryRow(row)

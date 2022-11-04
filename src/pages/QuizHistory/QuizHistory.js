@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
 //
 //  Table Heading
 //
-const headCells = [
+const headCellsLarge = [
   { id: 'r_id', label: 'ID' },
   { id: 'yymmdd', label: 'Date' },
   { id: 'r_owner', label: 'Owner' },
@@ -61,12 +61,18 @@ const headCells = [
   { id: 'review', label: 'Review', disableSorting: true },
   { id: 'quiz', label: 'Quiz', disableSorting: true }
 ]
-const searchTypeOptions = [
+const headCellsSmall = [
+  { id: 'g1title', label: 'Group' },
+  { id: 'review', label: 'Review', disableSorting: true },
+  { id: 'quiz', label: 'Quiz', disableSorting: true }
+]
+const searchTypeOptionsLarge = [
   { id: 'r_id', title: 'ID' },
   { id: 'yymmdd', title: 'Date' },
   { id: 'r_owner', title: 'Owner' },
-  { id: 'g1title', title: 'Group 1' }
+  { id: 'g1title', title: 'Group' }
 ]
+const searchTypeOptionsSmall = [{ id: 'g1title', title: 'Group' }]
 //
 //  Constants
 //
@@ -89,6 +95,20 @@ export default function QuizHistory({ handlePage }) {
   //  Start of function
   //
   if (debugFunStart) console.log(`Function: ${functionName}`)
+  //
+  //  Screen Width
+  //
+  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Settings_ScreenSmall'))
+  let headCells
+  ScreenSmall ? (headCells = headCellsSmall) : (headCells = headCellsLarge)
+
+  let searchTypeOptions
+  ScreenSmall
+    ? (searchTypeOptions = searchTypeOptionsSmall)
+    : (searchTypeOptions = searchTypeOptionsLarge)
+
+  let buttonSize
+  ScreenSmall ? (buttonSize = 'small') : (buttonSize = 'large')
   //
   //  Styles
   //
@@ -472,7 +492,7 @@ export default function QuizHistory({ handlePage }) {
             label='Search'
             name='Search'
             value={searchValue}
-            className={classes.searchInput}
+            sx={{ backgroundColor: 'azure', minWidth: '200px' }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -483,30 +503,35 @@ export default function QuizHistory({ handlePage }) {
             onChange={e => setSearchValue(e.target.value)}
           />
           {/* .......................................................................................... */}
-          <Box className={classes.searchInputTypeBox}>
-            <MySelect
-              fullWidth={true}
-              name='SearchType'
-              label='Search By'
-              value={searchType}
-              onChange={e => setSearchType(e.target.value)}
-              options={searchTypeOptions}
+          {ScreenSmall ? null : (
+            <Box>
+              <MySelect
+                fullWidth={true}
+                name='SearchType'
+                label='Search By'
+                value={searchType}
+                onChange={e => setSearchType(e.target.value)}
+                options={searchTypeOptions}
+                sx={{ backgroundColor: 'azure', minWidth: '150px', ml: '8px' }}
+              />
+            </Box>
+          )}
+          {/* .......................................................................................... */}
+          <Box sx={{ ml: '16px' }}>
+            <MyButton
+              text='Filter'
+              variant='outlined'
+              size={buttonSize}
+              startIcon={<FilterListIcon />}
+              onClick={handleSearch}
             />
           </Box>
           {/* .......................................................................................... */}
-          <MyButton
-            text='Filter'
-            variant='outlined'
-            size='large'
-            startIcon={<FilterListIcon />}
-            onClick={handleSearch}
-          />
-          {/* .......................................................................................... */}
-          {User_Admin ? (
+          {User_Admin & !ScreenSmall ? (
             <MyButton
               text={allUsersText}
               variant='outlined'
-              size='large'
+              size={buttonSize}
               startIcon={<PeopleIcon />}
               onClick={handleAllUsers}
             />
@@ -520,18 +545,19 @@ export default function QuizHistory({ handlePage }) {
           <TableBody>
             {recordsAfterPagingAndSorting().map(row => (
               <TableRow key={row.r_id}>
-                <TableCell>{row.r_id}</TableCell>
-                <TableCell>{row.yymmdd}</TableCell>
-                <TableCell>{row.r_owner}</TableCell>
+                {ScreenSmall ? null : <TableCell>{row.rid}</TableCell>}
+                {ScreenSmall ? null : <TableCell>{row.yymmdd}</TableCell>}
+                {ScreenSmall ? null : <TableCell>{row.r_owner}</TableCell>}
                 <TableCell>{row.g1title}</TableCell>
-                <TableCell>{row.r_questions}</TableCell>
-                <TableCell>{row.r_correct}</TableCell>
-                <TableCell>{row.r_percent}</TableCell>
+                {ScreenSmall ? null : <TableCell>{row.r_questions}</TableCell>}
+                {ScreenSmall ? null : <TableCell>{row.r_correct}</TableCell>}
+                {ScreenSmall ? null : <TableCell>{row.r_percent}</TableCell>}
                 <TableCell>
                   <MyActionButton
                     startIcon={<ScoreboardIcon fontSize='small' />}
                     text='Detail'
                     color='warning'
+                    size={buttonSize}
                     onClick={() => {
                       QuizHistoryRow(row)
                     }}
@@ -542,6 +568,7 @@ export default function QuizHistory({ handlePage }) {
                     startIcon={<QuizIcon fontSize='small' />}
                     text='Quiz'
                     color='warning'
+                    size={buttonSize}
                     onClick={() => {
                       QuizBuild(row)
                     }}

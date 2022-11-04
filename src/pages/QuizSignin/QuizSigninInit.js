@@ -74,7 +74,7 @@ export default function QuizSigninInit() {
     //
     //  Data received
     //
-    if (debugLog) console.log(`SessionStorage(${ItemsALLStatus}) ${ItemsALLStatus}`)
+    if (debugLog) console.log('ItemsALLStatus ', ItemsALLStatus)
     if (ItemsALLStatus) {
       const timeEnd = new Date()
       const timeDiff = timeEnd - timerStart

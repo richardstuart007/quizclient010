@@ -217,7 +217,7 @@ export default function UsersSettings({ handlePage }) {
                 value={values.u_name}
                 onChange={handleInputChange}
                 error={errors.u_name}
-                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
+                sx={{ minWidth: '300px' }}
               />
             </Grid>
             {/*------------------------------------------------------------------------------ */}
@@ -228,7 +228,7 @@ export default function UsersSettings({ handlePage }) {
                 value={values.u_fedcountry}
                 onChange={handleInputChange}
                 error={errors.u_fedcountry}
-                sx={{ backgroundColor: 'azure', minWidth: '200px' }}
+                sx={{ minWidth: '200px' }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -238,7 +238,7 @@ export default function UsersSettings({ handlePage }) {
                 value={values.u_fedid}
                 onChange={handleInputChange}
                 error={errors.u_fedid}
-                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
+                sx={{ minWidth: '300px' }}
               />
             </Grid>
 
@@ -250,7 +250,7 @@ export default function UsersSettings({ handlePage }) {
                 value={values.u_dftmaxquestions}
                 onChange={handleInputChange}
                 error={errors.u_dftmaxquestions}
-                sx={{ backgroundColor: 'azure', minWidth: '200px' }}
+                sx={{ minWidth: '200px' }}
               />
             </Grid>
             {/*------------------------------------------------------------------------------ */}
@@ -263,7 +263,7 @@ export default function UsersSettings({ handlePage }) {
                 onChange={handleInputChange}
                 error={errors.u_dftowner}
                 options={OptionsOwner}
-                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
+                sx={{ minWidth: '300px' }}
               />
             </Grid>
             {/*------------------------------------------------------------------------------ */}

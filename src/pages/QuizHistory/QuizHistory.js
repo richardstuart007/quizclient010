@@ -3,7 +3,7 @@
 //
 import { useState, useEffect } from 'react'
 import PeopleOutlineTwoToneIcon from '@mui/icons-material/PeopleOutlineTwoTone'
-import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Box } from '@mui/material'
+import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import SearchIcon from '@mui/icons-material/Search'
 import FilterListIcon from '@mui/icons-material/FilterList'
@@ -40,11 +40,16 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1)
   },
   searchInput: {
-    width: '25%'
+    minWidth: '300px',
+    width: '30%'
   },
   searchInputTypeBox: {
+    minWidth: '150px',
     width: '10%',
     margin: `0 0 0 ${theme.spacing(2)}`
+  },
+  newButton: {
+    margin: `0 0 0 ${theme.spacing(4)}`
   }
 }))
 //
@@ -107,8 +112,6 @@ export default function QuizHistory({ handlePage }) {
     ? (searchTypeOptions = searchTypeOptionsSmall)
     : (searchTypeOptions = searchTypeOptionsLarge)
 
-  let buttonSize
-  ScreenSmall ? (buttonSize = 'small') : (buttonSize = 'large')
   //
   //  Styles
   //
@@ -492,7 +495,7 @@ export default function QuizHistory({ handlePage }) {
             label='Search'
             name='Search'
             value={searchValue}
-            sx={{ backgroundColor: 'azure', minWidth: '200px' }}
+            className={classes.searchInput}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -504,39 +507,33 @@ export default function QuizHistory({ handlePage }) {
           />
           {/* .......................................................................................... */}
           {ScreenSmall ? null : (
-            <Box>
-              <MySelect
-                fullWidth={true}
-                name='SearchType'
-                label='Search By'
-                value={searchType}
-                onChange={e => setSearchType(e.target.value)}
-                options={searchTypeOptions}
-                sx={{ backgroundColor: 'azure', minWidth: '150px', ml: '8px' }}
-              />
-            </Box>
+            <MySelect
+              name='SearchType'
+              label='Search By'
+              value={searchType}
+              onChange={e => setSearchType(e.target.value)}
+              options={searchTypeOptions}
+              className={classes.searchInputTypeBox}
+            />
           )}
           {/* .......................................................................................... */}
-          <Box sx={{ ml: '16px' }}>
-            <MyButton
-              text='Filter'
-              variant='outlined'
-              size={buttonSize}
-              startIcon={<FilterListIcon />}
-              onClick={handleSearch}
-            />
-          </Box>
+          <MyButton
+            text='Filter'
+            variant='outlined'
+            startIcon={<FilterListIcon />}
+            onClick={handleSearch}
+            className={classes.newButton}
+          />
           {/* .......................................................................................... */}
           {User_Admin & !ScreenSmall ? (
             <MyButton
               text={allUsersText}
               variant='outlined'
-              size={buttonSize}
               startIcon={<PeopleIcon />}
               onClick={handleAllUsers}
+              className={classes.newButton}
             />
           ) : null}
-
           {/* .......................................................................................... */}
         </Toolbar>
         {/* .......................................................................................... */}
@@ -545,7 +542,7 @@ export default function QuizHistory({ handlePage }) {
           <TableBody>
             {recordsAfterPagingAndSorting().map(row => (
               <TableRow key={row.r_id}>
-                {ScreenSmall ? null : <TableCell>{row.rid}</TableCell>}
+                {ScreenSmall ? null : <TableCell>{row.r_id}</TableCell>}
                 {ScreenSmall ? null : <TableCell>{row.yymmdd}</TableCell>}
                 {ScreenSmall ? null : <TableCell>{row.r_owner}</TableCell>}
                 <TableCell>{row.g1title}</TableCell>
@@ -557,7 +554,6 @@ export default function QuizHistory({ handlePage }) {
                     startIcon={<ScoreboardIcon fontSize='small' />}
                     text='Detail'
                     color='warning'
-                    size={buttonSize}
                     onClick={() => {
                       QuizHistoryRow(row)
                     }}
@@ -568,7 +564,6 @@ export default function QuizHistory({ handlePage }) {
                     startIcon={<QuizIcon fontSize='small' />}
                     text='Quiz'
                     color='warning'
-                    size={buttonSize}
                     onClick={() => {
                       QuizBuild(row)
                     }}

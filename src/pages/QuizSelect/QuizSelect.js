@@ -373,7 +373,7 @@ export default function QuizSelect({ handlePage }) {
                 onChange={handleInputChange}
                 options={Data_Options_Owner}
                 error={errors.qowner}
-                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
+                sx={{ minWidth: '300px' }}
               />
             </Grid>
             {/*.................................................................................................*/}
@@ -385,7 +385,7 @@ export default function QuizSelect({ handlePage }) {
                 onChange={handleInputChange}
                 options={Data_Group1OptionsSubset}
                 error={errors.qgroup1}
-                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
+                sx={{ minWidth: '300px' }}
               />
             </Grid>
             {/*.................................................................................................*/}
@@ -397,7 +397,7 @@ export default function QuizSelect({ handlePage }) {
                   value={values.qgroup2}
                   onChange={handleInputChange}
                   options={Data_Options_Group2}
-                  sx={{ backgroundColor: 'azure', minWidth: '300px' }}
+                  sx={{ minWidth: '300px' }}
                 />
               </Grid>
             ) : null}
@@ -410,7 +410,7 @@ export default function QuizSelect({ handlePage }) {
                   value={values.qgroup3}
                   onChange={handleInputChange}
                   options={Data_Options_Group3}
-                  sx={{ backgroundColor: 'azure', minWidth: '300px' }}
+                  sx={{ minWidth: '300px' }}
                 />
               </Grid>
             ) : null}

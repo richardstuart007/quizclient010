@@ -19,13 +19,13 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(0.5)
   },
   secondary: {
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.secondary.dark,
     '& .MuiButton-label': {
       color: theme.palette.secondary.main
     }
   },
   primary: {
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.primary.dark,
     '& .MuiButton-label': {
       color: theme.palette.primary.main
     }

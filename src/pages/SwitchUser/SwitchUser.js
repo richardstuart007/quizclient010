@@ -3,7 +3,7 @@
 //
 import { useState, useEffect } from 'react'
 import PeopleOutlineTwoToneIcon from '@mui/icons-material/PeopleOutlineTwoTone'
-import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Box } from '@mui/material'
+import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import SearchIcon from '@mui/icons-material/Search'
 import RefreshIcon from '@mui/icons-material/Refresh'
@@ -39,15 +39,16 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1)
   },
   searchInput: {
-    width: '40%'
+    minWidth: '300px',
+    width: '30%'
   },
   searchInputTypeBox: {
+    minWidth: '150px',
     width: '10%',
     margin: `0 0 0 ${theme.spacing(2)}`
   },
   newButton: {
-    position: 'absolute',
-    right: '10px'
+    margin: `0 0 0 ${theme.spacing(4)}`
   }
 }))
 //
@@ -228,28 +229,34 @@ export default function SwitchUser({ handlePage }) {
             }}
             onChange={e => setSearchValue(e.target.value)}
           />
-          <Box className={classes.searchInputTypeBox}>
-            <MySelect
-              fullWidth={true}
-              name='SearchType'
-              label='Column Heading'
-              value={searchType}
-              onChange={e => setSearchType(e.target.value)}
-              options={searchTypeOptions}
-            />
-          </Box>
+          {/* .......................................................................................... */}
+
+          <MySelect
+            name='SearchType'
+            label='Column Heading'
+            value={searchType}
+            onChange={e => setSearchType(e.target.value)}
+            options={searchTypeOptions}
+            className={classes.searchInputTypeBox}
+          />
+
+          {/* .......................................................................................... */}
           <MyButton
             text='Filter'
             variant='outlined'
             startIcon={<FilterListIcon />}
             onClick={handleSearch}
+            className={classes.newButton}
           />
+          {/* .......................................................................................... */}
           <MyButton
             text='Refresh'
             variant='outlined'
             startIcon={<RefreshIcon />}
             onClick={getRowAllData}
+            className={classes.newButton}
           />
+          {/* .......................................................................................... */}
         </Toolbar>
         <TblContainer>
           <TblHead />

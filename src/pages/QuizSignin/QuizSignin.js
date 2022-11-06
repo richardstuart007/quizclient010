@@ -231,7 +231,7 @@ export default function QuizSignin({ handlePage }) {
                 value={values.email}
                 onChange={handleInputChange}
                 error={errors.email}
-                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
+                sx={{ minWidth: '300px' }}
               />
             </Grid>
             {/*.................................................................................................*/}
@@ -242,7 +242,7 @@ export default function QuizSignin({ handlePage }) {
                 value={values.password}
                 onChange={handleInputChange}
                 error={errors.password}
-                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
+                sx={{ minWidth: '300px' }}
               />
             </Grid>
             {/*.................................................................................................*/}

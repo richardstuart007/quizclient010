@@ -44,6 +44,18 @@ const useStyles = makeStyles(theme => ({
   pageContent: {
     margin: theme.spacing(1),
     padding: theme.spacing(1)
+  },
+  searchInput: {
+    minWidth: '300px',
+    width: '30%'
+  },
+  searchInputTypeBox: {
+    minWidth: '150px',
+    width: '10%',
+    margin: `0 0 0 ${theme.spacing(2)}`
+  },
+  newButton: {
+    margin: `0 0 0 ${theme.spacing(4)}`
   }
 }))
 //
@@ -123,8 +135,6 @@ export default function RefLibrary({ handlePage }) {
     ? (searchTypeOptions = searchTypeOptionsSmall)
     : (searchTypeOptions = searchTypeOptionsLarge)
 
-  let buttonSize
-  ScreenSmall ? (buttonSize = 'small') : (buttonSize = 'large')
   //
   //  Initial Data Load
   //
@@ -385,7 +395,7 @@ export default function RefLibrary({ handlePage }) {
             label='Search'
             name='Search'
             value={searchValue}
-            sx={{ backgroundColor: 'azure', minWidth: '200px' }}
+            className={classes.searchInput}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -397,28 +407,25 @@ export default function RefLibrary({ handlePage }) {
           />
           {/* .......................................................................................... */}
           {ScreenSmall ? null : (
-            <Box>
-              <MySelect
-                fullWidth={true}
-                name='SearchType'
-                label='Search By'
-                value={searchType}
-                onChange={e => setSearchType(e.target.value)}
-                options={searchTypeOptions}
-                sx={{ backgroundColor: 'azure', minWidth: '150px', ml: '8px' }}
-              />
-            </Box>
+            <MySelect
+              name='SearchType'
+              label='Search By'
+              value={searchType}
+              onChange={e => setSearchType(e.target.value)}
+              options={searchTypeOptions}
+              className={classes.searchInputTypeBox}
+            />
           )}
           {/* .......................................................................................... */}
-          <Box sx={{ ml: '16px' }}>
-            <MyButton
-              text='Filter'
-              variant='outlined'
-              size={buttonSize}
-              startIcon={<FilterListIcon />}
-              onClick={handleSearch}
-            />
-          </Box>
+
+          <MyButton
+            text='Filter'
+            variant='outlined'
+            startIcon={<FilterListIcon />}
+            onClick={handleSearch}
+            className={classes.newButton}
+          />
+
           {/* .......................................................................................... */}
         </Toolbar>
         {/* .......................................................................................... */}
@@ -438,7 +445,6 @@ export default function RefLibrary({ handlePage }) {
                   <MyActionButton
                     startIcon={<PreviewIcon fontSize='small' />}
                     text='View'
-                    size={buttonSize}
                     color='warning'
                     onClick={() => openHyperlink(row.rlink)}
                   ></MyActionButton>
@@ -449,7 +455,6 @@ export default function RefLibrary({ handlePage }) {
                     <MyActionButton
                       startIcon={<QuizIcon fontSize='small' />}
                       text='Quiz'
-                      size={buttonSize}
                       color='warning'
                       onClick={() => {
                         RefLibraryRow(row)

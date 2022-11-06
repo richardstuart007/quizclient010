@@ -187,7 +187,7 @@ function QuizRegister({ handlePage }) {
                 value={values.email}
                 onChange={handleInputChange}
                 error={errors.email}
-                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
+                sx={{ minWidth: '300px' }}
               />
             </Grid>
             {/*.................................................................................................*/}
@@ -198,7 +198,7 @@ function QuizRegister({ handlePage }) {
                 value={values.password}
                 onChange={handleInputChange}
                 error={errors.password}
-                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
+                sx={{ minWidth: '300px' }}
               />
             </Grid>
             {/*.................................................................................................*/}
@@ -209,7 +209,7 @@ function QuizRegister({ handlePage }) {
                 value={values.name}
                 onChange={handleInputChange}
                 error={errors.name}
-                sx={{ backgroundColor: 'azure', minWidth: '300px' }}
+                sx={{ minWidth: '300px' }}
               />
             </Grid>
             {/*.................................................................................................*/}
@@ -220,7 +220,6 @@ function QuizRegister({ handlePage }) {
                 value={values.fedid}
                 onChange={handleInputChange}
                 error={errors.fedid}
-                sx={{ backgroundColor: 'azure' }}
               />
             </Grid>
             {/*.................................................................................................*/}
@@ -231,7 +230,6 @@ function QuizRegister({ handlePage }) {
                 value={values.fedcountry}
                 onChange={handleInputChange}
                 error={errors.fedcountry}
-                sx={{ backgroundColor: 'azure' }}
               />
             </Grid>
 

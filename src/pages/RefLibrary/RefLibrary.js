@@ -45,14 +45,20 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     padding: theme.spacing(1)
   },
-  searchInput: {
+  searchInputLarge: {
     minWidth: '300px',
     width: '30%'
   },
+  searchInputSmall: {
+    minWidth: '220px',
+    width: '30%'
+  },
   searchInputTypeBox: {
-    minWidth: '150px',
     width: '10%',
     margin: `0 0 0 ${theme.spacing(2)}`
+  },
+  searchInputType: {
+    minWidth: '200px'
   },
   newButton: {
     margin: `0 0 0 ${theme.spacing(4)}`
@@ -74,7 +80,6 @@ const headCellsLarge = [
 ]
 const headCellsSmall = [
   { id: 'rdesc', label: 'Description' },
-  { id: 'rtype', label: 'Type' },
   { id: 'learn', label: 'Learn', disableSorting: true },
   { id: 'quiz', label: 'Quiz', disableSorting: true }
 ]
@@ -87,10 +92,7 @@ const searchTypeOptionsLarge = [
   { id: 'rwho', title: 'Who' },
   { id: 'rtype', title: 'Type' }
 ]
-const searchTypeOptionsSmall = [
-  { id: 'rdesc', title: 'Description' },
-  { id: 'rtype', title: 'Type' }
-]
+const searchTypeOptionsSmall = [{ id: 'rdesc', title: 'Description' }]
 //
 //  Constants
 //
@@ -124,17 +126,21 @@ export default function RefLibrary({ handlePage }) {
   const [startPage0, setStartPage0] = useState(false)
   const [form_message, setForm_message] = useState('')
   //
-  //  Screen Width
+  //  Small Screen overrides
   //
   const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Settings_ScreenSmall'))
-  let headCells
-  ScreenSmall ? (headCells = headCellsSmall) : (headCells = headCellsLarge)
-
-  let searchTypeOptions
-  ScreenSmall
-    ? (searchTypeOptions = searchTypeOptionsSmall)
-    : (searchTypeOptions = searchTypeOptionsLarge)
-
+  let headCells = headCellsLarge
+  let searchTypeOptions = searchTypeOptionsLarge
+  let searchInput = classes.searchInputLarge
+  let buttonTextView = 'View'
+  let buttonTextQuiz = 'Quiz'
+  if (ScreenSmall) {
+    headCells = headCellsSmall
+    searchTypeOptions = searchTypeOptionsSmall
+    searchInput = classes.searchInputSmall
+    buttonTextView = null
+    buttonTextQuiz = null
+  }
   //
   //  Initial Data Load
   //
@@ -383,11 +389,15 @@ export default function RefLibrary({ handlePage }) {
   //...................................................................................
   return (
     <>
-      <PageHeader
-        title='Library of Teaching Material'
-        subTitle='View Reference Material or Take a Quiz'
-        icon={<PeopleOutlineTwoToneIcon fontSize='large' />}
-      />
+      {/* .......................................................................................... */}
+      {ScreenSmall ? null : (
+        <PageHeader
+          title='Library of Teaching Material'
+          subTitle='View Reference Material or Take a Quiz'
+          icon={<PeopleOutlineTwoToneIcon fontSize='large' />}
+        />
+      )}
+      {/* .......................................................................................... */}
       <Paper className={classes.pageContent}>
         <Toolbar>
           {/* .......................................................................................... */}
@@ -395,7 +405,7 @@ export default function RefLibrary({ handlePage }) {
             label='Search'
             name='Search'
             value={searchValue}
-            className={classes.searchInput}
+            className={searchInput}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -407,14 +417,16 @@ export default function RefLibrary({ handlePage }) {
           />
           {/* .......................................................................................... */}
           {ScreenSmall ? null : (
-            <MySelect
-              name='SearchType'
-              label='Search By'
-              value={searchType}
-              onChange={e => setSearchType(e.target.value)}
-              options={searchTypeOptions}
-              className={classes.searchInputTypeBox}
-            />
+            <Box className={classes.searchInputTypeBox}>
+              <MySelect
+                name='SearchType'
+                label='Search By'
+                value={searchType}
+                onChange={e => setSearchType(e.target.value)}
+                options={searchTypeOptions}
+                className={classes.searchInputType}
+              />
+            </Box>
           )}
           {/* .......................................................................................... */}
 
@@ -440,11 +452,11 @@ export default function RefLibrary({ handlePage }) {
                 {ScreenSmall ? null : <TableCell>{row.rref}</TableCell>}
                 <TableCell>{row.rdesc}</TableCell>
                 {ScreenSmall ? null : <TableCell>{row.rwho}</TableCell>}
-                <TableCell>{row.rtype}</TableCell>
+                {ScreenSmall ? null : <TableCell>{row.rtype}</TableCell>}
                 <TableCell>
                   <MyActionButton
                     startIcon={<PreviewIcon fontSize='small' />}
-                    text='View'
+                    text={buttonTextView}
                     color='warning'
                     onClick={() => openHyperlink(row.rlink)}
                   ></MyActionButton>
@@ -454,7 +466,7 @@ export default function RefLibrary({ handlePage }) {
                   {row.rgroup1 !== 'NOQUIZ' ? (
                     <MyActionButton
                       startIcon={<QuizIcon fontSize='small' />}
-                      text='Quiz'
+                      text={buttonTextQuiz}
                       color='warning'
                       onClick={() => {
                         RefLibraryRow(row)

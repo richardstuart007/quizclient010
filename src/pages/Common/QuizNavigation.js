@@ -6,11 +6,12 @@ import makeStyles from '@mui/styles/makeStyles'
 //
 //  Icons
 //
-import RefreshIcon from '@mui/icons-material/Refresh'
+import QuizIcon from '@mui/icons-material/Quiz'
 import ScoreboardIcon from '@mui/icons-material/Scoreboard'
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import LogoutIcon from '@mui/icons-material/Logout'
+import SwitchAccountIcon from '@mui/icons-material/SwitchAccount'
 //
 //  Debug Settings
 //
@@ -46,6 +47,12 @@ export default function QuizNavigation({ handlePage }) {
   //  Screen Width
   //
   const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Settings_ScreenSmall'))
+  let buttonTextSignout = 'Signout'
+  let buttonTextSettings = 'Settings'
+  if (ScreenSmall) {
+    buttonTextSignout = null
+    buttonTextSettings = null
+  }
   //
   //  Show SignOut Button ?
   //
@@ -163,7 +170,7 @@ export default function QuizNavigation({ handlePage }) {
         {/* .......................................................................................... */}
         {showButton_QuizSelect ? (
           <MyActionButton
-            startIcon={<RefreshIcon fontSize='small' />}
+            startIcon={<QuizIcon fontSize='small' />}
             color='warning'
             onClick={() => {
               handlePage('QuizSelect')
@@ -179,7 +186,19 @@ export default function QuizNavigation({ handlePage }) {
             onClick={() => {
               handlePage('UsersSettings')
             }}
-            text='Settings'
+            text={buttonTextSettings}
+          ></MyActionButton>
+        ) : null}
+
+        {/* .......................................................................................... */}
+        {showButton_SwitchUser ? (
+          <MyActionButton
+            startIcon={<SwitchAccountIcon fontSize='small' />}
+            color='warning'
+            onClick={() => {
+              handlePage('SwitchUser')
+            }}
+            text='Switch User'
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}
@@ -190,18 +209,7 @@ export default function QuizNavigation({ handlePage }) {
             onClick={() => {
               handlePage('QuizSignin')
             }}
-            text='Signout'
-          ></MyActionButton>
-        ) : null}
-        {/* .......................................................................................... */}
-        {showButton_SwitchUser ? (
-          <MyActionButton
-            startIcon={<LogoutIcon fontSize='small' />}
-            color='warning'
-            onClick={() => {
-              handlePage('SwitchUser')
-            }}
-            text='Switch User'
+            text={buttonTextSignout}
           ></MyActionButton>
         ) : null}
         {/* .......................................................................................... */}

@@ -3,7 +3,7 @@
 //
 import { useState, useEffect } from 'react'
 import PeopleOutlineTwoToneIcon from '@mui/icons-material/PeopleOutlineTwoTone'
-import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment } from '@mui/material'
+import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Box } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import SearchIcon from '@mui/icons-material/Search'
 import RefreshIcon from '@mui/icons-material/Refresh'
@@ -43,9 +43,11 @@ const useStyles = makeStyles(theme => ({
     width: '30%'
   },
   searchInputTypeBox: {
-    minWidth: '150px',
     width: '10%',
     margin: `0 0 0 ${theme.spacing(2)}`
+  },
+  searchInputType: {
+    minWidth: '200px'
   },
   newButton: {
     margin: `0 0 0 ${theme.spacing(4)}`
@@ -230,16 +232,16 @@ export default function SwitchUser({ handlePage }) {
             onChange={e => setSearchValue(e.target.value)}
           />
           {/* .......................................................................................... */}
-
-          <MySelect
-            name='SearchType'
-            label='Column Heading'
-            value={searchType}
-            onChange={e => setSearchType(e.target.value)}
-            options={searchTypeOptions}
-            className={classes.searchInputTypeBox}
-          />
-
+          <Box className={classes.searchInputTypeBox}>
+            <MySelect
+              name='SearchType'
+              label='Search By'
+              value={searchType}
+              onChange={e => setSearchType(e.target.value)}
+              options={searchTypeOptions}
+              className={classes.searchInputType}
+            />
+          </Box>
           {/* .......................................................................................... */}
           <MyButton
             text='Filter'

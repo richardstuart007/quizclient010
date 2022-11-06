@@ -138,6 +138,7 @@ export default function useMyTable(records, headCells, filterFn, startPage0, set
       count={records.length}
       onPageChange={handleChangePage}
       onRowsPerPageChange={handleChangeRowsPerPage}
+      labelRowsPerPage='RPP'
     />
   )
   //.....................................................................................

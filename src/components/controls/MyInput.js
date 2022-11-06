@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 //
 // Debug Settings
 //
-const debugLog = debugSettings(true)
+const debugLog = debugSettings()
 //=====================================================================================
 export default function MyInput(props) {
   if (debugLog) console.log('Start MyInput')
@@ -30,7 +30,11 @@ export default function MyInput(props) {
   //  Styles
   //
   const classes = useStyles()
-  const classNames = `${classes.root} ${className}`
+  //
+  //  Classes
+  //
+  let classNames = classes.root
+  if (className) classNames = classNames + ` ${className}`
   if (debugLog) console.log('classNames ', classNames)
 
   return (

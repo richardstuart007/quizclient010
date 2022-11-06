@@ -32,7 +32,11 @@ export default function MySelect(props) {
   //  Styles
   //
   const classes = useStyles()
-  const classNames = `${classes.root} ${className}`
+  //
+  //  Classes
+  //
+  let classNames = classes.root
+  if (className) classNames = classNames + ` ${className}`
   if (debugLog) console.log('classNames ', classNames)
 
   return (

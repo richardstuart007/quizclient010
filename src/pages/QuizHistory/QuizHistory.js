@@ -3,7 +3,7 @@
 //
 import { useState, useEffect } from 'react'
 import PeopleOutlineTwoToneIcon from '@mui/icons-material/PeopleOutlineTwoTone'
-import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment } from '@mui/material'
+import { Paper, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Box } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import SearchIcon from '@mui/icons-material/Search'
 import FilterListIcon from '@mui/icons-material/FilterList'
@@ -39,14 +39,20 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     padding: theme.spacing(1)
   },
-  searchInput: {
+  searchInputLarge: {
     minWidth: '300px',
     width: '30%'
   },
+  searchInputSmall: {
+    minWidth: '220px',
+    width: '30%'
+  },
   searchInputTypeBox: {
-    minWidth: '150px',
     width: '10%',
     margin: `0 0 0 ${theme.spacing(2)}`
+  },
+  searchInputType: {
+    minWidth: '200px'
   },
   newButton: {
     margin: `0 0 0 ${theme.spacing(4)}`
@@ -100,17 +106,6 @@ export default function QuizHistory({ handlePage }) {
   //  Start of function
   //
   if (debugFunStart) console.log(`Function: ${functionName}`)
-  //
-  //  Screen Width
-  //
-  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Settings_ScreenSmall'))
-  let headCells
-  ScreenSmall ? (headCells = headCellsSmall) : (headCells = headCellsLarge)
-
-  let searchTypeOptions
-  ScreenSmall
-    ? (searchTypeOptions = searchTypeOptionsSmall)
-    : (searchTypeOptions = searchTypeOptionsLarge)
 
   //
   //  Styles
@@ -130,6 +125,22 @@ export default function QuizHistory({ handlePage }) {
   const [startPage0, setStartPage0] = useState(false)
   const [allUsersText, setAllUsersText] = useState('ALL')
   const [subtitle, setSubtitle] = useState('')
+  //
+  //  Small Screen overrides
+  //
+  const ScreenSmall = JSON.parse(sessionStorage.getItem('App_Settings_ScreenSmall'))
+  let headCells = headCellsLarge
+  let searchTypeOptions = searchTypeOptionsLarge
+  let searchInput = classes.searchInputLarge
+  let buttonTextView = 'View'
+  let buttonTextQuiz = 'Quiz'
+  if (ScreenSmall) {
+    headCells = headCellsSmall
+    searchTypeOptions = searchTypeOptionsSmall
+    searchInput = classes.searchInputSmall
+    buttonTextView = null
+    buttonTextQuiz = null
+  }
   //
   //  Get User
   //
@@ -483,11 +494,15 @@ export default function QuizHistory({ handlePage }) {
   //...................................................................................
   return (
     <>
-      <PageHeader
-        title='QUIZ History'
-        subTitle={subtitle}
-        icon={<PeopleOutlineTwoToneIcon fontSize='large' />}
-      />
+      {/* .......................................................................................... */}
+      {ScreenSmall ? null : (
+        <PageHeader
+          title='QUIZ History'
+          subTitle={subtitle}
+          icon={<PeopleOutlineTwoToneIcon fontSize='large' />}
+        />
+      )}
+      {/* .......................................................................................... */}
       <Paper className={classes.pageContent}>
         <Toolbar>
           {/* .......................................................................................... */}
@@ -495,7 +510,7 @@ export default function QuizHistory({ handlePage }) {
             label='Search'
             name='Search'
             value={searchValue}
-            className={classes.searchInput}
+            className={searchInput}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -507,14 +522,16 @@ export default function QuizHistory({ handlePage }) {
           />
           {/* .......................................................................................... */}
           {ScreenSmall ? null : (
-            <MySelect
-              name='SearchType'
-              label='Search By'
-              value={searchType}
-              onChange={e => setSearchType(e.target.value)}
-              options={searchTypeOptions}
-              className={classes.searchInputTypeBox}
-            />
+            <Box className={classes.searchInputTypeBox}>
+              <MySelect
+                name='SearchType'
+                label='Search By'
+                value={searchType}
+                onChange={e => setSearchType(e.target.value)}
+                options={searchTypeOptions}
+                className={classes.searchInputType}
+              />
+            </Box>
           )}
           {/* .......................................................................................... */}
           <MyButton
@@ -552,7 +569,7 @@ export default function QuizHistory({ handlePage }) {
                 <TableCell>
                   <MyActionButton
                     startIcon={<ScoreboardIcon fontSize='small' />}
-                    text='Detail'
+                    text={buttonTextView}
                     color='warning'
                     onClick={() => {
                       QuizHistoryRow(row)
@@ -562,7 +579,7 @@ export default function QuizHistory({ handlePage }) {
                 <TableCell>
                   <MyActionButton
                     startIcon={<QuizIcon fontSize='small' />}
-                    text='Quiz'
+                    text={buttonTextQuiz}
                     color='warning'
                     onClick={() => {
                       QuizBuild(row)

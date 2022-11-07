@@ -208,7 +208,7 @@ export default function QuizReview({ handlePage }) {
       </Box>
 
       {nothingToReview ? null : (
-        <QuizQuestion quizRow={quizRow} quizQuestion={arrAnsNum[ansIdx] + 1} />
+        <QuizQuestion quizRow={quizRow} quizQuestion={arrAnsNum[ansIdx] + 1} quizTotal={countAns} />
       )}
       {nothingToReview ? null : <QuizBidding qid={quizRow.qid} />}
       {nothingToReview ? null : <QuizHands qid={quizRow.qid} />}

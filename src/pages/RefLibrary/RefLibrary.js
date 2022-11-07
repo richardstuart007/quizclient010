@@ -60,8 +60,9 @@ const useStyles = makeStyles(theme => ({
   searchInputType: {
     minWidth: '200px'
   },
-  newButton: {
-    margin: `0 0 0 ${theme.spacing(4)}`
+  myButton: {
+    margin: `0 0 0 ${theme.spacing(4)}`,
+    backgroundColor: 'azure'
   }
 }))
 //
@@ -429,15 +430,13 @@ export default function RefLibrary({ handlePage }) {
             </Box>
           )}
           {/* .......................................................................................... */}
-
           <MyButton
             text='Filter'
             variant='outlined'
             startIcon={<FilterListIcon />}
             onClick={handleSearch}
-            className={classes.newButton}
+            className={classes.myButton}
           />
-
           {/* .......................................................................................... */}
         </Toolbar>
         {/* .......................................................................................... */}

@@ -19,14 +19,14 @@ import MyButton from '../../components/controls/MyButton'
 //
 const debugLog = debugSettings()
 //===================================================================================
-const QuizQuestion = params => {
+export default function QuizQuestion(params) {
   //...................................................................................
   //.  Main Line
   //...................................................................................
   //
   //  Deconstruct params
   //
-  const { quizRow, quizQuestion } = params
+  const { quizRow, quizQuestion, quizTotal = 0 } = params
   //
   //  Deconstruct row
   //
@@ -45,17 +45,7 @@ const QuizQuestion = params => {
   //
   //  Question string
   //
-  const Data_Questions_Quiz_CountJSON = sessionStorage.getItem('Data_Questions_Quiz_Count')
-  const Data_Questions_Quiz_Count = JSON.parse(Data_Questions_Quiz_CountJSON)
-  if (debugLog) console.log(Data_Questions_Quiz_Count)
-
-  let QuestionString = `Question ${quizQuestion}`
-  const PageCurrent = JSON.parse(sessionStorage.getItem('Nav_Page_Current'))
-  if (debugLog) console.log('PageCurrent ', PageCurrent)
-  if (PageCurrent === 'Quiz')
-    QuestionString = QuestionString.concat(
-      `/${Data_Questions_Quiz_Count} (KEY: ${qkey} ID: ${qid})`
-    )
+  const QuestionString = `Question ${quizQuestion}/${quizTotal} (KEY: ${qkey} ID: ${qid})`
   //
   //  Uppercase the question
   //
@@ -100,5 +90,3 @@ const QuizQuestion = params => {
     </>
   )
 }
-
-export default QuizQuestion

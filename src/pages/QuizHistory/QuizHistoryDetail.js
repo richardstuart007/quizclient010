@@ -225,7 +225,7 @@ export default function QuizHistoryDetail({ handlePage }) {
           Result ({mark}%) {countPass} out of {countAns}
         </Typography>
       </Box>
-      <QuizQuestion quizRow={quizRow} quizQuestion={arrAnsNum[ansIdx] + 1} />
+      <QuizQuestion quizRow={quizRow} quizQuestion={arrAnsNum[ansIdx] + 1} quizTotal={countAns} />
       <QuizBidding qid={quizRow.qid} />
       <QuizHands qid={quizRow.qid} />
       <QuizReviewAnswers quizRow={quizRow} AnswerNum={arrAns[ansIdx]} />

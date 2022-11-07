@@ -72,8 +72,7 @@ export default function App() {
   //
   //  Set PageStart
   //
-  let PageStart
-  ScreenSmall ? (PageStart = 'QuizSelect') : (PageStart = 'RefLibrary')
+  let PageStart = 'RefLibrary'
   sessionStorage.setItem('Nav_Page_PageStart', JSON.stringify(PageStart))
   //
   //  First Time Setup

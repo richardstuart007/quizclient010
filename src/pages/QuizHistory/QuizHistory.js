@@ -54,8 +54,9 @@ const useStyles = makeStyles(theme => ({
   searchInputType: {
     minWidth: '200px'
   },
-  newButton: {
-    margin: `0 0 0 ${theme.spacing(4)}`
+  myButton: {
+    margin: `0 0 0 ${theme.spacing(4)}`,
+    backgroundColor: 'azure'
   }
 }))
 //
@@ -539,7 +540,7 @@ export default function QuizHistory({ handlePage }) {
             variant='outlined'
             startIcon={<FilterListIcon />}
             onClick={handleSearch}
-            className={classes.newButton}
+            className={classes.myButton}
           />
           {/* .......................................................................................... */}
           {User_Admin & !ScreenSmall ? (
@@ -548,7 +549,7 @@ export default function QuizHistory({ handlePage }) {
               variant='outlined'
               startIcon={<PeopleIcon />}
               onClick={handleAllUsers}
-              className={classes.newButton}
+              className={classes.myButton}
             />
           ) : null}
           {/* .......................................................................................... */}

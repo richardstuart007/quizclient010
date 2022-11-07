@@ -162,7 +162,7 @@ function Quiz({ handlePage }) {
   //...................................................................................
   return (
     <>
-      <QuizQuestion quizRow={g_quizRow} quizQuestion={g_Idx + 1} />
+      <QuizQuestion quizRow={g_quizRow} quizQuestion={g_Idx + 1} quizTotal={g_questCount} />
       <QuizBidding qid={g_quizRow.qid} />
       <QuizHands qid={g_quizRow.qid} />
       <QuizPanel key={g_quizRow.qid} quizRow={g_quizRow} handleSelect={handleSelect} />

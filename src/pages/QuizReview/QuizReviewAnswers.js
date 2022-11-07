@@ -2,7 +2,6 @@
 //  Libraries
 //
 import { Typography } from '@mui/material'
-import { teal } from 'material-ui-colors'
 //
 //  Debug Settings
 //
@@ -39,26 +38,24 @@ const QuizReviewAnswers = props => {
   if (qbad1) Answers.push(qbad1)
   if (qbad2) Answers.push(qbad2)
   if (qbad3) Answers.push(qbad3)
+  //
+  //  Text - correct/incorrect
+  //
+  let correct
+  AnswerNum === 1 ? (correct = true) : (correct = false)
   //...................................................................................
   //  Format Panel
   //...................................................................................
   return (
     <>
-      <Typography
-        variant='subtitle2'
-        style={{ color: teal['A700'] }}
-        sx={{ marginTop: '8px' }}
-      >
-        If incorrect your answer will show in Red. Correct answer in Green.
-      </Typography>
+      {!correct ? (
+        <Typography variant='subtitle2' style={{ color: 'red' }} sx={{ marginTop: '8px' }}>
+          Incorrect(red). Correct(Green).
+        </Typography>
+      ) : null}
 
       {Answers.map((answer, key) => (
-        <QuizReviewAnswer
-          key={key}
-          answer={answer}
-          AnswerNum={AnswerNum}
-          FieldNum={key + 1}
-        />
+        <QuizReviewAnswer key={key} answer={answer} AnswerNum={AnswerNum} FieldNum={key + 1} />
       ))}
     </>
   )

@@ -49,8 +49,9 @@ const useStyles = makeStyles(theme => ({
   searchInputType: {
     minWidth: '200px'
   },
-  newButton: {
-    margin: `0 0 0 ${theme.spacing(4)}`
+  myButton: {
+    margin: `0 0 0 ${theme.spacing(4)}`,
+    backgroundColor: 'azure'
   }
 }))
 //
@@ -248,7 +249,7 @@ export default function SwitchUser({ handlePage }) {
             variant='outlined'
             startIcon={<FilterListIcon />}
             onClick={handleSearch}
-            className={classes.newButton}
+            className={classes.myButton}
           />
           {/* .......................................................................................... */}
           <MyButton
@@ -256,7 +257,7 @@ export default function SwitchUser({ handlePage }) {
             variant='outlined'
             startIcon={<RefreshIcon />}
             onClick={getRowAllData}
-            className={classes.newButton}
+            className={classes.myButton}
           />
           {/* .......................................................................................... */}
         </Toolbar>
